@@ -1,0 +1,46 @@
+{
+  "type": "app",
+  "name": "worldPing",
+  "id":"worldping",
+  "info": {
+    "author": {"name": "raintank", "url": "https://www.raintank.io"},
+    "description": "Plugin to access WorldPing network monitoring, hosted RaintankSaaS",
+    "links": [{"name": "Raintank", "url": "https://www.raintank.io"}],
+    "logos": {"small": "img/raintank_small.png", "large": "img/raintank.png"},
+    "version": "0.1",
+    "updated": "2016-01-20"
+  },
+
+  "pages": [
+    {
+      "name": "Endpoints",
+      "url": "/worldping/endpoints",
+      "reqRole": "Editor"
+    },
+    {
+      "name": "Probes",
+      "url": "/worldping/probes",
+      "reqRole": "Editor"
+    }
+  ],
+  "routes": [
+    {
+      "path": "/worldping/*",
+      "method": "*",
+      "reqSignedIn": true,
+      "reqGrafanaAdmin": false,
+      "reqRole": "",
+      "url": "https://dev-portal.raintank.io/",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    }
+  ],
+  "staticRoot": "./",
+  "css": {
+    "light": "css/litmus.light.min.css", 
+    "dark": "css/litmus.dark.min.css"
+  },
+
+  "module": "plugins/worldping/app"
+}

@@ -1,0 +1,50 @@
+<navbar title="Endpoints" title-url="worldping/endpoints" icon="icon-rt-endpoint" subnav="true">
+  <ul class="nav">
+    <li class="active"><a href="worldping/endpoints/summary/{{endpoint.id}}">{{endpoint.name}}</a></li>
+  </ul>
+</navbar>
+
+<div class="page-container">
+  <!-- page title -->
+  <div class="rt-page-header-area">
+    <h1 class="rt-h1">{{endpoint.name}}</h1><a ng-click="gotoDashboard(endpoint)"><i ng-class="icon" class="primary-icon-header dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a>
+  </div>
+  <div class="editor-row rt-detail-pages">
+    <div class="editor-option">
+      <bootstrap-tagsinput ng-model="endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="tagsUpdated()" ></bootstrap-tagsinput>
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="rt-tabs" ng-if="endpoint.id">
+    <span class="nonactive"><a href="worldping/endpoints/summary/{{endpoint.id}}">Status</a></span>  <span class="active"><a href="worldping/endpoints/edit/{{endpoint.id}}">Configuration</a></span>
+  </div>
+
+
+  <div style="margin: 0px; position: relative; display: block; min-width:400px; max-width: 1020px;">
+    <form name="endpointForm">
+      <div class="rt-page-section" style="padding-left: 10px; margin-top: 35px;">
+        <div class="rt-mini-form new-endpoint-domain-form">
+          <div class="rt-mini-form-col">
+            <label class="rt-form-label-medium">Endpoint Name</label>
+            <input type="text" class="rt-form-input" ng-model="newEndpointName" required="">
+          </div>
+          <div class="rt-mini-form-col" style="margin-top: 15px;">
+            <div>
+              <div class="editor-row" ng-show="endpoint.id">
+                <button type="submit" class="secondaryCTA ButtonTall" style="position:relative; top:-1px;" ng-click="updateEndpoint(endpoint)">Update Endpoint Name</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-include src="'public/plugins/worldping/pages/endpoint/partials/dnsForm.html'" ng-if="monitors['dns']"></div>
+      <div ng-include src="'public/plugins/worldping/pages/endpoint/partials/pingForm.html'" ng-if="monitors['ping']"></div>
+      <div ng-include src="'public/plugins/worldping/pages/endpoint/partials/httpForm.html'" ng-if="monitors['http']"></div>
+      <div ng-include src="'public/plugins/worldping/pages/endpoint/partials/httpsForm.html'" ng-if="monitors['https']"></div>
+    </form>
+    <div ng-include src="'public/plugins/worldping/pages/endpoint/partials/destroyForm.html'"></div>        
+  </div>
+</div>
+<div style="padding-bottom: 100px;"></div>
