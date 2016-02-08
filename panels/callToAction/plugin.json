@@ -1,0 +1,7 @@
+{
+  "type": "panel",
+  "name": "WorldpingCTA",
+  "id": "worldpingcta",
+  "app": "worldping",
+  "staticRoot": "./"
+}
