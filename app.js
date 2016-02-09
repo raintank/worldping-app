@@ -49,9 +49,79 @@ define([
       });
   });
 
-  function WorldPingConfigCtrl($scope, $injector) {
-    //$scope.appModel.secureJsonData = {};
+  function WorldPingConfigCtrl($scope, $injector, $q, backendSrv) {
+    var parentUpdate = this.appEditCtrl.update;
+    if (this.appModel.jsonData === null) {
+      this.appModel.jsonData = {};
+    }
+
+    this.appEditCtrl.update = function(options) {
+      var self = this;
+      var promises = [];
+      //if the apiKey is being set, check and make sure that we have initialized our datasource and dashboards.
+      if (this.appModel.secureJsonData && this.appModel.secureJsonData.apiKey) {
+        this.appModel.jsonData.apiKeySet = true;
+        if (!this.appModel.jsonData.datasourceSet) {
+          promises.push($scope.initDatasource().then(function() {
+            self.appModel.jsonData.datasourceSet = true;
+          }));
+        }
+        if (!this.appModel.jsonData.dashboardsLoaded) {
+          promises.push($scope.fetchDashboards().then(function() {
+            self.appModel.jsonData.dashboardsLoaded = true;
+          }));
+        }
+      }
+      $q.all(promises).then(function() {
+        parentUpdate.call(self, options);
+      });
+    };
+
+    $scope.initDatasource = function() {
+      //check for existing datasource.
+      return backendSrv.get('/api/datasources').then(function(results) {
+        var found = false;
+        _.forEach(results, function(ds) {
+          if (found) { return; }
+          if (ds.name === "raintank") {
+            found = true;
+          }
+        });
+        if (!found) {
+          // create datasource.
+          var rt = {
+            name: 'raintank',
+            type: 'graphite',
+            url: 'api/plugin-proxy/worldping/api/graphite',
+            access: 'direct',
+            jsonData: {}
+          };
+          return backendSrv.post('/api/datasources', rt);
+        }
+      });
+    };
+
+    $scope.fetchDashboards = function() {
+      var dashboards = [
+        "rt-endpoint-web",
+        "rt-endpoint-ping",
+        "rt-endpoint-dns",
+        "rt-endpoint-summary",
+        "rt-endpoint-comparison",
+        "rt-collector-summary"
+      ];
+      var chain = $q.when();
+      _.forEach(dashboards, function(dash) {
+        chain = chain.then(function() {
+          return backendSrv.get("public/plugins/worldping/dashboards/litmus/"+dash+".json").then(function(loadedDash) {
+            return backendSrv.saveDashboard(loadedDash, {overwrite: true});
+          });
+        });
+      });
+      return chain
+    };
   }
+
   WorldPingConfigCtrl.templateUrl = 'public/plugins/worldping/partials/config.html';
 
   return {
