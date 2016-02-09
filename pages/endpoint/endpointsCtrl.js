@@ -19,16 +19,22 @@ function (_, module) {
       $scope.filter = {'tag': '', 'status': ''};
       $scope.sort_field = 'name';
       $scope.endpoints = [];
-      $scope.getEndpoints();
-      $scope.getCollectors();
-      $scope.getMonitorTypes();
+      $scope.refresh();
       $scope.endpointState = {
         "0": 0,
         "1": 0,
         "2": 0,
         "-1": 0,
       };
+      $scope.$watch("refreshtrigger", function() {
+        $scope.refresh();
+      });
     };
+
+    $scope.refresh = function() {
+      $scope.getEndpoints();
+      $scope.getMonitorTypes();
+    }
 
     $scope.endpointTags = function() {
       var map = {};
@@ -57,16 +63,6 @@ function (_, module) {
       }
       var equal = (actual === expected);
       return equal;
-    };
-
-    $scope.getCollectors = function() {
-      var collectorMap = {};
-      backendSrv.get('api/plugin-proxy/worldping/api/collectors').then(function(collectors) {
-        _.forEach(collectors, function(loc) {
-          collectorMap[loc.id] = loc;
-        });
-        $scope.collectors = collectorMap;
-      });
     };
 
     $scope.getMonitorTypes = function() {

@@ -4,6 +4,16 @@ define([
 ], function (_, module) {
   'use strict';
 
+  module.directive("worldpingEndpointList", function() {
+    return {
+      templateUrl: 'public/plugins/worldping/directives/partials/endpointList.html',
+      controller: 'EndpointsCtrl',
+      scope : {
+        refreshtrigger: "="
+      }
+    };
+  });
+
   module.directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
     return {
       templateUrl: 'public/plugins/worldping/directives/partials/checkHealth.html',
