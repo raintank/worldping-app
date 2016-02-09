@@ -77,6 +77,15 @@ define([
       });
     };
 
+    $scope.configureDatasource = function() {
+      console.log($scope);
+      $scope.ctrl.appModel.jsonData.datasourceSet = false;
+      $scope.initDatasource().then(function() {
+        $scope.ctrl.appModel.jsonData.datasourceSet = true;
+        console.log("datasource initialized");
+      });
+    };
+
     $scope.initDatasource = function() {
       //check for existing datasource.
       return backendSrv.get('/api/datasources').then(function(results) {
@@ -98,6 +107,13 @@ define([
           };
           return backendSrv.post('/api/datasources', rt);
         }
+      });
+    };
+
+    $scope.importDashboards = function() {
+      $scope.ctrl.appModel.jsonData.dashboardsLoaded = false;
+      $scope.fetchDashboards().then(function() {
+        $scope.ctrl.appModel.jsonData.dashboardsLoaded = true;
       });
     };
 
