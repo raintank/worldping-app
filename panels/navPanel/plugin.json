@@ -1,0 +1,7 @@
+{
+  "type": "panel",
+  "name": "Worldping Endpoint Nav",
+  "id": "worldpingendpointnav",
+  "app": "worldping",
+  "staticRoot": "./"
+}

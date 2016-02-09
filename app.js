@@ -51,7 +51,6 @@ define([
 
   function WorldPingConfigCtrl($scope, $injector) {
     //$scope.appModel.secureJsonData = {};
-    console.log($scope);
   }
   WorldPingConfigCtrl.templateUrl = 'public/plugins/worldping/partials/config.html';
 

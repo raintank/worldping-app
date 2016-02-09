@@ -14,6 +14,13 @@ define([
     };
   });
 
+  module.directive("rtEndpointHealthDashboard", function() {
+    return {
+      templateUrl: 'public/plugins/worldping/directives/partials/endpointHealthDashboard.html',
+      scope: false,
+    };
+  });
+
   module.directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
     return {
       templateUrl: 'public/plugins/worldping/directives/partials/checkHealth.html',
