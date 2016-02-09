@@ -52,7 +52,7 @@ function (_, module) {
     };
 
     $scope.gotoDashboard = function(collector) {
-      $location.path("/dashboard/file/rt-collector-summary.json").search({"var-collector": collector.slug, "var-endpoint": "All"});
+      $location.path("/dashboard/db/worldping-collector-summary").search({"var-collector": collector.slug, "var-endpoint": "All"});
     };
 
     $scope.init();

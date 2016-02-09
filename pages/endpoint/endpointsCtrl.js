@@ -152,7 +152,7 @@ function (_, module) {
     };
 
     $scope.gotoDashboard = function(endpoint) {
-      $location.path("/dashboard/file/rt-endpoint-summary.json").search({"var-collector": "All", "var-endpoint": endpoint.slug});
+      $location.path("/dashboard/db/worldping-endpoint-summary").search({"var-collector": "All", "var-endpoint": endpoint.slug});
     };
 
     $scope.gotoEndpointURL = function (endpoint) {

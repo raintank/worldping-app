@@ -134,30 +134,30 @@ function (_, module) {
       };
       switch(type) {
         case "summary":
-          $location.path("/dashboard/file/rt-endpoint-summary.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-summary").search(search);
           break;
         case "ping":
-          $location.path("/dashboard/file/rt-endpoint-ping.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-ping").search(search);
           break;
         case "dns":
-          $location.path("/dashboard/file/rt-endpoint-dns.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-dns").search(search);
           break;
         case "http":
           search['var-protocol'] = "http";
-          $location.path("/dashboard/file/rt-endpoint-web.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-web").search(search);
           break;
         case "https":
           search['var-protocol'] = "https";
-          $location.path("/dashboard/file/rt-endpoint-web.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-web").search(search);
           break;
         default:
-          $location.path("/dashboard/file/rt-endpoint-summary.json").search(search);
+          $location.path("/dashboard/db/worldping-endpoint-summary").search(search);
           break;
       }
     };
 
     $scope.gotoEventDashboard = function(endpoint, type) {
-      $location.path("/dashboard/file/rt-events.json").search({
+      $location.path("/dashboard/db/worldping-events").search({
         "var-collector": "All",
         "var-endpoint": endpoint.slug,
         "var-monitor_type": type
