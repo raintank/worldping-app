@@ -59,7 +59,7 @@
 	<div ng-if="ctrl.endpoints.length > 0" style="margin: 15px; position: relative; display: block; max-width: 1000px;">
 		<div class="rt-list" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
 			<div class="rt-list-header rt-page-box-header" style="overflow: visible; padding:5px;" ng-click="ctrl.gotoEndpointURL(endpoint)">
-				<span class="rt-list-item-title"><a href="worldping/endpoints/summary/{{endpoint.id}}">{{endpoint.name}}</a></span>
+				<span class="rt-list-item-title"><a href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">{{endpoint.name}}</a></span>
 
 				<div style="display: inline-block;">
 					<span class="label rt-label-tag dropdown rt-list-tag-menu" ng-repeat="tag in endpoint.tags" tag-color-from-name="tag">

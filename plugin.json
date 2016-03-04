@@ -36,9 +36,9 @@
 
   "pages": [
     { "name": "Endpoints", "component": "EndpointListCtrl", "role": "Editor"},
-    { "name": "Endpoint Details", "component": "EndpointConfCtrl", "role": "Editor", "suppress_nav": true},
+    { "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor", "suppressNav": true},
     { "name": "Probes", "component": "ProbeCtrl", "role": "Viewer"},
-    { "name": "Probe Details", "component": "ProbeConfCtrl", "role": "Editor", "suppress_nav": true}
+    { "name": "Probe Details", "component": "ProbeConfCtrl", "role": "Editor", "suppressNav": true}
   ],
   "dependencies": {
     "grafanaVersion": "2.6.x",

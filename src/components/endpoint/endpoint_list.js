@@ -1,13 +1,4 @@
-import '../../filters/all';
-import '../../directives/all';
 import _ from 'lodash';
-import {loadPluginCss} from 'app/plugins/sdk';
-
-loadPluginCss({
-  dark: 'plugins/wordlping-app/css/dark.css',
-  light: 'plugins/worldping-app/css/light.css'
-});
-
 
 class EndpointListCtrl {
   /** @ngInject */
