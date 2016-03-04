@@ -1,46 +1,47 @@
 {
   "type": "app",
-  "name": "worldPing",
-  "id":"worldping",
-  "info": {
-    "author": {"name": "raintank", "url": "https://www.raintank.io"},
-    "description": "Plugin to access WorldPing network monitoring, hosted RaintankSaaS",
-    "links": [{"name": "Raintank", "url": "https://www.raintank.io"}],
-    "logos": {"small": "img/raintank_small.png", "large": "img/raintank.png"},
-    "version": "0.1",
-    "updated": "2016-02-08"
-  },
+  "name": "WorldPing App",
+  "id": "worldping-app",
 
-  "pages": [
-    {
-      "name": "Endpoints",
-      "url": "/worldping/endpoints",
-      "reqRole": "Editor"
-    },
-    {
-      "name": "Probes",
-      "url": "/worldping/probes",
-      "reqRole": "Editor"
-    }
-  ],
+  "staticRoot": "./src",
+
   "routes": [
     {
-      "path": "/worldping/*",
+      "path": "api/*",
       "method": "*",
+      "url": "https://dev-portal.raintank.io/api",
       "reqSignedIn": true,
-      "reqGrafanaAdmin": false,
-      "reqRole": "",
-      "url": "https://dev-portal.raintank.io/",
       "headers": [
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
     }
   ],
-  "staticRoot": "./",
-  "css": {
-    "light": "css/litmus.light.min.css", 
-    "dark": "css/litmus.dark.min.css"
+  "info": {
+    "description": "Plugin to access WorldPing network monitoring, hosted RaintankSaaS",
+    "author": {
+      "name": "Raintank.",
+      "url": "http://raintank.io"
+    },
+    "keywords": ["raintnak", "worldping", "network"],
+    "logos": {
+      "small": "img/raintank_small.png",
+      "large": "img/img/raintank.png"
+    },
+    "links": [
+      {"name": "Raintank", "url": "http://raintank.io"}
+    ],
+    "version": "1.0.0",
+    "updated": "2016-03.04"
   },
 
-  "module": "plugins/worldping/app"
+  "pages": [
+    { "name": "Endpoints", "component": "EndpointListCtrl", "role": "Editor"},
+    { "name": "Endpoint Details", "component": "EndpointConfCtrl", "role": "Editor", "suppress_nav": true},
+    { "name": "Probes", "component": "ProbeCtrl", "role": "Viewer"},
+    { "name": "Probe Details", "component": "ProbeConfCtrl", "role": "Editor", "suppress_nav": true}
+  ],
+  "dependencies": {
+    "grafanaVersion": "2.6.x",
+    "plugins": []
+  }
 }

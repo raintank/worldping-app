@@ -1,18 +1,9 @@
 define([
+  'angular',
   'lodash',
-  '../module'
-], function (_, module) {
+], function (angular, _) {
   'use strict';
-
-  module.directive("worldpingEndpointList", function() {
-    return {
-      templateUrl: 'public/plugins/worldping/directives/partials/endpointList.html',
-      controller: 'EndpointsCtrl',
-      scope : {
-        refreshtrigger: "="
-      }
-    };
-  });
+  var module = angular.module('grafana.directives');
 
   module.directive("rtEndpointHealthDashboard", function() {
     return {

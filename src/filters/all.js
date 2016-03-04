@@ -1,10 +1,10 @@
 define([
-  '../module',
+  'angular',
   'lodash'
 ],
-function (module, _) {
+function (angular, _) {
   'use strict';
-
+  var module = angular.module('grafana.filters');
   module.filter('filterByTag', function() {
     return function(items, tag) {
       var filtered = [];

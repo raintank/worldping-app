@@ -5,17 +5,17 @@
 	</div>
 </div>
 
-<div ng-if="!pageReady" class="rt-loading-message-container">
+<div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
 	<div class="rt-loading-message-inside">
-		<img class="rt-loading-pulse" src="public/plugins/worldping/img/loading-pulse.svg" style="margin-bottom: 10px;">
+		<img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
 		<p class="freqMsg nodata rt-loading-msg-1">To infinity...and beyond.</p>
 		<p class="freqMsg nodata rt-loading-msg-2">This is taking longer than expected.</p>
 		<p class="freqMsg nodata rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
 	</div>
 </div>
 
-<div ng-if="pageReady">
-	<div ng-if="endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
+<div ng-if="ctrl.pageReady">
+	<div ng-if="ctrl.endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-rt-endpoint no-endpoints"></i>
 			<p>Looks like you don’t have any endpoints yet. <a class="rt-body-link" href="worldping/endpoints/new">Add an endpoint now.</a></p>
@@ -29,11 +29,11 @@
 			</div>
 		</div>
 	</div>
-	<div ng-if="endpoints.length > 0" class="editor-row">
+	<div ng-if="ctrl.endpoints.length > 0" class="editor-row">
 		<div class="editor-option">
 			<span class="small">Filtered by:</span>
 			<div class="select-input">
-				<select ng-model="filter.tag" ng-options="t for t in endpointTags()">
+				<select ng-model="ctrl.filter.tag" ng-options="t for t in ctrl.endpointTags()">
 					<option value="">All Tags</option>
 				</select>
 			</div>
@@ -41,8 +41,8 @@
 		</div>
 		<div style="display: block; padding: 45px 0 0 0;">
 			<div style="display: inline-block" class="rt-list-status">
-				<span class="small">Showing {{(endpoints | filterByTag:filter.tag).length}}</span>
-				<span class="small"> of <span class="rt-list-links" ng-click="setTagFilter('')">{{endpoints.length}} total</a></span>
+				<span class="small">Showing {{(ctrl.endpoints | filterByTag:ctrl.filter.tag).length}}</span>
+				<span class="small"> of <span class="rt-list-links" ng-click="setTagFilter('')">{{ctrl.endpoints.length}} total</a></span>
 			</div>
 			<div class="editor-option" style="float: right;">
 <!-- 					<span class="small">Sorted By:</span>
@@ -55,10 +55,10 @@
 </div>
 
 
-<div ng-if="pageReady">
-	<div ng-if="endpoints.length > 0" style="margin: 15px; position: relative; display: block; max-width: 1000px;">
-		<div class="rt-list" ng-repeat="endpoint in endpoints | filterByTag:filter.tag | orderBy:sort_field">
-			<div class="rt-list-header rt-page-box-header" style="overflow: visible; padding:5px;" ng-click="gotoEndpointURL(endpoint)">
+<div ng-if="ctrl.pageReady">
+	<div ng-if="ctrl.endpoints.length > 0" style="margin: 15px; position: relative; display: block; max-width: 1000px;">
+		<div class="rt-list" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
+			<div class="rt-list-header rt-page-box-header" style="overflow: visible; padding:5px;" ng-click="ctrl.gotoEndpointURL(endpoint)">
 				<span class="rt-list-item-title"><a href="worldping/endpoints/summary/{{endpoint.id}}">{{endpoint.name}}</a></span>
 
 				<div style="display: inline-block;">
@@ -72,7 +72,7 @@
 								</a>
 							</li>
 							<li>
-								<a ng-click="setTagFilter(tag)">
+								<a ng-click="ctrl.setTagFilter(tag)">
 									<i ng-class="icon" class="dashboard-icon icon-rt-filter"></i>
 									Filter
 								</a>
@@ -85,7 +85,7 @@
 						<rt-endpoint-health endpoint="endpoint"></rt-endpoint-health>
 					</div>
 					<div style="display: inline; margin-left:25px;">
-						<a ng-click="gotoDashboard(endpoint)"><i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Endpoint Summary</br> dashboard for {{endpoint.name}}'"></i></a>
+						<a ng-click="ctrl.gotoDashboard(endpoint)"><i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Endpoint Summary</br> dashboard for {{endpoint.name}}'"></i></a>
 					</div>
 				</div>
 				<div class="clearfix"></div>

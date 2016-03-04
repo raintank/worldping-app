@@ -3,13 +3,13 @@
     <div class="section">
       <div class="editor-option">
        <label class="small">Filter</label>
-       <input type="text" ng-model="panel.filter" ng-change="render()" placholder="Filter"></input>
+       <input type="text" ng-model="ctrl.panel.filter" ng-change="ctrl.refresh()" placholder="Filter"></input>
       </div>
     </div>
     <div class="section">
       <div class="editor-option">
        <label class="small">Size</label>
-       <input type="Number" ng-model="panel.size" ng-change="render()" placholder="Size"></input>
+       <input type="Number" ng-model="ctrl.panel.size" ng-change="ctrl.refresh()" placholder="Size"></input>
       </div>
     </div>
   </div>
