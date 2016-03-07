@@ -1,5 +1,3 @@
-<navbar title="Probes" title-url="worldping/probes" icon="icon-rt-collector" subnav="true">
-</navbar>
 <div class="page-container">
 	<div class="page-wide">
 		<div class="rt-page-header-area">
@@ -8,27 +6,27 @@
 		</div>
 	</div>
 
-	<div ng-if="!pageReady" class="rt-loading-message-container">
+	<div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
 		<div class="rt-loading-message-inside">
-			<img class="rt-loading-pulse" src="public/plugins/worldping/img/loading-pulse.svg" style="margin-bottom: 10px;">
+			<img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
 			<p class="freqMsg nodata rt-loading-msg-1">Ground Control to Major Tom</p>
 			<p class="freqMsg nodata rt-loading-msg-2">This is taking longer than expected.</p>
 			<p class="freqMsg nodata rt-loading-msg-3">We apologize, something may be up. Please contact us if this continues to happen.</p>
 		</div>
 	</div>
 
-	<div ng-if="pageReady">
+	<div ng-if="ctrl.pageReady">
 		<div class="editor-row">
 			<div class="editor-option">
 				<span class="small">Filter by:</span>
 					<div class="select-input">
-						<select ng-model="filter.tag">
+						<select ng-model="ctrl.filter.tag">
 							<option value="" label="All Tags">All Probes</option>
-							<option ng-repeat="t in collectorTags()" value="{{t}}" label="{{t}}">{{t}}</option>
+							<option ng-repeat="t in ctrl.collectorTags()" value="{{t}}" label="{{t}}">{{t}}</option>
 						</select>
 					</div>
 					<div class="select-input">
-						<select class="select-input" style="" ng-model="filter.status" ng-options="opt.value as opt.label for opt in statuses track by opt.id">
+						<select class="select-input" style="" ng-model="ctrl.filter.status" ng-options="opt.value as opt.label for opt in ctrl.statuses track by opt.id">
 							<option value="" label="All Statuses">All Statuses</option>
 						</select>
 					</div>
@@ -37,10 +35,10 @@
 			<div style="display: block; padding: 45px 0 0 0;">
 				<div style="display: inline-block" class="rt-list-status">
 					<span class="small">Showing</span>
-					<span class="rt-list-status-up">{{(collectors|filterByTag:filter.tag|filter:{enabled:true, online:true}).length}} ONLINE</span> |
-					<span class="rt-list-status-disabled">{{(collectors|filterByTag:filter.tag|filter:{enabled:true, online:false}).length}} OFFLINE</span> |
-						<span class="rt-list-status-disabled">{{(collectors|filterByTag:filter.tag|filter:{enabled:false}).length}} DISABLED</span>
-						<span class="small"> of <span class="rt-list-links" ng-click="setCollectorFilter('')">{{(collectors|filterByTag:filter.tag).length}} total.</span>
+					<span class="rt-list-status-up">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:true}).length}} ONLINE</span> |
+					<span class="rt-list-status-disabled">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:false}).length}} OFFLINE</span> |
+						<span class="rt-list-status-disabled">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:false}).length}} DISABLED</span>
+						<span class="small"> of <span class="rt-list-links" ng-click="setCollectorFilter('')">{{(ctrl.collectors|filterByTag:ctrl.filter.tag).length}} total.</span>
 				</div>
 				<div class="editor-option" style="float: right;">
 <!-- 				<span class="small">Sorted By:</span>
@@ -51,16 +49,16 @@
 		</div>
 	</div>
 
-	<div ng-if="pageReady">
+	<div ng-if="ctrl.pageReady">
 		<div style="margin: 15px; position: relative; display: block; max-width: 1000px;">
-			<div ng-if="collectors.length === 0">
+			<div ng-if="ctrl.collectors.length === 0">
 				<em>No probes found</em>
 			</div>
-			<div class="rt-list" ng-repeat="collector in collectors | filterByTag:filter.tag | filter:statusFilter | orderBy:sort_field">
+			<div class="rt-list" ng-repeat="collector in ctrl.collectors | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
 				<div class="rt-list-header" style="overflow:hidden;">
 					<span class="rt-list-item-title"><a href="worldping/probes/summary/{{collector.id}}">{{collector.name}}</a></span>
-					<span style="vertical-align: 2px;"><img src="public/plugins/worldping/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
-					<span style="vertical-align: 2px;"><img src="public/plugins/worldping/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
+					<span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
+					<span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
 			<!-- 			<span class="label rt-label-tag" style="margin-left: 6px;" ng-repeat="tag in collector.tags" tag-color-from-name><a ng-click="setCollectorFilter(tag)">{{tag}}</a></span>
 			 -->
 			<!-- 			<span class="label rt-label-tag dropdown rt-list-tag-menu" ng-repeat="tag in collector.tags" tag="tag" tag-color-from-name>
@@ -81,7 +79,7 @@
 								</a>
 							</li>
 							<li>
-								<a ng-click="setCollectorFilter(tag)">
+								<a ng-click="ctrl.setCollectorFilter(tag)">
 									<i ng-class="icon" class="dashboard-icon icon-rt-filter"></i>
 									Filter
 								</a>
@@ -95,7 +93,7 @@
 							<span class="rt-list-collector-status-{{collector.online?'online':'offline'}}">{{collector.online?"ONLINE":"OFFLINE"}}</span>
 						</div>
 						<div style="display: inline; margin-left:6px;">
-							<a ng-click="gotoDashboard(collector)"><i ng-class="icon" class="dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to {{collector.name}} dashboard'"></i></a>
+							<a ng-click="ctrl.gotoDashboard(collector)"><i ng-class="icon" class="dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to {{collector.name}} dashboard'"></i></a>
 						</div>
 
 					</div>
