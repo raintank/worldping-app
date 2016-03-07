@@ -7,14 +7,14 @@ define([
 
   module.directive("rtEndpointHealthDashboard", function() {
     return {
-      templateUrl: 'public/plugins/worldping/directives/partials/endpointHealthDashboard.html',
+      templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',
       scope: false,
     };
   });
 
   module.directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
     return {
-      templateUrl: 'public/plugins/worldping/directives/partials/checkHealth.html',
+      templateUrl: 'public/plugins/worldping-app/directives/partials/checkHealth.html',
       scope: {
         model: "=",
       },
@@ -117,7 +117,7 @@ define([
 
   module.directive("rtEndpointHealth", function() {
     return {
-      templateUrl: 'public/plugins/worldping/directives/partials/endpointHealth.html',
+      templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealth.html',
       scope: false,
     };
   });
@@ -146,7 +146,7 @@ define([
         collectors: "=",
         model: "=",
       },
-      templateUrl: 'public/plugins/worldping/directives/partials/endpointCollectorSelect.html',
+      templateUrl: 'public/plugins/worldping-app/directives/partials/endpointCollectorSelect.html',
       link: function(scope, elem) {
         var bodyEl = angular.element($window.document.body);
         var currentIds = scope.model.collector_ids;

@@ -153,9 +153,9 @@ class EndpointListCtrl {
   }
 
   gotoEndpointURL(endpoint) {
-    this.$location.path('worldping/endpoints/summary/'+ endpoint.id);
+    this.$location.url('plugins/worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
   };
 }
-EndpointListCtrl.templateUrl = 'public/plugins/worldping-app/panels/endpoint-list/module.html'
+EndpointListCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_list.html'
 
 export {EndpointListCtrl}

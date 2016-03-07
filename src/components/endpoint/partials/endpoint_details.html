@@ -33,10 +33,10 @@
 								</li>
 							</ul>
 							<div class="summary-table-status-icon">
-		 						<div ng-if="!pageReady" class="health">
+		 						<div ng-if="!ctrl.pageReady" class="health">
 									<img ng-src="public/plugins/worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
 								</div>
-		 						<div ng-if="pageReady" class="health">
+		 						<div ng-if="ctrl.pageReady" class="health">
 									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('Ping'))}}.svg" style="width: 40px; height: 40px;">
 								</div>
 							</div>
@@ -97,7 +97,7 @@
 								<li>
 									<span class="checkType">DNS:</span>
 									<div ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
-										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}">{{ctrl.monitorStateTxt(getMonitorByTypeName('DNS'))}}</span>
+										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('DNS'))}}</span>
 										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('DNS'))}}</span>
 									</div>
 									<div ng-show="!ctrl.getMonitorByTypeName('DNS').enabled">
@@ -147,7 +147,7 @@
 								<li>
 									<span class="checkType">HTTP:</span>
 									<div ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
-										<span class="checkStatus {{ctrl.monitorStateClass(getMonitorByTypeName('HTTP'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('HTTP'))}}</span>
+										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTP'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('HTTP'))}}</span>
 										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('HTTP'))}}</span>
 									</div>
 									<div ng-show="!ctrl.getMonitorByTypeName('HTTP').enabled">
@@ -192,7 +192,7 @@
 							</ul>
 							<div class="summary-table-status-icon">
 								<div class="health">
-									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(getMonitorByTypeName('HTTPS'))}}.svg" style="width: 40px; height: 40px;">
+									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTPS'))}}.svg" style="width: 40px; height: 40px;">
 								</div>
 							</div>
 							<ul class="summary-table-status">
