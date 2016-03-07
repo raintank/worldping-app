@@ -56,7 +56,7 @@
 			</div>
 			<div class="rt-list" ng-repeat="collector in ctrl.collectors | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
 				<div class="rt-list-header" style="overflow:hidden;">
-					<span class="rt-list-item-title"><a href="worldping/probes/summary/{{collector.id}}">{{collector.name}}</a></span>
+					<span class="rt-list-item-title"><a href="plugins/worldping-app/page/probe-details?probe={{collector.id}}">{{collector.name}}</a></span>
 					<span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
 					<span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
 			<!-- 			<span class="label rt-label-tag" style="margin-left: 6px;" ng-repeat="tag in collector.tags" tag-color-from-name><a ng-click="setCollectorFilter(tag)">{{tag}}</a></span>
