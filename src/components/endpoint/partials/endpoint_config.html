@@ -1,9 +1,12 @@
 <div class="page-container">
   <!-- page title -->
-  <div class="rt-page-header-area">
+  <div class="rt-page-header-area" ng-if="ctrl.endpoint.id">
     <h1 class="rt-h1">{{ctrl.endpoint.name}}</h1><a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="primary-icon-header dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a>
   </div>
-  <div class="editor-row rt-detail-pages">
+  <div class="rt-page-header" ng-if="ctrl.pageReady && !ctrl.endpoint.id">
+      <i ng-class="icon" class="icon-rt-endpoint" style="font-size:24px;"></i> <h1 class="rt-h1">Add a new endpoint</h1>
+  </div>
+  <div class="editor-row rt-detail-pages" ng-if="ctrl.endpoint.id">
     <div class="editor-option">
       <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
     </div>
@@ -19,7 +22,7 @@
   <div style="margin: 0px; position: relative; display: block; min-width:400px; max-width: 1020px;">
     <form name="endpointForm">
       <div class="rt-page-section" style="padding-left: 10px; margin-top: 35px;">
-        <div class="rt-mini-form new-endpoint-domain-form">
+        <div class="rt-mini-form new-endpoint-domain-form" ng-if="ctrl.endpoint.id">
           <div class="rt-mini-form-col">
             <label class="rt-form-label-medium">Endpoint Name</label>
             <input type="text" class="rt-form-input" ng-model="ctrl.newEndpointName" required="">
@@ -32,14 +35,93 @@
             </div>
           </div>
         </div>
+        <div class="rt-mini-form new-endpoint-domain-form" ng-if="!ctrl.endpoint.id  && ctrl.pageReady">
+            <div class="rt-mini-form-col" style="padding-right: 0px;">
+                <label ng-hide="ctrl.discovered || ctrl.discoveryError || ctrl.showConfig" class="rt-form-label-medium">Enter a domain name, URL or IP address:</label>
+                <label ng-show="ctrl.showConfig || ctrl.discoveryError" class="rt-form-label-medium">Endpoint Name</label>
+                <input type="text" class="rt-form-input" ng-model="ctrl.endpoint.name" required="" ng-hide="ctrl.discovered" ng-class="{ 'rt-text-box-success' : ctrl.discovered, 'rt-font-shrinker' : ctrl.endpoint.name > 10 }">
+                <div ng-show="ctrl.discovered" style="width: auto; min-width:228px; height: 34px; line-height: 34px; font-size: 25px; margin-right: 25px;"> {{ctrl.endpoint.name }}</div>
+            </div>
+            <div class="rt-mini-form-col" style="margin-top: 15px;">
+            <div ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
+                    <button type="submit" class="secondaryCTA ButtonTall" ng-click="endpointForm.$valid && ctrl.discover(ctrl.endpoint)">Auto Discover</button>
+                </div>
+                <div ng-show="ctrl.discoveryInProgress">
+                    <svg width="25" height="25" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#13B3D4" class="puff">
+                        <g fill="none" fill-rule="evenodd" stroke-width="3">
+                            <circle cx="22" cy="22" r="1">
+                                <animate attributeName="r"
+                                    begin="0s" dur="3s"
+                                    values="1; 20"
+                                    calcMode="spline"
+                                    keyTimes="0; 1"
+                                    keySplines="0.165, 0.84, 0.44, 1"
+                                    repeatCount="indefinite" />
+                                <animate attributeName="stroke-opacity"
+                                    begin="0s" dur="3s"
+                                    values="1; 0"
+                                    calcMode="spline"
+                                    keyTimes="0; 1"
+                                    keySplines="0.3, 0.61, 0.355, 1"
+                                    repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="22" cy="22" r="1">
+                                <animate attributeName="r"
+                                    begin="-1.5s" dur="3s"
+                                    values="1; 20"
+                                    calcMode="spline"
+                                    keyTimes="0; 1"
+                                    keySplines="0.165, 0.84, 0.44, 1"
+                                    repeatCount="indefinite" />
+                                <animate attributeName="stroke-opacity"
+                                    begin="-1.5s" dur="3s"
+                                    values="1; 0"
+                                    calcMode="spline"
+                                    keyTimes="0; 1"
+                                    keySplines="0.3, 0.61, 0.355, 1"
+                                    repeatCount="indefinite" />
+                            </circle>
+                        </g>
+                    </svg>
+                    <span class="rt-body-copy">Discovery in progress...</span>
+                    <a ng-click="ctrl.skipDiscovery()">skip</a>
+                </div>
+                <!-- Below replaces Auto-Discover button on success -->
+                <div ng-show="ctrl.discovered">
+                    <p class="rt-body-copy">
+                        <b>Discovery Successful.</b> We've suggested some default checks below based on what we were able to detect. <a class="rt-modal-body-link" ng-click="ctrl.reset()">Start Over</a>
+                    </p>
+                </div>
+                <div ng-show="ctrl.discoveryError">
+                     <p class="rt-body-copy">
+                         <b>Failed to discover endpoint.</b> From here, you can <a ng-click="skipDiscovery()" class="rt-modal-body-link">configure manually</a> or <a class="rt-modal-body-link" ng-click="ctrl.reset()">start over</a>.
+                     </p>
+                </div>
+                <div ng-show="!ctrl.discovered && ctrl.showConfig">
+                    <p class="rt-body-copy">
+                        <b>Discovery Skipped. </b>You can manually configure your endpoint below or <a class="rt-modal-body-link" ng-click="ctrl.reset()">start over</a> to enter a new domain. 
+                    </p>
+                </div>
+            </div>
+        </div>
       </div>
-
-      <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
-      <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
-      <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
-      <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+      <div ng-show="ctrl.showConfig || ctrl.endpoint.id">
+        <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
+        <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
+        <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
+        <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+      </div>
     </form>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/destroyForm.html'"></div>        
+    <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/worldping-app/components/endpoint/partials/destroyForm.html'"></div>
+    <div ng-show="ctrl.showConfig" class="editor-row">
+        <div style="display: block; margin-top: 5px;" class="editor-option">
+            <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label label-tag" placeholder="add tags"></bootstrap-tagsinput>
+        </div>
+    </div>
+    <div ng-show="ctrl.showConfig" style="margin: 25px 0 0 10px;">
+        <button type="submit" class="rt-btn btn-modal" ng-click="endpointForm.$valid && ctrl.addEndpoint(ctrl.endpoint)">Add</button>
+        <span class="cancel-primary" ng-click="ctrl.cancel();">Cancel</span>
+    </div>
   </div>
 </div>
 <div style="padding-bottom: 100px;"></div>

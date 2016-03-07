@@ -7,7 +7,7 @@
             <div class="rt-box-row-info">
               <a href="#">
                 <i class="icon icon-rt-monitoring-tiny" style="font-size:17px;"ng-show="ctrl.monitors['http'].enabled"></i>
-                <span class="freqMsg" ng-show="ctrl.monitors['http'].enabled" > Every {{monitors['http'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['http'])}} {{collectorCount(ctrl.monitors['http']) == 1 ? "Probe" : "Probes"}} |</span>
+                <span class="freqMsg" ng-show="ctrl.monitors['http'].enabled" > Every {{ctrl.monitors['http'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['http'])}} {{collectorCount(ctrl.monitors['http']) == 1 ? "Probe" : "Probes"}} |</span>
                 <i class="icon icon-rt-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['http'].enabled"></i>
                 <span class="freqMsg disabled" ng-show="!ctrl.monitors['http'].enabled" > Not enabled |</span>
                 <span class="freqMsg" ng-show="!ctrl.monitors['http'].enabled && discovered" > Not Discovered |</span>
