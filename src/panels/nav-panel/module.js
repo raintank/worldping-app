@@ -5,7 +5,7 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/wordlping-app/css/dark.css',
+  dark: 'plugins/worldping-app/css/dark.css',
   light: 'plugins/worldping-app/css/light.css'
 });
 
@@ -130,9 +130,37 @@ class EndpointNavCtrl extends PanelCtrl {
     return "for " + days + " days";
   }
 
-  gotoDashboard(endpoint) {
-    this.$location.path("/dashboard/db/worldping-endpoint-summary").search({"var-collector": "All", "var-endpoint": endpoint.slug});
-  };
+  gotoDashboard(endpoint, type) {
+    if (!type) {
+      type = 'summary';
+    }
+    var search = {
+      "var-collector": "All",
+      "var-endpoint": endpoint.slug
+    };
+    switch(type) {
+      case "summary":
+        this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
+        break;
+      case "ping":
+        this.$location.path("/dashboard/db/worldping-endpoint-ping").search(search);
+        break;
+      case "dns":
+        this.$location.path("/dashboard/db/worldping-endpoint-dns").search(search);
+        break;
+      case "http":
+        search['var-protocol'] = "http";
+        this.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
+        break;
+      case "https":
+        search['var-protocol'] = "https";
+        this.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
+        break;
+      default:
+        this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
+        break;
+    }
+  }
 
   gotoEndpointURL(endpoint) {
     this.$location.path('plugins/worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
