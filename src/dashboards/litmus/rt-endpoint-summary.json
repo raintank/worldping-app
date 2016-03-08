@@ -962,7 +962,7 @@
   },
   "templating": {
     "list": [
-      {
+     {
         "allFormat": "glob",
         "datasource": "raintank",
         "includeAll": false,
@@ -970,33 +970,45 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
-        "options": [],
         "query": "litmus.*",
         "refresh": true,
         "refresh_on_load": true,
-        "type": "query"
+        "type": "query",
+        "options": [],
+        "current": {}
       },
       {
         "allFormat": "glob",
-        "current": {
-          "text": "All",
-          "value": "{}"
-        },
         "datasource": "raintank",
         "includeAll": true,
         "label": "Probe(s)",
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "options": [],
         "query": "litmus.$endpoint.*",
         "refresh": true,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",
-        "tags": [],
+        "tags": [
+          "AsiaPac",
+          "EMEA",
+          "USA"
+        ],
         "tagsQuery": "raintank_db.tags.collectors.*",
         "type": "query",
-        "useTags": true
+        "useTags": true,
+        "options": [
+          {
+            "text": "All",
+            "value": "$__all",
+            "selected": true
+          }
+        ],
+        "current": {
+          "text": "All",
+          "value": "$__all",
+          "selected": true
+        }
       }
     ]
   },

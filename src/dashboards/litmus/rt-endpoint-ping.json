@@ -609,18 +609,8 @@
         "refresh": true,
         "refresh_on_load": true,
         "type": "query",
-        "options": [
-          {
-            "selected": true,
-            "text": "~google_com_demo",
-            "value": "~google_com_demo"
-          }
-        ],
-        "current": {
-          "selected": true,
-          "text": "~google_com",
-          "value": "~google_com"
-        }
+        "options": [],
+        "current": {}
       },
       {
         "allFormat": "glob",
