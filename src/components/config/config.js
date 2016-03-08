@@ -35,7 +35,6 @@ class WorldPingConfigCtrl {
   
   configureDatasource() {
     var self = this;
-    console.log($scope);
     this.ctrl.appModel.jsonData.datasourceSet = false;
     this.initDatasource().then(function() {
       self.ctrl.appModel.jsonData.datasourceSet = true;
@@ -70,9 +69,9 @@ class WorldPingConfigCtrl {
 
   importDashboards() {
     var self = this;
-    this.ctrl.appModel.jsonData.dashboardsLoaded = false;
+    this.appModel.jsonData.dashboardsLoaded = false;
     this.fetchDashboards().then(function() {
-      self.ctrl.appModel.jsonData.dashboardsLoaded = true;
+      self.appModel.jsonData.dashboardsLoaded = true;
     });
   }
 

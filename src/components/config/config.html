@@ -21,7 +21,7 @@
 				Configure Datasource
 			</li>
 			<li ng-if="!ctrl.appModel.jsonData.datasourceSet">
-				<button type="submit" class="btn rt-btn" ng-click="configureDatasource()">Configure</button>
+				<button type="submit" class="btn rt-btn" ng-click="ctrl.configureDatasource()">Configure</button>
 			</li>
 			<li ng-if="ctrl.appModel.jsonData.datasourceSet">
 				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
@@ -36,7 +36,7 @@
 				Import Dashboards
 			</li>
 			<li ng-if="!ctrl.appModel.jsonData.dashboardsLoaded">
-				<button type="submit" class="btn rt-btn" ng-click="importDashboards()">Import</button>
+				<button type="submit" class="btn rt-btn" ng-click="ctrl.importDashboards()">Import</button>
 			</li>
 			<li ng-if="ctrl.appModel.jsonData.dashboardsLoaded">
 				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
