@@ -12,6 +12,25 @@
   "hideControls": true,
   "sharedCrosshair": false,
   "rows": [
+   {
+      "collapse": false,
+      "editable": true,
+      "height": "25px",
+      "panels": [
+        {
+          "editable": true,
+          "error": false,
+          "id": 596,
+          "isNew": true,
+          "links": [],
+          "span": 12,
+          "title": "",
+          "transparent": true,
+          "type": "worldping-endpoint-nav"
+        }
+      ],
+      "title": "nav"
+    },
     {
       "collapse": false,
       "editable": true,

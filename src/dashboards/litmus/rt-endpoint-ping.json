@@ -15,6 +15,25 @@
     {
       "collapse": false,
       "editable": true,
+      "height": "25px",
+      "panels": [
+        {
+          "editable": true,
+          "error": false,
+          "id": 596,
+          "isNew": true,
+          "links": [],
+          "span": 12,
+          "title": "",
+          "transparent": true,
+          "type": "worldping-endpoint-nav"
+        }
+      ],
+      "title": "nav"
+    },
+    {
+      "collapse": false,
+      "editable": true,
       "height": "125px",
       "panels": [
         {
@@ -589,7 +608,19 @@
         "query": "litmus.*",
         "refresh": true,
         "refresh_on_load": true,
-        "type": "query"
+        "type": "query",
+        "options": [
+          {
+            "selected": true,
+            "text": "~google_com_demo",
+            "value": "~google_com_demo"
+          }
+        ],
+        "current": {
+          "selected": true,
+          "text": "~google_com",
+          "value": "~google_com"
+        }
       },
       {
         "allFormat": "glob",
@@ -610,7 +641,19 @@
         ],
         "tagsQuery": "raintank_db.tags.collectors.*",
         "type": "query",
-        "useTags": true
+        "useTags": true,
+        "options": [
+          {
+            "text": "All",
+            "value": "$__all",
+            "selected": true
+          }
+        ],
+        "current": {
+          "text": "All",
+          "value": "$__all",
+          "selected": true
+        }
       },
       {
         "allFormat": "glob",
