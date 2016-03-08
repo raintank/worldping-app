@@ -8,7 +8,10 @@ define([
   module.directive("rtEndpointHealthDashboard", function() {
     return {
       templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',
-      scope: false,
+      scope: {
+        ctrl: "=",
+        endpoint: "="
+      }
     };
   });
 
@@ -118,25 +121,10 @@ define([
   module.directive("rtEndpointHealth", function() {
     return {
       templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealth.html',
-      scope: false,
-    };
-  });
-
-  module.directive('panelScroll', function() {
-    function getPanelHeight(scope) {
-      if (scope.fullscreen) {
-        return "80%";
+      scope: {
+        endpoint: "=",
+        ctrl: "="
       }
-      var height = scope.height || scope.panel.height || scope.row.height;
-      var panel_height = parseInt(height.replace(/\D+/g, ''));
-      return  (panel_height - 30) + 'px';
-    }
-
-    return function(scope, element) {
-      element[0].style.overflow = 'auto';
-      scope.$watchGroup(['fullscreen', 'height', 'panel.height', 'row.height'], function() {
-        element[0].style.height = getPanelHeight(scope);
-      });
     };
   });
 

@@ -1,18 +1,18 @@
-<div ng-if="isEndPointReady(endpoint)" style="display:inline-block;">
-	<a ng-click="gotoDashboard(endpoint, 'ping')" class="rt-health-list small">
+<div ng-if="endpoint.id" style="display:inline-block;">
+	<a ng-click="ctrl.gotoDashboard(endpoint, 'ping')" class="rt-health-list small">
 		Ping:
-		<img ng-src="public/plugins/worldping/img/{{monitorStateTxt(endpoint,'ping')}}.svg" width="20px" height="20px" bs-tooltip="'{{monitorStateTxt(endpoint,'ping')}} {{monitorStateChangeStr(endpoint, 'ping')}}'">
+		<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'ping')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'ping')}} {{ctrl.monitorStateChangeStr(endpoint, 'ping')}}'">
 	</a>
-	<a ng-click="gotoDashboard(endpoint, 'dns')" class="rt-health-list small">
+	<a ng-click="ctrl.gotoDashboard(endpoint, 'dns')" class="rt-health-list small">
 		DNS:
-		<img ng-src="public/plugins/worldping/img/{{monitorStateTxt(endpoint,'dns')}}.svg" width="20px" height="20px" bs-tooltip="'{{monitorStateTxt(endpoint,'dns')}} {{monitorStateChangeStr(endpoint, 'dns')}}'">
+		<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'dns')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'dns')}} {{ctrl.monitorStateChangeStr(endpoint, 'dns')}}'">
 	</a>
-	<a ng-click="gotoDashboard(endpoint, 'http')" class="rt-health-list small">
+	<a ng-click="ctrl.gotoDashboard(endpoint, 'http')" class="rt-health-list small">
 		HTTP:
-		<img ng-src="public/plugins/worldping/img/{{monitorStateTxt(endpoint,'http')}}.svg" width="20px" height="20px" bs-tooltip="'{{monitorStateTxt(endpoint,'http')}} {{monitorStateChangeStr(endpoint, 'http')}}'">
+		<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'http')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'http')}} {{ctrl.monitorStateChangeStr(endpoint, 'http')}}'">
 	</a>
-	<a ng-click="gotoDashboard(endpoint, 'https')" class="rt-health-list small">
+	<a ng-click="ctrl.gotoDashboard(endpoint, 'https')" class="rt-health-list small">
 		HTTPS:
-		<img ng-src="public/plugins/worldping/img/{{monitorStateTxt(endpoint,'https')}}.svg" width="20px" height="20px" bs-tooltip="'{{monitorStateTxt(endpoint,'https')}} {{monitorStateChangeStr(endpoint, 'https')}}'">
+		<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'https')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'https')}} {{ctrl.monitorStateChangeStr(endpoint, 'https')}}'">
 	</a>
 <div>
