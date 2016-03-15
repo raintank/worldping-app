@@ -24,8 +24,8 @@
     },
     "keywords": ["raintank", "worldping", "network"],
     "logos": {
-      "small": "img/raintank_small.png",
-      "large": "img/raintank.png"
+      "small": "img/worldping_logo.svg",
+      "large": "img/worldping_logo.svg"
     },
     "links": [
       {"name": "worldPing", "url": "http://raintank.io/worldping"},
