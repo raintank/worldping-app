@@ -1,7 +1,7 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
-  var angular, _, _typeof, module;
+  var angular, _, _typeof;
 
   return {
     setters: [function (_angular) {
@@ -15,10 +15,11 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       } : function (obj) {
         return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
       };
-      _module = angular.module('grafana.directives');
 
 
-      module.directive("rtEndpointHealthDashboard", function () {
+      //var module = angular.module('grafana.directives');
+
+      angular.module('grafana.directives').directive("rtEndpointHealthDashboard", function () {
         return {
           templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',
           scope: {
@@ -28,7 +29,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
-      module.directive("rtCheckHealth", function ($compile, datasourceSrv, timeSrv) {
+      angular.module('grafana.directives').directive("rtCheckHealth", function ($compile, datasourceSrv, timeSrv) {
         return {
           templateUrl: 'public/plugins/worldping-app/directives/partials/checkHealth.html',
           scope: {
@@ -128,7 +129,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
-      module.directive("rtEndpointHealth", function () {
+      angular.module('grafana.directives').directive("rtEndpointHealth", function () {
         return {
           templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealth.html',
           scope: {
@@ -138,7 +139,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
-      module.directive('endpointCollectorSelect', function ($compile, $window, $timeout) {
+      angular.module('grafana.directives').directive('endpointCollectorSelect', function ($compile, $window, $timeout) {
         return {
           scope: {
             collectors: "=",

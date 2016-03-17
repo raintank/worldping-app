@@ -1,9 +1,9 @@
 import angular from 'angular';
 import _ from 'lodash';
 
-var module = angular.module('grafana.directives');
+//var module = angular.module('grafana.directives');
 
-module.directive("rtEndpointHealthDashboard", function() {
+angular.module('grafana.directives').directive("rtEndpointHealthDashboard", function() {
   return {
     templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',
     scope: {
@@ -13,7 +13,7 @@ module.directive("rtEndpointHealthDashboard", function() {
   };
 });
 
-module.directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
+angular.module('grafana.directives').directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
   return {
     templateUrl: 'public/plugins/worldping-app/directives/partials/checkHealth.html',
     scope: {
@@ -116,7 +116,7 @@ module.directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
   };
 });
 
-module.directive("rtEndpointHealth", function() {
+angular.module('grafana.directives').directive("rtEndpointHealth", function() {
   return {
     templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealth.html',
     scope: {
@@ -126,7 +126,7 @@ module.directive("rtEndpointHealth", function() {
   };
 });
 
-module.directive('endpointCollectorSelect', function($compile, $window, $timeout) {
+angular.module('grafana.directives').directive('endpointCollectorSelect', function($compile, $window, $timeout) {
   return {
     scope: {
       collectors: "=",

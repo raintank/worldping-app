@@ -1,7 +1,7 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
-  var angular, _, module;
+  var angular, _;
 
   return {
     setters: [function (_angular) {
@@ -10,9 +10,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       _ = _lodash.default;
     }],
     execute: function () {
-      _module = angular.module('grafana.filters');
 
-      module.filter('filterByTag', function () {
+      //var module = angular.module('grafana.filters');
+      angular.module('grafana.directives').filter('filterByTag', function () {
         return function (items, tag) {
           var filtered = [];
           if (!tag) {
@@ -27,7 +27,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
-      module.filter('timeDuration', function () {
+      angular.module('grafana.directives').filter('timeDuration', function () {
         return function (time) {
           var duration = new Date().getTime() - new Date(time).getTime();
           if (duration < 10000) {

@@ -1,8 +1,8 @@
 import angular from 'angular';
 import _ from 'lodash';
 
-var module = angular.module('grafana.filters');
-module.filter('filterByTag', function() {
+//var module = angular.module('grafana.filters');
+angular.module('grafana.directives').filter('filterByTag', function() {
   return function(items, tag) {
     var filtered = [];
     if (!tag) {
@@ -17,7 +17,7 @@ module.filter('filterByTag', function() {
   };
 });
 
-module.filter('timeDuration', function() {
+angular.module('grafana.directives').filter('timeDuration', function() {
   return function(time) {
     var duration = new Date().getTime() - new Date(time).getTime();
     if (duration < 10000) {
