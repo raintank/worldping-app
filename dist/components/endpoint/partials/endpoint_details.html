@@ -1,0 +1,237 @@
+<div class="page-container">
+	<!-- page title -->
+	<div class="rt-page-header-area">
+		<h1 class="rt-h1">{{ctrl.endpoint.name}}</h1><a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="primary-icon-header dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a>
+	</div>
+	<div class="editor-row rt-detail-pages">
+		<div class="editor-option">
+			<bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
+		</div>
+	</div>
+
+	<!-- tabs -->
+	<div class="rt-tabs">
+		<span class="active"><a href="plugins/worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">Status</a></span>  <span class="nonactive"><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">Configuration</a></span>
+	</div>
+
+	<form name="endpointForm">
+		<div class="detailContainer">
+			<div class="detailFull detailLeft">
+				<div class="rt-box">
+					<div class="rt-box-body no-padding" style="min-height: 50px">
+						<div class="currentStatus summary-table">
+							<ul class="summary-table-actions">
+								<li ng-show="ctrl.getMonitorByTypeName('Ping').enabled">
+									<a ng-click="ctrl.gotoDashboard(endpoint, 'ping')">
+										<i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus Endpoint: </br>dashboard for Ping'"></i>
+									</a>					
+								</li>
+								<li>
+									<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">
+										<i ng-class="icon" class="icon-rt-settings miniCTA" style="vertical-align: middle; font-size: 22px; margin-left: 10px;"></i>
+									</a>
+								</li>
+							</ul>
+							<div class="summary-table-status-icon">
+		 						<div ng-if="!ctrl.pageReady" class="health">
+									<img ng-src="public/plugins/worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
+								</div>
+		 						<div ng-if="ctrl.pageReady" class="health">
+									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('Ping'))}}.svg" style="width: 40px; height: 40px;">
+								</div>
+							</div>
+							<ul class="summary-table-status">
+								<li>
+									<span class="checkType">Ping:</span>
+									<div ng-if="!ctrl.pageReady">
+										<div class="checkStatus">&nbsp;</div>
+									</div>
+									<div ng-if="ctrl.pageReady">
+										<div ng-show="ctrl.getMonitorByTypeName('Ping').enabled">
+											<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('Ping'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('Ping'))}}</span>
+											<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('Ping'))}}</span>
+										</div>
+										<div ng-show="!ctrl.getMonitorByTypeName('Ping').enabled">
+											<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Not enabled, configure now.</a>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('Ping').enabled">
+										<div ng-if="!ctrl.getMonitorByTypeName('Ping').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										</div>
+										<div ng-if="ctrl.getMonitorByTypeName('Ping').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">Alerting Enabled</span>
+											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('Ping')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('Ping').length}} recipients</span></a>
+										</div>
+									</div>								
+								</li>
+							</ul>
+							<div class="summary-table-info">
+								<div ng-show="ctrl.getMonitorByTypeName('Ping').enabled">
+									<div class="frequency">
+										<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName('Ping').collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, 'ping')" bs-tooltip="'Go to Litmus: Events </br>dashboard for Ping'"><i class="frequency fa fa-fw fa-external-link"></i></a>
+									</div>
+									<rt-check-health model="ctrl.getMonitorByTypeName('Ping')"></rt-check-health>
+								</div>
+							</div>
+						</div>
+						<div class="currentStatus summary-table">
+							<ul class="summary-table-actions">
+								<li ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
+									<a ng-click="ctrl.gotoDashboard(endpoint, 'dns')"><i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus Endpoint: </br>dashboard for DNS'"></i></a>					
+								</li>
+								<li>
+									<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">
+										<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
+									</a>
+								</li>
+							</ul>
+							<div class="summary-table-status-icon">
+								<div class="health">
+									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}.svg" style="width: 40px; height: 40px;">
+								</div>
+							</div>
+							<ul class="summary-table-status">
+								<li>
+									<span class="checkType">DNS:</span>
+									<div ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
+										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('DNS'))}}</span>
+										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('DNS'))}}</span>
+									</div>
+									<div ng-show="!ctrl.getMonitorByTypeName('DNS').enabled">
+										<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Not enabled, configure now.</a>
+									</div>
+								</li>
+								<li>
+									<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
+										<div ng-if="!ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										</div>
+										<div ng-if="ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">Alerting Enabled</span>
+											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('DNS')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('DNS').length}} recipients</span></a>
+										</div>
+									</div>
+								</li>							
+							</ul>
+							<div class="summary-table-info">
+								<div ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
+									<div class="frequency">
+										<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName('DNS').collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, 'dns')" bs-tooltip="'Go to Litmus: Events </br>dashboard for DNS'"><i class="frequency fa fa-fw fa-external-link"></i></a>
+									</div>
+									<rt-check-health model="ctrl.getMonitorByTypeName('DNS')"></rt-check-health>
+								</div>
+							</div>
+						</div>
+						<div class="currentStatus summary-table">
+							<ul class="summary-table-actions">
+								<li ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
+									<a ng-click="ctrl.gotoDashboard(endpoint, 'http')">
+										<i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus Endpoint: </br>dashboard for HTTP'"></i>
+									</a>
+								</li>
+								<li>
+									<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">
+										<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
+									</a>
+								</li>
+							</ul>
+							<div class="summary-table-status-icon">
+								<div class="health">
+									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTP'))}}.svg" style="width: 40px; height: 40px;">
+								</div>
+							</div>
+							<ul class="summary-table-status">
+								<li>
+									<span class="checkType">HTTP:</span>
+									<div ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
+										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTP'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('HTTP'))}}</span>
+										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('HTTP'))}}</span>
+									</div>
+									<div ng-show="!ctrl.getMonitorByTypeName('HTTP').enabled">
+	         					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Not enabled, configure now.</a>
+	        				</div>						
+								</li>
+								<li>
+									<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
+										<div ng-if="!ctrl.getMonitorByTypeName('HTTP').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status not-enabled">
+												<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
+											</span>
+										</div>
+										<div ng-if="ctrl.getMonitorByTypeName('HTTP').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">Alerting Enabled</span>
+											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('HTTP')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('HTTP').length}} recipients</span></a>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<div class="summary-table-info">
+								<div ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
+									<div class="frequency">
+										<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName('HTTP').collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, 'http')" bs-tooltip="'Go to Litmus: Events </br>dashboard for HTTP'"><i class="frequency fa fa-fw fa-external-link"></i></a>
+									</div>
+									<rt-check-health model="ctrl.getMonitorByTypeName('HTTP')"></rt-check-health>
+								</div>
+							</div>
+						</div>
+						<div class="currentStatus summary-table">
+							<ul class="summary-table-actions">
+								<li ng-show="ctrl.getMonitorByTypeName('HTTPS').enabled">
+									<a ng-click="ctrl.gotoDashboard(ctrl.endpoint, 'https')">
+										<i ng-class="icon" class="primary-icon dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus Endpoint: </br>dashboard for HTTPS'"></i>
+									</a>
+								</li>
+								<li>
+									<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">
+										<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
+									</a>
+								</li>
+							</ul>
+							<div class="summary-table-status-icon">
+								<div class="health">
+									<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTPS'))}}.svg" style="width: 40px; height: 40px;">
+								</div>
+							</div>
+							<ul class="summary-table-status">
+								<li>
+									<span class="checkType">HTTPS:</span>
+									<div ng-show="ctrl.getMonitorByTypeName('HTTPS').enabled">
+										<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTPS'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('HTTPS'))}}</span>
+										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('HTTPS'))}}</span>
+									</div>
+									<div ng-show="!ctrl.getMonitorByTypeName('HTTPS').enabled">
+	         					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Not enabled, configure now.</a>
+	        				</div>						
+								</li>
+								<li>
+									<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('HTTPS').enabled">
+										<div ng-if="!ctrl.getMonitorByTypeName('HTTPS').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status not-enabled">
+												<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
+											</span>
+										</div>
+										<div ng-if="ctrl.getMonitorByTypeName('HTTPS').health_settings.notifications.enabled">
+											<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">Alerting Enabled</span>
+											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('HTTPS')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('HTTPS').length}} recipients</span></a>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<div class="summary-table-info">
+								<div ng-show="ctrl.getMonitorByTypeName('HTTPS').enabled">
+									<div class="frequency">
+										<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName('HTTPS').collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, 'https')" bs-tooltip="'Go to Litmus: Events </br>dashboard for HTTPS'"><i class="frequency fa fa-fw fa-external-link"></i></a>
+									</div>
+									<rt-check-health model="ctrl.getMonitorByTypeName('HTTPS')"></rt-check-health>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

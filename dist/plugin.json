@@ -1,0 +1,49 @@
+{
+  "type": "app",
+  "name": "worldPing",
+  "id": "worldping-app",
+
+  "routes": [
+    {
+      "path": "api/*",
+      "method": "*",
+      "url": "https://dev-portal.raintank.io/api",
+      "reqSignedIn": true,
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    }
+  ],
+  "info": {
+    "description": "worldPing is a plug-in for Grafana that continually tests, stores and alerts on the global performance and availability of your Internet applications so you can pinpoint issues, fix them immediately, and improve your user’s experience.",
+    "author": {
+      "name": "Raintank Inc.",
+      "url": "http://raintank.io"
+    },
+    "keywords": ["raintank", "worldping", "network"],
+    "logos": {
+      "small": "src/img/worldping_logo.svg",
+      "large": "src/img/worldping_logo.svg"
+    },
+    "links": [
+      {"name": "worldPing", "url": "http://raintank.io/worldping"},
+      {"name": "GitHub", "url": "https://github.com/raintank/worldping-app"},
+      {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
+    ],
+    "version": "1.0.0",
+    "updated": "2016-03.04"
+  },
+
+  "pages": [
+    { "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer"},
+    { "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor", "suppressNav": true},
+    { "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "suppressNav": true},
+    { "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer"},
+    { "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "suppressNav": true},
+    { "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "suppressNav": true}
+  ],
+  "dependencies": {
+    "grafanaVersion": "2.6.x",
+    "plugins": []
+  }
+}

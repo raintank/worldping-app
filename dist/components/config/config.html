@@ -1,0 +1,48 @@
+
+<form name="editForm">
+	<div class="tight-form">
+		<ul class="tight-form-list">
+			<li class="tight-form-item" style="width: 200px">
+				Api Key
+			</li>
+			<li ng-if="!ctrl.appModel.jsonData.apiKeySet">
+				<input type="password" class="tight-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey">
+			</li>
+			<li ng-if="ctrl.appModel.jsonData.apiKeySet">
+				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
+				<a ng-click="ctrl.appModel.jsonData.apiKeySet=false">reset</a>
+			</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div class="tight-form">
+		<ul class="tight-form-list">
+			<li class="tight-form-item" style="width: 200px">
+				Configure Datasource
+			</li>
+			<li ng-if="!ctrl.appModel.jsonData.datasourceSet">
+				<button type="submit" class="btn rt-btn" ng-click="ctrl.configureDatasource()">Configure</button>
+			</li>
+			<li ng-if="ctrl.appModel.jsonData.datasourceSet">
+				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
+				<a ng-click="ctrl.appModel.jsonData.datasourceSet=false">reset</a>
+			</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+	<div class="tight-form">
+		<ul class="tight-form-list">
+			<li class="tight-form-item" style="width: 200px">
+				Import Dashboards
+			</li>
+			<li ng-if="!ctrl.appModel.jsonData.dashboardsLoaded">
+				<button type="submit" class="btn rt-btn" ng-click="ctrl.importDashboards()">Import</button>
+			</li>
+			<li ng-if="ctrl.appModel.jsonData.dashboardsLoaded">
+				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
+				<a ng-click="ctrl.appModel.jsonData.dashboardsLoaded=false">reset</a>
+			</li>
+		</ul>
+		<div class="clearfix"></div>
+	</div>
+</form>
