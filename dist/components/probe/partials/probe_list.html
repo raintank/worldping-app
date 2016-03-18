@@ -20,7 +20,7 @@
 
       <div class="gf-form">
         <span class="gf-form-label width-6">Filter by:</span>
-        <div class="gf-form-select-wrapper" style="margin-right: 3px;">
+        <div class="gf-form-select-wrapper">
           <select class="gf-form-input gf-size-auto" ng-model="ctrl.filter.tag">
             <option value="" label="All tags">All Tags</option>
             <option ng-repeat="t in ctrl.collectorTags()" value="{{t}}" label="{{t}}">{{t}}</option>
