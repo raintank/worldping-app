@@ -1,44 +1,42 @@
-<div class="page-wide">
-	<div class="rt-page-header-area">
-		<h1 class="rt-h1">Endpoints</h1>
-		<span style="float: right; margin-top: 10px;"><a class="rt-btn" href="plugins/worldping-app/page/endpoint-config">New Endpoint</a></span>
-	</div>
+<div class="page-header">
+	<h1 class="rt-h1">Endpoints</h1>
+	<a class="btn btn-success" href="plugins/worldping-app/page/endpoint-config">
+		<i class="fa fa-plus"></i>
+		New Endpoint
+	</a>
 </div>
 
 <div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
 	<div class="rt-loading-message-inside">
 		<img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
-		<p class="freqMsg nodata rt-loading-msg-1">To infinity...and beyond.</p>
-		<p class="freqMsg nodata rt-loading-msg-2">This is taking longer than expected.</p>
-		<p class="freqMsg nodata rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
+		<p class="rt-loading-msg-1">To infinity...and beyond.</p>
+		<p class="rt-loading-msg-2">This is taking longer than expected.</p>
+		<p class="rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
 	</div>
 </div>
 
 <div ng-if="ctrl.pageReady">
 	<div ng-if="ctrl.endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
-			<i ng-class="icon" class="icon-rt-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="rt-body-link" href="plugins/worldping-app/page/endpoint-config">Add an endpoint now.</a></p>
+			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
+			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/worldping-app/page/endpoint-config">Add an endpoint now.</a></p>
 		</div>
-		<div style="text-align: center; min-height: 200px; max-width: 500px; margin: 0 auto;">
+		<div class="rt-collapse-container">
 			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an endpoint? <i class="fa fa-caret-down"></i></label>
 			<input id="_1" type="checkbox">
-			<div class="rt-box rt-box-no-margin" style="margin-top:-10px; padding:20px">
-				<p class="rt-helper-blurb">In Litmus, an endpoint is anything you want to monitor.</p>
-				<p class="rt-helper-blurb">When you enter the fully qualified domain name of your endpoint, Litmus will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
+			<div class="rt-collapse-blurb-box">
+				<p class="rt-helper-blurb">In worldPing, an endpoint is anything you want to monitor.</p>
+				<p class="rt-helper-blurb">When you enter the fully qualified domain name of your endpoint, we will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
 			</div>
 		</div>
 	</div>
-	<div ng-if="ctrl.endpoints.length > 0" class="editor-row">
-		<div class="editor-option">
-			<span class="small">Filtered by:</span>
-			<div class="select-input">
-				<select ng-model="ctrl.filter.tag" ng-options="t for t in ctrl.endpointTags()">
-					<option value="">All Tags</option>
-				</select>
-			</div>
-
-		</div>
+	<div ng-if="ctrl.endpoints.length > 0">
+        <div class="gf-form">
+          <span class="gf-form-label width-6">Filter by:</span>
+          <div class="gf-form-select-wrapper">
+            <select class="gf-form-input gf-size-auto" ng-model="ctrl.filter.tag" ng-options="t for t in ctrl.endpointTags()"><option value="">All Tags</option></select>
+          </div>
+        </div>		
 		<div style="display: block; padding: 45px 0 0 0;">
 			<div style="display: inline-block" class="rt-list-status">
 				<span class="small">Showing {{(ctrl.endpoints | filterByTag:ctrl.filter.tag).length}}</span>
@@ -54,7 +52,34 @@
 	</div>
 </div>
 
+	<section ng-if="ctrl.endpoints.length > 0" class="card-section" layout-mode>
+    <layout-selector></layout-selector>
 
+		<ol class="card-list" >
+			<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
+				<a class="card-item" href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
+					<div class="card-item-header">
+						<i class="icon-gf icon-gf-{{ds.type}}"></i>
+						<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
+					</div>
+					<div class="card-item-body">
+						<div class="card-item-details">
+							<div class="card-item-name">
+								{{endpoint.name}}
+								<span ng-repeat="tag in endpoint.tags" tag-color-from-name="tag"  class="label label-tag">
+									{{tag}}
+								</span>
+								<span ng-if="ds.isDefault">
+									<span class="btn btn-secondary btn-mini">default</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+		</ol>
+	</section>
+<!-- 
 <div ng-if="ctrl.pageReady">
 	<div ng-if="ctrl.endpoints.length > 0" style="margin: 15px; position: relative; display: block; max-width: 1000px;">
 		<div class="rt-list" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
@@ -92,4 +117,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
