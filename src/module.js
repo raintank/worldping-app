@@ -9,10 +9,12 @@ import {loadPluginCss} from 'app/plugins/sdk';
 import './filters/all';
 import './directives/all';
 
+/*
 loadPluginCss({
   dark: 'plugins/worldping-app/css/dark.css',
   light: 'plugins/worldping-app/css/light.css'
 });
+*/
 
 export {
   EndpointListCtrl,

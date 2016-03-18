@@ -17,8 +17,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       };
 
 
-      //var module = angular.module('grafana.directives');
-
       angular.module('grafana.directives').directive("rtEndpointHealthDashboard", function () {
         return {
           templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',

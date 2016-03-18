@@ -11,7 +11,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
     }],
     execute: function () {
 
-      //var module = angular.module('grafana.filters');
       angular.module('grafana.directives').filter('filterByTag', function () {
         return function (items, tag) {
           var filtered = [];

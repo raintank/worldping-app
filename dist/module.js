@@ -21,12 +21,6 @@ System.register(['./components/config/config', './components/endpoint/endpoint_l
       loadPluginCss = _appPluginsSdk.loadPluginCss;
     }, function (_filtersAll) {}, function (_directivesAll) {}],
     execute: function () {
-
-      loadPluginCss({
-        dark: 'plugins/worldping-app/css/dark.css',
-        light: 'plugins/worldping-app/css/light.css'
-      });
-
       _export('EndpointListCtrl', EndpointListCtrl);
 
       _export('EndpointDetailsCtrl', EndpointDetailsCtrl);
