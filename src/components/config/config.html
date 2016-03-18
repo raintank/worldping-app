@@ -1,48 +1,35 @@
 
 <form name="editForm">
-	<div class="tight-form">
-		<ul class="tight-form-list">
-			<li class="tight-form-item" style="width: 200px">
-				Api Key
-			</li>
-			<li ng-if="!ctrl.appModel.jsonData.apiKeySet">
-				<input type="password" class="tight-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey">
-			</li>
-			<li ng-if="ctrl.appModel.jsonData.apiKeySet">
-				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
-				<a ng-click="ctrl.appModel.jsonData.apiKeySet=false">reset</a>
-			</li>
-		</ul>
-		<div class="clearfix"></div>
-	</div>
-	<div class="tight-form">
-		<ul class="tight-form-list">
-			<li class="tight-form-item" style="width: 200px">
-				Configure Datasource
-			</li>
-			<li ng-if="!ctrl.appModel.jsonData.datasourceSet">
-				<button type="submit" class="btn rt-btn" ng-click="ctrl.configureDatasource()">Configure</button>
-			</li>
-			<li ng-if="ctrl.appModel.jsonData.datasourceSet">
-				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
-				<a ng-click="ctrl.appModel.jsonData.datasourceSet=false">reset</a>
-			</li>
-		</ul>
-		<div class="clearfix"></div>
-	</div>
-	<div class="tight-form">
-		<ul class="tight-form-list">
-			<li class="tight-form-item" style="width: 200px">
-				Import Dashboards
-			</li>
-			<li ng-if="!ctrl.appModel.jsonData.dashboardsLoaded">
-				<button type="submit" class="btn rt-btn" ng-click="ctrl.importDashboards()">Import</button>
-			</li>
-			<li ng-if="ctrl.appModel.jsonData.dashboardsLoaded">
-				<input type="text" class="tight-form-input input-xlarge" disabled="disabled" value="complete">
-				<a ng-click="ctrl.appModel.jsonData.dashboardsLoaded=false">reset</a>
-			</li>
-		</ul>
-		<div class="clearfix"></div>
+	<div class="gf-form-group">
+		<div class="gf-form-inline">
+			<div class="gf-form">
+				<span class="gf-form-label width-12">Api Key</span>
+				<input type="password" class="gf-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet">
+				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
+			</div>
+			<div class="gf-form">
+				<a class="btn btn-danger btn-small" ng-click="ctrl.appModel.jsonData.apiKeySet=false" ng-if="ctrl.appModel.jsonData.apiKeySet">reset</a>
+			</div>
+		</div>
+		<div class="gf-form-inline">
+			<div class="gf-form">
+				<span class="gf-form-label width-12">Configure Datasource</span>
+				<button type="submit" class="btn rt-btn" ng-if="!ctrl.appModel.jsonData.datasourceSet" ng-click="ctrl.configureDatasource()">Configure</button>
+				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.datasourceSet">
+			</div>
+			<div class="gf-form">
+				<a class="btn btn-danger btn-small" ng-click="ctrl.appModel.jsonData.datasourceSet=false" ng-if="ctrl.appModel.jsonData.datasourceSet">reset</a>
+			</div>
+		</div>
+		<div class="gf-form-inline">
+			<div class="gf-form">
+				<span class="gf-form-label width-12">Import Dashboards</span>
+				<button type="submit" class="btn rt-btn" ng-click="ctrl.importDashboards()" ng-if="!ctrl.appModel.jsonData.dashboardsLoaded">Import</button>
+				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.dashboardsLoaded">
+			</div>
+			<div class="gf-form">
+				<a class="btn btn-danger btn-small" ng-click="ctrl.appModel.jsonData.dashboardsLoaded=false" ng-if="ctrl.appModel.jsonData.dashboardsLoaded">reset</a>
+			</div>
+		</div>
 	</div>
 </form>
