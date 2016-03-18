@@ -54,7 +54,18 @@ module.exports = function(grunt) {
       },
     },
 
+    sass: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          "dist/css/worldping.dark.css": "src/sass/worldping.dark.scss",
+          "dist/css/worldping.light.css": "src/sass/worldping.light.scss",
+        }
+      }
+    }
   });
 
-  grunt.registerTask('default', ['clean', 'copy:src_to_dist', 'copy:pluginDef', 'copy:img_to_dist', 'babel']);
+  grunt.registerTask('default', ['clean', 'sass', 'copy:src_to_dist', 'copy:pluginDef', 'copy:img_to_dist', 'babel']);
 };

@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "worldping.light.css",
+	"sources": [
+		"../../src/sass/worldping.light.scss",
+		"../../src/sass/base/_config.scss"
+	],
+	"mappings": "ACAA,UAAU,CAAC;EACT,UAAU,EAAE,MAAO,GACpB",
+	"names": []
+}
