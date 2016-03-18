@@ -11,15 +11,27 @@ module.exports = function(grunt) {
 
     copy: {
       src_to_dist: {
+        cwd: 'src',
         expand: true,
-        src: ['plugin.json', 'src/**/*', '!src/panels/*.js', '!src/components/*.js', '!src/*.js', '!src/**/*.scss'],
+        src: ['**/*', '!**/*.js', '!**/*.scss'],
         dest: 'dist'
+      },
+      img_to_dist: {
+        cwd: 'src',
+        expand: true,
+        src: ['img/*'],
+        dest: 'dist/src/'
+      },
+      pluginDef: {
+        expand: true,
+        src: ['plugin.json', 'README.md'],
+        dest: 'dist',
       }
     },
 
     watch: {
       rebuild_all: {
-        files: ['src/**/*', 'plugin.json'],
+        files: ['src/**/*', 'plugin.json', 'README.md'],
         tasks: ['default'],
         options: {spawn: false}
       },
@@ -33,8 +45,9 @@ module.exports = function(grunt) {
       },
       dist: {
         files: [{
+          cwd: 'src',
           expand: true,
-          src: ['src/**/*.js', '!src/directives/*.js', '!src/filters/*.js'],
+          src: ['**/*.js', '!src/directives/*.js', '!src/filters/*.js'],
           dest: 'dist',
           ext:'.js'
         }]
@@ -43,5 +56,5 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['clean', 'copy:src_to_dist', 'babel']);
+  grunt.registerTask('default', ['clean', 'copy:src_to_dist', 'copy:pluginDef', 'copy:img_to_dist', 'babel']);
 };
