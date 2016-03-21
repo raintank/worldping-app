@@ -9,6 +9,8 @@ class EndpointConfigCtrl {
     this.alertSrv = alertSrv;
     this.pageReady = false;
 
+    this.tabIndex = 0;
+
     this.monitorLastState = {};
 
     this.frequencyOpts = [];

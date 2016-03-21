@@ -252,6 +252,7 @@ ul.rt-modal-ul {
   float:left;
   margin-right: 15px;
   margin-bottom:8px;
+  font-size: 1rem;
 }
 
 .checkType {display:block;}
@@ -297,12 +298,14 @@ raintank TYPE
 }
 
 .status {
-  font-size:14px;
+  font-size:1rem;
   font-weight:600;
   .online, .warn, .critical, .nodata, .none {font-weight:900;}
 }
 
-.checkTime {color:$text-color-weak}
+.checkStatus {font-size: 1rem;}
+
+.checkTime {color:$text-color-weak; font-size: 1rem;}
 
 .no-endpoints {
     font-size:800%;
@@ -314,7 +317,7 @@ raintank TYPE
 
 .jumbo {font-size: 150%; font-weight: 600;}
 
-.frequency {color:$text-color}
+.frequency {color:$text-color; font-size: 1rem;}
 .statusMsg, .freqMsg {font-size:14px; font-weight:400;}
 
 .supplemental-copy {
@@ -344,6 +347,10 @@ raintank TYPE
   font-weight: 400;
   &:hover {
      color: $link-hover-color;
+  }
+  a {
+    color: $text-color-weak;
+    font-weight: 400;
   }
 }
 
