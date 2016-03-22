@@ -69,7 +69,8 @@ class EndpointDetailsCtrl {
   }
 
   //TODO: move to directive.
-  monitorStateTxt(mon) {
+  monitorStateTxt(type) {
+    var mon = this.getMonitorByTypeName(type)
     if (typeof(mon) !== "object") {
       return "disabled";
     }
@@ -88,7 +89,8 @@ class EndpointDetailsCtrl {
   }
 
   //TODO: move to directive.
-  monitorStateClass(mon) {
+  monitorStateClass(type) {
+    var mon = this.getMonitorByTypeName(type)
     if (typeof(mon) !== "object") {
       return "disabled";
     }
@@ -103,7 +105,8 @@ class EndpointDetailsCtrl {
   }
 
   //TODO: move to directive.
-  stateChangeStr(mon) {
+  stateChangeStr(type) {
+    var mon = this.getMonitorByTypeName(type)
     if (typeof(mon) !== "object") {
       return "";
     }
@@ -139,7 +142,7 @@ class EndpointDetailsCtrl {
       "var-collector": "All",
       "var-endpoint": this.endpoint.slug
     };
-    switch(type) {
+    switch(type.toLowerCase()) {
       case "summary":
         this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
         break;
@@ -167,7 +170,7 @@ class EndpointDetailsCtrl {
     this.$location.path("/dashboard/db/worldping-events").search({
       "var-collector": "All",
       "var-endpoint": endpoint.slug,
-      "var-monitor_type": type
+      "var-monitor_type": type.toLowerCase()
     });
   }
 

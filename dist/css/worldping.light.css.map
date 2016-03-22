@@ -3,7 +3,7 @@
 	"file": "worldping.light.css",
 	"sources": [
 		"../../src/sass/worldping.light.scss",
-		"../../../go/src/github.com/grafana/grafana/public/sass/_variables.light.scss",
+		"../../../../../go/src/github.com/grafana/grafana/public/sass/_variables.light.scss",
 		"../../src/sass/worldPing.scss",
 		"../../src/sass/base/_config.scss",
 		"../../src/sass/components/animations.scss",
