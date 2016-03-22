@@ -16,12 +16,12 @@
 	</div>
 </div>
 
-<section class="card-section" layout-mode>
+<section class="card-section card-list-layout-grid--max-2-col" layout-mode>
 <layout-selector></layout-selector>
 	<ol class="card-list" >
 		<li class="card-item-wrapper" ng-repeat="checktype in ['DNS', 'Ping', 'HTTP', 'HTTPS']">
 			<div class="card-item" href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
-				<div class="card-item-header card-item-header--wp-icons">
+				<div class="card-item-header card-item-header--wp-icons card-item-header-action">
 					<a ng-show="ctrl.getMonitorByTypeName(checktype).enabled" ng-click="ctrl.gotoDashboard(endpoint, checktype)">
 						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for {{checktype}}'"></i>
 					</a>					
