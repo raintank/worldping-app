@@ -837,6 +837,38 @@
   .endpoint-alerting-recipients {
     display: block; } }
 
+.section-header-flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-content: center; }
+
+.inline-header {
+  display: inline; }
+
+.inline-icon {
+  font-size: 32px; }
+
+.endpoint-config-left-margin {
+  margin-left: 45px; }
+
+.wp-config-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s; }
+  .wp-config-box.dns-open {
+    height: 780px; }
+  .wp-config-box.ping-open {
+    height: 652px; }
+  .wp-config-box.http-open {
+    height: 1036px; }
+  .wp-config-box.https-open {
+    height: 1074px; }
+  .wp-config-box.destroy-open {
+    height: 240px; }
+
 .top-nav-menu-btn {
   top: 2px;
   margin: 6px 6px 3px 22px; }
@@ -846,14 +878,13 @@
 /***********************************
 raintank BOX
 ***********************************/
-.rt-box, .rt-config-box {
-  background-color: #1f1d1d;
+.rt-box {
   margin: 0px 10px 20px 10px;
   position: relative;
   border-radius: 2px; }
 
 .rt-config-box {
-  height: 44px;
+  height: 0px;
   overflow: hidden;
   transition: height 0.2s;
   -o-transition: height 0.2s;

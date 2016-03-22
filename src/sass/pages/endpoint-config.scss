@@ -1,0 +1,50 @@
+// ==========================================================================
+// ENDPOITN CONFIG PAGE
+// ==========================================================================
+
+.section-header-flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.inline-header{
+  display: inline;
+}
+
+.inline-icon {
+  font-size: 32px;
+}
+
+.endpoint-config-left-margin {
+  margin-left: 45px;
+}
+
+.wp-config-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+
+  &.dns-open {
+    height: 780px;
+  }
+
+  &.ping-open {
+    height: 652px;
+  }
+
+  &.http-open {
+    height: 1036px;
+  }
+
+  &.https-open {
+    height: 1074px;
+  }
+
+  &.destroy-open {
+    height: 240px;
+  }
+}
