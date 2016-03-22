@@ -1,7 +1,14 @@
 // ==========================================================================
-// ENDPOITN DETAIL TABLE
+// ENDPOITN DETAIL PAGE
 // ==========================================================================
 
+.wp-tag-margin--bottom {
+  margin-bottom: 50px;
+}
+
+.card-item-header--wp-icons i {
+  font-size: 16px;
+}
 
 .endpoint-detail-flex-grow {
   flex-grow: 2;
@@ -11,6 +18,7 @@
 .endpoint-detail-flex-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .card-list-layout-grid .endpoint-detail-flex-container {
