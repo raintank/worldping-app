@@ -1,0 +1,761 @@
+// ==========================================================================
+// RAINTANK
+// ==========================================================================
+
+// @import "base/icon-font.less";
+
+// @import "layout/columns.less";
+// @import "components/mini-form.less";
+// @import "layout/forms.less";
+// @import "layout/page.less";
+// @import "layout/tables.less";
+
+// @import "components/box.less";
+// @import "components/buttons.less";
+// @import "components/collectors";
+// @import "components/collector-footprint-dropdown";
+// @import "components/dropdown.less";
+// @import "components/endpoint-alerting";
+// @import "components/events.less";
+// @import "components/tag-dropup.less";
+// @import "components/dropdown-menu.less";
+// @import "components/panel.less";
+// @import "components/raintank-bootstrap-tagsinput.less";
+// @import "components/summary-table.less";
+// @import "components/collector-animation.less";
+
+
+
+
+// Navbar
+// ---------------------------------------------------------------------------
+
+.top-nav-menu-btn { // modifies attributes in navbar.less
+  top:2px;
+  margin: 6px 6px 3px 22px;
+
+  &:hover {
+    .logo {
+      opacity: 0;
+    }
+  }
+}
+/***********************************
+raintank BOX
+***********************************/
+.rt-box {
+  background-color: $panel-bg;
+  margin: 0px 10px 20px 10px;
+  position: relative;
+  border-radius: 2px;
+}
+
+.rt-config-box {
+  @extend .rt-box;
+  height: 44px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+
+  &.dns-open {
+    height: 960px;
+  }
+
+  &.ping-open {
+    height: 752px;
+  }
+
+  &.http-open {
+    height: 1036px;
+  }
+
+  &.https-open {
+    height: 1074px;
+  }
+
+  &.destroy-open {
+    height: 240px;
+  }  
+}
+
+.rt-box-no-margin {
+  margin: 0;
+  background-color: none;
+  padding: 0px 30px;
+}
+
+.page-container {
+  background: $panel-bg;
+  border: $panel-border;
+}
+
+.oneCol {display:none;}
+.twoCol {display:none;}
+
+
+@media screen and (max-width: 780px) {
+  .oneCol {display:block;}
+}
+
+@media screen and (min-width: 781px) {
+  .twoCol {display:block;}
+}
+
+.clearBack {background-color:transparent;}
+
+.rt-modal-box-body {
+  padding: 20px 0 20px 0;
+  min-height: 150px;
+}
+
+ul.rt-modal-ul {
+  margin: 0 0 10px 0;
+  list-style: none;
+}
+
+.no-padding {
+    padding: 0;
+  }
+
+.rt-box-footer {
+  overflow: hidden;
+}
+
+.rt-box-header {
+  padding: 10px;
+  font-size:16px;
+  border-bottom: 1px solid $body-bg;
+  overflow: hidden;
+  .tabs {
+    float: left;
+  }
+  .nav {
+    margin: 0;
+  }
+}
+
+.rt-modal-header {
+  padding: 30px 0px;
+  font-size:16px;
+  overflow: hidden;
+  .tabs {
+    float: left;
+  }
+  .nav {
+    margin: 0;
+  }
+}
+
+.public {color:$rt-blue;}
+.private {color:$gray-1;}
+
+.collectorStatus,
+.endpointStatus  {
+  margin-bottom: 50px;
+}
+
+.collectorCurrentStatus {
+  display:block;
+  padding: 20px;
+}
+
+.currentStatus {
+  position:relative;
+  display:block;
+  padding: 10px 15px;
+  border-bottom: 1px solid $body-bg;
+
+  .dashboard-icon {
+  color:$text-color;
+  margin-left:20px;
+  }
+}
+
+.currentStatus:last-child,
+.collectorCurrentStatus:last-child {
+  padding-bottom: 30px;
+  border-bottom: none;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.currentStatus .rt-event-success,
+.currentStatus .rt-event-warning,
+.currentStatus .rt-event-error,
+.collectorCurrentStatus .rt-event-success,
+.collectorCurrentStatus .rt-event-warning,
+.collectorCurrentStatus .rt-event-error {
+  display:inline-block;
+  padding: 10px;
+  border-radius: 50px;
+  text-shadow: none;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rt-health-list {
+  margin: 0 5px;
+  vertical-align: text-top;
+}
+
+.rt-inline-health-icon {
+  vertical-align: sub;
+}
+
+.statusEvents {
+  display:block;
+  margin-left:70px;
+}
+
+.collectorCurrentStatus .statusEvents {
+  display:block;
+  margin-left:0;
+  margin-top:20px;
+}
+
+.event {
+  display:inline-block;
+  margin-bottom:0px;
+  margin-right:20px
+  }
+
+.event:last-child {margin-right:0;}
+
+.event .rt-event-success,
+.event .rt-event-warning,
+.event .rt-event-error {
+  margin:0;
+}
+
+.eventType {margin-left:5px;}
+
+.monitorState {}
+
+.status, .check {
+  float:left;
+  margin-left:55px;
+}
+
+.check {
+  width:25%;
+  min-width:130px;
+  margin-bottom:13px;
+}
+
+.frequency {
+  clear: both;
+}
+
+.statusType {
+  float:left;
+  margin-right: 15px;
+  margin-bottom:8px;
+  font-size: 1rem;
+}
+
+.checkType {display:block;}
+
+.health {
+  width: 40px;
+  height: 40px;
+}
+
+.refresh {padding-top:15px;}
+
+.mainLink i, .mainLink i:visited{
+  color: $link-color;
+  -webkit-text-fill-color: transparent;
+  background: -webkit-linear-gradient(top left, $link-color 0%, #13b2d4 100%) repeat;
+  background: -o-linear-gradient(top left, $link-color 0%, $rt-blue 100%) repeat;
+  -webkit-background-clip: text;
+  text-decoration:none;
+  transition: 0.15s;
+}
+
+.mainLink i:hover, .mainLink i:active {
+  color: $link-hover-color;
+  -webkit-text-fill-color: $link-hover-color;
+  text-decoration:none;
+  transition: 0.15s;
+}
+
+.tag-icon {
+  font-size: 14px;
+  vertical-align: text-bottom;
+  margin-left:5px;
+}
+
+/***********************************
+raintank TYPE
+***********************************/
+
+.checkType, .eventType {
+  font-size:16px;
+  font-weight:600;
+  color:$text-color;
+}
+
+.status {
+  font-size:1rem;
+  font-weight:600;
+  .online, .warn, .critical, .nodata, .none {font-weight:900;}
+}
+
+.checkStatus {font-size: 1rem;}
+
+.checkTime {color:$text-color-weak; font-size: 1rem;}
+
+.no-endpoints {
+    font-size:800%;
+    color:$link-color;
+    opacity: 0.15;
+    display: block;
+    margin-bottom: 50px;
+  }
+
+.jumbo {font-size: 150%; font-weight: 600;}
+
+.frequency {color:$text-color; font-size: 1rem;}
+.statusMsg, .freqMsg {font-size:14px; font-weight:400;}
+
+.supplemental-copy {
+    color:$text-color;
+  }
+
+.online {
+  color: $online;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.offline {
+  color: $text-color-weak;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.warn {
+  color: $warn;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.disabled, .none {
+  color: $text-color-weak;
+  font-weight: 400;
+  &:hover {
+     color: $link-hover-color;
+  }
+  a {
+    color: $text-color-weak;
+    font-weight: 400;
+  }
+}
+
+.critical {
+  color: $critical;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.nodata {
+  color: $text-color-weak;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+
+
+/***********************************
+raintank POSITIONING
+***********************************/
+
+.msg {display:inline;}
+.msg span {font-weight:600;}
+
+.nudgeDown {
+  position: relative;
+  top: 15px;
+}
+
+.icon {
+  vertical-align:middle;
+}
+
+.collector_icon {
+  vertical-align: 0;
+  padding-left:3px;
+}
+
+.rt-event {
+  border-radius: 10px;
+  text-shadow: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 6px;
+  margin: 0 0 0 6px;
+  border-width: 1px;
+  border-style: solid;
+  line-height: 12px;
+}
+
+.statusDetail .rt-event-success,
+.statusDetail .rt-event-warning,
+.statusDetail .rt-event-error{
+  display:inline-block;
+  padding: 15px 10px;
+  border-radius: 50px;
+  text-shadow: none;
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.rt-event-success {
+  @extend .rt-event;
+  color: $online;
+  background-color: fade($online, 30%);
+  border-color: fade($online, 50%);
+  box-shadow: 0 0 1px fade($online, 90%);
+}
+
+.rt-event-warning {
+  @extend .rt-event;
+  color: $warn;
+  background-color: fade($warn, 30%);
+  border-color: fade($warn, 50%);
+  box-shadow: 0 0 1px fade($warn, 90%);
+}
+
+.rt-event-error {
+  @extend .rt-event;
+  color: $critical;
+  background-color: fade($critical, 30%);
+  border-color: fade($critical, 50%);
+  box-shadow: 0 0 1px fade($critical, 90%);
+}
+
+
+.dashboard-icon {
+  transition: all 0.1s ease 0s;
+  vertical-align: sub;
+  font-size:20px;
+  color:$text-color;
+}
+
+.dashboard-icon:hover {
+    color: darken($text-color, 10%); // This is a hack. I want to control the svg color on hover eventually. (MST) DONE (TRW)
+}
+
+.filter-icon {
+  transition: all 0.1s ease 0s;
+  vertical-align: middle;
+}
+
+.filter-icon:hover {
+  opacity: 0.8; // This is a hack. I want to control the svg color on hover eventually. (MST)
+}
+
+
+// list status headers
+
+.rt-list-status {
+  font-size: 16px;
+  color: $text-color-weak;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.rt-list-status-up {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $online;
+  &:link, &:visited {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $online;
+    &:hover {color: lighten($online, 10%);}
+  }
+}
+
+.rt-list-status-warning {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $warn;
+  &:link, &:visited {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $warn;
+    &:hover {color: lighten($warn, 10%);}
+  }
+}
+
+.rt-list-status-down {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $critical;
+  &:link, &:visited {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $critical;
+    &:hover {color: lighten($critical, 10%);}
+  }
+}
+
+.rt-list-status-disabled {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-color;
+  &:link, &:visited {
+    @extend .rt-list-status;
+    font-size: 20px;
+    font-weight: 600;
+    color: $text-color;
+    &:hover {color: lighten($text-color, 10%);}
+  }
+}
+
+.rt-list-links {
+  color: $text-color-weak;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: lighten($text-color, 10%);
+  }
+}
+
+// raintank override styles from gfbox.less
+
+.rt-list {
+  margin: 1px;
+  background-color: $body-bg;
+  position: relative;
+  border: $panel-border;  
+  border-radius: 2px;
+  line-height: normal;
+  padding: 3px 0;
+}
+
+.rt-list-item-title {
+    font-size: 15px;
+    a:link {
+      color: $link-color;
+    }
+    a:hover {
+     color: $link-hover-color;
+    }
+  margin: 10px;
+}
+
+.rt-list-header {
+  overflow: visible;
+  padding: 10px 5px;
+  background-color: $body-bg;
+  .tabs {
+    float: left;
+  }
+  .nav {
+    margin: 0;
+  }
+}
+
+
+// Form Additions
+
+.ng-hide-add         {
+  -webkit-animation:1.5s ease;
+  animation:1.5s ease;
+}
+
+.ng-hide-remove      {
+  -webkit-animation:1.5s ease;
+  animation:1.5s ease;
+}
+
+.rt-form-extra-margin {
+  margin-right: 30px;
+}
+
+.rt-collector-select {
+  max-width: 600px;
+  display: inline-block;
+  height: auto;
+  padding: 6px 10px;
+  margin-top: -3px;
+  margin-left: 10px;
+  vertical-align: middle;
+  overflow: auto;
+}
+
+// Collector List Status
+
+.rt-list-collector-status-online {
+  color: $online;
+  font-weight: 700;
+  font-size: .85em;
+}
+.rt-list-collector-status-offline {
+  color: $text-color;
+  font-weight: 700;
+  font-size: .85em;
+}
+
+.rt-list-collector-since {
+  color: $text-color;
+  font-weight: 400;
+  font-size: .85em;
+
+}
+
+.rt-summary-status {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.rt-collapse-container{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 75px;
+}
+
+.rt-collapse-blurb-box{
+  text-align: center;
+  max-width: 500px;
+}
+
+.rt-collapse{
+  margin: 10px 0;
+  display:block;
+  cursor: pointer;
+  color: $rt-blue;
+}
+
+.rt-collapse-secondary{
+  color: $text-color-strong;
+  font-style: italic;
+}
+
+.rt-collapse:hover {
+ color: $text-color;
+}
+
+.rt-collapse + input{
+  // display:none;
+  opacity: 0;
+}
+.rt-collapse + input + *{
+  // display:none;
+  opacity: 0;
+
+  transition: opacity 100ms ease-in-out;
+  -moz-transition: opacity 100ms ease-in-out;
+  -webkit-transition: opacity 100ms ease-in-out;
+}
+.rt-collapse+ input:checked + *{
+  // display:block;
+  opacity: 1;
+}
+
+.rt-advanced-options{
+  margin: 10px 0 0 0;
+  display:block;
+  cursor: pointer;
+  color: $rt-blue;
+}
+.rt-advanced-options:hover{
+ color: $text-color;
+}
+
+.rt-advanced-options + input{
+  display:none;
+
+}
+.rt-advanced-options + input + *{
+  display:none;
+}
+
+.rt-advanced-options+ input:checked + *{
+  display:block;
+}
+
+// raintank form elements
+
+.rt-radio-custom {
+    opacity: 0;
+    position: absolute;
+}
+
+.rt-radio-layout {
+  margin-right: 20px;
+}
+
+.rt-radio-custom, .rt-radio-jumbo-label, .rt-radio-body-label {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.rt-radio-body-label {
+  @extend .rt-modal-body-copy;
+  font-style: normal;
+  color: $text-color;
+}
+
+.rt-radio-jumbo-label {
+    position: relative;
+    color: $text-color;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.rt-radio-jumbo-sub-label {
+  color: $text-color;
+  font-weight: 400;
+  display: block;
+  margin-top: 5px;
+}
+
+.rt-radio-custom + *:before {
+    content: '';
+    background: transparent;
+    border: 2px solid $text-color-weak;
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    padding: 2px;
+    margin-right: 10px;
+    text-align: center;
+    transition: all 50ms linear;
+}
+
+
+.rt-radio-custom + *:before {
+    border-radius: 50%;
+}
+
+.rt-radio-custom:checked + *:before {
+    background: $rt-blue;
+    box-shadow: inset 0px 0px 0px 3px $body-bg;
+}
+
+// Hiding class for screen readers
+
+.rt-hide {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+

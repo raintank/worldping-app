@@ -8,7 +8,6 @@ class EndpointConfigCtrl {
     this.$location = $location;
     this.alertSrv = alertSrv;
     this.pageReady = false;
-
     this.monitorLastState = {};
 
     this.frequencyOpts = [];

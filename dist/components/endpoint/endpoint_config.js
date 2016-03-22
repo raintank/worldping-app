@@ -43,7 +43,6 @@ System.register(["lodash"], function (_export, _context) {
           this.$location = $location;
           this.alertSrv = alertSrv;
           this.pageReady = false;
-
           this.monitorLastState = {};
 
           this.frequencyOpts = [];

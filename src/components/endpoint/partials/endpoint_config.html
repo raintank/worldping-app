@@ -1,7 +1,7 @@
 <div class="page-container">
   <!-- page title -->
   <div class="rt-page-header-area" ng-if="ctrl.endpoint.id">
-    <h1 class="rt-h1">{{ctrl.endpoint.name}}</h1><a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="primary-icon-header dashboard-icon icon-rt-jump-to-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a>
+    <h1 class="rt-h1">{{ctrl.endpoint.name}}</h1><a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="primary-icon-header icon-gf icon-gf-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a>
   </div>
   <div class="rt-page-header" ng-if="ctrl.pageReady && !ctrl.endpoint.id">
       <i ng-class="icon" class="icon-rt-endpoint" style="font-size:24px;"></i> <h1 class="rt-h1">Add a new endpoint</h1>
