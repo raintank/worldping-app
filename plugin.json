@@ -101,7 +101,6 @@
       "type": "panel",
       "name": "Worldping Endpoint Nav"
     }
->>>>>>> d54881ad2c1d5b060c1411309788c0bb7dd3a598
   ],
   "dependencies": {
     "grafanaVersion": "2.6.x",
