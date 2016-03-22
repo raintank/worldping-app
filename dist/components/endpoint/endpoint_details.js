@@ -116,7 +116,8 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'monitorStateTxt',
-          value: function monitorStateTxt(mon) {
+          value: function monitorStateTxt(type) {
+            var mon = this.getMonitorByTypeName(type);
             if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
@@ -135,7 +136,8 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'monitorStateClass',
-          value: function monitorStateClass(mon) {
+          value: function monitorStateClass(type) {
+            var mon = this.getMonitorByTypeName(type);
             if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
@@ -150,7 +152,8 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'stateChangeStr',
-          value: function stateChangeStr(mon) {
+          value: function stateChangeStr(type) {
+            var mon = this.getMonitorByTypeName(type);
             if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "";
             }
@@ -188,7 +191,7 @@ System.register(['lodash'], function (_export, _context) {
               "var-collector": "All",
               "var-endpoint": this.endpoint.slug
             };
-            switch (type) {
+            switch (type.toLowerCase()) {
               case "summary":
                 this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
                 break;
@@ -217,7 +220,7 @@ System.register(['lodash'], function (_export, _context) {
             this.$location.path("/dashboard/db/worldping-events").search({
               "var-collector": "All",
               "var-endpoint": endpoint.slug,
-              "var-monitor_type": type
+              "var-monitor_type": type.toLowerCase()
             });
           }
         }, {

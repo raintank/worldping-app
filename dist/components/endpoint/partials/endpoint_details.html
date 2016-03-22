@@ -27,11 +27,11 @@
 		<li class="card-item-wrapper" ng-repeat="checktype in ['DNS', 'Ping', 'HTTP', 'HTTPS']">
 			<div class="card-item" href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
 				<div class="card-item-header card-item-header--wp-icons">
-					<a ng-show="ctrl.getMonitorByTypeName('DNS').enabled" ng-click="ctrl.gotoDashboard(endpoint, 'dns')">
-						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for DNS'"></i>
+					<a ng-show="ctrl.getMonitorByTypeName(checktype).enabled" ng-click="ctrl.gotoDashboard(endpoint, checktype)">
+						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for {{checktype}}'"></i>
 					</a>					
-					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">
-						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure DNS'"></i>
+					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">
+						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{checktype}}'"></i>
 					</a>
 				</div>
 				<div class="card-item-body">
@@ -39,7 +39,7 @@
 						<img ng-src="public/plugins/worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
 					</figure>
 					<figure ng-if="ctrl.pageReady" class="card-item-figure health">
-						<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}.svg" style="width: 40px; height: 40px;">
+						<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(checktype)}}.svg" style="width: 40px; height: 40px;">
 					</figure>					
 					<div class="card-item-details endpoint-detail-flex-grow">
 						<div class="card-item-name">
@@ -50,30 +50,30 @@
 										<span ng-if="!ctrl.pageReady">
 											<div class="checkStatus">&nbsp;</div>
 										</span>
-										<span ng-if="ctrl.pageReady" ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
-											<span class="checkStatus {{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}">{{ctrl.monitorStateTxt(ctrl.getMonitorByTypeName('DNS'))}}</span>
-											<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('DNS'))}}</span>
+										<span ng-if="ctrl.pageReady" ng-show="ctrl.getMonitorByTypeName(checktype).enabled">
+											<span class="checkStatus {{ctrl.monitorStateClass(checktype)}}">{{ctrl.monitorStateTxt(checktype)}}</span>
+											<span class="checkTime">{{ctrl.stateChangeStr(checktype)}}</span>
 										</span>
-										<span ng-show="!ctrl.getMonitorByTypeName('DNS').enabled">
-											<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Not enabled, configure now.</a>
+										<span ng-show="!ctrl.getMonitorByTypeName(checktype).enabled">
+											<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Not enabled, configure now.</a>
 										</span>
 									</div>
 								</div>
-								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
-									<div ng-if="!ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName(checktype).enabled">
+									<div ng-if="!ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
+										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
 									</div>
-									<div ng-if="ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon-gf icon-gf-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">Alerting Enabled</span>
-										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('DNS')}}'"><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails('DNS').length}} recipients</span></a>
+									<div ng-if="ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon-gf icon-gf-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">Alerting Enabled</span>
+										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype)}}'"><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype).length}} recipients</span></a>
 									</div>
 								</div>								
 								<div>
-									<div ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
+									<div ng-show="ctrl.getMonitorByTypeName(checktype).enabled">
 										<div class="frequency">
-											<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName('DNS').collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, 'ping')" bs-tooltip="'Go to Litmus: Events </br>dashboard for Ping'"><i class="frequency fa fa-fw fa-external-link"></i></a>
+											<span class="freqMsg"><span class="emphasis">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getMonitorByTypeName(checktype).collectors.length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(endpoint, checktype)" bs-tooltip="'Go to Litmus: Events </br>dashboard for {{checktype}}'"><i class="frequency fa fa-fw fa-external-link"></i></a>
 										</div>
-										<rt-check-health model="ctrl.getMonitorByTypeName('DNS')"></rt-check-health>
+										<rt-check-health model="ctrl.getMonitorByTypeName(checktype)"></rt-check-health>
 									</div>	
 								</div>
 							</div>
