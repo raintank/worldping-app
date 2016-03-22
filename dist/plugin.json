@@ -34,13 +34,13 @@
     "updated": "2016-03.04"
   },
 
-  "pages": [
-    { "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer"},
-    { "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor", "suppressNav": true},
-    { "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "suppressNav": true},
-    { "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer"},
-    { "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "suppressNav": true},
-    { "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "suppressNav": true}
+  "includes": [
+    { "type": "page", "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer", "addToNav": true, "defaultNav": true},
+    { "type": "page", "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor",  "addToNav": false},
+    { "type": "page", "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer", "addToNav": true},
+    { "type": "page", "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "addToNav": false}
   ],
   "dependencies": {
     "grafanaVersion": "2.6.x",
