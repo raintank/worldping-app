@@ -105,12 +105,12 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'gotoDashboard',
           value: function gotoDashboard(collector) {
-            this.$location.path("/dashboard/db/worldping-collector-summary").search({ "var-collector": collector.slug, "var-endpoint": "All" });
+            this.$location.path("/dashboard/db/worldping-collector-summary").search({ "var-probe": collector.slug, "var-endpoint": "All" });
           }
         }, {
           key: 'gotoEventDashboard',
           value: function gotoEventDashboard(collector) {
-            this.$location.path("/dashboard/db/worldping-events").search({ "var-collector": collector.slug, "var-endpoint": "All" });
+            this.$location.path("/dashboard/db/worldping-events").search({ "var-probe": collector.slug, "var-endpoint": "All" });
           }
         }, {
           key: 'getEventsDashboardLink',
@@ -118,8 +118,8 @@ System.register(['lodash'], function (_export, _context) {
             if (!this.collector) {
               return "";
             }
-            var path = "/dashboard-solo/db/rt-events";
-            var qstring = "?panelId=1&fullscreen&from=now-30d&to=now&var-collector=" + this.collector.slug;
+            var path = "/dashboard-solo/db/worldping-events";
+            var qstring = "?panelId=1&fullscreen&from=now-1d&to=now&var-probe=" + this.collector.slug;
             return path + qstring;
           }
         }, {

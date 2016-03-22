@@ -21,15 +21,5 @@
 				<a class="btn btn-danger btn-small" ng-click="ctrl.appModel.jsonData.datasourceSet=false" ng-if="ctrl.appModel.jsonData.datasourceSet">reset</a>
 			</div>
 		</div>
-		<div class="gf-form-inline">
-			<div class="gf-form">
-				<span class="gf-form-label width-12">Import Dashboards</span>
-				<button type="submit" class="btn rt-btn" ng-click="ctrl.importDashboards()" ng-if="!ctrl.appModel.jsonData.dashboardsLoaded">Import</button>
-				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.dashboardsLoaded">
-			</div>
-			<div class="gf-form">
-				<a class="btn btn-danger btn-small" ng-click="ctrl.appModel.jsonData.dashboardsLoaded=false" ng-if="ctrl.appModel.jsonData.dashboardsLoaded">reset</a>
-			</div>
-		</div>
 	</div>
 </form>

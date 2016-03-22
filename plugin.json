@@ -40,7 +40,67 @@
     { "type": "page", "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "addToNav": false},
     { "type": "page", "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer", "addToNav": true},
     { "type": "page", "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "addToNav": false},
-    { "type": "page", "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "addToNav": false}
+    { "type": "page", "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "addToNav": false},
+    {
+      "type": "dashboard",
+      "name": "Worldping Home",
+      "path": "dashboards/worldping-home.json",
+      "addToNav": true
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping: Events",
+      "path": "dashboards/rt-events.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping: Probes",
+      "path": "dashboards/rt-probe-summary.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- Web",
+      "path": "dashboards/rt-endpoint-web.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- Ping",
+      "path": "dashboards/rt-endpoint-ping.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- DNS",
+      "path": "dashboards/rt-endpoint-dns.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: Summary",
+      "path": "dashboards/rt-endpoint-summary.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: Comparison",
+      "path": "dashboards/rt-endpoint-comparison.json",
+      "addToNav": false
+    },
+    {
+      "type": "panel",
+      "name": "Worldping CTA"
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Endpoint List"
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Endpoint Nav"
+    }
   ],
   "dependencies": {
     "grafanaVersion": "2.6.x",
