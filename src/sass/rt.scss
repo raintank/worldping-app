@@ -461,7 +461,7 @@ raintank POSITIONING
 // list status headers
 
 .rt-list-status {
-  font-size: 16px;
+  font-size: 1rem;
   color: $text-color-weak;
   text-transform: uppercase;
   text-decoration: none;
@@ -469,7 +469,7 @@ raintank POSITIONING
 
 .rt-list-status-up {
     @extend .rt-list-status;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: $online;
   &:link, &:visited {
@@ -483,7 +483,7 @@ raintank POSITIONING
 
 .rt-list-status-warning {
     @extend .rt-list-status;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: $warn;
   &:link, &:visited {
@@ -497,7 +497,7 @@ raintank POSITIONING
 
 .rt-list-status-down {
     @extend .rt-list-status;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: $critical;
   &:link, &:visited {
@@ -511,7 +511,7 @@ raintank POSITIONING
 
 .rt-list-status-disabled {
     @extend .rt-list-status;
-    font-size: 20px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: $text-color;
   &:link, &:visited {
@@ -532,6 +532,13 @@ raintank POSITIONING
   &:hover {
     color: lighten($text-color, 10%);
   }
+}
+
+// List header styles
+
+.rt-list-showing-header {
+  display: block;
+  padding: 45px 0 0 0;
 }
 
 // raintank override styles from gfbox.less

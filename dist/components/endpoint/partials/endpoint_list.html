@@ -37,8 +37,8 @@
             <select class="gf-form-input gf-size-auto" ng-model="ctrl.filter.tag" ng-options="t for t in ctrl.endpointTags()"><option value="">All Tags</option></select>
           </div>
         </div>		
-		<div style="display: block; padding: 45px 0 0 0;">
-			<div style="display: inline-block" class="rt-list-status">
+		<div class="rt-list-showing-header">
+			<div class="rt-list-status">
 				<span class="small">Showing {{(ctrl.endpoints | filterByTag:ctrl.filter.tag).length}}</span>
 				<span class="small"> of <span class="rt-list-links" ng-click="setTagFilter('')">{{ctrl.endpoints.length}} total</a></span>
 			</div>
