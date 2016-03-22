@@ -23,11 +23,6 @@ class WorldPingConfigCtrl {
             self.appModel.jsonData.datasourceSet = true;
           }));
         }
-        if (!self.appModel.jsonData.dashboardsLoaded) {
-          promises.push(self.fetchDashboards().then(function() {
-            self.appModel.jsonData.dashboardsLoaded = true;
-          }));
-        }
       }
       return Promise.all(promises)
     }
@@ -46,54 +41,47 @@ class WorldPingConfigCtrl {
     var self = this;
     //check for existing datasource.
     return self.backendSrv.get('/api/datasources').then(function(results) {
-      var found = false;
+      var foundGraphite = false;
+      var foundElastic = false
       _.forEach(results, function(ds) {
-        if (found) { return; }
+        if (foundGraphite && foundElastic) { return; }
         if (ds.name === "raintank") {
-          found = true;
+          foundGraphite = true;
+        }
+        if (ds.name === "raintankEvents") {
+          foundElastic = true;
         }
       });
-      if (!found) {
+      var promises = [];
+      if (!foundGraphite) {
         // create datasource.
-        var rt = {
+        var graphite = {
           name: 'raintank',
           type: 'graphite',
           url: 'api/plugin-proxy/worldping-app/api/graphite',
           access: 'direct',
           jsonData: {}
         };
-        return self.backendSrv.post('/api/datasources', rt);
+        promises.push(self.backendSrv.post('/api/datasources', graphite));
       }
+      if (!foundElastic) {
+        // create datasource.
+        var elastic = {
+          name: 'raintankEvents',
+          type: 'elasticsearch',
+          url: 'api/plugin-proxy/worldping-app/api/elasticsearch',
+          access: 'direct',
+          database: '[events-]YYYY-MM-DD',
+          jsonData: {
+            esVersion: 2,
+            interval: "Daily",
+            timeField: "timestamp"
+          }
+        };
+        promises.push(self.backendSrv.post('/api/datasources', elastic));
+      }
+      return Promise.all(promises);
     });
-  }
-
-  importDashboards() {
-    var self = this;
-    this.appModel.jsonData.dashboardsLoaded = false;
-    this.fetchDashboards().then(function() {
-      self.appModel.jsonData.dashboardsLoaded = true;
-    });
-  }
-
-  fetchDashboards() {
-    var self = this;
-    var dashboards = [
-      "rt-endpoint-web",
-      "rt-endpoint-ping",
-      "rt-endpoint-dns",
-      "rt-endpoint-summary",
-      "rt-endpoint-comparison",
-      "rt-collector-summary"
-    ];
-    var chain = Promise.resolve();
-    _.forEach(dashboards, function(dash) {
-      chain = chain.then(function() {
-        return self.backendSrv.get("public/plugins/worldping-app/dashboards/litmus/"+dash+".json").then(function(loadedDash) {
-          return self.backendSrv.saveDashboard(loadedDash, {overwrite: true});
-        });
-      });
-    });
-    return chain
   }
 }
 

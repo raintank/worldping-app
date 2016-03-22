@@ -1,7 +1,7 @@
 {
-  "id": 1,
-  "title": "Home",
-  "originalTitle": "Home",
+  "id": null,
+  "title": "Worldping: Home",
+  "originalTitle": "Worldping: Home",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -15,7 +15,7 @@
         "height": "125px",
         "panels": [
           {
-            "content": "<img src=\"/img/litmus-by-grey.svg\" width=\"450\" style=\"margin-top: 25px;\">",
+            "content": "<img src=\"/public/plugins/worldping-app/img/litmus-by-grey.svg\" width=\"450\" style=\"margin-top: 25px;\">",
             "editable": true,
             "error": false,
             "id": 2,
@@ -42,7 +42,7 @@
             "span": 7.5,
             "height": "415px",
             "title": "",
-            "type": "raintankendpointlist"
+            "type": "worldping-endpoint-list"
           },
           {
             "content": "",
@@ -63,7 +63,7 @@
             "id": 1,
             "span": 4,
             "title": "",
-            "type": "raintankcalltoaction"
+            "type": "worldping-call-to-action"
           },
           {
             "content": "",
@@ -90,7 +90,7 @@
             "tags": [
               "raintank"
             ],
-            "title": "raintank dashboards",
+            "title": "Worldping dashboards",
             "type": "dashlist"
           }
         ],
