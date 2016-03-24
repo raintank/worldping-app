@@ -115,7 +115,7 @@
             </div>
             <div ng-show="ctrl.discoveryError">
                  <p class="rt-body-copy">
-                     <b>Failed to discover endpoint.</b> From here, you can <a ng-click="skipDiscovery()" class="rt-modal-body-link">configure manually</a> or <a class="rt-modal-body-link" ng-click="ctrl.reset()">start over</a>.
+                     <b>Failed to discover endpoint.</b> From here, you can <a ng-click="ctrl.skipDiscovery()" class="rt-modal-body-link">configure manually</a> or <a class="rt-modal-body-link" ng-click="ctrl.reset()">start over</a>.
                  </p>
             </div>
             <div ng-show="!ctrl.discovered && ctrl.showConfig">
@@ -126,11 +126,10 @@
         </div>
     </div>
   </div>
-  <div ng-show="ctrl.showConfig || ctrl.endpoint.id">
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+  <div ng-if="ctrl.showConfig || ctrl.endpoint.id" >
+    <div ng-repeat="check in ctrl.endpoint.checks|orderBy:ctrl.orderChecks">
+      <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/'+check.type+'Form.html'"></div>
+    </div>
   </div>
 </form>
 <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/worldping-app/components/endpoint/partials/destroyForm.html'"></div>

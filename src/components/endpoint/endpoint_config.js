@@ -28,18 +28,21 @@ class EndpointConfigCtrl {
     this.originalState = {};
     this.defaultChecks = [
       {
-        _configured: false,
         type: "http",
         settings: {
-          "host": "",
+          "timeout": 5,
+          "hostname": "",
           "port": 80,
-          "path": "/"
+          "path": "/",
+          "method": "GET",
+          "headers": "User-Agent: worldping-probe\nAccept-Encoding: gzip\n",
+          "expectRegex": ""
         },
         enabled: false,
         frequency: 60,
-        health_settings: {
+        healthSettings: {
           steps: 3,
-          num_collectors: 1,
+          numCollectors: 1,
           notifications: {
             enabled: false,
             addresses: ""
@@ -47,18 +50,22 @@ class EndpointConfigCtrl {
         }
       },
       {
-        _configured: false,
-        type: "http",
+        type: "https",
         settings: {
-          "host": "",
+          "timeout": 5,
+          "hostname": "",
           "port": 443,
-          "path": "/"
+          "path": "/",
+          "method": "GET",
+          "headers": "User-Agent: worldping-probe\nAccept-Encoding: gzip\n",
+          "expectRegex": "",
+          "validateCert": true
         },
         enabled: false,
         frequency: 60,
-        health_settings: {
+        healthSettings: {
           steps: 3,
-          num_collectors: 1,
+          numCollectors: 1,
           notifications: {
             enabled: false,
             addresses: ""
@@ -66,18 +73,20 @@ class EndpointConfigCtrl {
         }
       },
       {
-        _configured: false,
-        type: "http",
+        type: "dns",
         settings: {
-          "record": "",
-          "recordType": "A",
-          "servers": "8.8.8.8"
+          "timeout": 5,
+          "hostname": "",
+          "type": "A",
+          "server": "8.8.8.8",
+          "port": 53,
+          "protocol": "udp"
         },
         enabled: false,
         frequency: 60,
-        health_settings: {
+        healthSettings: {
           steps: 3,
-          num_collectors: 1,
+          numCollectors: 1,
           notifications: {
             enabled: false,
             addresses: ""
@@ -85,16 +94,16 @@ class EndpointConfigCtrl {
         }
       },
       {
-        _configured: false,
-        type: "http",
+        type: "ping",
         settings: {
-          "host": ""
+          "hostname": "",
+          "timeout": 5
         },
         enabled: false,
         frequency: 10,
-        health_settings: {
+        healthSettings: {
           steps: 3,
-          num_collectors: 1,
+          numCollectors: 1,
           notifications: {
             enabled: false,
             addresses: ""
@@ -206,7 +215,7 @@ class EndpointConfigCtrl {
 
   updateEndpoint() {
     this.endpoint.name = this.newEndpointName;
-    this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
+    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
   }
 
   save(location) {
@@ -243,6 +252,16 @@ class EndpointConfigCtrl {
     return check;
   }
 
+  orderChecks(check) {
+    var order = {
+      dns: 1,
+      ping: 2,
+      http: 3,
+      https: 4
+    };
+    return order[check.type];
+  }
+
   discover(endpoint) {
     var self = this;
     this.discoveryInProgress = true;
@@ -272,11 +291,11 @@ class EndpointConfigCtrl {
       return this.updateEndpoint();
     }
 
-    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function(resp) {
+    this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function(resp) {
       self.endpoint = resp;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
-      self.$location.path("worldping/endpoints/summary/"+resp.id);
+      self.$location.path("plugins/worldping-app/page/endpoints");
     });
   }
 
