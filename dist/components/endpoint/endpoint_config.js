@@ -61,83 +61,97 @@ System.register(["lodash"], function (_export, _context) {
           this.global_collectors = { collector_ids: [], collector_tags: [] };
           this.ignoreChanges = false;
           this.originalState = {};
-          this.defaultChecks = [{
-            _configured: false,
-            type: "http",
-            settings: {
-              "host": "",
-              "port": 80,
-              "path": "/"
+          this.defaultChecks = {
+            http: {
+              type: "http",
+              settings: {
+                "timeout": 5,
+                "hostname": "",
+                "port": 80,
+                "path": "/",
+                "method": "GET",
+                "headers": "User-Agent: worldping-probe\nAccept-Encoding: gzip\n",
+                "expectRegex": ""
+              },
+              enabled: false,
+              frequency: 60,
+              healthSettings: {
+                steps: 3,
+                numCollectors: 1,
+                notifications: {
+                  enabled: false,
+                  addresses: ""
+                }
+              }
             },
-            enabled: false,
-            frequency: 60,
-            health_settings: {
-              steps: 3,
-              num_collectors: 1,
-              notifications: {
-                enabled: false,
-                addresses: ""
+            https: {
+              type: "https",
+              settings: {
+                "timeout": 5,
+                "hostname": "",
+                "port": 443,
+                "path": "/",
+                "method": "GET",
+                "headers": "User-Agent: worldping-probe\nAccept-Encoding: gzip\n",
+                "expectRegex": "",
+                "validateCert": true
+              },
+              enabled: false,
+              frequency: 60,
+              healthSettings: {
+                steps: 3,
+                numCollectors: 1,
+                notifications: {
+                  enabled: false,
+                  addresses: ""
+                }
+              }
+            },
+            dns: {
+              type: "dns",
+              settings: {
+                "timeout": 5,
+                "hostname": "",
+                "type": "A",
+                "server": "8.8.8.8",
+                "port": 53,
+                "protocol": "udp"
+              },
+              enabled: false,
+              frequency: 60,
+              healthSettings: {
+                steps: 3,
+                numCollectors: 1,
+                notifications: {
+                  enabled: false,
+                  addresses: ""
+                }
+              }
+            },
+            ping: {
+              type: "ping",
+              settings: {
+                "hostname": "",
+                "timeout": 5
+              },
+              enabled: false,
+              frequency: 10,
+              healthSettings: {
+                steps: 3,
+                numCollectors: 1,
+                notifications: {
+                  enabled: false,
+                  addresses: ""
+                }
               }
             }
-          }, {
-            _configured: false,
-            type: "http",
-            settings: {
-              "host": "",
-              "port": 443,
-              "path": "/"
-            },
-            enabled: false,
-            frequency: 60,
-            health_settings: {
-              steps: 3,
-              num_collectors: 1,
-              notifications: {
-                enabled: false,
-                addresses: ""
-              }
-            }
-          }, {
-            _configured: false,
-            type: "http",
-            settings: {
-              "record": "",
-              "recordType": "A",
-              "servers": "8.8.8.8"
-            },
-            enabled: false,
-            frequency: 60,
-            health_settings: {
-              steps: 3,
-              num_collectors: 1,
-              notifications: {
-                enabled: false,
-                addresses: ""
-              }
-            }
-          }, {
-            _configured: false,
-            type: "http",
-            settings: {
-              "host": ""
-            },
-            enabled: false,
-            frequency: 10,
-            health_settings: {
-              steps: 3,
-              num_collectors: 1,
-              notifications: {
-                enabled: false,
-                addresses: ""
-              }
-            }
-          }];
+          };
 
           var promises = [];
           if ("endpoint" in $location.search()) {
             promises.push(this.getEndpoint($location.search().endpoint));
           } else {
-            this.endpoint = { name: "", checks: this.defaultChecks };
+            this.endpoint = { name: "", checks: _.values(this.defaultChecks) };
             this.pageReady = true;
           }
 
@@ -212,7 +226,7 @@ System.register(["lodash"], function (_export, _context) {
             this.discoveryInProgress = false;
             this.discoveryError = false;
             this.showConfig = false;
-            this.endpoint = { "name": "", checks: this.defaultChecks };
+            this.endpoint = { "name": "", checks: _.values(this.defaultChecks) };
           }
         }, {
           key: "cancel",
@@ -242,7 +256,7 @@ System.register(["lodash"], function (_export, _context) {
           key: "updateEndpoint",
           value: function updateEndpoint() {
             this.endpoint.name = this.newEndpointName;
-            this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
+            this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
           }
         }, {
           key: "save",
@@ -260,8 +274,11 @@ System.register(["lodash"], function (_export, _context) {
           }
         }, {
           key: "parseSuggestions",
-          value: function parseSuggestions(payload) {
-            _.defaults(suggestion, defaults);
+          value: function parseSuggestions(suggestions) {
+            var self = this;
+            _.forEach(suggestions, function (c) {
+              _.defaults(c, self.defaultChecks[c.type]);
+            });
             this.endpoint.checks = suggestions;
           }
         }, {
@@ -283,12 +300,23 @@ System.register(["lodash"], function (_export, _context) {
             return check;
           }
         }, {
+          key: "orderChecks",
+          value: function orderChecks(check) {
+            var order = {
+              dns: 1,
+              ping: 2,
+              http: 3,
+              https: 4
+            };
+            return order[check.type];
+          }
+        }, {
           key: "discover",
           value: function discover(endpoint) {
             var self = this;
             this.discoveryInProgress = true;
             this.discoveryError = false;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/discover', endpoint).then(function (resp) {
+            this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/discover', { name: endpoint.name }).then(function (resp) {
               if (!self.showConfig) {
                 if (endpoint.name.indexOf("://") > -1) {
                   //endpoint name is in the form scheme://domain
@@ -314,11 +342,11 @@ System.register(["lodash"], function (_export, _context) {
               return this.updateEndpoint();
             }
 
-            this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function (resp) {
+            this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function (resp) {
               self.endpoint = resp;
               self.ignoreChanges = true;
               self.alertSrv.set("endpoint added", '', 'success', 3000);
-              self.$location.path("worldping/endpoints/summary/" + resp.id);
+              self.$location.path("plugins/worldping-app/page/endpoints");
             });
           }
         }, {

@@ -5,14 +5,14 @@
       <div>
         <a href="#">
           <!-- Monitoring -->
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="ctrl.monitors['ping'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['ping'].enabled" > Every {{ctrl.monitors['ping'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['ping'])}} {{ctrl.collectorCount(ctrl.monitors['ping']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['ping'].enabled"></i>
-          <span class="freqMsg disabled" ng-show="!ctrl.monitors['ping'].enabled" > Not enabled |</span>
-          <span class="freqMsg" ng-show="!ctrl.monitors['ping'].enabled && ctrl.discovered" > Not Discovered |</span>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="check.enabled"></i>
+          <span class="freqMsg" ng-show="check.enabled" > Every {{check.frequency}}s from {{ctrl.collectorCount(check)}} {{ctrl.collectorCount(check) == 1 ? "Probe" : "Probes"}} |</span>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!check.enabled"></i>
+          <span class="freqMsg disabled" ng-show="!check.enabled" > Not enabled |</span>
+          <span class="freqMsg" ng-show="!check.enabled && ctrl.discovered" > Not Discovered |</span>
           <!-- Alerting
-          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['ping'].enabled && monitors['alert'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['ping'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
+          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="check.enabled && monitors['alert'].enabled"></i>
+          <span class="freqMsg" ng-show="check.enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
           -->
           <!-- Configure -->
           <span class="highlight-word"> Configure</span>
@@ -28,7 +28,7 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-monitoring inline-icon"></i>
           <h3 class="inline-header">Monitoring</h3>
-          <editor-checkbox text="Enabled" model="ctrl.monitors['ping'].enabled"></editor-checkbox>
+          <editor-checkbox text="Enabled" model="check.enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <p>At the selected <span class="emphasis">frequency</span>, we'll send a burst of 10 ICMP echo ("ping") packets to the <span class="emphasis">hostname</span>.</p>
@@ -36,12 +36,12 @@
             <div class="gf-form">
               <span class="gf-form-label width-7">Frequency</span>
               <div class="gf-form-select-wrapper">
-                <select class="gf-form-input gf-size-auto" ng-model="ctrl.monitors['ping'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
+                <select class="gf-form-input gf-size-auto" ng-model="check.frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
               </div>
             </div>
 <!--             <div class="gf-form">
               <span class="gf-form-label width-7">Monitoring from</span>
-              <endpoint-collector-select model="ctrl.monitors['ping']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
+              <endpoint-collector-select model="check" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
             </div> -->
           </div>
 
@@ -50,11 +50,11 @@
           <div class="gf-form-group">
             <div class="gf-form">
               <label class="gf-form-label width-7">Hostname</label>
-              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['ping'], 'name').value">
+              <input class="gf-form-input max-width-21" type="text" ng-model="check.settings.hostname">
             </div>
             <div class="gf-form">
               <label class="gf-form-label width-7">Timeout (s)</label>
-              <input class="gf-form-input max-width-3" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['ping'], 'timeout').value" ng-pattern="timeoutRegex">
+              <input class="gf-form-input max-width-3" type="text" ng-model="check.settings.timeout" ng-pattern="timeoutRegex">
               <info-popover offset="0px -95px">
                 The timeout, in seconds, is the amount of time our probe will wait for a response.
               </info-popover>
@@ -72,11 +72,11 @@
             <div class="rt-body-copy">
               <span class="rt-body-copy" style="margin: 0;">If</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['ping'].health_settings.num_collectors"></select></label>
+                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="check.healthSettings.numCollectors"></select></label>
               </div>
               <span class="rt-body-copy">or more probes report <span class="emphasis">connection errors</span> for</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['ping'].health_settings.steps"></select></label>
+                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="check.healthSettings.steps"></select></label>
               </div>
               <span class="rt-body-copy">or more consecutive checks, health will be marked as down <img width="20px" height="20px" src="public/plugins/worldping-app/img/critical.svg" class="rt-inline-health-icon">.</span>
             </div>
@@ -88,13 +88,13 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-alert inline-icon"></i>
           <h3 class="inline-header">Alerting</h3>
-          <editor-checkbox text="Enabled" ng-model="ctrl.monitors['ping'].health_settings.notifications.enabled"></editor-checkbox>
+          <editor-checkbox text="Enabled" model="check.healthSettings.notifications.enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <div class="rt-box-interior-content">
             When the Ping health changes, send a notification to the following emails: </span>
             <div class="gf-form">
-              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.monitors['ping'].health_settings.notifications.addresses"></textarea>
+              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="check.healthSettings.notifications.addresses"></textarea>
            </div>
             <div>
               <span class="small">Comma separate email addresses accepted.</span>
@@ -106,7 +106,7 @@
 
     <div class="endpoint-config-left-margin">
       <div class="gf-form-button-row">
-        <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(ctrl.monitors['ping'])">Update Ping Settings</button>
+        <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(check)">Update Ping Settings</button>
         <a class="btn btn-link" href="endpoint-details?">Cancel</a>
       </div>
     </div>

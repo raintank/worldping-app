@@ -26,8 +26,8 @@ class EndpointConfigCtrl {
     this.global_collectors = {collector_ids: [], collector_tags: []};
     this.ignoreChanges = false;
     this.originalState = {};
-    this.defaultChecks = [
-      {
+    this.defaultChecks = {
+      http: {
         type: "http",
         settings: {
           "timeout": 5,
@@ -49,7 +49,7 @@ class EndpointConfigCtrl {
           }
         }
       },
-      {
+      https: {
         type: "https",
         settings: {
           "timeout": 5,
@@ -72,7 +72,7 @@ class EndpointConfigCtrl {
           }
         }
       },
-      {
+      dns: {
         type: "dns",
         settings: {
           "timeout": 5,
@@ -93,7 +93,7 @@ class EndpointConfigCtrl {
           }
         }
       },
-      {
+      ping: {
         type: "ping",
         settings: {
           "hostname": "",
@@ -110,14 +110,14 @@ class EndpointConfigCtrl {
           }
         }
       }
-    ];
+    };
 
 
     var promises = [];
     if ("endpoint" in $location.search()) {
       promises.push(this.getEndpoint($location.search().endpoint));
     } else {
-      this.endpoint = {name: "", checks: this.defaultChecks};
+      this.endpoint = {name: "", checks: _.values(this.defaultChecks)};
       this.pageReady = true;
     }
 
@@ -188,7 +188,7 @@ class EndpointConfigCtrl {
     this.discoveryInProgress = false;
     this.discoveryError = false;
     this.showConfig = false;
-    this.endpoint = {"name": "", checks: this.defaultChecks};
+    this.endpoint = {"name": "", checks: _.values(this.defaultChecks)};
 
   }
 
@@ -231,8 +231,11 @@ class EndpointConfigCtrl {
     });
   }
 
-  parseSuggestions(payload) {
-    _.defaults(suggestion, defaults);
+  parseSuggestions(suggestions) {
+    var self = this;
+    _.forEach(suggestions, function(c) {
+      _.defaults(c, self.defaultChecks[c.type]);
+    });
     this.endpoint.checks = suggestions;
   }
 
@@ -266,7 +269,7 @@ class EndpointConfigCtrl {
     var self = this;
     this.discoveryInProgress = true;
     this.discoveryError = false;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/discover', endpoint).then(function(resp) {
+    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/discover', {name: endpoint.name}).then(function(resp) {
       if (!self.showConfig) {
         if (endpoint.name.indexOf("://") > -1) {
           //endpoint name is in the form scheme://domain
