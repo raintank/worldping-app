@@ -1,7 +1,5 @@
 // ==========================================================================
 // COLLECTOR FOOTPRINT DROPDOWN
-//
-// Extends: /css/less/collector-footprint-dropdown.less
 // ==========================================================================
 
 
@@ -15,6 +13,7 @@
   display: flex;
   flex-direction: column;
   height: auto;
+  top: -100px;
 }
 
 .variable-options-container.collector-dropdown-container {
@@ -30,7 +29,7 @@
 }
 
 .variable-options-container.collector-dropdown-container.tags {
-  .variable-options-container.collector-dropdown-container;
+  // .variable-options-container.collector-dropdown-container;
   margin-bottom: 0px;
 }
 
@@ -51,6 +50,7 @@
 .rt-flex-select-layout {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 
@@ -79,7 +79,7 @@
 }
 
 .collector-dropdown-desc {
-  font-size: @fontSizeSmall;
+  // font-size: @fontSizeSmall;
   line-height: normal;
 }
 
@@ -157,9 +157,9 @@
 
 .collector-dropdown-footer {
   padding: 5px 20px 0 20px;
-  border: @raintankPanelBorder;
+  // border: @raintankPanelBorder;
   border-width: 1px 0 0;
-  background: @raintankPanelBackground;
+  // background: @raintankPanelBackground;
   font-size: 0; // fix inline-block white space for child columns
   flex: none;
 }
