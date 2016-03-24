@@ -8,8 +8,11 @@
 		</select>
 	</div>
 
+    <!-- Dynamic -->
 	<div class="gf-form-select-wrapper" ng-show="footprint.value == 'dynamic'">
-		<select class="gf-form-input gf-size-auto" ng-model="footprint.value" ng-click="show()">{{selectTagTitle()}}</select>
+		<select class="gf-form-input gf-size-auto" ng-model="footprint.value" ng-click="show()">
+			<option selected="selected">{{selectTagTitle()}}</option>
+		</select>
 		<div class="rt-flex-select-layout">
 			<div ng-if="selectorOpen" class="collector-dropdown variable-value-dropdown">
 				<div class="collector-dropdown-search search-field-wrapper">
@@ -38,7 +41,7 @@
 		</div>
 	</div>
 
-
+	<!-- Static -->
 	<div class="gf-form-select-wrapper" ng-show="footprint.value == 'static'">
 		<select class="gf-form-input gf-size-auto" ng-model="footprint.value" ng-click="show()">{{selectIdTitle()}}</select>
 		<div class="rt-flex-select-layout">
@@ -66,9 +69,3 @@
 			</div>
 		</div>
 	</div>
-
-      <!-- Dynamic -->
-
-	<!-- Static -->
-
-
