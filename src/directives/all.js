@@ -15,37 +15,36 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
   return {
     templateUrl: 'public/plugins/worldping-app/directives/partials/checkHealth.html',
     scope: {
-      model: "=",
+      check: "=",
+      endpoint: "="
     },
     link: function(scope) {
-      scope.$watch("model", function(monitor) {
-        scope.eventReady = false;
-        if (typeof(monitor) === "object") {
-          timeSrv.init({
-            time: {from: "now-"+(monitor.frequency + 30)+ 's', to: "now"}
-          });
-          var metricsQuery = {
-            range: timeSrv.timeRange(),
-            rangeRaw: timeSrv.timeRange(true),
-            interval: monitor.frequency + 's',
-            targets: [
-              {target: "litmus."+monitor.endpoint_slug + ".*." +
-                monitor.monitor_type_name.toLowerCase()+".{ok_state,warn_state,error_state}"}
-            ],
-            format: 'json',
-            maxDataPoints: 10,
-          };
+      scope.eventReady = false;
 
-          var datasource = datasourceSrv.get('raintank');
-          datasource.then(function(ds) {
-            ds.query(metricsQuery).then(function(results) {
-              showHealth(results);
-            }, function() {
-              showHealth({data: []});
-            });
-          });
-        }
+      timeSrv.init({
+        time: {from: "now-"+(scope.check.frequency + 30)+ 's', to: "now"}
       });
+      var metricsQuery = {
+        range: timeSrv.timeRange(),
+        rangeRaw: timeSrv.timeRange(true),
+        interval: scope.check.frequency + 's',
+        targets: [
+          {target: "litmus."+scope.endpoint.slug + ".*." +
+            scope.check.type+".{ok_state,warn_state,error_state}"}
+        ],
+        format: 'json',
+        maxDataPoints: 10,
+      };
+
+      var datasource = datasourceSrv.get('raintank');
+      datasource.then(function(ds) {
+        ds.query(metricsQuery).then(function(results) {
+          showHealth(results);
+        }, function() {
+          showHealth({data: []});
+        });
+      });
+      
 
       function showHealth(metrics) {
         var okCount = 0;
@@ -101,8 +100,8 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
             unknownCount++;
           }
         }
-        var unknowns = scope.model.collectors.length - Object.keys(collectorResults).length;
-        unknownCount += unknowns;
+        //var unknowns = scope.check.collectors.length - Object.keys(collectorResults).length;
+        //unknownCount += unknowns;
 
         scope.okCount = okCount;
         scope.warnCount = warnCount;
