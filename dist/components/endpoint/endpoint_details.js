@@ -1,7 +1,7 @@
 'use strict';
 
 System.register(['lodash'], function (_export, _context) {
-  var _, _typeof, _createClass, EndpointDetailsCtrl;
+  var _, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,12 +14,6 @@ System.register(['lodash'], function (_export, _context) {
       _ = _lodash.default;
     }],
     execute: function () {
-      _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-      } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-      };
-
       _createClass = function () {
         function defineProperties(target, props) {
           for (var i = 0; i < props.length; i++) {
@@ -49,26 +43,18 @@ System.register(['lodash'], function (_export, _context) {
           this.$location = $location;
           this.pageReady = false;
 
-          this.endpoints = [];
-          this.monitors = {};
-          this.monitor_types = {};
-          this.monitor_types_by_name = {};
-          this.endpoint = null;
+          this.endpoint = {};
           this.refreshTime = new Date();
-          this.getMonitorTypes();
-          var promise = this.getEndpoints();
-          promise.then(function () {
-            self.getEndpoint($location.search().endpoint);
-          });
+          this.getEndpoint($location.search().endpoint);
         }
 
         _createClass(EndpointDetailsCtrl, [{
-          key: 'getEndpoints',
-          value: function getEndpoints() {
+          key: 'getEndpoint',
+          value: function getEndpoint(id) {
             var self = this;
-            var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints');
-            promise.then(function (endpoints) {
-              self.endpoints = endpoints;
+            var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/' + id);
+            promise.then(function (endpoint) {
+              self.endpoint = endpoint;
             });
             return promise;
           }
@@ -78,49 +64,19 @@ System.register(['lodash'], function (_export, _context) {
             this.backendSrv.post("api/plugin-proxy/worldping-app/api/endpoints", $scope.endpoint);
           }
         }, {
-          key: 'getMonitorTypes',
-          value: function getMonitorTypes() {
-            var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function (types) {
-              _.forEach(types, function (type) {
-                self.monitor_types[type.id] = type;
-                self.monitor_types_by_name[type.name] = type;
-              });
-            });
-          }
-        }, {
-          key: 'getEndpoint',
-          value: function getEndpoint(id) {
-            var self = this;
-            _.forEach(this.endpoints, function (endpoint) {
-              if (endpoint.id === parseInt(id)) {
-                self.endpoint = endpoint;
-                //get monitors for this endpoint.
-                self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id=' + id).then(function (monitors) {
-                  _.forEach(monitors, function (monitor) {
-                    self.monitors[monitor.monitor_type_id] = monitor;
-                  });
-                  self.pageReady = true;
-                });
-              }
-            });
-          }
-        }, {
-          key: 'getMonitorByTypeName',
-          value: function getMonitorByTypeName(name) {
-            if (name in this.monitor_types_by_name) {
-              var type = this.monitor_types_by_name[name];
-              return this.monitors[type.id];
-            }
-            return undefined;
+          key: 'orderChecks',
+          value: function orderChecks(check) {
+            var order = {
+              dns: 1,
+              ping: 2,
+              http: 3,
+              https: 4
+            };
+            return order[check.type];
           }
         }, {
           key: 'monitorStateTxt',
-          value: function monitorStateTxt(type) {
-            var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
-              return "disabled";
-            }
+          value: function monitorStateTxt(mon) {
             if (!mon.enabled) {
               return "disabled";
             }
@@ -136,11 +92,7 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'monitorStateClass',
-          value: function monitorStateClass(type) {
-            var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
-              return "disabled";
-            }
+          value: function monitorStateClass(mon) {
             if (!mon.enabled) {
               return "disabled";
             }
@@ -152,11 +104,7 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'stateChangeStr',
-          value: function stateChangeStr(type) {
-            var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
-              return "";
-            }
+          value: function stateChangeStr(mon) {
             var duration = new Date().getTime() - new Date(mon.state_change).getTime();
             if (duration < 10000) {
               return "a few seconds ago";
@@ -225,12 +173,11 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'getNotificationEmails',
-          value: function getNotificationEmails(checkType) {
-            var mon = this.getMonitorByTypeName(checkType);
-            if (!mon || mon.health_settings.notifications.addresses === "") {
+          value: function getNotificationEmails(mon) {
+            if (!mon || mon.healthSettings.notifications.addresses === "") {
               return [];
             }
-            var addresses = mon.health_settings.notifications.addresses.split(',');
+            var addresses = mon.healthSettings.notifications.addresses.split(',');
             var list = [];
             addresses.forEach(function (addr) {
               list.push(addr.trim());
@@ -239,8 +186,8 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'getNotificationEmailsAsString',
-          value: function getNotificationEmailsAsString(checkType) {
-            var emails = this.getNotificationEmails(checkType);
+          value: function getNotificationEmailsAsString(check) {
+            var emails = this.getNotificationEmails(check);
             if (emails.length < 1) {
               return "No recipients specified";
             }
@@ -261,7 +208,7 @@ System.register(['lodash'], function (_export, _context) {
           key: 'refresh',
           value: function refresh() {
             this.pageReady = false;
-            this.getEndpoint(thiss.endpoint.id);
+            this.getEndpoint(this.endpoint.id);
             this.refreshTime = new Date();
           }
         }]);

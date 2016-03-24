@@ -8,24 +8,16 @@ class EndpointDetailsCtrl {
     this.$location = $location;
     this.pageReady = false;
 
-    this.endpoints = [];
-    this.monitors = {};
-    this.monitor_types = {};
-    this.monitor_types_by_name = {};
-    this.endpoint = null;
+    this.endpoint = {};
     this.refreshTime = new Date();
-    this.getMonitorTypes();
-    var promise = this.getEndpoints();
-    promise.then(function() {
-      self.getEndpoint($location.search().endpoint);
-    });
+    this.getEndpoint($location.search().endpoint);
   }
 
-  getEndpoints() {
+  getEndpoint(id) {
     var self = this;
-    var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints');
-    promise.then(function(endpoints) {
-      self.endpoints = endpoints;
+    var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/'+id);
+    promise.then(function(endpoint) {
+      self.endpoint = endpoint;
     });
     return promise;
   }
@@ -34,46 +26,18 @@ class EndpointDetailsCtrl {
     this.backendSrv.post("api/plugin-proxy/worldping-app/api/endpoints", $scope.endpoint);
   }
 
-  getMonitorTypes() {
-    var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
-      _.forEach(types, function(type) {
-        self.monitor_types[type.id] = type;
-        self.monitor_types_by_name[type.name] = type;
-      });
-    });
-  }
-
-  getEndpoint(id) {
-    var self = this;
-    _.forEach(this.endpoints, function(endpoint) {
-      if (endpoint.id === parseInt(id)) {
-        self.endpoint = endpoint;
-        //get monitors for this endpoint.
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
-          _.forEach(monitors, function(monitor) {
-            self.monitors[monitor.monitor_type_id] = monitor;
-          });
-          self.pageReady = true;
-        });
-      }
-    });
-  }
-
-  getMonitorByTypeName(name) {
-    if (name in this.monitor_types_by_name) {
-      var type = this.monitor_types_by_name[name];
-      return this.monitors[type.id];
-    }
-    return undefined;
+  orderChecks(check) {
+    var order = {
+      dns: 1,
+      ping: 2,
+      http: 3,
+      https: 4
+    };
+    return order[check.type];
   }
 
   //TODO: move to directive.
-  monitorStateTxt(type) {
-    var mon = this.getMonitorByTypeName(type)
-    if (typeof(mon) !== "object") {
-      return "disabled";
-    }
+  monitorStateTxt(mon) {
     if (!mon.enabled) {
       return "disabled";
     }
@@ -89,11 +53,7 @@ class EndpointDetailsCtrl {
   }
 
   //TODO: move to directive.
-  monitorStateClass(type) {
-    var mon = this.getMonitorByTypeName(type)
-    if (typeof(mon) !== "object") {
-      return "disabled";
-    }
+  monitorStateClass(mon) {
     if (!mon.enabled) {
       return "disabled";
     }
@@ -105,11 +65,7 @@ class EndpointDetailsCtrl {
   }
 
   //TODO: move to directive.
-  stateChangeStr(type) {
-    var mon = this.getMonitorByTypeName(type)
-    if (typeof(mon) !== "object") {
-      return "";
-    }
+  stateChangeStr(mon) {
     var duration = new Date().getTime() - new Date(mon.state_change).getTime();
     if (duration < 10000) {
       return "a few seconds ago";
@@ -174,12 +130,11 @@ class EndpointDetailsCtrl {
     });
   }
 
-  getNotificationEmails(checkType) {
-    var mon = this.getMonitorByTypeName(checkType);
-    if (!mon || mon.health_settings.notifications.addresses === "") {
+  getNotificationEmails(mon) {
+    if (!mon || mon.healthSettings.notifications.addresses === "") {
       return [];
     }
-    var addresses = mon.health_settings.notifications.addresses.split(',');
+    var addresses = mon.healthSettings.notifications.addresses.split(',');
     var list = [];
     addresses.forEach(function(addr) {
       list.push(addr.trim());
@@ -187,8 +142,8 @@ class EndpointDetailsCtrl {
     return list;
   }
 
-  getNotificationEmailsAsString(checkType) {
-    var emails = this.getNotificationEmails(checkType);
+  getNotificationEmailsAsString(check) {
+    var emails = this.getNotificationEmails(check);
     if (emails.length < 1) {
       return "No recipients specified";
     }
@@ -208,7 +163,7 @@ class EndpointDetailsCtrl {
 
   refresh() {
     this.pageReady = false;
-    this.getEndpoint(thiss.endpoint.id);
+    this.getEndpoint(this.endpoint.id);
     this.refreshTime = new Date();
   }
 }
