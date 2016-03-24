@@ -54,13 +54,17 @@ System.register(["lodash"], function (_export, _context) {
           this.timeoutRegex = /^([1-9](\.\d)?|10)$/;
           this.editor = { index: 0 };
           this.newEndpointName = "";
-          this.endpoint = {};
           this.allCollectors = [];
           this.collectorsOption = { selection: "all" };
           this.collectorsByTag = {};
           this.global_collectors = { collector_ids: [], collector_tags: [] };
           this.ignoreChanges = false;
           this.originalState = {};
+          this.discovered = false;
+          this.discoveryInProgress = false;
+          this.discoveryError = false;
+          this.showConfig = false;
+
           this.defaultChecks = {
             http: {
               type: "http",
@@ -146,6 +150,7 @@ System.register(["lodash"], function (_export, _context) {
               }
             }
           };
+          this.endpoint = { "name": "", checks: _.values(this.defaultChecks) };
 
           var promises = [];
           if ("endpoint" in $location.search()) {
@@ -158,7 +163,7 @@ System.register(["lodash"], function (_export, _context) {
           promises.push(this.getCollectors());
           Promise.all(promises).then(function () {
             self.pageReady = true;
-            self.reset();
+
             $timeout(function () {
               $anchorScroll();
             }, 0, false);
@@ -226,7 +231,6 @@ System.register(["lodash"], function (_export, _context) {
             this.discoveryInProgress = false;
             this.discoveryError = false;
             this.showConfig = false;
-            this.endpoint = { "name": "", checks: _.values(this.defaultChecks) };
           }
         }, {
           key: "cancel",
@@ -239,9 +243,9 @@ System.register(["lodash"], function (_export, _context) {
           key: "getEndpoint",
           value: function getEndpoint(id) {
             var self = this;
-            return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoint/' + id).then(function (endpoint) {
+            return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/' + id).then(function (endpoint) {
               self.endpoint = endpoint;
-              self.pageReady = true;
+              self.newEndpointName = endpoint.name;
             });
           }
         }, {
