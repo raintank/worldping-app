@@ -31,14 +31,14 @@
   <div class="gf-form-group" ng-if="ctrl.endpoint.id">
     <div class="gf-form">
       <span class="gf-form-label width-7">Endpoint</span>
-      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.newEndpointName" placeholder="www.example.com" required>
+      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.endpoint.name" placeholder="www.example.com" required>
       <info-popover offset="0px -105px">
         Enter a domain name, URL or IP address.
       </info-popover>
     </div>
     <br>
     <div class="gf-form-buttons-row">
-      <button class="btn btn-success" ng-click="ctrl.updateEndpoint(ctrl.endpoint)">Update Endpoint Name</button>
+      <button class="btn btn-success" ng-click="ctrl.changeName(ctrl.endpoint)">Update Endpoint Name</button>
     </div>
   </div>
 

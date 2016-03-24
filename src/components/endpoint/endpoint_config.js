@@ -116,6 +116,7 @@ class EndpointConfigCtrl {
       }
     };
     this.endpoint = {"name": "", checks: _.values(this.defaultChecks)};
+    this.endpoint_orig = {"name": "", checks: _.values(this.defaultChecks)};
 
     var promises = [];
     if ("endpoint" in $location.search()) {
@@ -204,7 +205,7 @@ class EndpointConfigCtrl {
     var self = this;
     return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/'+id).then(function(endpoint) {
       self.endpoint = endpoint;
-      self.newEndpointName = endpoint.name;
+      self.endpoint_orig = _.cloneDeep(endpoint);
     });
   }
 
@@ -215,9 +216,19 @@ class EndpointConfigCtrl {
     });
   }
 
-  updateEndpoint() {
-    this.endpoint.name = this.newEndpointName;
-    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
+  changeName() {
+    this.endpoint_orig.name = this.endpoint.name;
+    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint_orig);
+  }
+
+  updateMonitor(check) {
+    var self = this;
+    for (var i = 0; i < this.endpoint_orig.checks.length; i++) {
+      if (this.endpoint_orig.checks[i].type === check.type) {
+        this.endpoint_orig.checks[i] = check;
+      }
+    }
+    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint_orig);
   }
 
   save(location) {
@@ -292,30 +303,14 @@ class EndpointConfigCtrl {
 
   addEndpoint() {
     var self = this;
-    if (this.endpoint.id) {
-      return this.updateEndpoint();
-    }
-
     this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function(resp) {
       self.endpoint = resp;
+      self.endpoint_orig = _.cloneDeep(resp);
+
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
       self.$location.path("plugins/worldping-app/page/endpoints");
     });
-  }
-
-  changesPending() {
-    var self = this;
-    var changes = false;
-    _.forEach(this.endpoint.checks, function(check) {
-      if (check._configured === false) {
-        return;
-      }
-      if (!angular.equals(check, self.lastCheckState[check.type])) {
-        changes = true;
-      }
-    });
-    return changes;
   }
 
   gotoDashboard(endpoint, type) {
