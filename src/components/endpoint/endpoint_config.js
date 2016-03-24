@@ -19,30 +19,100 @@ class EndpointConfigCtrl {
     this.timeoutRegex = /^([1-9](\.\d)?|10)$/;
     this.editor = {index: 0};
     this.newEndpointName = "";
-    this.endpoints = [];
-    this.monitors = {};
-    this.monitor_types = {};
-    this.monitor_types_by_name = {};
+    this.endpoint = {};
     this.allCollectors = [];
     this.collectorsOption = {selection: "all"};
     this.collectorsByTag = {};
     this.global_collectors = {collector_ids: [], collector_tags: []};
     this.ignoreChanges = false;
     this.originalState = {};
+    this.defaultChecks = [
+      {
+        _configured: false,
+        type: "http",
+        settings: {
+          "host": "",
+          "port": 80,
+          "path": "/"
+        },
+        enabled: false,
+        frequency: 60,
+        health_settings: {
+          steps: 3,
+          num_collectors: 1,
+          notifications: {
+            enabled: false,
+            addresses: ""
+          }
+        }
+      },
+      {
+        _configured: false,
+        type: "http",
+        settings: {
+          "host": "",
+          "port": 443,
+          "path": "/"
+        },
+        enabled: false,
+        frequency: 60,
+        health_settings: {
+          steps: 3,
+          num_collectors: 1,
+          notifications: {
+            enabled: false,
+            addresses: ""
+          }
+        }
+      },
+      {
+        _configured: false,
+        type: "http",
+        settings: {
+          "record": "",
+          "recordType": "A",
+          "servers": "8.8.8.8"
+        },
+        enabled: false,
+        frequency: 60,
+        health_settings: {
+          steps: 3,
+          num_collectors: 1,
+          notifications: {
+            enabled: false,
+            addresses: ""
+          }
+        }
+      },
+      {
+        _configured: false,
+        type: "http",
+        settings: {
+          "host": ""
+        },
+        enabled: false,
+        frequency: 10,
+        health_settings: {
+          steps: 3,
+          num_collectors: 1,
+          notifications: {
+            enabled: false,
+            addresses: ""
+          }
+        }
+      }
+    ];
+
 
     var promises = [];
     if ("endpoint" in $location.search()) {
-      promises.push(this.getEndpoints().then(function() {
-        return self.getEndpoint($location.search().endpoint);
-      }));
+      promises.push(this.getEndpoint($location.search().endpoint));
     } else {
-      this.endpoint = {name: ""};
+      this.endpoint = {name: "", checks: this.defaultChecks};
+      this.pageReady = true;
     }
 
-    this.checks = {};
-
     promises.push(this.getCollectors());
-    promises.push(this.getMonitorTypes());
     Promise.all(promises).then(function() {
       self.pageReady = true;
       self.reset();
@@ -67,49 +137,11 @@ class EndpointConfigCtrl {
         break;
       }
     }
-
-    $window.onbeforeunload = function() {
-      if (self.ignoreChanges) { return; }
-      if (self.changesPending()) {
-        return "There are unsaved changes to this dashboard";
-      }
-    };
-
-    $scope.$on('$locationChangeStart', function(event, next) {
-      if ((!self.ignoreChanges) && (self.changesPending())) {
-        event.preventDefault();
-        var baseLen = $location.absUrl().length - $location.url().length;
-        var nextUrl = next.substring(baseLen);
-        var modalScope = $scope.$new();
-        modalScope.ignore = function() {
-          self.ignoreChanges = true;
-          $location.path(nextUrl);
-          return;
-        };
-
-        modalScope.save = function() {
-          self.save(nextUrl);
-        };
-
-        var confirmModal = $modal({
-          template: './app/partials/unsaved-changes.html',
-          modalClass: 'modal-no-header confirm-modal',
-          persist: false,
-          show: false,
-          scope: modalScope,
-          keyboard: false
-        });
-
-        Promise.resolve(confirmModal).then(function(modalEl) {
-          modalEl.modal('show');
-        });
-      }
-    });
   }
 
   getCollectors() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors').then(function(collectors) {
+    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/probes').then(function(collectors) {
       self.collectors = collectors;
       _.forEach(collectors, function(c) {
         self.allCollectors.push(c.id);
@@ -141,103 +173,14 @@ class EndpointConfigCtrl {
     return Object.keys(ids).length;
   }
 
-  getMonitorTypes() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
-      var typesMap = {};
-      _.forEach(types, function(type) {
-        typesMap[type.id] = type;
-        self.monitor_types_by_name[type.name.toLowerCase()] = type;
-        self.setDefaultMonitor(type);
-      });
-      self.monitor_types = typesMap;
-    });
-  }
-
-  setDefaultMonitor(type) {
-    var self = this;
-    if (!(type.name.toLowerCase() in this.monitors)) {
-      var settings = [];
-      _.forEach(type.settings, function(setting) {
-        var val = setting.default_value;
-        if (self.endpoint && (setting.variable === "host" || setting.variable === "name" || setting.variable === "hostname")) {
-          val = self.endpoint.name || "";
-        }
-        settings.push({variable: setting.variable, value: val});
-      });
-      self.monitors[type.name.toLowerCase()] = {
-        id: null,
-        endpoint_id: null,
-        monitor_type_id: type.id,
-        collector_ids: self.global_collectors.collector_ids,
-        collector_tags: self.global_collectors.collector_tags,
-        settings: settings,
-        enabled: false,
-        frequency: 10,
-        health_settings: {
-          steps: 3,
-          num_collectors: 3,
-          notifications: {
-            enabled: false,
-            addresses: ""
-          }
-        }
-      };
-    }
-  }
-
-  defaultSettingByVariable(monitorType, variable) {
-    var s = null;
-    var type = this.monitor_types_by_name[monitorType];
-    _.forEach(type.settings, function(setting) {
-      if (setting.variable === variable) {
-        s = setting;
-      }
-    });
-    return s;
-  }
-
-  currentSettingByVariable(monitor, variable) {
-    var s = {
-      "variable": variable,
-      "value": null
-    };
-    var found = false;
-    _.forEach(monitor.settings, function(setting) {
-      if (found) {
-        return;
-      }
-      if (setting.variable === variable) {
-        s = setting;
-        found = true;
-      }
-    });
-    if (! found) {
-      monitor.settings.push(s);
-    }
-    if (s.value === null) {
-      var type = this.monitor_types[monitor.monitor_type_id];
-      _.forEach(type.settings, function(setting) {
-        if (setting.variable === variable) {
-          s.value = setting.default_value;
-        }
-      });
-    }
-
-    return s;
-  }
-
   reset() {
     var self = this;
     this.discovered = false;
     this.discoveryInProgress = false;
     this.discoveryError = false;
     this.showConfig = false;
-    // $scope.endpoint.name = {"name": ""};
-    this.monitors = {};
-    _.forEach(self.monitor_types, function(type) {
-      self.setDefaultMonitor(type);
-    });
+    this.endpoint = {"name": "", checks: this.defaultChecks};
+
   }
 
   cancel() {
@@ -246,54 +189,18 @@ class EndpointConfigCtrl {
     window.history.back();
   }
 
-  getEndpoints() {
+  getEndpoint(id) {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function(endpoints) {
-      self.endpoints = endpoints;
+    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoint/'+id).then(function(endpoint) {
+      self.endpoint = endpoint;
+      self.pageReady = true;
     });
-  }
-
-  getEndpoint(idString) {
-    var self = this;
-    var id = parseInt(idString);
-    _.forEach(this.endpoints, function(endpoint) {
-      if (endpoint.id === id) {
-        self.endpoint = endpoint;
-        self.newEndpointName = endpoint.name;
-        //get monitors for this endpoint.
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
-          _.forEach(monitors, function(monitor) {
-            var type = self.monitor_types[monitor.monitor_type_id].name.toLowerCase();
-            if (type in self.monitors) {
-              _.assign(self.monitors[type], monitor);
-            } else {
-              self.monitors[type] = monitor;
-            }
-            self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
-          });
-          self.pageReady = true;
-        });
-      }
-    });
-  }
-
-  setEndpoint(id) {
-    this.$location.url('plugins/worldping-app/page/endpoint-config?endpoint='+id);
   }
 
   remove(endpoint) {
     var self = this;
     this.backendSrv.delete('api/plugin-proxy/worldping-app/api/endpoints/' + endpoint.id).then(function() {
       self.$location.path('plugins/worldping-app/page/endpoints');
-    });
-  }
-
-  removeMonitor(mon) {
-    var self = this;
-    var type = this.monitor_types[mon.monitor_type_id];
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/monitors/' + mon.id).then(function() {
-      self.setDefaultMonitor(type.name.toLowerCase());
-      delete self.monitorLastState[mon.id];
     });
   }
 
@@ -305,19 +212,8 @@ class EndpointConfigCtrl {
   save(location) {
     var self = this;
     var promises = [];
-    _.forEach(this.monitors, function(monitor) {
-      monitor.endpoint_id = self.endpoint.id;
-      if (monitor.id) {
-        if (!angular.equals(monitor, self.monitorLastState[monitor.id])) {
-          promises.push(self.updateMonitor(monitor));
-        }
-      } else if (monitor.enabled) {
-        promises.push(self.addMonitor(monitor));
-      }
-    });
 
-    promises.push(self.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', self.endpoint));
-    Promise.all(promises).then(function() {
+    self.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', self.endpoint).then(function() {
       if (location) {
         self.$location.path(location);
       } else {
@@ -326,71 +222,9 @@ class EndpointConfigCtrl {
     });
   }
 
-  addMonitor(monitor) {
-    var self = this;
-    monitor.endpoint_id = this.endpoint.id;
-    return this.backendSrv.put('api/plugin-proxy/worldping-app/api/monitors', monitor, true).then(function(resp) {
-      _.defaults(monitor, resp);
-      self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
-      var action = "disabled";
-      if (monitor.enabled) {
-        action = "enabled";
-      }
-      var type = self.monitor_types[resp.monitor_type_id];
-      var message = type.name.toLowerCase() + " " + action + " successfully";
-      self.alertSrv.set(message, '', 'success', 3000);
-    });
-  }
-
-  updateMonitor(monitor) {
-    var self = this;
-    if (!monitor.id) {
-      return this.addMonitor(monitor);
-    }
-
-    return this.backendSrv.post('api/plugin-proxy/worldping-app/api/monitors', monitor, true).then(function() {
-      var type = self.monitor_types[monitor.monitor_type_id];
-      var message = type.name.toLowerCase() + " updated";
-      if (self.monitorLastState[monitor.id].enabled !== monitor.enabled) {
-        var action = "disabled";
-        if (monitor.enabled) {
-          action = "enabled";
-        }
-        message = type.name.toLowerCase() + " " + action + " successfully";
-      }
-
-      self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
-      self.alertSrv.set(message, '', 'success', 3000);
-    });
-  }
-
   parseSuggestions(payload) {
-    var self = this;
-    var defaults = {
-      endpoint_id: 0,
-      monitor_type_id: 1,
-      collector_ids: this.global_collectors.collector_ids,
-      collector_tags: this.global_collectors.collector_tags,
-      settings: [],
-      enabled: true,
-      frequency: 60,
-      health_settings: {
-        steps: 3,
-        num_collectors: 3,
-        notifications: {
-          enabled: false,
-          addresses: ""
-        }
-      }
-    };
-    _.forEach(payload, function(suggestion) {
-      _.defaults(suggestion, defaults);
-      var type = self.monitor_types[suggestion.monitor_type_id];
-      if (type.name.indexOf("Ping") === 0) {
-        suggestion.frequency = 10;
-      }
-      self.monitors[type.name.toLowerCase()] = suggestion;
-    });
+    _.defaults(suggestion, defaults);
+    this.endpoint.checks = suggestions;
   }
 
   skipDiscovery() {
@@ -398,6 +232,16 @@ class EndpointConfigCtrl {
     this.showConfig = true;
     this.discoveryError = false;
   };
+
+  monitors(type) {
+    var check;
+    _.forEach(this.endpoint.checks, function(c) {
+      if (c.type === type) {
+        check = c;
+      }
+    });
+    return check;
+  }
 
   discover(endpoint) {
     var self = this;
@@ -428,13 +272,7 @@ class EndpointConfigCtrl {
       return this.updateEndpoint();
     }
 
-    var payload = this.endpoint;
-    payload.monitors = [];
-    _.forEach(this.monitors, function(monitor) {
-      monitor.endpoint_id = -1;
-      payload.monitors.push(monitor);
-    });
-    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', payload).then(function(resp) {
+    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint).then(function(resp) {
       self.endpoint = resp;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
@@ -445,11 +283,11 @@ class EndpointConfigCtrl {
   changesPending() {
     var self = this;
     var changes = false;
-    _.forEach(this.monitors, function(monitor) {
-      if (monitor.id === null) {
+    _.forEach(this.endpoint.checks, function(check) {
+      if (check._configured === false) {
         return;
       }
-      if (!angular.equals(monitor, self.monitorLastState[monitor.id])) {
+      if (!angular.equals(check, self.lastCheckState[check.type])) {
         changes = true;
       }
     });

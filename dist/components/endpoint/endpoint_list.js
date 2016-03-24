@@ -52,19 +52,12 @@ System.register(["lodash"], function (_export, _context) {
           this.sort_field = 'name';
           this.endpoints = [];
           this.refresh();
-          this.endpointState = {
-            "0": 0,
-            "1": 0,
-            "2": 0,
-            "-1": 0
-          };
         }
 
         _createClass(EndpointListCtrl, [{
           key: "refresh",
           value: function refresh() {
             this.getEndpoints();
-            this.getMonitorTypes();
           }
         }, {
           key: "endpointTags",
@@ -100,18 +93,6 @@ System.register(["lodash"], function (_export, _context) {
             return equal;
           }
         }, {
-          key: "getMonitorTypes",
-          value: function getMonitorTypes() {
-            var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function (types) {
-              var typesMap = {};
-              _.forEach(types, function (type) {
-                typesMap[type.id] = type;
-              });
-              self.monitor_types = typesMap;
-            });
-          }
-        }, {
           key: "isEndPointReady",
           value: function isEndPointReady(endpoint) {
             return endpoint && endpoint.hasOwnProperty('ready') && endpoint.ready;
@@ -121,28 +102,8 @@ System.register(["lodash"], function (_export, _context) {
           value: function getEndpoints() {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function (endpoints) {
-              self.pageReady = true;
-              _.forEach(endpoints, function (endpoint) {
-                endpoint.states = [];
-                endpoint.monitors = {};
-                endpoint.ready = false;
-                self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
-                  var seenStates = {};
-                  _.forEach(monitors, function (mon) {
-                    if (!mon.enabled) {
-                      return;
-                    }
-                    seenStates[mon.state] = true;
-                    endpoint.monitors[self.monitor_types[mon.monitor_type_id].name.toLowerCase()] = mon;
-                  });
-                  for (var s in seenStates) {
-                    self.endpointState[s]++;
-                    endpoint.states.push(parseInt(s));
-                  }
-                  endpoint.ready = true;
-                });
-              });
               self.endpoints = endpoints;
+              self.pageReady = true;
             });
           }
         }, {
@@ -154,29 +115,40 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
+          key: "getCheck",
+          value: function getCheck(endpoint, type) {
+            var c;
+            _.forEach(endpoint.checks, function (check) {
+              if (check.type === type) {
+                c = check;
+              }
+            });
+            return c;
+          }
+        }, {
           key: "monitorStateTxt",
           value: function monitorStateTxt(endpoint, type) {
-            var mon = endpoint.monitors[type];
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            var check = getCheck(endpoint, type);
+            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
               return "disabled";
             }
-            if (!mon.enabled) {
+            if (!check.enabled) {
               return "disabled";
             }
-            if (mon.state < 0 || mon.state > 2) {
+            if (check.state < 0 || check.state > 2) {
               return 'nodata';
             }
             var states = ["online", "warn", "critical"];
-            return states[mon.state];
+            return states[check.state];
           }
         }, {
           key: "monitorStateChangeStr",
           value: function monitorStateChangeStr(endpoint, type) {
-            var mon = endpoint.monitors[type];
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            var check = getCheck(endpoint, type);
+            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
               return "";
             }
-            var duration = new Date().getTime() - new Date(mon.state_change).getTime();
+            var duration = new Date().getTime() - new Date(check.state_change).getTime();
             if (duration < 10000) {
               return "for a few seconds ago";
             }
