@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 class EndpointConfigCtrl {
    /** @ngInject */
-  constructor($scope, $injector, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
+  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
     this.$location = $location;
@@ -19,7 +19,7 @@ class EndpointConfigCtrl {
     this.timeoutRegex = /^([1-9](\.\d)?|10)$/;
     this.editor = {index: 0};
     this.newEndpointName = "";
-    this.endpoints = [];
+    this.endpoint = {};
     this.monitors = {};
     this.monitor_types = {};
     this.monitor_types_by_name = {};
@@ -31,18 +31,20 @@ class EndpointConfigCtrl {
     this.originalState = {};
 
     var promises = [];
+    var typesPromise = this.getMonitorTypes();
+    promises.push(typesPromise);
     if ("endpoint" in $location.search()) {
-      promises.push(this.getEndpoints().then(function() {
+      promises.push(typesPromise.then(function() {
         return self.getEndpoint($location.search().endpoint);
       }));
     } else {
+      console.log($location.search());
       this.endpoint = {name: ""};
     }
 
     this.checks = {};
 
     promises.push(this.getCollectors());
-    promises.push(this.getMonitorTypes());
     Promise.all(promises).then(function() {
       self.pageReady = true;
       self.reset();
@@ -80,10 +82,11 @@ class EndpointConfigCtrl {
         event.preventDefault();
         var baseLen = $location.absUrl().length - $location.url().length;
         var nextUrl = next.substring(baseLen);
+        console.log("nextUrl: %s", nextUrl);
         var modalScope = $scope.$new();
         modalScope.ignore = function() {
           self.ignoreChanges = true;
-          $location.path(nextUrl);
+          $location.url(nextUrl);
           return;
         };
 
@@ -91,17 +94,10 @@ class EndpointConfigCtrl {
           self.save(nextUrl);
         };
 
-        var confirmModal = $modal({
-          template: './app/partials/unsaved-changes.html',
-          modalClass: 'modal-no-header confirm-modal',
-          persist: false,
-          show: false,
+        $rootScope.appEvent('show-modal', {
+          src: 'public/app/partials/unsaved-changes.html',
+          modalClass: 'confirm-modal',
           scope: modalScope,
-          keyboard: false
-        });
-
-        Promise.resolve(confirmModal).then(function(modalEl) {
-          modalEl.modal('show');
         });
       }
     });
@@ -223,6 +219,9 @@ class EndpointConfigCtrl {
         }
       });
     }
+    if (!found) {
+      this.monitorLastState[monitor.id].settings.push(_.cloneDeep(s));
+    }
 
     return s;
   }
@@ -246,34 +245,25 @@ class EndpointConfigCtrl {
     window.history.back();
   }
 
-  getEndpoints() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function(endpoints) {
-      self.endpoints = endpoints;
-    });
-  }
-
   getEndpoint(idString) {
     var self = this;
     var id = parseInt(idString);
-    _.forEach(this.endpoints, function(endpoint) {
-      if (endpoint.id === id) {
-        self.endpoint = endpoint;
-        self.newEndpointName = endpoint.name;
-        //get monitors for this endpoint.
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
-          _.forEach(monitors, function(monitor) {
-            var type = self.monitor_types[monitor.monitor_type_id].name.toLowerCase();
-            if (type in self.monitors) {
-              _.assign(self.monitors[type], monitor);
-            } else {
-              self.monitors[type] = monitor;
-            }
-            self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
-          });
-          self.pageReady = true;
+    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/'+id).then(function(endpoint) {
+      self.endpoint = endpoint;
+      self.newEndpointName = endpoint.name;
+      //get monitors for this endpoint.
+      self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
+        _.forEach(monitors, function(monitor) {
+          var type = self.monitor_types[monitor.monitor_type_id].name.toLowerCase();
+          if (type in self.monitors) {
+            _.assign(self.monitors[type], monitor);
+          } else {
+            self.monitors[type] = monitor;
+          }
+          self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
         });
-      }
+        self.pageReady = true;
+      });
     });
   }
 
@@ -400,6 +390,9 @@ class EndpointConfigCtrl {
   };
 
   discover(endpoint) {
+    if (!endpoint.name){
+      return;
+    }
     var self = this;
     this.discoveryInProgress = true;
     this.discoveryError = false;
@@ -453,6 +446,7 @@ class EndpointConfigCtrl {
         changes = true;
       }
     });
+
     return changes;
   }
 

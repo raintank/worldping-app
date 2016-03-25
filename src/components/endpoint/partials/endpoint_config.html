@@ -52,7 +52,7 @@
       </info-popover>
       <!-- Unsubmitted state -->
       <div ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
-        <button class="btn btn-success" ng-click="endpointForm.$valid && ctrl.discover(ctrl.endpoint)">Begin Auto-Discovery</button>
+        <button class="btn btn-success" ng-click="ctrl.discover(ctrl.endpoint)">Begin Auto-Discovery</button>
       </div>
         <!-- Discovery in progress -->
       <div ng-show="ctrl.discoveryInProgress">

@@ -107,7 +107,7 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-alert inline-icon"></i>
           <h3 class="inline-header">Alerting</h3>
-          <editor-checkbox text="Enabled" ng-model="ctrl.monitors['dns'].health_settings.notifications.enabled"></editor-checkbox>
+          <editor-checkbox text="Enabled" model="ctrl.monitors['dns'].health_settings.notifications.enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <div class="rt-box-interior-content">
@@ -123,7 +123,7 @@
       </div>
     </div>
 
-    <div class="endpoint-config-left-margin">
+    <div class="endpoint-config-left-margin" ng-if="ctrl.endpoint.id">
       <div class="gf-form-button-row">
         <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(ctrl.monitors['dns'])">Update DNS Settings</button>
         <a class="btn btn-link" href="endpoint-details?">Cancel</a>
