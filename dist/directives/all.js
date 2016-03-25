@@ -257,6 +257,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.selectTagTitle = function () {
               var selectedTags = _.filter(scope.tags, { selected: true });
+              if (selectedTags.length === 0) {
+                return "Select Tags";
+              }
               if (selectedTags.length <= 2) {
                 return _.pluck(selectedTags, 'text').join(", ");
               }
@@ -265,6 +268,9 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.selectIdTitle = function () {
               var selectedIds = _.filter(scope.ids, { selected: true });
+              if (selectedIds.length === 0) {
+                return "Select Probes";
+              }
               if (selectedIds.length <= 2) {
                 return _.pluck(selectedIds, 'text').join(", ");
               }
@@ -298,7 +304,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
               }
             };
 
-            //scope.init();
             scope.$watch('model.id', function () {
               scope.init();
             });
