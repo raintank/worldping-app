@@ -1,9 +1,9 @@
 {
   "id": null,
-  "title": "Worldping Endpoint: |--- DNS",
-  "originalTitle": "Worldping Endpoint: |--- DNS",
+  "title": "worldPing Endpoint: |--- DNS",
+  "originalTitle": "worldPing Endpoint: |--- DNS",
   "tags": [
-    "raintank",
+    "worldPing",
     "Endpoints"
   ],
   "style": "dark",
@@ -340,7 +340,7 @@
             "short",
             "short"
           ],
-          "leftYAxisLabel": "Errors"         
+          "leftYAxisLabel": "Errors"
         }
       ],
       "title": "New row"

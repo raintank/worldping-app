@@ -91,8 +91,8 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
       };
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/dark.css',
-        light: 'plugins/worldping-app/css/light.css'
+        dark: 'plugins/worldping-app/css/worldping.dark.css',
+        light: 'plugins/worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', EndpointListCtrl = function (_PanelCtrl) {

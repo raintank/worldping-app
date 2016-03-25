@@ -3,6 +3,7 @@
 
 $rt-blue:		#13B2D4;
 
+@import "../../../go/src/github.com/grafana/grafana/public/sass/_variables.scss";
 
 @import "base/config";
 @import "components/animations";
@@ -11,4 +12,5 @@ $rt-blue:		#13B2D4;
 @import "pages/endpoint-config";
 @import "pages/config";
 @import "layout/page";
+@import "layout/panel";
 @import "rt"

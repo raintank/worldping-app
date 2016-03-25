@@ -106,7 +106,7 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "2.6.x",
+    "grafanaVersion": "3.0+",
     "plugins": []
   }
 }

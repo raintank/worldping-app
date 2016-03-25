@@ -1,7 +1,11 @@
 <div ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="page-header">
   <h1>Add a new endpoint</h1>
 </div>
-<p ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="playlist-description">An endpoint is anything you want to monitor. <br><br>When you enter the fully qualified domain name of your endpoint, worldPing will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
+<div class="row" ng-if="ctrl.pageReady && !ctrl.endpoint.id" ng-hide="ctrl.discovered || ctrl.discoveryError || ctrl.showConfig">
+  <div class="col-md-10">
+    <p>An endpoint is anything you want to monitor. <br><br>When you enter the fully qualified domain name of your endpoint, worldPing will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
+  </div>
+</div>
 
 <div ng-if="ctrl.endpoint.id" class="page-header">
   <h1>{{ctrl.endpoint.name}}<a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a></h1>
@@ -32,9 +36,13 @@
   <!-- Existing endpoint -->
   <div class="gf-form-group" ng-if="ctrl.endpoint.id">
     <div class="gf-form-inline">
-      <span class="gf-form-label width-7">Endpoint</span>
-      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.newEndpointName" placeholder="www.example.com" required>
-      <button class="btn btn-success" ng-click="ctrl.updateEndpoint(ctrl.endpoint)">Update Endpoint Name</button>
+      <div class="gf-form gf-form--right-margin">
+        <span class="gf-form-label width-7">Endpoint</span>
+        <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.newEndpointName" placeholder="www.example.com" required>
+      </div>
+      <div class="gf-form">
+        <button class="btn btn-success" ng-click="ctrl.updateEndpoint(ctrl.endpoint)">Update Endpoint Name</button>
+      </div>
     </div>
     <br>
     <div class="gf-form-buttons-row">
@@ -43,15 +51,31 @@
 
   <!-- New endpoint -->
   <div class="gf-form-group" ng-if="!ctrl.endpoint.id  && ctrl.pageReady">
+    <!-- Below replaces header area on submit -->
+    <div class="message-header">
+      <div class="message-content">
+        <div ng-show="ctrl.discovered">
+          <p><b>Discovery Successful.</b> We've suggested some default checks below based on what we were able to detect. <a class="highlight-word" ng-click="ctrl.reset()">Start Over</a></p>
+        </div>
+        <div ng-show="ctrl.discoveryError">
+          <p><b>Failed to discover endpoint.</b> From here, you can configure manually or <a class="highlight-word" ng-click="ctrl.reset()">start over</a>.</p>
+        </div>
+        <div ng-show="!ctrl.discovered && ctrl.showConfig">
+          <p><b>Discovery Skipped. </b>You can manually configure your endpoint below or <a class="highlight-word" ng-click="ctrl.reset()">start over</a> to enter a new domain.</p>
+        </div>
+      </div>
+      <div ng-show="ctrl.discovered">
+        <i class="icon-gf icon-gf-endpoint inline-icon inline-icon--endpoint"></i>
+        <h2 class="inline-header">{{ctrl.endpoint.name }}</h2>
+      </div>
+    </div>
     <div class="gf-form-inline">
-      <label class="gf-form-label width-9" ng-hide="ctrl.discovered || ctrl.discoveryError || ctrl.showConfig">Endpoint Name</label>
-      <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.endpoint.name" required="" ng-hide="ctrl.discovered" ng-class="{ 'rt-text-box-success' : ctrl.discovered, 'rt-font-shrinker' : ctrl.endpoint.name > 10 }" placeholder="www.example.com:80">
-      <div ng-show="ctrl.discovered"> {{ctrl.endpoint.name }}</div>
-      <info-popover offset="0px -95px">
-        Enter a domain name, URL or IP address.
-      </info-popover>
+      <div class="gf-form gf-form--right-margin" ng-hide="ctrl.discovered">
+        <label class="gf-form-label width-9">Endpoint Name</label>
+        <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.endpoint.name" required="" ng-class="{ 'rt-text-box-success' : ctrl.discovered, 'rt-font-shrinker' : ctrl.endpoint.name > 10 }" placeholder="www.example.com:80">
+      </div>
       <!-- Unsubmitted state -->
-      <div ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
+      <div class="gf-form" ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
         <button class="btn btn-success" ng-click="ctrl.discover(ctrl.endpoint)">Begin Auto-Discovery</button>
       </div>
         <!-- Discovery in progress -->
@@ -95,26 +119,10 @@
           <span class="rt-body-copy">Discovery in progress...</span>
           <a ng-click="ctrl.skipDiscovery()">skip</a>
       </div>
-      <!-- Below replaces Auto-Discover button on success -->
-      <div ng-show="ctrl.discovered">
-          <p class="rt-body-copy">
-              <b>Discovery Successful.</b> We've suggested some default checks below based on what we were able to detect. <a class="highlight-word" ng-click="ctrl.reset()">Start Over</a>
-          </p>
-      </div>
-      <div ng-show="ctrl.discoveryError">
-           <p class="rt-body-copy">
-               <b>Failed to discover endpoint.</b> From here, you can <a ng-click="skipDiscovery()" class="highlight-word">configure manually</a> or <a class="highlight-word" ng-click="ctrl.reset()">start over</a>.
-           </p>
-      </div>
-      <div ng-show="!ctrl.discovered && ctrl.showConfig">
-          <p class="rt-body-copy">
-              <b>Discovery Skipped. </b>You can manually configure your endpoint below or <a class="highlight-word" ng-click="ctrl.reset()">start over</a> to enter a new domain.
-          </p>
-      </div>
     </div>
   </div>
 
-  <div ng-show="ctrl.showConfig || ctrl.endpoint.id">
+  <div ng-show="ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError">
     <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
     <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
     <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
@@ -122,11 +130,11 @@
   </div>
 </form>
 <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/worldping-app/components/endpoint/partials/destroyForm.html'"></div>
-<div ng-show="ctrl.showConfig" class="gf-form wp-tag-margin--bottom">
+<div ng-show="ctrl.showConfig || ctrl.discoveryError" class="gf-form wp-tag-margin--bottom">
   <span class="gf-form-label width-6">Tags:</span>
   <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
 </div>
-<div ng-show="ctrl.showConfig">
+<div ng-show="ctrl.showConfig || ctrl.discoveryError">
     <button type="submit" class="btn btn-success" ng-click="endpointForm.$valid && ctrl.addEndpoint(ctrl.endpoint)">Add</button>
     <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
 </div>

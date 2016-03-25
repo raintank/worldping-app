@@ -1,9 +1,9 @@
 {
   "id": null,
-  "title": "Worldping Endpoint: |--- Ping",
-  "originalTitle": "Worldping Endpoint: |--- Ping",
+  "title": "worldPing Endpoint: |--- Ping",
+  "originalTitle": "worldPing Endpoint: |--- Ping",
   "tags": [
-    "raintank",
+    "worldPing",
     "Endpoints"
   ],
   "style": "dark",
@@ -340,7 +340,7 @@
             "short",
             "short"
           ],
-          "leftYAxisLabel": "Errors"         
+          "leftYAxisLabel": "Errors"
         }
       ],
       "title": "New row"
