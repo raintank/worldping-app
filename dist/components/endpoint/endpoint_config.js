@@ -119,7 +119,6 @@ System.register(["lodash"], function (_export, _context) {
               event.preventDefault();
               var baseLen = $location.absUrl().length - $location.url().length;
               var nextUrl = next.substring(baseLen);
-              console.log("nextUrl: %s", nextUrl);
               var modalScope = $scope.$new();
               modalScope.ignore = function () {
                 self.ignoreChanges = true;
