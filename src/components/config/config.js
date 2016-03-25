@@ -73,7 +73,7 @@ class WorldPingConfigCtrl {
           access: 'direct',
           database: '[events-]YYYY-MM-DD',
           jsonData: {
-            esVersion: 2,
+            esVersion: 1,
             interval: "Daily",
             timeField: "timestamp"
           }
