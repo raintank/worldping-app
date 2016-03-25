@@ -18,6 +18,12 @@
 
 
   <!-- Step 2 - Show after collector record has been added. -->
+
+<div ng-if="!ctrl.collector.id" class="page-header page-header--flex">
+  <h1>Add a private probe</h1>
+  <span class="form-step-count page-header--flex-item">Step 2 of 2</span>
+</div>
+
   <div ng-if="ctrl.collector.id">
     <div class="rt-page-header">
       <i ng-class="icon" class="icon-rt-collector" style="font-size:24px;"></i>

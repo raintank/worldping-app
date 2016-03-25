@@ -39,9 +39,10 @@
       "type": "dashboard",
       "name": "Worldping Home",
       "path": "dashboards/worldping-home.json",
-      "addToNav": true
+      "addToNav": true,
+      "defaultNav": true
     },
-    { "type": "page", "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer", "addToNav": true, "defaultNav": true},
+    { "type": "page", "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer", "addToNav": true},
     { "type": "page", "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor",  "addToNav": false},
     { "type": "page", "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "addToNav": false},
     { "type": "page", "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer", "addToNav": true},
