@@ -31,50 +31,51 @@
           <editor-checkbox text="Enabled" model="ctrl.monitors['dns'].enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
-          <p>We do a single DNS lookup at the specified <span class="emphasis">frequency</span>, on the <span class="emphasis">DNS servers</span>, from the selected <span class="emphasis">dynamic or static footprint</span>. If one fails, we will move on to the next, just like DNS works in the real world.</p>
+          <p>We do a single DNS lookup at the specified <span class="emphasis-word">frequency</span>, on the <span class="emphasis-word">DNS servers</span>, from the selected <span class="emphasis-word">dynamic or static footprint</span>. If one fails, we will move on to the next, just like DNS works in the real world.</p>
           <div class="gf-form-group">
             <div class="gf-form">
-              <span class="gf-form-label width-7">Frequency</span>
+              <span class="gf-form-label width-9">Frequency</span>
               <div class="gf-form-select-wrapper">
                 <select class="gf-form-input gf-size-auto" ng-model="ctrl.monitors['dns'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
               </div>
             </div>
-<!--             <div class="gf-form">
-              <span class="gf-form-label width-7">Monitoring from</span>
-              <endpoint-collector-select model="ctrl.monitors['dns']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
-            </div> -->
+            <endpoint-collector-select model="ctrl.monitors['dns']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
           </div>
 
 
 
           <div class="gf-form-group">
             <div class="gf-form">
-              <span class="gf-form-label width-7">Hostname</span>
+              <label class="gf-form-label width-9">Hostname</label>
               <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'name').value" placeholder="www.example.com" required>
             </div>
             <div class="gf-form">
-              <span class="gf-form-label width-7">Timeout (s)</span>
-              <input class="gf-form-input max-width-3" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'timeout').value" ng-pattern="timeoutRegex" required>
-              <info-popover offset="0px -95px">
-                The timeout, in seconds, is the amount of time our probe will wait for a response.
-              </info-popover>
+              <label class="gf-form-label width-9">Timeout (s)</label>
+              <input class="gf-form-input max-width-3" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'timeout').value" ng-pattern="timeoutRegex">
+              <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
             </div>
-            <div class="gf-form gf-form--textarea">
-              <span class="gf-form-label gf-form-label--textarea width-7">DNS Servers</span>
+            <div class="gf-form gf-form--v-stretch">
+              <label class="gf-form-label width-9">DNS Servers</label>
               <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'server').value"></textarea>
             </div>
           </div>
           <div class="gf-form-group">
-            <div class="gf-form">
-              <span class="gf-form-label width-7">Record Type</span>
-              <div class="gf-form-select-wrapper">
-                <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'type').value" ng-options="r for r in ctrl.defaultSettingByVariable('dns','type').conditions.values"></select>
+            <div class="gf-form-inline max-width-37">
+              <div class="gf-form max-width-17">
+                <label class="gf-form-label width-9">Record Type</label>
+                <div class="gf-form-select-wrapper">
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'type').value" ng-options="r for r in ctrl.defaultSettingByVariable('dns','type').conditions.values"></select>
+                </div>
               </div>
-              <span class="gf-form-label width-4">Port</span>
-              <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'port').value" required>
-              <span class="gf-form-label width-7">Protocol</span>
-              <div class="gf-form-select-wrapper">
-                <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'protocol').value" ng-options="p for p in ctrl.defaultSettingByVariable('dns','protocol').conditions.values"></select>
+              <div class="gf-form max-width-9">
+                <label class="gf-form-label width-4">Port</label>
+                <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'port').value" required>
+              </div>
+              <div class="gf-form max-width-9">
+                <label class="gf-form-label width-9">Protocol</label>
+                <div class="gf-form-select-wrapper">
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'protocol').value" ng-options="p for p in ctrl.defaultSettingByVariable('dns','protocol').conditions.values"></select>
+                </div>
               </div>
             </div>
           </div>
@@ -90,11 +91,11 @@
             <div class="rt-body-copy">
               <span class="rt-body-copy" style="margin: 0;">If</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="3"class="gf-natural-language-form max-width-3" ng-model="ctrl.monitors['dns'].health_settings.num_collectors"></select></label>
+                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['dns'].health_settings.num_collectors"></select></label>
               </div>
-              <span class="rt-body-copy">or more probes report <span class="emphasis">connection errors</span> for</span>
+              <span class="rt-body-copy">or more probes report <span class="emphasis-word">connection errors</span> for</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="5" class="gf-natural-language-form max-width-3" ng-model="ctrl.monitors['dns'].health_settings.steps"></select></label>
+                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['dns'].health_settings.steps"></select></label>
               </div>
               <span class="rt-body-copy">or more consecutive checks, health will be marked as down <img width="20px" height="20px" src="public/plugins/worldping-app/img/critical.svg" class="rt-inline-health-icon">.</span>
             </div>

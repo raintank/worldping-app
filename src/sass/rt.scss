@@ -13,7 +13,7 @@
 // @import "components/box.less";
 // @import "components/buttons.less";
 // @import "components/collectors";
-// @import "components/collector-footprint-dropdown";
+@import "components/collector-footprint-dropdown";
 // @import "components/dropdown.less";
 // @import "components/endpoint-alerting";
 // @import "components/events.less";
@@ -600,6 +600,12 @@ raintank POSITIONING
   margin-left: 10px;
   vertical-align: middle;
   overflow: auto;
+  font-size: 1rem;
+  background-color: $input-bg;
+}
+
+.rt-collector-select > .variable-value-link {
+  padding: 0 10px 0 0;
 }
 
 // Collector List Status

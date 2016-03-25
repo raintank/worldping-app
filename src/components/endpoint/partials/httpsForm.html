@@ -1,147 +1,137 @@
+<!-- Begin HTTPS Section -->
+<div class="gf-form-group" id="https">
+  <div ng-click="ctrl.showHTTPS = !ctrl.showHTTPS">
+    <div class="playlist-column-header section-header-flex-container">
+      <h3 class="page-headering">HTTPS</h3>
+      <div>
+        <a href="#">
+          <!-- Monitoring -->
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="ctrl.monitors['https'].enabled"></i>
+          <span class="freqMsg" ng-show="ctrl.monitors['https'].enabled" > Every {{ctrl.monitors['https'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['https'])}} {{ctrl.collectorCount(ctrl.monitors['https']) == 1 ? "Probe" : "Probes"}} |</span>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['dns'].enabled"></i>
+          <span class="freqMsg disabled" ng-show="!ctrl.monitors['https'].enabled" > Not enabled |</span>
+          <span class="freqMsg" ng-show="!ctrl.monitors['https'].enabled && ctrl.discovered" > Not Discovered |</span>
+          <!-- Alerting
+          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['https'].enabled && monitors['alert'].enabled"></i>
+          <span class="freqMsg" ng-show="ctrl.monitors['https'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
+          -->
+          <!-- Configure -->
+          <span class="highlight-word"> Configure</span>
+          <span><i class="fa fa-caret-down" ng-show="ctrl.showHTTPS"></i></span>
+          <span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showHTTPS"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
 
-        <!-- HTTPS Section  -->
-        <div class="rt-config-box rt-page-box" id="https" ng-class="{ 'https-open': ctrl.showHTTPS }">
-          <div class="rt-box-header rt-page-box-header" ng-click="ctrl.showHTTPS = !ctrl.showHTTPS" ng-class="{ active: ctrl.showHTTPS }">
-            <div class="rt-page-box-header-checkbox checkbox-check-enabled">
-              <span class="rt-h2 rt-modal">HTTPS</span>
+  <div class="wp-config-box rt-page-box" id="https" ng-class="{ 'https-open': ctrl.showHTTPS }">
+    <div>
+        <div class="gf-form">
+          <i class="icon-gf icon-gf-monitoring inline-icon"></i>
+          <h3 class="inline-header">Monitoring</h3>
+          <editor-checkbox text="Enabled" model="ctrl.monitors['https'].enabled"></editor-checkbox>
+        </div>
+        <div class="endpoint-config-left-margin">
+          <p>At the selected <span class="emphasis-word">frequency</span>, we'll do a <span class="emphasis-word">single</span> HTTPS request to your <span class="emphasis-word">URL</span>, from each probe within your <span class="emphasis-word">dynamic or static footprint</span>.</p>
+          <div class="gf-form-group">
+            <div class="gf-form">
+              <span class="gf-form-label width-9">Frequency</span>
+              <div class="gf-form-select-wrapper">
+                <select class="gf-form-input gf-size-auto" ng-model="ctrl.monitors['https'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
+              </div>
             </div>
-            <div class="rt-box-row-info">
-              <a href="#">
-                <i class="icon icon-rt-monitoring-tiny" style="font-size:17px;"ng-show="ctrl.monitors['https'].enabled"></i>
-                <span class="freqMsg" ng-show="ctrl.monitors['https'].enabled" > Every {{ctrl.monitors['https'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['https'])}} {{collectorCount(ctrl.monitors['https']) == 1 ? "Probe" : "Probes"}} |</span>
-                <i class="icon icon-rt-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['https'].enabled"></i>
-                <span class="freqMsg disabled" ng-show="!ctrl.monitors['https'].enabled" > Not enabled |</span>
-                <span class="freqMsg" ng-show="!ctrl.monitors['https'].enabled && discovered" > Not Discovered |</span>
-                <span class="freqMsg" style="color: #13b2d4"> Configure</span>
-                <span><i class="fa fa-caret-down" ng-show="ctrl.showHTTPS"></i></span>
-                <span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showHTTPS"></i></span>
-              </a>
+            <endpoint-collector-select model="ctrl.monitors['http']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
+          </div>
+
+          <div class="gf-form-group">
+            <div class="gf-form">
+              <label class="gf-form-label width-9">Hostname</label>
+              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'name').value" placeholder="www.example.com">
+            </div>
+            <div class="gf-form">
+              <label class="gf-form-label width-9">Timeout (s)</label>
+              <input class="gf-form-input max-width-3" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'timeout').value" ng-pattern="timeoutRegex">
+              <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
             </div>
           </div>
-          <div class="rt-box-body rt-page-box-body">
-            <div class="rt-box-interior-section">
-              <div class="rt-box-interior-header-icon">
-                <i class="icon icon-rt-monitoring" style="font-size:32px;"></i>
+          <div class="gf-form-group">
+            <div class="gf-form-inline">
+              <div class="gf-form">
+                <label class="gf-form-label width-9">Path</label>
+                <input class="gf-form-input max-width-30" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'path').value" placeholder="www.example.com">
               </div>
-              <div class="rt-box-interior-header rt-h3">Monitoring
-                <div style="margin-left: 15px; display: inline;">
-                  <input class="rt-modal" id="https-enabled1" type="checkbox" ng-model="ctrl.monitors['https'].enabled">
-                  <label for="https-enabled1" class="variable-value-link rt-modal">Enabled</label>
-                </div>
-              </div>
-              <div class="rt-box-interior-content">
-                <p class="rt-body-copy">At the selected <span class="emphasis">frequency</span>, we'll do a <span class="emphasis">single</span> HTTPS request to your <span class="emphasis">URL</span>, from each probe within your <span class="emphasis">dynamic or static footprint</span>.</p>
-                <div class="rt-form">
-                <div class="rt-form rt-input-styles rt-flex-form-block">
-                  <div style="margin: 20px 45px 0 0;">
-                    <label class="small">Frequency</label>
-                    <div class="select-input select-interior">
-                      <select ng-model="ctrl.monitors['https'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
-                    </div>
-                  </div>                
-                  <div class="rt-form-row rt-form-row-long">                    
-                    <label class="small">Monitoring from</label>
-                    <div class="rt-form-group">
-                      <endpoint-collector-select model="ctrl.monitors['https']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
-                    </div>
-                  </div>
-                  <div class="rt-form-row" style="margin: 0;">
-<!--                     <div class="editor-option rt-input-styles" ng-repeat="setting in monitor_types_by_name['https'].settings">
-                      <raintank-setting definition="setting" target="ctrl.currentSettingByVariable(ctrl.monitors['https'], setting.variable)">
-                    </div> -->
-                    <div class="editor=option rt-input-styles rt-flex-form-block">
-                        <div class="rt-flex-form-field">
-                          <label class="small">Hostname</label>
-                          <input type="text" class="rt-input-long-text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'host').value"> 
-                          <!-- This is a complex field that should handle host, path and port ex: https://www.google.com/raintankrocks:8258-->
-                        </div>
-                        <div class="rt-flex-form-field">
-                          <label class="small">Timeout (seconds)</label>
-                          <input class="rt-input-short-text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'timeout').value" type="text" ng-pattern="timeoutRegex"> 
-                        </div>
-                        <div class="rt-flex-form-field">
-                          <label class="small">Path</label>
-                          <input type="text" class="rt-input-long-text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'path').value"> 
-                          <!-- This is a complex field that should handle host, path and port ex: https://www.google.com/raintankrocks:8258-->
-                        </div>
-                        <div class="rt-flex-form-field">
-                          <label class="small">Port</label>
-                          <input type="text" class="rt-input-short-text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'port').value"> 
-                        </div>                        
-                        <div class="rt-flex-form-field">
-                          <label class="small">Method</label>
-                          <div class="select-input select-interior">
-                            <select ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'method').value" ng-options="m for m in ctrl.defaultSettingByVariable('https','method').conditions.values"></select>
-                          </div>
-                        </div>  
-                        <div class="rt-flex-form-field">
-                          <label class="small">Content Match
-                            <i class="grafana-tip fa fa-question-circle ng-scope" bs-tooltip="'Content match looks to match a string on the specified page. Regular expressions are also supported.'" data-original-title="" title=""></i>
-                          </label>
-                          <input type="text" class="rt-input-long-text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'expectRegex').value"> 
-                        </div>  
-                        <div class="rt-flex-form-field">
-                          <label class="small">Headers</label>
-                           <textarea class="rt-input-styles rt-textarea-row" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'headers').value"></textarea>
-                        </div>  
-                        <div class="rt-flex-form-field">
-                          <input class="rt-modal" id="https-ssl-enabled1" type="checkbox"  ng-true-value="'true'" ng-false-value="'false'" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'validateCert').value">
-                          <label for="https-ssl-enabled1" class="variable-value-link rt-modal">Validate SSL Certificate</label>
-                        </div>                          
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="gf-form">
+                <label class="gf-form-label width-4">Port</label>
+                <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'port').value">
               </div>
             </div>
-            <div class="rt-box-interior-section">
-              <div class="rt-box-interior-header-icon">
-                <i class="icon icon-rt-online" style="font-size: 30px;"></i>
-              </div>
-              <div class="rt-box-interior-header rt-h3">Health</div>
-              <div class="rt-box-interior-content" style="margin-top: 10px;">
-                <div class="rt-body-copy">
-                  <span class="rt-body-copy" style="margin: 0;">If</span>
-                  <div class="rt-input-styles editor-option">
-                    <label><input type="number" min="1" value="3"class="natural-language-form" ng-model="ctrl.monitors['https'].health_settings.num_collectors"></select></label>
-                  </div>
-                  <span class="rt-body-copy">or more probes report <span class="emphasis">connection errors</span> for</span>
-                  <div class="rt-input-styles editor-option">
-                    <label><input type="number" min="1" value="5" class="natural-language-form" ng-model="ctrl.monitors['https'].health_settings.steps"></select></label>
-                  </div>
-                  <span class="rt-body-copy">or more consecutive checks, health will be marked as down <img width="20px" height="20px" src="public/plugins/worldping-app/img/critical.svg" class="rt-inline-health-icon">.</span>
+            <div class="gf-form-inline">
+              <div class="gf-form">
+                <label class="gf-form-label width-9">Method</label>
+                <div class="gf-form-select-wrapper">
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'method').value" ng-options="m for m in ctrl.defaultSettingByVariable('https','method').conditions.values"></select>
                 </div>
+              </div>
+              <div class="gf-form">
+                <label class="gf-form-label width-10">Content Match</label>
+                <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'expectRegex').value">
               </div>
             </div>
-            <div class="rt-box-interior-section">
-              <div class="rt-box-interior-header-icon">
-                <i class="icon icon-rt-alert" style="font-size: 26px;"></i>
-              </div>
-              <div class="rt-box-interior-header rt-h3">Alerting</div>
-                <div style="margin-left: 15px; display: inline;">
-                  <input class="rt-modal" id="https-alert-enabled1" type="checkbox" ng-model="ctrl.monitors['https'].health_settings.notifications.enabled">
-                  <label for="https-alert-enabled1" class="variable-value-link rt-modal">Enabled</label>
-                </div>
-              <div class="rt-box-interior-content">
-                <span class="rt-body-copy" style="margin: 0;">When the HTTPS health changes, send a notification to the following emails: </span>
-                <div style="margin-top: 15px;">
-                  <textarea class="rt-input-styles rt-textarea-row" ng-model="ctrl.monitors['https'].health_settings.notifications.addresses"></textarea>
-                </div>
-                <div style="margin-top: -10px;">
-                  <span class="small">Comma separate email addresses accepted.</span>
-                </div>
-              </div>
+            <div class="gf-form gf-form--v-stretch">
+              <label class="gf-form-label width-9">Headers</label>
+              <textarea class="gf-form-input max-width-30" type="textarea" nng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'headers').value"></textarea>
             </div>
-          </div>
-          <div ng-show="ctrl.endpoint.id">
-            <div class="rt-box-footer-config">
-                <div class="rt-box-interior-content rt-interior-update">
-                  <div class="editor-row">
-                  <button type="submit" class="secondaryCTA ButtonTall" ng-click="ctrl.updateMonitor(ctrl.monitors['https'])">Update HTTPS Settings</button>
-                  <!-- Im sure this can be refactored to be handled more cleanly -->
-                  </div>
-                </div> 
-            </div>          
+            <editor-checkbox text="Validate SSL Certificate" model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'validateCert').value"></editor-checkbox>
           </div>
         </div>
-        <!-- End HTTPS Section -->
+      <div class="gf-form-group">
+        <div>
+          <i class="icon-gf icon-gf-online inline-icon"></i>
+          <h3 class="inline-header">Health</h3>
+        </div>
+        <div class="endpoint-config-left-margin">
+          <div class="rt-box-interior-content" style="margin-top: 10px;">
+            <div class="rt-body-copy">
+              <span class="rt-body-copy" style="margin: 0;">If</span>
+              <div class="rt-input-styles editor-option">
+                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['https'].health_settings.num_collectors"></select></label>
+              </div>
+              <span class="rt-body-copy">or more probes report <span class="emphasis-word">connection errors</span> for</span>
+              <div class="rt-input-styles editor-option">
+                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['https'].health_settings.steps"></select></label>
+              </div>
+              <span class="rt-body-copy">or more consecutive checks, health will be marked as down <img width="20px" height="20px" src="public/plugins/worldping-app/img/critical.svg" class="rt-inline-health-icon">.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gf-form-group">
+        <div class="gf-form">
+          <i class="icon-gf icon-gf-alert inline-icon"></i>
+          <h3 class="inline-header">Alerting</h3>
+          <editor-checkbox text="Enabled" ng-model="ctrl.monitors['https'].health_settings.notifications.enabled"></editor-checkbox>
+        </div>
+        <div class="endpoint-config-left-margin">
+          <div class="rt-box-interior-content">
+            When the HTTPS health changes, send a notification to the following emails: </span>
+            <div class="gf-form">
+              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.monitors['https'].health_settings.notifications.addresses"></textarea>
+           </div>
+            <div>
+              <span class="small">Comma separate email addresses accepted.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="endpoint-config-left-margin">
+      <div class="gf-form-button-row">
+        <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(ctrl.monitors['https'])">Update HTTPS Settings</button>
+        <a class="btn btn-link" href="endpoint-details?">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End HTTPS Section -->

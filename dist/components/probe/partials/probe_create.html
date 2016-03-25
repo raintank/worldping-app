@@ -1,22 +1,29 @@
-<div class="page-container">
-  <!-- Step 1 Accept, check for probe duplicates and add probe record. -->
-  <div ng-if="!ctrl.collector.id">
-    <div class="page-wide">
-      <i ng-class="icon" class="icon-rt-collector" style="font-size:24px;"></i>
-      <h1 class="rt-h1">Add a new probe</h1>
-      <span class="form-step-count">Step 1 of 2</span>
+<div ng-if="!ctrl.collector.id" class="page-header page-header--flex">
+  <h1>Add a private probe</h1>
+  <span class="form-step-count page-header--flex-item">Step 1 of 2</span>
+</div>
+<p ng-if="!ctrl.collector.id" class="playlist-description">Private probes are the way to reach the deepest, darkest corners of your private networks - or, a way to extend our global footprint. Acts exactly like a public probe, but you control it.</p>
+
+<form ng-if="!ctrl.collector.id" name="collectorNameForm">
+  <div class="gf-form">
+      <label class="gf-form-label width-7">Probe Name</label>
+      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.collector.name" required>
     </div>
-    <div class="rt-form">
-      <form name="collectorNameForm">
-        <label class="rt-form-label-medium">Probe Name:</label>
-        <input type="text" class="rt-form-input" ng-model="ctrl.collector.name" required="required">
-        <div class="rt-form-row">
-          <button type="submit" class="rt-btn" ng-click="collectorNameForm.$valid && ctrl.add()">Next -> Install Probe</button>
-        </div>
-      </form>
-    </div>
+  <div class="gf-form-button-row">
+    <button type="submit" class="btn btn-success" required ng-click="collectorNameForm.$valid && ctrl.add()">Next -> Install Probe</button>
+    <a class="btn btn-link" href="#">Cancel</a>
   </div>
+</form>
+
+
+
   <!-- Step 2 - Show after collector record has been added. -->
+
+<div ng-if="!ctrl.collector.id" class="page-header page-header--flex">
+  <h1>Add a private probe</h1>
+  <span class="form-step-count page-header--flex-item">Step 2 of 2</span>
+</div>
+
   <div ng-if="ctrl.collector.id">
     <div class="rt-page-header">
       <i ng-class="icon" class="icon-rt-collector" style="font-size:24px;"></i>
