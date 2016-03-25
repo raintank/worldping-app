@@ -102,7 +102,7 @@
     <div class="endpoint-config-left-margin" ng-if="ctrl.endpoint.id">
       <div class="gf-form-button-row">
         <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(ctrl.monitors['ping'])">Update Ping Settings</button>
-        <a class="btn btn-link" href="endpoint-details?">Cancel</a>
+        <a class="btn btn-link" ng-click="ctrl.cancel()">Cancel</a>
       </div>
     </div>
   </div>
