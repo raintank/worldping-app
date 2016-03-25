@@ -5,8 +5,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/dark.css',
-  light: 'plugins/worldping-app/css/light.css'
+  dark: 'plugins/worldping-app/css/worldping.dark.css',
+  light: 'plugins/worldping-app/css/worldping.light.css'
 });
 
 class EndpointNavCtrl extends PanelCtrl {
@@ -89,7 +89,7 @@ class EndpointNavCtrl extends PanelCtrl {
       });
     });
   }
-  
+
   monitorStateTxt(endpoint, type) {
     var mon = endpoint.monitors[type];
     if (typeof(mon) !== "object") {

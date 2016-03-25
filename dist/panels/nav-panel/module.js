@@ -66,8 +66,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
       }();
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/dark.css',
-        light: 'plugins/worldping-app/css/light.css'
+        dark: 'plugins/worldping-app/css/worldping.dark.css',
+        light: 'plugins/worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', EndpointNavCtrl = function (_PanelCtrl) {

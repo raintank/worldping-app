@@ -1,9 +1,9 @@
 {
   "id": null,
-  "title": "Worldping: Probes",
-  "originalTitle": "Worldping: Probes",
+  "title": "worldPing: Probes",
+  "originalTitle": "worldPing: Probes",
   "tags": [
-    "raintank",
+    "worldPing",
     "Probes"
   ],
   "style": "dark",
@@ -908,7 +908,7 @@
           "value": "100"
         },
         "label": "Outliers"
-      }      
+      }
     ]
   },
   "annotations": {

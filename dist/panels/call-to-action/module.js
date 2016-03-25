@@ -60,8 +60,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
       }();
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/dark.css',
-        light: 'plugins/worldping-app/css/light.css'
+        dark: 'plugins/worldping-app/css/worldping.dark.css',
+        light: 'plugins/worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', CallToActionCtrl = function (_PanelCtrl) {

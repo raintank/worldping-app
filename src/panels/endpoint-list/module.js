@@ -5,8 +5,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/dark.css',
-  light: 'plugins/worldping-app/css/light.css'
+  dark: 'plugins/worldping-app/css/worldping.dark.css',
+  light: 'plugins/worldping-app/css/worldping.light.css'
 });
 
 class EndpointListCtrl extends PanelCtrl {
@@ -85,7 +85,7 @@ class EndpointListCtrl extends PanelCtrl {
       self.monitor_types = typesMap;
     });
   }
-  
+
   isEndPointReady(endpoint) {
     return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
   };

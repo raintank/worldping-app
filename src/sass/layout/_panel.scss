@@ -1,0 +1,155 @@
+// ==========================================================================
+// Panels CSS
+// ==========================================================================
+
+
+
+// Endpoint Nav Header
+// ==========================================================================
+
+.rt-nav-header {
+  position: relative;
+  line-height: normal;
+}
+
+.rt-nav-breadcrumb {
+  margin: 0 0 7px -10px;
+  display: inline-block;
+}
+
+.rt-nav-icon-font {
+  font-size: 17px;
+  vertical-align: text-top;
+  color: #666766;
+}
+
+.pipe-separator {
+  color: $text-color-weak;
+}
+
+.rt-nav-hr {
+  margin-left: -10px;
+  border-bottom: $panel-border;
+}
+
+// Home Dashboard
+
+
+.wp-icon-success {
+  color: $online;
+  font-size: 24px;
+  text-decoration:none;
+  vertical-align: sub;
+}
+
+/******************************************
+RAINTANK DASHBOARD STYLES
+******************************************/
+
+.rt-dashboard-h1 {
+    font-size: 60px;
+    font-weight:900;
+    letter-spacing: -1px;
+    color: #EEE;
+    display: inline;
+    padding-top: 20px;
+}
+
+p.rt-dashboard-copy {
+    font-size:14px;
+    color: $text-color;
+}
+
+.rt-dash-flex-container {
+     display: flex;
+     justify-content: flex-start;
+     flex-direction: column;
+}
+
+.rt-panel-CTA-flex-container {
+     display: flex;
+     justify-content: center;
+     flex-direction: row;
+     flex-wrap: wrap-reverse;
+     align-items: center;
+     text-align: center;
+     min-height: 220px;
+     margin: 0 100px 25px 80px;
+     background: lighten($panel-bg,1%);
+     border: $panel-border;
+     padding: 5px 30px;
+
+    .rt-CTA-flex-copy {
+      flex-grow: 2;
+    }
+}
+
+.rt-CTA-flex-image {
+    min-width: 185px;
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+.rt-dash-flex-item {
+    flex: 1;
+    text-align: left;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+ @media screen and (max-width: 780px) {
+  .rt-dash-flex-item {
+    flex: 0 100%;
+    text-align: center;
+    flex-direction: column;
+    margin:0 auto;
+    }
+}
+
+p.rt-helper-blurb{
+     font-size:14px;
+     color: $text-color;
+     min-height: 35px;
+}
+
+p.rt-dashboard-blurb{
+     font-size:14px;
+     color: $text-color;
+     margin: 0;
+}
+
+a.rt-dashboard-blurb{
+     font-size:14px;
+     color: $brand-primary;
+     margin: 0;
+}
+
+a.rt-dashboard-blurb:hover{
+     text-decoration: underline;
+}
+
+.rt-dashboard-icons {
+  color: $brand-primary;
+  -webkit-text-fill-color: transparent;
+  background: $brand-gradient;
+  -webkit-background-clip: text;
+  text-decoration:none;
+  font-size: 85px;
+  vertical-align: sub;
+}
+
+.rt-CTA-item {
+  margin: 10px 0;
+}
+
+.rt-blurb-success {
+  color: $text-color-weak;
+  text-decoration: line-through;
+}
+
+.rt-dashboard-icons-container {
+  width: 30px;
+  display: inline-block;
+  margin-right: 5px;
+  text-align: center;
+}

@@ -16,8 +16,19 @@
   font-size: 32px;
 }
 
+.inline-icon--endpoint {
+  margin-left: -5px;
+  margin-right: $spacer-x/2;
+}
+
 .endpoint-config-left-margin {
   margin-left: 45px;
+}
+
+.wp-config-box--hit-area {
+  cursor: pointer;
+  &:hover {
+  }
 }
 
 .wp-config-box {
@@ -47,4 +58,16 @@
   &.destroy-open {
     height: 250px;
   }
+}
+
+.gf-form-group--header {
+  margin-bottom: 5px;
+}
+
+.message-header {
+  margin-bottom: $spacer-y;
+}
+
+.message-content {
+  margin-bottom: $spacer-y*2;
 }

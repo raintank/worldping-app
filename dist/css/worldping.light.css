@@ -848,8 +848,15 @@
 .inline-icon {
   font-size: 32px; }
 
+.inline-icon--endpoint {
+  margin-left: -5px;
+  margin-right: 0.5rem; }
+
 .endpoint-config-left-margin {
   margin-left: 45px; }
+
+.wp-config-box--hit-area {
+  cursor: pointer; }
 
 .wp-config-box {
   height: 0px;
@@ -869,6 +876,15 @@
   .wp-config-box.destroy-open {
     height: 250px; }
 
+.gf-form-group--header {
+  margin-bottom: 5px; }
+
+.message-header {
+  margin-bottom: 1rem; }
+
+.message-content {
+  margin-bottom: 2rem; }
+
 .wp-app-advanced-box {
   height: 0px;
   overflow: hidden;
@@ -887,6 +903,125 @@
 
 .page-header--flex-item {
   align-self: center; }
+
+.rt-nav-header {
+  position: relative;
+  line-height: normal; }
+
+.rt-nav-breadcrumb {
+  margin: 0 0 7px -10px;
+  display: inline-block; }
+
+.rt-nav-icon-font {
+  font-size: 17px;
+  vertical-align: text-top;
+  color: #666766; }
+
+.pipe-separator {
+  color: #555555; }
+
+.rt-nav-hr {
+  margin-left: -10px;
+  border-bottom: solid 1px #f4f5f8; }
+
+.wp-icon-success {
+  color: #01A64F;
+  font-size: 24px;
+  text-decoration: none;
+  vertical-align: sub; }
+
+/******************************************
+RAINTANK DASHBOARD STYLES
+******************************************/
+.rt-dashboard-h1 {
+  font-size: 60px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #EEE;
+  display: inline;
+  padding-top: 20px; }
+
+p.rt-dashboard-copy {
+  font-size: 14px;
+  color: #555555; }
+
+.rt-dash-flex-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column; }
+
+.rt-panel-CTA-flex-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  text-align: center;
+  min-height: 220px;
+  margin: 0 100px 25px 80px;
+  background: #fefefe;
+  border: solid 1px #f4f5f8;
+  padding: 5px 30px; }
+  .rt-panel-CTA-flex-container .rt-CTA-flex-copy {
+    flex-grow: 2; }
+
+.rt-CTA-flex-image {
+  min-width: 185px;
+  max-width: 200px;
+  margin-bottom: 10px; }
+
+.rt-dash-flex-item {
+  flex: 1;
+  text-align: left;
+  margin-left: 15px;
+  margin-top: 15px; }
+
+@media screen and (max-width: 780px) {
+  .rt-dash-flex-item {
+    flex: 0 100%;
+    text-align: center;
+    flex-direction: column;
+    margin: 0 auto; } }
+
+p.rt-helper-blurb {
+  font-size: 14px;
+  color: #555555;
+  min-height: 35px; }
+
+p.rt-dashboard-blurb {
+  font-size: 14px;
+  color: #555555;
+  margin: 0; }
+
+a.rt-dashboard-blurb {
+  font-size: 14px;
+  color: #Ff7941;
+  margin: 0; }
+
+a.rt-dashboard-blurb:hover {
+  text-decoration: underline; }
+
+.rt-dashboard-icons {
+  color: #Ff7941;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(to right, #ffd500 0%, #ff4400 99%, #ff4400 100%);
+  -webkit-background-clip: text;
+  text-decoration: none;
+  font-size: 85px;
+  vertical-align: sub; }
+
+.rt-CTA-item {
+  margin: 10px 0; }
+
+.rt-blurb-success {
+  color: #555555;
+  text-decoration: line-through; }
+
+.rt-dashboard-icons-container {
+  width: 30px;
+  display: inline-block;
+  margin-right: 5px;
+  text-align: center; }
 
 .variable-value-dropdown.collector-dropdown {
   min-width: 300px;
@@ -1601,5 +1736,8 @@ raintank POSITIONING
   position: absolute !important;
   top: -9999px !important;
   left: -9999px !important; }
+
+.gf-form--right-margin {
+  margin-right: 1rem; }
 
 /*# sourceMappingURL=worldping.light.css.map */

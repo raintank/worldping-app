@@ -1,9 +1,9 @@
 {
   "id": null,
-  "title": "Worldping Endpoint: Comparison",
-  "originalTitle": "Worldping Endpoint: Comparison",
+  "title": "worldPing Endpoint: Comparison",
+  "originalTitle": "worldPing Endpoint: Comparison",
   "tags": [
-    "raintank",
+    "worldPing",
     "Endpoints"
   ],
   "style": "dark",
@@ -125,7 +125,7 @@
           "lines": false,
           "linewidth": 1,
           "links": [],
-          "minSpan": 3,          
+          "minSpan": 3,
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 1,
@@ -275,7 +275,7 @@
       "type": "dashboards",
       "icon": "external link",
       "includeVars": true,
-      "keepTime": true,      
+      "keepTime": true,
       "tags": [
         "Endpoints"
       ],

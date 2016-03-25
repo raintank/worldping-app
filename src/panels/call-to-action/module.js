@@ -3,8 +3,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/dark.css',
-  light: 'plugins/worldping-app/css/light.css'
+  dark: 'plugins/worldping-app/css/worldping.dark.css',
+  light: 'plugins/worldping-app/css/worldping.light.css'
 });
 
 class CallToActionCtrl extends PanelCtrl {
