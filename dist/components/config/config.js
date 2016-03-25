@@ -113,7 +113,7 @@ System.register(['./config.html!text'], function (_export, _context) {
                   access: 'direct',
                   database: '[events-]YYYY-MM-DD',
                   jsonData: {
-                    esVersion: 2,
+                    esVersion: 1,
                     interval: "Daily",
                     timeField: "timestamp"
                   }
