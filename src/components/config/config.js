@@ -1,10 +1,13 @@
 import configTemplate from './config.html!text';
 
+import _ from 'lodash' ;
+
 class WorldPingConfigCtrl {
   constructor($scope, $injector, backendSrv) {
     this.backendSrv = backendSrv;
-    var self = this;
-    this.appEditCtrl.setPreUpdateHook(this.preUpdate())
+
+    this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
+    this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
@@ -12,27 +15,40 @@ class WorldPingConfigCtrl {
   }
 
   preUpdate() {
-    var self = this;
-    return function() {
-      var promises = [];
-      //if the apiKey is being set, check and make sure that we have initialized our datasource and dashboards.
-      if (self.appModel.secureJsonData && self.appModel.secureJsonData.apiKey) {
-        self.appModel.jsonData.apiKeySet = true;
-        if (!self.appModel.jsonData.datasourceSet) {
-          promises.push(self.initDatasource().then(function() {
-            self.appModel.jsonData.datasourceSet = true;
-          }));
-        }
+    var model = this.appModel;
+
+    // if the apiKey is being set, check and make sure that
+    // we have initialized our datasource and dashboards.
+    if (model.secureJsonData && model.secureJsonData.apiKey) {
+      model.jsonData.apiKeySet = true;
+
+      if (!model.jsonData.datasourceSet) {
+        return this.initDatasource().then(() => {
+          model.jsonData.datasourceSet = true;
+        });
       }
-      return Promise.all(promises)
     }
+
+    return Promise.resolve();
   }
-  
+
+  postUpdate() {
+    if (!this.appModel.enabled) {
+      return Promise.resolve();
+    }
+
+    return this.appEditCtrl.importDashboards().then(() => {
+      return {
+        url: "dashboard/db/worldping-home",
+        message: "worldPing app installed!"
+      };
+    });
+  }
+
   configureDatasource() {
-    var self = this;
     this.ctrl.appModel.jsonData.datasourceSet = false;
-    this.initDatasource().then(function() {
-      self.ctrl.appModel.jsonData.datasourceSet = true;
+    this.initDatasource().then(() => {
+      this.ctrl.appModel.jsonData.datasourceSet = true;
       console.log("datasource initialized");
     });
   }
@@ -42,16 +58,16 @@ class WorldPingConfigCtrl {
     //check for existing datasource.
     return self.backendSrv.get('/api/datasources').then(function(results) {
       var foundGraphite = false;
-      var foundElastic = false
-      _.forEach(results, function(ds) {
-        if (foundGraphite && foundElastic) { return; }
-        if (ds.name === "raintank") {
-          foundGraphite = true;
-        }
-        if (ds.name === "raintankEvents") {
-          foundElastic = true;
-        }
-      });
+      var foundElastic = false;
+        _.forEach(results, function(ds) {
+          if (foundGraphite && foundElastic) { return; }
+          if (ds.name === "raintank") {
+            foundGraphite = true;
+          }
+          if (ds.name === "raintankEvents") {
+            foundElastic = true;
+          }
+        });
       var promises = [];
       if (!foundGraphite) {
         // create datasource.
@@ -73,7 +89,7 @@ class WorldPingConfigCtrl {
           access: 'direct',
           database: '[events-]YYYY-MM-DD',
           jsonData: {
-            esVersion: 2,
+            esVersion: 1,
             interval: "Daily",
             timeField: "timestamp"
           }

@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['./config.html!text'], function (_export, _context) {
-  var configTemplate, _createClass, WorldPingConfigCtrl;
+System.register(['./config.html!text', 'lodash'], function (_export, _context) {
+  var configTemplate, _, _createClass, WorldPingConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,6 +12,8 @@ System.register(['./config.html!text'], function (_export, _context) {
   return {
     setters: [function (_configHtmlText) {
       configTemplate = _configHtmlText.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -37,8 +39,9 @@ System.register(['./config.html!text'], function (_export, _context) {
           _classCallCheck(this, WorldPingConfigCtrl);
 
           this.backendSrv = backendSrv;
-          var self = this;
-          this.appEditCtrl.setPreUpdateHook(this.preUpdate());
+
+          this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
+          this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};
@@ -48,28 +51,44 @@ System.register(['./config.html!text'], function (_export, _context) {
         _createClass(WorldPingConfigCtrl, [{
           key: 'preUpdate',
           value: function preUpdate() {
-            var self = this;
-            return function () {
-              var promises = [];
-              //if the apiKey is being set, check and make sure that we have initialized our datasource and dashboards.
-              if (self.appModel.secureJsonData && self.appModel.secureJsonData.apiKey) {
-                self.appModel.jsonData.apiKeySet = true;
-                if (!self.appModel.jsonData.datasourceSet) {
-                  promises.push(self.initDatasource().then(function () {
-                    self.appModel.jsonData.datasourceSet = true;
-                  }));
-                }
+            var model = this.appModel;
+
+            // if the apiKey is being set, check and make sure that
+            // we have initialized our datasource and dashboards.
+            if (model.secureJsonData && model.secureJsonData.apiKey) {
+              model.jsonData.apiKeySet = true;
+
+              if (!model.jsonData.datasourceSet) {
+                return this.initDatasource().then(function () {
+                  model.jsonData.datasourceSet = true;
+                });
               }
-              return Promise.all(promises);
-            };
+            }
+
+            return Promise.resolve();
+          }
+        }, {
+          key: 'postUpdate',
+          value: function postUpdate() {
+            if (!this.appModel.enabled) {
+              return Promise.resolve();
+            }
+
+            return this.appEditCtrl.importDashboards().then(function () {
+              return {
+                url: "dashboard/db/worldping-home",
+                message: "worldPing app installed!"
+              };
+            });
           }
         }, {
           key: 'configureDatasource',
           value: function configureDatasource() {
-            var self = this;
+            var _this = this;
+
             this.ctrl.appModel.jsonData.datasourceSet = false;
             this.initDatasource().then(function () {
-              self.ctrl.appModel.jsonData.datasourceSet = true;
+              _this.ctrl.appModel.jsonData.datasourceSet = true;
               console.log("datasource initialized");
             });
           }
@@ -113,7 +132,7 @@ System.register(['./config.html!text'], function (_export, _context) {
                   access: 'direct',
                   database: '[events-]YYYY-MM-DD',
                   jsonData: {
-                    esVersion: 2,
+                    esVersion: 1,
                     interval: "Daily",
                     timeField: "timestamp"
                   }
