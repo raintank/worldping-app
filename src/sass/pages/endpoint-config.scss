@@ -29,19 +29,19 @@
   -webkit-transition: height 0.2s;
 
   &.dns-open {
-    height: 780px;
+    height: 820px;
   }
 
   &.ping-open {
-    height: 652px;
+    height: 685px;
   }
 
   &.http-open {
-    height: 1036px;
+    height: 855px;
   }
 
   &.https-open {
-    height: 1074px;
+    height: 875px;
   }
 
   &.destroy-open {
