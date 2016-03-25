@@ -859,15 +859,21 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-config-box.dns-open {
-    height: 780px; }
+    height: 820px; }
   .wp-config-box.ping-open {
-    height: 652px; }
+    height: 685px; }
   .wp-config-box.http-open {
-    height: 1036px; }
+    height: 855px; }
   .wp-config-box.https-open {
-    height: 1074px; }
+    height: 875px; }
   .wp-config-box.destroy-open {
     height: 250px; }
+
+.page-header--flex {
+  display: flex; }
+
+.page-header--flex-item {
+  align-self: center; }
 
 .variable-value-dropdown.collector-dropdown {
   min-width: 300px;
