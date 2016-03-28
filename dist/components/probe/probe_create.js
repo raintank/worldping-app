@@ -47,7 +47,7 @@ System.register(['lodash'], function (_export, _context) {
           this.backendSrv = backendSrv;
           this.$location = $location;
           this.$timeout = $timeout;
-
+          this.newCollector = false;
           this.apiKey = "";
 
           this.collector = angular.copy(defaults);
@@ -83,6 +83,7 @@ System.register(['lodash'], function (_export, _context) {
             var self = this;
             this.backendSrv.put('api/plugin-proxy/worldping-app/api/collectors', this.collector).then(function (resp) {
               self.collector = resp;
+              self.newCollector = true;
             });
           }
         }, {

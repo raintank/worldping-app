@@ -12,7 +12,7 @@ class ProbeCreateCtrl {
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.$timeout = $timeout;
-
+    this.newCollector = false;
     this.apiKey = "";
 
     this.collector = angular.copy(defaults);
@@ -44,6 +44,7 @@ class ProbeCreateCtrl {
     this.backendSrv.put('api/plugin-proxy/worldping-app/api/collectors', this.collector)
       .then(function(resp) {
         self.collector = resp;
+        self.newCollector = true;
       });
   };
 
