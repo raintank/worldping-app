@@ -31,8 +31,8 @@
       {"name": "GitHub", "url": "https://github.com/raintank/worldping-app"},
       {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
     ],
-    "version": "1.0.0",
-    "updated": "2016-03.04"
+    "version": "1.0.1",
+    "updated": "2016-03-29"
   },
 
   "includes": [
