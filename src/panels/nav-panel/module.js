@@ -5,8 +5,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/worldping.dark.css',
-  light: 'plugins/worldping-app/css/worldping.light.css'
+  dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+  light: 'plugins/raintank-worldping-app/css/worldping.light.css'
 });
 
 class EndpointNavCtrl extends PanelCtrl {
@@ -61,7 +61,7 @@ class EndpointNavCtrl extends PanelCtrl {
 
   getEndpoints(endpointSlugs) {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function(endpoints) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function(endpoints) {
       self.pageReady = true;
       self.endpoints = [];
       _.forEach(endpoints, function(endpoint) {
@@ -70,7 +70,7 @@ class EndpointNavCtrl extends PanelCtrl {
           endpoint.states = [];
           endpoint.monitors = {};
           endpoint.ready = false;
-          self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
+          self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
             var seenStates = {};
             _.forEach(monitors, function(mon) {
               if (!mon.enabled) {
@@ -163,10 +163,10 @@ class EndpointNavCtrl extends PanelCtrl {
   }
 
   gotoEndpointURL(endpoint) {
-    this.$location.path('plugins/worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
+    this.$location.path('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
   }
 }
 
-EndpointNavCtrl.templateUrl = 'public/plugins/worldping-app/panels/nav-panel/module.html'
+EndpointNavCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/nav-panel/module.html'
 
 export {EndpointNavCtrl as PanelCtrl}

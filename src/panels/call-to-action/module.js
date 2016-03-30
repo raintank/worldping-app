@@ -3,8 +3,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/worldping.dark.css',
-  light: 'plugins/worldping-app/css/worldping.light.css'
+  dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+  light: 'plugins/raintank-worldping-app/css/worldping.light.css'
 });
 
 class CallToActionCtrl extends PanelCtrl {
@@ -90,7 +90,7 @@ class CallToActionCtrl extends PanelCtrl {
 
   refresh() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/org/quotas').then(function(quotas) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then(function(quotas) {
       var quotaHash = {};
       _.forEach(quotas, function(q) {
         quotaHash[q.target] = q;
@@ -103,6 +103,6 @@ class CallToActionCtrl extends PanelCtrl {
   }
 }
 
-CallToActionCtrl.templateUrl = 'public/plugins/worldping-app/panels/call-to-action/module.html'
+CallToActionCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/call-to-action/module.html'
 
 export {CallToActionCtrl as PanelCtrl}

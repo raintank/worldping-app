@@ -26,7 +26,7 @@ class ProbeCreateCtrl {
 
   getCollector(id) {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors/'+id).then(function(collector) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors/'+id).then(function(collector) {
       self.collector = collector;
     });
   }
@@ -36,12 +36,12 @@ class ProbeCreateCtrl {
   }
 
   save() {
-    return this.backendSrv.post('api/plugin-proxy/worldping-app/api/collectors', this.collector);
+    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/collectors', this.collector);
   };
 
   add() {
     var self = this;
-    this.backendSrv.put('api/plugin-proxy/worldping-app/api/collectors', this.collector)
+    this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/collectors', this.collector)
       .then(function(resp) {
         self.collector = resp;
         self.newCollector = true;
@@ -66,14 +66,14 @@ class ProbeCreateCtrl {
       role: 'Editor',
       name: "collector:" + $scope.collector.name
     };
-    this.backendSrv.post('api/plugin-proxy/worldping-app/api/auth/keys', token).then(function(result) {
+    this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/auth/keys', token).then(function(result) {
       self.apiKey = result.key;
       self.showApiKey = true;
     });
   };
 }
 
-ProbeCreateCtrl.templateUrl = 'public/plugins/worldping-app/components/probe/partials/probe_create.html'
+ProbeCreateCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_create.html'
 
 export {ProbeCreateCtrl}
 

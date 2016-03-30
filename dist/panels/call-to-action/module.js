@@ -60,8 +60,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
       }();
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/worldping.dark.css',
-        light: 'plugins/worldping-app/css/worldping.light.css'
+        dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+        light: 'plugins/raintank-worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', CallToActionCtrl = function (_PanelCtrl) {
@@ -160,7 +160,7 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           key: 'refresh',
           value: function refresh() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/org/quotas').then(function (quotas) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then(function (quotas) {
               var quotaHash = {};
               _.forEach(quotas, function (q) {
                 quotaHash[q.target] = q;
@@ -176,7 +176,7 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         return CallToActionCtrl;
       }(PanelCtrl));
 
-      CallToActionCtrl.templateUrl = 'public/plugins/worldping-app/panels/call-to-action/module.html';
+      CallToActionCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/call-to-action/module.html';
 
       _export('PanelCtrl', CallToActionCtrl);
     }

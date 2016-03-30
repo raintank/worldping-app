@@ -1,6 +1,6 @@
 <div class="page-header">
 	<h1 class="rt-h1">Endpoints</h1>
-	<a class="btn btn-success" href="plugins/worldping-app/page/endpoint-config">
+	<a class="btn btn-success" href="plugins/raintank-worldping-app/page/endpoint-config">
 		<i class="fa fa-plus"></i>
 		New Endpoint
 	</a>
@@ -8,7 +8,7 @@
 
 <div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
 	<div class="rt-loading-message-inside">
-		<img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
+		<img class="rt-loading-pulse" src="public/plugins/raintank-worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
 		<p class="rt-loading-msg-1">To infinity...and beyond.</p>
 		<p class="rt-loading-msg-2">This is taking longer than expected.</p>
 		<p class="rt-loading-msg-3">We apologize, something may be up. Please try refreshing first, and contact us if this continues to happen.</p>
@@ -19,7 +19,7 @@
 	<div ng-if="ctrl.endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/worldping-app/page/endpoint-config">Add an endpoint now.</a></p>
+			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config">Add an endpoint now.</a></p>
 		</div>
 		<div class="rt-collapse-container">
 			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an endpoint? <i class="fa fa-caret-down"></i></label>
@@ -57,7 +57,7 @@
 
 		<ol class="card-list" >
 			<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
-				<a class="card-item" href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
+				<a class="card-item" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
 					<div class="card-item-header">
 						<i class="icon-gf icon-gf-{{ds.type}}"></i>
 						<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
@@ -84,7 +84,7 @@
 	<div ng-if="ctrl.endpoints.length > 0" style="margin: 15px; position: relative; display: block; max-width: 1000px;">
 		<div class="rt-list" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
 			<div class="rt-list-header rt-page-box-header" style="overflow: visible; padding:5px;" ng-click="ctrl.gotoEndpointURL(endpoint)">
-				<span class="rt-list-item-title"><a href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">{{endpoint.name}}</a></span>
+				<span class="rt-list-item-title"><a href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">{{endpoint.name}}</a></span>
 
 				<div style="display: inline-block;">
 					<span class="label rt-label-tag dropdown rt-list-tag-menu" ng-repeat="tag in endpoint.tags" tag-color-from-name="tag">

@@ -74,7 +74,7 @@ class WorldPingConfigCtrl {
         var graphite = {
           name: 'raintank',
           type: 'graphite',
-          url: 'api/plugin-proxy/worldping-app/api/graphite',
+          url: 'api/plugin-proxy/raintank-worldping-app/api/graphite',
           access: 'direct',
           jsonData: {}
         };
@@ -85,7 +85,7 @@ class WorldPingConfigCtrl {
         var elastic = {
           name: 'raintankEvents',
           type: 'elasticsearch',
-          url: 'api/plugin-proxy/worldping-app/api/elasticsearch',
+          url: 'api/plugin-proxy/raintank-worldping-app/api/elasticsearch',
           access: 'direct',
           database: '[events-]YYYY-MM-DD',
           jsonData: {

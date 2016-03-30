@@ -104,7 +104,7 @@ class EndpointConfigCtrl {
 
   getCollectors() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors').then(function(collectors) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function(collectors) {
       self.collectors = collectors;
       _.forEach(collectors, function(c) {
         self.allCollectors.push(c.id);
@@ -138,7 +138,7 @@ class EndpointConfigCtrl {
 
   getMonitorTypes() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
       var typesMap = {};
       _.forEach(types, function(type) {
         typesMap[type.id] = type;
@@ -247,11 +247,11 @@ class EndpointConfigCtrl {
   getEndpoint(idString) {
     var self = this;
     var id = parseInt(idString);
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/'+id).then(function(endpoint) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints/'+id).then(function(endpoint) {
       self.endpoint = endpoint;
       self.newEndpointName = endpoint.name;
       //get monitors for this endpoint.
-      self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
+      self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
         _.forEach(monitors, function(monitor) {
           var type = self.monitor_types[monitor.monitor_type_id].name.toLowerCase();
           if (type in self.monitors) {
@@ -267,20 +267,20 @@ class EndpointConfigCtrl {
   }
 
   setEndpoint(id) {
-    this.$location.url('plugins/worldping-app/page/endpoint-config?endpoint='+id);
+    this.$location.url('plugins/raintank-worldping-app/page/endpoint-config?endpoint='+id);
   }
 
   remove(endpoint) {
     var self = this;
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/endpoints/' + endpoint.id).then(function() {
-      self.$location.path('plugins/worldping-app/page/endpoints');
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function() {
+      self.$location.path('plugins/raintank-worldping-app/page/endpoints');
     });
   }
 
   removeMonitor(mon) {
     var self = this;
     var type = this.monitor_types[mon.monitor_type_id];
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/monitors/' + mon.id).then(function() {
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/monitors/' + mon.id).then(function() {
       self.setDefaultMonitor(type.name.toLowerCase());
       delete self.monitorLastState[mon.id];
     });
@@ -288,7 +288,7 @@ class EndpointConfigCtrl {
 
   updateEndpoint() {
     this.endpoint.name = this.newEndpointName;
-    this.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', this.endpoint);
+    this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
   }
 
   save(location) {
@@ -305,12 +305,12 @@ class EndpointConfigCtrl {
       }
     });
 
-    promises.push(self.backendSrv.post('api/plugin-proxy/worldping-app/api/endpoints', self.endpoint));
+    promises.push(self.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', self.endpoint));
     Promise.all(promises).then(function() {
       if (location) {
         self.$location.path(location);
       } else {
-        self.$location.path("plugins/worldping-app/page/endpoints");
+        self.$location.path("plugins/raintank-worldping-app/page/endpoints");
       }
     });
   }
@@ -318,7 +318,7 @@ class EndpointConfigCtrl {
   addMonitor(monitor) {
     var self = this;
     monitor.endpoint_id = this.endpoint.id;
-    return this.backendSrv.put('api/plugin-proxy/worldping-app/api/monitors', monitor, true).then(function(resp) {
+    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function(resp) {
       _.defaults(monitor, resp);
       self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
       var action = "disabled";
@@ -337,7 +337,7 @@ class EndpointConfigCtrl {
       return this.addMonitor(monitor);
     }
 
-    return this.backendSrv.post('api/plugin-proxy/worldping-app/api/monitors', monitor, true).then(function() {
+    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function() {
       var type = self.monitor_types[monitor.monitor_type_id];
       var message = type.name.toLowerCase() + " updated";
       if (self.monitorLastState[monitor.id].enabled !== monitor.enabled) {
@@ -395,7 +395,7 @@ class EndpointConfigCtrl {
     var self = this;
     this.discoveryInProgress = true;
     this.discoveryError = false;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints/discover', endpoint).then(function(resp) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints/discover', endpoint).then(function(resp) {
       if (!self.showConfig) {
         if (endpoint.name.indexOf("://") > -1) {
           //endpoint name is in the form scheme://domain
@@ -426,7 +426,7 @@ class EndpointConfigCtrl {
       monitor.endpoint_id = -1;
       payload.monitors.push(monitor);
     });
-    this.backendSrv.put('api/plugin-proxy/worldping-app/api/endpoints', payload).then(function(resp) {
+    this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/endpoints', payload).then(function(resp) {
       self.endpoint = resp;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
@@ -483,6 +483,6 @@ class EndpointConfigCtrl {
   }
 }
 
-EndpointConfigCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_config.html';
+EndpointConfigCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_config.html';
 
 export {EndpointConfigCtrl}

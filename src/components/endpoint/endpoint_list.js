@@ -60,7 +60,7 @@ class EndpointListCtrl {
 
   getMonitorTypes() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
       var typesMap = {};
       _.forEach(types, function(type) {
         typesMap[type.id] = type;
@@ -75,13 +75,13 @@ class EndpointListCtrl {
 
   getEndpoints() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function(endpoints) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function(endpoints) {
       self.pageReady = true;
       _.forEach(endpoints, function(endpoint) {
         endpoint.states = [];
         endpoint.monitors = {};
         endpoint.ready = false;
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
+        self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
           var seenStates = {};
           _.forEach(monitors, function(mon) {
             if (!mon.enabled) {
@@ -103,7 +103,7 @@ class EndpointListCtrl {
 
   remove(endpoint) {
     var self = this;
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/endpoints/' + endpoint.id).then(function() {
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function() {
       self.getEndpoints();
     });
   }
@@ -153,9 +153,9 @@ class EndpointListCtrl {
   }
 
   gotoEndpointURL(endpoint) {
-    this.$location.url('plugins/worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
+    this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
   };
 }
-EndpointListCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_list.html'
+EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html'
 
 export {EndpointListCtrl}

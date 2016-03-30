@@ -23,8 +23,8 @@ System.register(['./components/config/config', './components/endpoint/endpoint_l
     execute: function () {
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/worldping.dark.css',
-        light: 'plugins/worldping-app/css/worldping.light.css'
+        dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+        light: 'plugins/raintank-worldping-app/css/worldping.light.css'
       });
 
       _export('EndpointListCtrl', EndpointListCtrl);

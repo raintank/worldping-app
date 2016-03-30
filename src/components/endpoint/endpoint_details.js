@@ -23,7 +23,7 @@ class EndpointDetailsCtrl {
 
   getEndpoints() {
     var self = this;
-    var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints');
+    var promise = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints');
     promise.then(function(endpoints) {
       self.endpoints = endpoints;
     });
@@ -31,12 +31,12 @@ class EndpointDetailsCtrl {
   }
 
   tagsUpdated() {
-    this.backendSrv.post("api/plugin-proxy/worldping-app/api/endpoints", $scope.endpoint);
+    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", $scope.endpoint);
   }
 
   getMonitorTypes() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
       _.forEach(types, function(type) {
         self.monitor_types[type.id] = type;
         self.monitor_types_by_name[type.name] = type;
@@ -50,7 +50,7 @@ class EndpointDetailsCtrl {
       if (endpoint.id === parseInt(id)) {
         self.endpoint = endpoint;
         //get monitors for this endpoint.
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
+        self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
           _.forEach(monitors, function(monitor) {
             self.monitors[monitor.monitor_type_id] = monitor;
           });
@@ -131,7 +131,7 @@ class EndpointDetailsCtrl {
   };
 
   setEndpoint(id) {
-    this.$location.url('plugins/worldping-app/page/endpoint_details?endpoint='+id);
+    this.$location.url('plugins/raintank-worldping-app/page/endpoint_details?endpoint='+id);
   }
 
   gotoDashboard(endpoint, type) {
@@ -212,6 +212,6 @@ class EndpointDetailsCtrl {
     this.refreshTime = new Date();
   }
 }
-EndpointDetailsCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_details.html';
+EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
 
 export {EndpointDetailsCtrl}

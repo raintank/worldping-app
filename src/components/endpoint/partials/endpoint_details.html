@@ -8,12 +8,12 @@
 	<div class="page-header-tabs">
 		<ul class="gf-tabs">
 			<li class="gf-tabs-item">
-				<a class="gf-tabs-link active" href="plugins/worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
+				<a class="gf-tabs-link active" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
 					Status
 				</a>
 			</li>
 			<li class="gf-tabs-item">
-				<a class="gf-tabs-link" href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
+				<a class="gf-tabs-link" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
 					Configuration
 				</a>
 			</li>
@@ -25,21 +25,21 @@
 <layout-selector></layout-selector>
 	<ol class="card-list" >
 		<li class="card-item-wrapper" ng-repeat="checktype in ['DNS', 'Ping', 'HTTP', 'HTTPS']">
-			<div class="card-item" href="plugins/worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
+			<div class="card-item" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
 				<div class="card-item-header card-item-header--wp-icons card-item-header-action">
 					<a ng-show="ctrl.getMonitorByTypeName(checktype).enabled" ng-click="ctrl.gotoDashboard(endpoint, checktype)">
 						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for {{checktype}}'"></i>
 					</a>
-					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">
+					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">
 						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{checktype}}'"></i>
 					</a>
 				</div>
 				<div class="card-item-body">
 					<figure ng-if="!ctrl.pageReady" class="card-item-figure health">
-						<img ng-src="public/plugins/worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
+						<img ng-src="public/plugins/raintank-worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
 					</figure>
 					<figure ng-if="ctrl.pageReady" class="card-item-figure health">
-						<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(checktype)}}.svg" style="width: 40px; height: 40px;">
+						<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateClass(checktype)}}.svg" style="width: 40px; height: 40px;">
 					</figure>
 					<div class="card-item-details endpoint-detail-flex-grow">
 						<div class="card-item-name">
@@ -55,16 +55,16 @@
 											<span class="checkTime">{{ctrl.stateChangeStr(checktype)}}</span>
 										</span>
 										<span ng-show="!ctrl.getMonitorByTypeName(checktype).enabled">
-											<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Not enabled, configure now.</a>
+											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Not enabled, configure now.</a>
 										</span>
 									</div>
 								</div>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName(checktype).enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon-gf icon-gf-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">Alerting Enabled</span>
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon-gf icon-gf-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">Alerting Enabled</span>
 										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype)}}'"><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype).length}} recipients</span></a>
 									</div>
 								</div>
@@ -98,17 +98,17 @@
 								</a>
 							</li>
 							<li>
-								<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">
+								<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">
 									<i ng-class="icon" class="icon-rt-settings miniCTA" style="vertical-align: middle; font-size: 22px; margin-left: 10px;"></i>
 								</a>
 							</li>
 						</ul>
 						<div class="summary-table-status-icon">
 	 						<div ng-if="!ctrl.pageReady" class="health">
-								<img ng-src="public/plugins/worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
+								<img ng-src="public/plugins/raintank-worldping-app/img/heart-loading.svg" style="width: 40px; height: 40px; opacity: 0.4;">
 							</div>
 	 						<div ng-if="ctrl.pageReady" class="health">
-								<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('Ping'))}}.svg" style="width: 40px; height: 40px;">
+								<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('Ping'))}}.svg" style="width: 40px; height: 40px;">
 							</div>
 						</div>
 						<ul class="summary-table-status">
@@ -123,17 +123,17 @@
 										<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('Ping'))}}</span>
 									</div>
 									<div ng-show="!ctrl.getMonitorByTypeName('Ping').enabled">
-										<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Not enabled, configure now.</a>
+										<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Not enabled, configure now.</a>
 									</div>
 								</div>
 							</li>
 							<li>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('Ping').enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName('Ping').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName('Ping').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">Alerting Enabled</span>
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=ping">Alerting Enabled</span>
 										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('Ping')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('Ping').length}} recipients</span></a>
 									</div>
 								</div>
@@ -154,14 +154,14 @@
 								<a ng-click="ctrl.gotoDashboard(endpoint, 'dns')"><i ng-class="icon" class="primary-icon icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for DNS'"></i></a>
 							</li>
 							<li>
-								<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">
+								<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">
 									<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
 								</a>
 							</li>
 						</ul>
 						<div class="summary-table-status-icon">
 							<div class="health">
-								<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}.svg" style="width: 40px; height: 40px;">
+								<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('DNS'))}}.svg" style="width: 40px; height: 40px;">
 							</div>
 						</div>
 						<ul class="summary-table-status">
@@ -172,16 +172,16 @@
 									<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('DNS'))}}</span>
 								</div>
 								<div ng-show="!ctrl.getMonitorByTypeName('DNS').enabled">
-									<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Not enabled, configure now.</a>
+									<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Not enabled, configure now.</a>
 								</div>
 							</li>
 							<li>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('DNS').enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName('DNS').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">Alerting Enabled</span>
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=dns">Alerting Enabled</span>
 										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('DNS')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('DNS').length}} recipients</span></a>
 									</div>
 								</div>
@@ -204,14 +204,14 @@
 								</a>
 							</li>
 							<li>
-								<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">
+								<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">
 									<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
 								</a>
 							</li>
 						</ul>
 						<div class="summary-table-status-icon">
 							<div class="health">
-								<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTP'))}}.svg" style="width: 40px; height: 40px;">
+								<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTP'))}}.svg" style="width: 40px; height: 40px;">
 							</div>
 						</div>
 						<ul class="summary-table-status">
@@ -222,18 +222,18 @@
 									<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('HTTP'))}}</span>
 								</div>
 								<div ng-show="!ctrl.getMonitorByTypeName('HTTP').enabled">
-         					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Not enabled, configure now.</a>
+         					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Not enabled, configure now.</a>
         				</div>
 							</li>
 							<li>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('HTTP').enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName('HTTP').health_settings.notifications.enabled">
 										<span class="endpoint-alerting-status not-enabled">
-											<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
+											<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
 										</span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName('HTTP').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">Alerting Enabled</span>
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=http">Alerting Enabled</span>
 										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('HTTP')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('HTTP').length}} recipients</span></a>
 									</div>
 								</div>
@@ -256,14 +256,14 @@
 								</a>
 							</li>
 							<li>
-								<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">
+								<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">
 									<i ng-class="icon" class="icon-rt-settings in-row-icons miniCTA"></i>
 								</a>
 							</li>
 						</ul>
 						<div class="summary-table-status-icon">
 							<div class="health">
-								<img ng-src="public/plugins/worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTPS'))}}.svg" style="width: 40px; height: 40px;">
+								<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateClass(ctrl.getMonitorByTypeName('HTTPS'))}}.svg" style="width: 40px; height: 40px;">
 							</div>
 						</div>
 						<ul class="summary-table-status">
@@ -274,18 +274,18 @@
 									<span class="checkTime">{{ctrl.stateChangeStr(ctrl.getMonitorByTypeName('HTTPS'))}}</span>
 								</div>
 								<div ng-show="!ctrl.getMonitorByTypeName('HTTPS').enabled">
-         					<a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Not enabled, configure now.</a>
+         					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Not enabled, configure now.</a>
         				</div>
 							</li>
 							<li>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName('HTTPS').enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName('HTTPS').health_settings.notifications.enabled">
 										<span class="endpoint-alerting-status not-enabled">
-											<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
+											<i ng-class="icon" class="icon icon-rt-alert-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https" class="freqMsg disabled">Alerting not enabled,<br>configure now</a>
 										</span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName('HTTPS').health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">Alerting Enabled</span>
+										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon icon-rt-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check=https">Alerting Enabled</span>
 										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString('HTTPS')}}'"><i ng-class="icon" class="icon icon-rt-users"></i>{{ctrl.getNotificationEmails('HTTPS').length}} recipients</span></a>
 									</div>
 								</div>

@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 angular.module('grafana.directives').directive("rtEndpointHealthDashboard", function() {
   return {
-    templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealthDashboard.html',
+    templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointHealthDashboard.html',
     scope: {
       ctrl: "=",
       endpoint: "="
@@ -13,7 +13,7 @@ angular.module('grafana.directives').directive("rtEndpointHealthDashboard", func
 
 angular.module('grafana.directives').directive("rtCheckHealth", function($compile, datasourceSrv, timeSrv) {
   return {
-    templateUrl: 'public/plugins/worldping-app/directives/partials/checkHealth.html',
+    templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/checkHealth.html',
     scope: {
       model: "=",
     },
@@ -116,7 +116,7 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
 
 angular.module('grafana.directives').directive("rtEndpointHealth", function() {
   return {
-    templateUrl: 'public/plugins/worldping-app/directives/partials/endpointHealth.html',
+    templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointHealth.html',
     scope: {
       endpoint: "=",
       ctrl: "="
@@ -130,7 +130,7 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
       collectors: "=",
       model: "=",
     },
-    templateUrl: 'public/plugins/worldping-app/directives/partials/endpointCollectorSelect.html',
+    templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointCollectorSelect.html',
     link: function(scope, elem) {
       var bodyEl = angular.element($window.document.body);
       var currentIds = scope.model.collector_ids;

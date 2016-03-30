@@ -66,8 +66,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
       }();
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/worldping.dark.css',
-        light: 'plugins/worldping-app/css/worldping.light.css'
+        dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+        light: 'plugins/raintank-worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', EndpointNavCtrl = function (_PanelCtrl) {
@@ -129,7 +129,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
           key: 'getEndpoints',
           value: function getEndpoints(endpointSlugs) {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function (endpoints) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function (endpoints) {
               self.pageReady = true;
               self.endpoints = [];
               _.forEach(endpoints, function (endpoint) {
@@ -138,7 +138,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                   endpoint.states = [];
                   endpoint.monitors = {};
                   endpoint.ready = false;
-                  self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
+                  self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
                     var seenStates = {};
                     _.forEach(monitors, function (mon) {
                       if (!mon.enabled) {
@@ -235,14 +235,14 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         }, {
           key: 'gotoEndpointURL',
           value: function gotoEndpointURL(endpoint) {
-            this.$location.path('plugins/worldping-app/page/endpoint-details?endpoint=' + endpoint.id);
+            this.$location.path('plugins/raintank-worldping-app/page/endpoint-details?endpoint=' + endpoint.id);
           }
         }]);
 
         return EndpointNavCtrl;
       }(PanelCtrl));
 
-      EndpointNavCtrl.templateUrl = 'public/plugins/worldping-app/panels/nav-panel/module.html';
+      EndpointNavCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/nav-panel/module.html';
 
       _export('PanelCtrl', EndpointNavCtrl);
     }

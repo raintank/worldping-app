@@ -83,7 +83,7 @@ System.register(["lodash"], function (_export, _context) {
           key: "getCollectors",
           value: function getCollectors() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors').then(function (collectors) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function (collectors) {
               self.pageReady = true;
               self.collectors = collectors;
             });
@@ -92,7 +92,7 @@ System.register(["lodash"], function (_export, _context) {
           key: "remove",
           value: function remove(loc) {
             var self = this;
-            this.backendSrv.delete('api/plugin-proxy/worldping-app/api/collectors/' + loc.id).then(function () {
+            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function () {
               self.getCollectors();
             });
           }
@@ -106,7 +106,7 @@ System.register(["lodash"], function (_export, _context) {
         return ProbeListCtrl;
       }());
 
-      ProbeListCtrl.templateUrl = 'public/plugins/worldping-app/components/probe/partials/probe_list.html';
+      ProbeListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_list.html';
 
       _export("ProbeListCtrl", ProbeListCtrl);
     }

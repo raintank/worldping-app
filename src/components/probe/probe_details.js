@@ -23,13 +23,13 @@ class ProbeDetailsCtrl {
 
   getCollectors() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors').then(function(collectors) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function(collectors) {
       self.collectors = collectors;
     });
   }
 
   save() {
-    this.backendSrv.post("api/plugin-proxy/worldping-app/api/collectors", this.collector);
+    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/collectors", this.collector);
   };
 
   getCollector(id) {
@@ -51,7 +51,7 @@ class ProbeDetailsCtrl {
   setEnabled(newState) {
     var self = this;
     this.collector.enabled = newState;
-    this.backendSrv.post('api/plugin-proxy/worldping-app/api/collectors', this.collector).then(function(){
+    this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/collectors', this.collector).then(function(){
       self.collector.enabled_change = new Date();
     });
   }
@@ -83,7 +83,7 @@ class ProbeDetailsCtrl {
     var self = this;
     this.verifyOnline = true;
 
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors/'+this.collector.id).then(function(res) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors/'+this.collector.id).then(function(res) {
       self.collector = res;
       if (!res.online) {
         self.poller = self.$timeout(function() {
@@ -94,6 +94,6 @@ class ProbeDetailsCtrl {
   }
 
 }
-ProbeDetailsCtrl.templateUrl = 'public/plugins/worldping-app/components/probe/partials/probe_details.html'
+ProbeDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_details.html'
 
 export {ProbeDetailsCtrl}

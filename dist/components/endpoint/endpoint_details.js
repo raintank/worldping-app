@@ -66,7 +66,7 @@ System.register(['lodash'], function (_export, _context) {
           key: 'getEndpoints',
           value: function getEndpoints() {
             var self = this;
-            var promise = this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints');
+            var promise = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints');
             promise.then(function (endpoints) {
               self.endpoints = endpoints;
             });
@@ -75,13 +75,13 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'tagsUpdated',
           value: function tagsUpdated() {
-            this.backendSrv.post("api/plugin-proxy/worldping-app/api/endpoints", $scope.endpoint);
+            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", $scope.endpoint);
           }
         }, {
           key: 'getMonitorTypes',
           value: function getMonitorTypes() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function (types) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
               _.forEach(types, function (type) {
                 self.monitor_types[type.id] = type;
                 self.monitor_types_by_name[type.name] = type;
@@ -96,7 +96,7 @@ System.register(['lodash'], function (_export, _context) {
               if (endpoint.id === parseInt(id)) {
                 self.endpoint = endpoint;
                 //get monitors for this endpoint.
-                self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors?endpoint_id=' + id).then(function (monitors) {
+                self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id=' + id).then(function (monitors) {
                   _.forEach(monitors, function (monitor) {
                     self.monitors[monitor.monitor_type_id] = monitor;
                   });
@@ -179,7 +179,7 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'setEndpoint',
           value: function setEndpoint(id) {
-            this.$location.url('plugins/worldping-app/page/endpoint_details?endpoint=' + id);
+            this.$location.url('plugins/raintank-worldping-app/page/endpoint_details?endpoint=' + id);
           }
         }, {
           key: 'gotoDashboard',
@@ -269,7 +269,7 @@ System.register(['lodash'], function (_export, _context) {
         return EndpointDetailsCtrl;
       }());
 
-      EndpointDetailsCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_details.html';
+      EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
 
       _export('EndpointDetailsCtrl', EndpointDetailsCtrl);
     }

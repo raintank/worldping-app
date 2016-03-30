@@ -5,8 +5,8 @@ import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 
 loadPluginCss({
-  dark: 'plugins/worldping-app/css/worldping.dark.css',
-  light: 'plugins/worldping-app/css/worldping.light.css'
+  dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+  light: 'plugins/raintank-worldping-app/css/worldping.light.css'
 });
 
 class EndpointListCtrl extends PanelCtrl {
@@ -37,7 +37,7 @@ class EndpointListCtrl extends PanelCtrl {
   initEditMode() {
     super.initEditMode();
     this.icon = 'fa fa-text-width';
-    this.addEditorTab('Options', 'public/plugins/worldping-app/panels/endpoint-list/editor.html');
+    this.addEditorTab('Options', 'public/plugins/raintank-worldping-app/panels/endpoint-list/editor.html');
     this.editorTabIndex = 1;
   }
 
@@ -77,7 +77,7 @@ class EndpointListCtrl extends PanelCtrl {
 
   getMonitorTypes() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function(types) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
       var typesMap = {};
       _.forEach(types, function(type) {
         typesMap[type.id] = type;
@@ -92,13 +92,13 @@ class EndpointListCtrl extends PanelCtrl {
 
   getEndpoints() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function(endpoints) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function(endpoints) {
       self.pageReady = true;
       _.forEach(endpoints, function(endpoint) {
         endpoint.states = [];
         endpoint.monitors = {};
         endpoint.ready = false;
-        self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
+        self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
           var seenStates = {};
           _.forEach(monitors, function(mon) {
             if (!mon.enabled) {
@@ -120,7 +120,7 @@ class EndpointListCtrl extends PanelCtrl {
 
   remove(endpoint) {
     var self = this;
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/endpoints/' + endpoint.id).then(function() {
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function() {
       self.getEndpoints();
     });
   }
@@ -170,10 +170,10 @@ class EndpointListCtrl extends PanelCtrl {
   }
 
   gotoEndpointURL(endpoint) {
-    this.$location.url('plugins/worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
+    this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
   };
 }
-EndpointListCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_list.html'
+EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html'
 
 
 export {EndpointListCtrl as PanelCtrl}

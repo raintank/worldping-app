@@ -117,7 +117,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 var graphite = {
                   name: 'raintank',
                   type: 'graphite',
-                  url: 'api/plugin-proxy/worldping-app/api/graphite',
+                  url: 'api/plugin-proxy/raintank-worldping-app/api/graphite',
                   access: 'direct',
                   jsonData: {}
                 };
@@ -128,7 +128,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 var elastic = {
                   name: 'raintankEvents',
                   type: 'elasticsearch',
-                  url: 'api/plugin-proxy/worldping-app/api/elasticsearch',
+                  url: 'api/plugin-proxy/raintank-worldping-app/api/elasticsearch',
                   access: 'direct',
                   database: '[events-]YYYY-MM-DD',
                   jsonData: {

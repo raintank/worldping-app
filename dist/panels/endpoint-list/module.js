@@ -91,8 +91,8 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
       };
 
       loadPluginCss({
-        dark: 'plugins/worldping-app/css/worldping.dark.css',
-        light: 'plugins/worldping-app/css/worldping.light.css'
+        dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+        light: 'plugins/raintank-worldping-app/css/worldping.light.css'
       });
 
       _export('PanelCtrl', EndpointListCtrl = function (_PanelCtrl) {
@@ -127,7 +127,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           value: function initEditMode() {
             _get(Object.getPrototypeOf(EndpointListCtrl.prototype), 'initEditMode', this).call(this);
             this.icon = 'fa fa-text-width';
-            this.addEditorTab('Options', 'public/plugins/worldping-app/panels/endpoint-list/editor.html');
+            this.addEditorTab('Options', 'public/plugins/raintank-worldping-app/panels/endpoint-list/editor.html');
             this.editorTabIndex = 1;
           }
         }, {
@@ -173,7 +173,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           key: 'getMonitorTypes',
           value: function getMonitorTypes() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/monitor_types').then(function (types) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
               var typesMap = {};
               _.forEach(types, function (type) {
                 typesMap[type.id] = type;
@@ -190,13 +190,13 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           key: 'getEndpoints',
           value: function getEndpoints() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/worldping-app/api/endpoints').then(function (endpoints) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function (endpoints) {
               self.pageReady = true;
               _.forEach(endpoints, function (endpoint) {
                 endpoint.states = [];
                 endpoint.monitors = {};
                 endpoint.ready = false;
-                self.backendSrv.get('api/plugin-proxy/worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
+                self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
                   var seenStates = {};
                   _.forEach(monitors, function (mon) {
                     if (!mon.enabled) {
@@ -219,7 +219,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           key: 'remove',
           value: function remove(endpoint) {
             var self = this;
-            this.backendSrv.delete('api/plugin-proxy/worldping-app/api/endpoints/' + endpoint.id).then(function () {
+            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function () {
               self.getEndpoints();
             });
           }
@@ -273,14 +273,14 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         }, {
           key: 'gotoEndpointURL',
           value: function gotoEndpointURL(endpoint) {
-            this.$location.url('plugins/worldping-app/page/endpoint-details?endpoint=' + endpoint.id);
+            this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint=' + endpoint.id);
           }
         }]);
 
         return EndpointListCtrl;
       }(PanelCtrl));
 
-      EndpointListCtrl.templateUrl = 'public/plugins/worldping-app/components/endpoint/partials/endpoint_list.html';
+      EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html';
 
       _export('PanelCtrl', EndpointListCtrl);
     }

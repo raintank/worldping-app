@@ -17,12 +17,12 @@
   <div class="page-header-tabs">
     <ul class="gf-tabs">
       <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="plugins/worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
+        <a class="gf-tabs-link" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
           Status
         </a>
       </li>
       <li class="gf-tabs-item">
-        <a class="gf-tabs-link active" href="plugins/worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
+        <a class="gf-tabs-link active" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
           Configuration
         </a>
       </li>
@@ -123,13 +123,13 @@
   </div>
 
   <div ng-show="ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError">
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
-    <div ng-include src="'public/plugins/worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
+    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
+    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
+    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
   </div>
 </form>
-<div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/worldping-app/components/endpoint/partials/destroyForm.html'"></div>
+<div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/destroyForm.html'"></div>
 <div ng-show="ctrl.showConfig || ctrl.discoveryError" class="gf-form wp-tag-margin--bottom">
   <span class="gf-form-label width-6">Tags:</span>
   <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>

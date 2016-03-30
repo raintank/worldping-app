@@ -1,6 +1,6 @@
 <div class="page-header">
   <h1 class="rt-h1">Probes</h1>
-  <a class="btn btn-success" href="plugins/worldping-app/page/probe-create">
+  <a class="btn btn-success" href="plugins/raintank-worldping-app/page/probe-create">
     <i class="fa fa-plus"></i>
     New Probe
   </a>
@@ -8,7 +8,7 @@
 
   <div ng-if="!ctrl.pageReady" class="rt-loading-message-container">
     <div class="rt-loading-message-inside">
-      <img class="rt-loading-pulse" src="public/plugins/worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
+      <img class="rt-loading-pulse" src="public/plugins/raintank-worldping-app/img/loading-pulse.svg" style="margin-bottom: 10px;">
       <p class="rt-loading-msg-1">Ground Control to Major Tom</p>
       <p class="rt-loading-msg-2">This is taking longer than expected.</p>
       <p class="rt-loading-msg-3">We apologize, something may be up. Please contact us if this continues to happen.</p>
@@ -58,7 +58,7 @@
     </div>
     <ol class="card-list" >
       <li class="card-item-wrapper" ng-repeat="collector in ctrl.collectors | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
-        <a class="card-item" href="plugins/worldping-app/page/probe-details?probe={{collector.id}}">
+        <a class="card-item" href="plugins/raintank-worldping-app/page/probe-details?probe={{collector.id}}">
           <div class="card-item-header">
             <span class="rt-list-collector-status-{{collector.online?'online':'offline'}}">{{collector.online?"ONLINE":"OFFLINE"}}</span>
           </div>
@@ -66,8 +66,8 @@
             <div class="card-item-details">
               <div class="card-item-name">
                 {{collector.name}}
-                <span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
-                <span style="vertical-align: 2px;"><img src="public/plugins/worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
+                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
+                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
                 <span ng-repeat="tag in collector.tags" tag-color-from-name="tag"  class="label label-tag">
                   {{tag}}
                 </span>

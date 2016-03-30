@@ -47,7 +47,7 @@ class ProbeListCtrl {
 
   getCollectors() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/worldping-app/api/collectors').then(function(collectors) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function(collectors) {
       self.pageReady = true;
       self.collectors = collectors;
     });
@@ -55,7 +55,7 @@ class ProbeListCtrl {
 
   remove(loc) {
     var self = this;
-    this.backendSrv.delete('api/plugin-proxy/worldping-app/api/collectors/' + loc.id).then(function() {
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function() {
       self.getCollectors();
     });
   };
@@ -66,6 +66,6 @@ class ProbeListCtrl {
   
 }
 
-ProbeListCtrl.templateUrl = 'public/plugins/worldping-app/components/probe/partials/probe_list.html'
+ProbeListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_list.html'
 
 export {ProbeListCtrl}

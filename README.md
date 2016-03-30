@@ -12,7 +12,7 @@
 Use the new grafana-cli tool to install worldPing from the commandline:
 
 ```
-grafana-cli plugins install worldping-app
+grafana-cli plugins install raintank-worldping-app
 ```
 
 The plugin will be installed into your grafana plugins directory; the default is /var/lib/grafana/plugins if you installed the grafana package.
