@@ -7,7 +7,7 @@
     {
       "path": "api/*",
       "method": "*",
-      "url": "https://app.raintank.io/api",
+      "url": "https://worldping-api.raintank.io/api",
       "reqSignedIn": true,
       "headers": [
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
