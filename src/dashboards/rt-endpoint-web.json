@@ -292,11 +292,11 @@
           "links": [
             {
               "dashUri": "file/rt-events.json",
-              "dashboard": "worldPing Events",
+              "dashboard": "Litmus Events",
               "includeVars": true,
               "keepTime": true,
               "params": "var-monitor_type=ping",
-              "title": "worldPing Events",
+              "title": "Litmus Events",
               "type": "dashboard"
             }
           ],
