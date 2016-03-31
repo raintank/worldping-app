@@ -1,4 +1,4 @@
-<p>worldPing requires only a Grafana.net account, and is <span class="emphasis">free</span> for the first 10 endpoints and collectors. To get going, <a class="highlight-word" href="//grafana.net/settings/apikeys/new">generate a new API key</a> or <a class="highlight-word" href="grafana.net/signup">sign up</a> for your free account.</p>
+<p>worldPing requires only a Grafana.net account, and is <span class="emphasis">free</span> for the first 10 endpoints and collectors. To get going, <a class="highlight-word" href="//grafana.net/profile">generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup">sign up</a> for your free account.</p>
 <form name="editForm">
 		<div class="gf-form-inline">
 			<div class="gf-form">
@@ -17,11 +17,11 @@
 		</div>
 
 		<div class="wp-app-advanced-box" ng-class="{ 'wp-app-advanced-open': ctrl.showAdvanced }">
-		<p>The worldPing app is automatically configured with a single API key, but if you wish to configure specific elements of this app with different API keys, update and enter your details below:</p>
+		<p>The worldPing datasource is automatically configured with your credentials. If you need to recreate your datasource, you can Reset and Reconfigure below.</p>
 			<div class="gf-form-inline">
 				<div class="gf-form">
 					<span class="gf-form-label width-12">Configure Datasource</span>
-					<button type="submit" class="btn rt-btn" ng-if="!ctrl.appModel.jsonData.datasourceSet" ng-click="ctrl.configureDatasource()">Configure</button>
+					<button type="submit" class="btn btn-secondary btn-small" ng-if="!ctrl.appModel.jsonData.datasourceSet" ng-click="ctrl.configureDatasource()">Configure</button>
 					<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.datasourceSet">
 				</div>
 				<div class="gf-form">

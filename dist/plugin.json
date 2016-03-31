@@ -44,7 +44,7 @@
       "defaultNav": true
     },
     { "type": "page", "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer", "addToNav": true},
-    { "type": "page", "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Editor",  "addToNav": false},
+    { "type": "page", "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Viewer",  "addToNav": false},
     { "type": "page", "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "addToNav": false},
     { "type": "page", "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer", "addToNav": true},
     { "type": "page", "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "addToNav": false},
