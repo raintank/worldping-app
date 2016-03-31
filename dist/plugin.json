@@ -1,0 +1,112 @@
+{
+  "type": "app",
+  "name": "worldPing",
+  "id": "raintank-worldping-app",
+
+  "routes": [
+    {
+      "path": "api/*",
+      "method": "*",
+      "url": "https://worldping-api.raintank.io/api",
+      "reqSignedIn": true,
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    }
+  ],
+
+  "info": {
+    "description": "worldPing is a plug-in for Grafana that continually tests, stores and alerts on the global performance and availability of your Internet applications so you can pinpoint issues, fix them immediately, and improve your user’s experience.",
+    "author": {
+      "name": "Raintank Inc.",
+      "url": "http://raintank.io"
+    },
+    "keywords": ["raintank", "worldping", "network"],
+    "logos": {
+      "small": "img/worldping_logo.svg",
+      "large": "img/worldping_logo.svg"
+    },
+    "links": [
+      {"name": "worldPing", "url": "http://raintank.io/worldping"},
+      {"name": "GitHub", "url": "https://github.com/raintank/worldping-app"},
+      {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
+    ],
+    "version": "1.0.1",
+    "updated": "2016-03-29"
+  },
+
+  "includes": [
+    {
+      "type": "dashboard",
+      "name": "Worldping Home",
+      "path": "dashboards/worldping-home.json",
+      "addToNav": true,
+      "defaultNav": true
+    },
+    { "type": "page", "name": "Endpoints", "component": "EndpointListCtrl", "role": "Viewer", "addToNav": true},
+    { "type": "page", "name": "Endpoint Details", "component": "EndpointDetailsCtrl", "role": "Viewer",  "addToNav": false},
+    { "type": "page", "name": "Endpoint Config", "component": "EndpointConfigCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Probes", "component": "ProbeListCtrl", "role": "Viewer", "addToNav": true},
+    { "type": "page", "name": "Probe Details", "component": "ProbeDetailsCtrl", "role": "Editor", "addToNav": false},
+    { "type": "page", "name": "Probe Create", "component": "ProbeCreateCtrl", "role": "Editor", "addToNav": false},
+    {
+      "type": "dashboard",
+      "name": "Worldping: Events",
+      "path": "dashboards/rt-events.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping: Probes",
+      "path": "dashboards/rt-probe-summary.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- Web",
+      "path": "dashboards/rt-endpoint-web.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- Ping",
+      "path": "dashboards/rt-endpoint-ping.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: |--- DNS",
+      "path": "dashboards/rt-endpoint-dns.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: Summary",
+      "path": "dashboards/rt-endpoint-summary.json",
+      "addToNav": false
+    },
+    {
+      "type": "dashboard",
+      "name": "Worldping Endpoint: Comparison",
+      "path": "dashboards/rt-endpoint-comparison.json",
+      "addToNav": false
+    },
+    {
+      "type": "panel",
+      "name": "Worldping CTA"
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Endpoint List"
+    },
+    {
+      "type": "panel",
+      "name": "Worldping Endpoint Nav"
+    }
+  ],
+
+  "dependencies": {
+    "grafanaVersion": "3.0+",
+    "plugins": []
+  }
+}
