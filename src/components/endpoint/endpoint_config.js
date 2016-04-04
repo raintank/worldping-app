@@ -430,7 +430,7 @@ class EndpointConfigCtrl {
       self.endpoint = resp;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
-      self.$location.path("worldping/endpoints/summary/"+resp.id);
+      self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+resp.id);
     });
   }
 

@@ -27,7 +27,7 @@
       "large": "img/worldping_logo.svg"
     },
     "links": [
-      {"name": "worldPing", "url": "http://raintank.io/worldping"},
+      {"name": "worldPing", "url": "http://worldping.raintank.io"},
       {"name": "GitHub", "url": "https://github.com/raintank/worldping-app"},
       {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
     ],

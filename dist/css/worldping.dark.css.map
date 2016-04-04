@@ -3,9 +3,9 @@
 	"file": "worldping.dark.css",
 	"sources": [
 		"../../src/sass/worldping.dark.scss",
-		"../../../../../public/sass/_variables.dark.scss",
+		"../../../go/src/github.com/grafana/grafana/public/sass/_variables.dark.scss",
 		"../../src/sass/worldPing.scss",
-		"../../../../../public/sass/_variables.scss",
+		"../../../go/src/github.com/grafana/grafana/public/sass/_variables.scss",
 		"../../src/sass/base/_config.scss",
 		"../../src/sass/components/animations.scss",
 		"../../src/sass/components/probes.scss",
