@@ -7,4 +7,4 @@
 
 - [worldPing FAQ](http://worldping.raintank.io/worldping/faq)
 
-- [worldPing documentation - http://raintank.io/docs](http://worldping.raintank.io/docs/)
+- [worldPing documentation](http://worldping.raintank.io/docs/)
