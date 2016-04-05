@@ -86,9 +86,9 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           value: function configureDatasource() {
             var _this = this;
 
-            this.ctrl.appModel.jsonData.datasourceSet = false;
+            this.appModel.jsonData.datasourceSet = false;
             this.initDatasource().then(function () {
-              _this.ctrl.appModel.jsonData.datasourceSet = true;
+              _this.appModel.jsonData.datasourceSet = true;
               console.log("datasource initialized");
             });
           }
