@@ -26,7 +26,6 @@ class EndpointListCtrl {
 
   refresh() {
     this.getEndpoints();
-    this.getMonitorTypes();
   }
 
    endpointTags() {
@@ -57,17 +56,6 @@ class EndpointListCtrl {
     var equal = (actual === expected);
     return equal;
   }
-
-  getMonitorTypes() {
-    var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
-      var typesMap = {};
-      _.forEach(types, function(type) {
-        typesMap[type.id] = type;
-      });
-      self.monitor_types = typesMap;
-    });
-  }
   
   isEndPointReady(endpoint) {
     return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
@@ -88,7 +76,7 @@ class EndpointListCtrl {
               return;
             }
             seenStates[mon.state] = true;
-            endpoint.monitors[self.monitor_types[mon.monitor_type_id].name.toLowerCase()] = mon;
+            endpoint.monitors[mon.monitor_type_name.toLowerCase()] = mon;
           });
           for (var s in seenStates) {
             self.endpointState[s]++;
