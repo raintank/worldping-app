@@ -291,6 +291,10 @@ class EndpointConfigCtrl {
     this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
   }
 
+  tagsUpdated() {
+    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+  }
+
   save(location) {
     var self = this;
     var promises = [];

@@ -342,6 +342,11 @@ System.register(["lodash"], function (_export, _context) {
             this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
           }
         }, {
+          key: "tagsUpdated",
+          value: function tagsUpdated() {
+            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+          }
+        }, {
           key: "save",
           value: function save(location) {
             var self = this;

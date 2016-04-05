@@ -31,7 +31,7 @@ class EndpointDetailsCtrl {
   }
 
   tagsUpdated() {
-    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", $scope.endpoint);
+    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
   }
 
   getMonitorTypes() {
