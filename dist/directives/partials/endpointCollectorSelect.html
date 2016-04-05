@@ -1,0 +1,69 @@
+	<!-- Form -->
+    <div class="gf-form-inline">
+	<label class="gf-form-label width-9">Monitoring from</label>
+	<div class="gf-form-select-wrapper">
+		<select class="gf-form-input gf-size-auto" ng-model="footprint.value">
+			<option value="static" selected="selected">Static Footprint</option>
+			<option value="dynamic">Dynamic Footprint</option>
+		</select>
+	</div>
+
+    <!-- Dynamic -->
+	<div class="gf-form-select-wrapper" ng-if="footprint.value == 'dynamic'">
+		<a class="gf-form-input gf-size-auto" style="float:left" ng-click="show()">{{selectTagTitle()}}</a>
+		<div class="rt-flex-select-layout">
+			<div ng-if="selectorOpen" class="collector-dropdown variable-value-dropdown">
+				<div class="collector-dropdown-search search-field-wrapper">
+					<input class="collector-dropdown-search-input" type="text" placeholder="Search probe values" give-focus="giveFocus" tabindex="1"
+					ng-keydown="keyDown($event)" ng-model="query.text" ng-model-options="{ debounce: 500 }" spellcheck='false' ng-change="search()" />
+				</div>
+				<div class="tags collector-dropdown-container variable-options-container">
+					<div class="collector-dropdown-container-col">
+						<a class="collector-dropdown-tag" bindonce ng-repeat="option in tags|filter:query" ng-class="{'selected': option.selected}" ng-click="tagSelected(option)">
+							<span class="label rt-label-tag dropdown rt-list-tag-menu" tag-color-from-name="option.text">
+								{{option.text}}
+								<i ng-class="icon" class="tag-icon icon-rt-collector"></i>
+							</span>
+							<span class="collector-dropdown-tag-count">({{collectorCount(option)}})</span>
+						</a>
+					</div>
+					<div class="collector-dropdown-container-col">
+						<p class="collector-dropdown-desc">Tags allow you to create a <strong>dynamic</strong> set of probes which will update as you add and remove probes from tag groups.</p>
+					</div>
+				</div>
+				<div class="collector-dropdown-footer">
+					<p>Preview: {{collectorsWithTags()}}</p>
+					<p ng-show="error">{{error}}</p>
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Static -->
+	<div class="gf-form-select-wrapper" ng-if="footprint.value == 'static'">
+		<a class="gf-form-input gf-size-auto" style="float:left" ng-click="show()">{{selectIdTitle()}}</a>
+		<div class="rt-flex-select-layout">
+			<div ng-if="selectorOpen" class="collector-dropdown variable-value-dropdown">
+			<div class="collector-dropdown-search search-field-wrapper">
+				<input class="collector-dropdown-search-input" type="text" placeholder="Search probe values" give-focus="giveFocus" tabindex="1"
+				ng-keydown="keyDown($event)" ng-model="query.text" ng-model-options="{ debounce: 500 }" spellcheck='false' ng-change="search()" />
+			</div>
+			<div class="collector-dropdown-container variable-options-container">
+				<div class="collector-dropdown-container-col">
+					<a class="collector-dropdown-location" ng-hide="query.text" ng-click="selectAll()">
+						<span>all</span>
+					</a>
+					<a class="collector-dropdown-location" bindonce ng-repeat="option in ids|filter:query"
+					ng-class="{'selected': option.selected}" ng-click="idSelected(option)">
+						<span>{{option.text}}</span>
+					</a>
+				</div>
+				<div class="collector-dropdown-container-col">
+					<p class="collector-dropdown-desc">Selecting individual probes will allow your monitoring footprint to remain <strong>static</strong>, always monitoring from the selected probes.</p>
+				</div>
+			</div>
+			<div ng-show="error" class="collector-dropdown-footer">
+				<p>{{error}}</p>
+			</div>
+		</div>
+	</div>
