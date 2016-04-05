@@ -8,7 +8,7 @@
 </div>
 
 <div ng-if="ctrl.endpoint.id" class="page-header">
-  <h1>{{ctrl.endpoint.name}}<a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Litmus: Summary </br>dashboard for this endpoint'"></i></a></h1>
+  <h1>{{ctrl.endpoint.name}}<a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to Worldping: Summary </br>dashboard for this endpoint'"></i></a></h1>
     <div class="gf-form wp-tag-margin--bottom">
       <span class="gf-form-label width-6">Tags:</span>
     <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
