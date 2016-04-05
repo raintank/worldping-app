@@ -728,9 +728,9 @@
           "links": [
             {
               "type": "dashboard",
-              "dashboard": "Worldping Endpoint: |--- Ping",
+              "dashboard": "worldPing Endpoint: |--- Ping",
               "dashUri": "db/worldping-endpoint-ping",
-              "title": "Worldping Endpoint: |--- Ping",
+              "title": "worldPing Endpoint: |--- Ping",
               "includeVars": true,
               "keepTime": true
             }
