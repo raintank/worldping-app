@@ -75,7 +75,7 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'tagsUpdated',
           value: function tagsUpdated() {
-            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", $scope.endpoint);
+            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
           }
         }, {
           key: 'getMonitorTypes',
@@ -217,7 +217,7 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'gotoEventDashboard',
           value: function gotoEventDashboard(endpoint, type) {
-            this.$location.path("/dashboard/db/worldping-events").search({
+            this.$location.url("/dashboard/db/worldping-events").search({
               "var-collector": "All",
               "var-endpoint": endpoint.slug,
               "var-monitor_type": type.toLowerCase()

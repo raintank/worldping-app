@@ -342,6 +342,11 @@ System.register(["lodash"], function (_export, _context) {
             this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
           }
         }, {
+          key: "tagsUpdated",
+          value: function tagsUpdated() {
+            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+          }
+        }, {
           key: "save",
           value: function save(location) {
             var self = this;
@@ -488,7 +493,7 @@ System.register(["lodash"], function (_export, _context) {
               self.endpoint = resp;
               self.ignoreChanges = true;
               self.alertSrv.set("endpoint added", '', 'success', 3000);
-              self.$location.path("worldping/endpoints/summary/" + resp.id);
+              self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint=' + resp.id);
             });
           }
         }, {

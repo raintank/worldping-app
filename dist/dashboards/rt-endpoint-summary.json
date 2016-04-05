@@ -55,13 +55,12 @@
           "interval": null,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-dns.json",
-              "dashboard": "Litmus Endpoint: |--- DNS",
-              "includeVars": true,
+              "type": "dashboard",
+              "dashboard": "worldPing Endpoint: |--- DNS",
+              "dashUri": "db/worldping-endpoint-dns",
+              "title": "worldPing Endpoint: |--- DNS",
               "keepTime": true,
-              "targetBlank": false,
-              "title": "Litmus Endpoint: |--- DNS",
-              "type": "dashboard"
+              "includeVars": true
             }
           ],
           "maxDataPoints": 100,
@@ -116,11 +115,11 @@
           "interval": null,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-ping.json",
-              "dashboard": "Litmus Endpoint: |--- Ping",
+              "dashUri": "db/worldping-endpoint-ping",
+              "dashboard": "worldPing Endpoint: |--- Ping",
               "includeVars": true,
               "keepTime": true,
-              "title": "Litmus Endpoint: |--- Ping",
+              "title": "worldPing Endpoint: |--- Ping",
               "type": "dashboard"
             }
           ],
@@ -176,12 +175,12 @@
           "interval": null,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-web.json",
-              "dashboard": "Litmus Endpoint: |--- Web",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
               "includeVars": true,
               "keepTime": true,
               "params": "var-protocol=http",
-              "title": "Litmus Endpoint: |--- Web",
+              "title": "worldPing Endpoint: |--- Web",
               "type": "dashboard"
             }
           ],
@@ -237,13 +236,13 @@
           "interval": null,
           "links": [
             {
-              "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- Web",
-              "dashUri": "file/rt-endpoint-web.json",
-              "title": "Litmus Endpoint: |--- Web",
-              "params": "var-protocol=https",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
+              "includeVars": true,
               "keepTime": true,
-              "includeVars": true
+              "params": "var-protocol=https",
+              "title": "worldPing Endpoint: |--- Web",
+              "type": "dashboard"
             }
           ],
           "maxDataPoints": 100,
@@ -325,12 +324,12 @@
           "linewidth": 2,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-dns.json",
-              "dashboard": "Litmus Endpoint: |--- DNS",
-              "includeVars": true,
+              "type": "dashboard",
+              "dashboard": "worldPing Endpoint: |--- DNS",
+              "dashUri": "db/worldping-endpoint-dns",
+              "title": "worldPing Endpoint: |--- DNS",
               "keepTime": true,
-              "title": "Litmus Endpoint: |--- DNS",
-              "type": "dashboard"
+              "includeVars": true
             }
           ],
           "maxDataPoints": "30",
@@ -405,11 +404,11 @@
           "linewidth": 2,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-ping.json",
-              "dashboard": "Litmus Endpoint: |--- Ping",
+              "dashUri": "db/worldping-endpoint-ping",
+              "dashboard": "worldPing Endpoint: |--- Ping",
               "includeVars": true,
               "keepTime": true,
-              "title": "Litmus Endpoint: |--- Ping",
+              "title": "worldPing Endpoint: |--- Ping",
               "type": "dashboard"
             }
           ],
@@ -485,12 +484,12 @@
           "linewidth": 2,
           "links": [
             {
-              "dashUri": "file/rt-endpoint-web.json",
-              "dashboard": "Litmus Endpoint: |--- Web",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
               "includeVars": true,
               "keepTime": true,
               "params": "var-protocol=http",
-              "title": "Litmus Endpoint: |--- Web",
+              "title": "worldPing Endpoint: |--- Web",
               "type": "dashboard"
             }
           ],
@@ -565,13 +564,13 @@
           "linewidth": 2,
           "links": [
             {
-              "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- Web",
-              "dashUri": "file/rt-endpoint-web.json",
-              "title": "Litmus Endpoint: |--- Web",
-              "params": "var-protocol=https",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
+              "includeVars": true,
               "keepTime": true,
-              "includeVars": true
+              "params": "var-protocol=https",
+              "title": "worldPing Endpoint: |--- Web",
+              "type": "dashboard"
             }
           ],
           "maxDataPoints": "40",
@@ -655,9 +654,9 @@
           "links": [
             {
               "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- DNS",
-              "dashUri": "file/rt-endpoint-dns.json",
-              "title": "Litmus Endpoint: |--- DNS",
+              "dashboard": "worldPing Endpoint: |--- DNS",
+              "dashUri": "db/worldping-endpoint-dns",
+              "title": "worldPing Endpoint: |--- DNS",
               "keepTime": true,
               "includeVars": true
             }
@@ -729,9 +728,9 @@
           "links": [
             {
               "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- Ping",
-              "dashUri": "file/rt-endpoint-ping.json",
-              "title": "Litmus Endpoint: |--- Ping",
+              "dashboard": "worldPing Endpoint: |--- Ping",
+              "dashUri": "db/worldping-endpoint-ping",
+              "title": "worldPing Endpoint: |--- Ping",
               "includeVars": true,
               "keepTime": true
             }
@@ -802,13 +801,13 @@
           "linewidth": 2,
           "links": [
             {
-              "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- Web",
-              "dashUri": "file/rt-endpoint-web.json",
-              "title": "Litmus Endpoint: |--- Web",
-              "params": "var-protocol=http",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
               "includeVars": true,
-              "keepTime": true
+              "keepTime": true,
+              "params": "var-protocol=http",
+              "title": "worldPing Endpoint: |--- Web",
+              "type": "dashboard"
             }
           ],
           "maxDataPoints": "",
@@ -877,13 +876,13 @@
           "linewidth": 2,
           "links": [
             {
-              "type": "dashboard",
-              "dashboard": "Litmus Endpoint: |--- Web",
-              "dashUri": "file/rt-endpoint-web.json",
-              "title": "Litmus Endpoint: |--- Web",
-              "params": "var-protocol=https",
+              "dashUri": "db/worldping-endpoint-web",
+              "dashboard": "worldPing Endpoint: |--- Web",
+              "includeVars": true,
               "keepTime": true,
-              "includeVars": true
+              "params": "var-protocol=https",
+              "title": "worldPing Endpoint: |--- Web",
+              "type": "dashboard"
             }
           ],
           "maxDataPoints": "",

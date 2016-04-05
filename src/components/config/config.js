@@ -46,9 +46,9 @@ class WorldPingConfigCtrl {
   }
 
   configureDatasource() {
-    this.ctrl.appModel.jsonData.datasourceSet = false;
+    this.appModel.jsonData.datasourceSet = false;
     this.initDatasource().then(() => {
-      this.ctrl.appModel.jsonData.datasourceSet = true;
+      this.appModel.jsonData.datasourceSet = true;
       console.log("datasource initialized");
     });
   }

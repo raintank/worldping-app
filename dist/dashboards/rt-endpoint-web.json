@@ -291,12 +291,12 @@
           "linewidth": 2,
           "links": [
             {
-              "dashUri": "file/rt-events.json",
-              "dashboard": "Litmus Events",
+              "dashUri": "db/worldping-events",
+              "dashboard": "worldPing: Events",
               "includeVars": true,
               "keepTime": true,
               "params": "var-monitor_type=ping",
-              "title": "Litmus Events",
+              "title": "worldPing: Events",
               "type": "dashboard"
             }
           ],
@@ -706,9 +706,11 @@
             "selected": false
           }
         ],
-        "query": "litmus.$endpoint.$probe.{http,https}",
+        "query": "http,https",
         "refresh_on_load": false,
-        "type": "query"
+        "type": "custom",
+        "refresh": 0,
+        "hide": 0
       },
       {
         "allFormat": "glob",

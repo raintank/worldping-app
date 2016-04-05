@@ -134,7 +134,6 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           key: 'refresh',
           value: function refresh() {
             this.getEndpoints();
-            this.getMonitorTypes();
           }
         }, {
           key: 'endpointTags',
@@ -170,18 +169,6 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
             return equal;
           }
         }, {
-          key: 'getMonitorTypes',
-          value: function getMonitorTypes() {
-            var self = this;
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
-              var typesMap = {};
-              _.forEach(types, function (type) {
-                typesMap[type.id] = type;
-              });
-              self.monitor_types = typesMap;
-            });
-          }
-        }, {
           key: 'isEndPointReady',
           value: function isEndPointReady(endpoint) {
             return endpoint && endpoint.hasOwnProperty('ready') && endpoint.ready;
@@ -203,7 +190,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
                       return;
                     }
                     seenStates[mon.state] = true;
-                    endpoint.monitors[self.monitor_types[mon.monitor_type_id].name.toLowerCase()] = mon;
+                    endpoint.monitors[mon.monitor_type_name.toLowerCase()] = mon;
                   });
                   for (var s in seenStates) {
                     self.endpointState[s]++;
