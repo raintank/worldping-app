@@ -59,7 +59,6 @@
 			<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
 				<a class="card-item" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
 					<div class="card-item-header">
-						<i class="icon-gf icon-gf-{{ds.type}}"></i>
 						<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
 					</div>
 					<div class="card-item-body">
@@ -68,9 +67,6 @@
 								{{endpoint.name}}
 								<span ng-repeat="tag in endpoint.tags" tag-color-from-name="tag"  class="label label-tag">
 									{{tag}}
-								</span>
-								<span ng-if="ds.isDefault">
-									<span class="btn btn-secondary btn-mini">default</span>
 								</span>
 							</div>
 						</div>
