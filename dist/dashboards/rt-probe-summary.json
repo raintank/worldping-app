@@ -844,7 +844,7 @@
       {
         "allFormat": "glob",
         "datasource": "raintank",
-        "includeAll": false,
+        "includeAll": true,
         "label": "Endpoint(s)",
         "multi": true,
         "multiFormat": "glob",
