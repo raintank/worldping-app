@@ -139,7 +139,7 @@ class EndpointDetailsCtrl {
       type = 'summary';
     }
     var search = {
-      "var-collector": "All",
+      "var-probe": "All",
       "var-endpoint": this.endpoint.slug
     };
     switch(type.toLowerCase()) {
@@ -168,7 +168,7 @@ class EndpointDetailsCtrl {
 
   gotoEventDashboard(endpoint, type) {
     this.$location.url("/dashboard/db/worldping-events").search({
-      "var-collector": "All",
+      "var-probe": "All",
       "var-endpoint": endpoint.slug,
       "var-monitor_type": type.toLowerCase()
     });

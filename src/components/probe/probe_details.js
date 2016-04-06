@@ -63,7 +63,7 @@ class ProbeDetailsCtrl {
   }
 
   gotoDashboard(collector) {
-    this.$location.path("/dashboard/db/worldping-collector-summary").search({"var-probe": collector.slug, "var-endpoint": "All"});
+    this.$location.path("/dashboard/db/worldping-probes").search({"var-probe": collector.slug, "var-endpoint": "All"});
   }
 
   gotoEventDashboard(collector) {
