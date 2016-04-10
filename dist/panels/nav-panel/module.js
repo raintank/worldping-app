@@ -138,6 +138,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                   endpoint.states = [];
                   endpoint.monitors = {};
                   endpoint.ready = false;
+
                   self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
                     var seenStates = {};
                     _.forEach(monitors, function (mon) {

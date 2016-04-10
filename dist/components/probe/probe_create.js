@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['lodash'], function (_export, _context) {
-  var _, _createClass, defaults, ProbeCreateCtrl;
+System.register(['angular'], function (_export, _context) {
+  var angular, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -10,8 +10,8 @@ System.register(['lodash'], function (_export, _context) {
   }
 
   return {
-    setters: [function (_lodash) {
-      _ = _lodash.default;
+    setters: [function (_angular) {
+      angular = _angular.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -38,6 +38,7 @@ System.register(['lodash'], function (_export, _context) {
       };
 
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
+
         /** @ngInject */
 
         function ProbeCreateCtrl($scope, $injector, $location, $timeout, backendSrv) {
@@ -107,8 +108,9 @@ System.register(['lodash'], function (_export, _context) {
             var self = this;
             var token = {
               role: 'Editor',
-              name: "collector:" + $scope.collector.name
+              name: "collector:" + this.collector.name
             };
+
             this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/auth/keys', token).then(function (result) {
               self.apiKey = result.key;
               self.showApiKey = true;

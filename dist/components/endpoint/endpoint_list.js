@@ -39,6 +39,7 @@ System.register(["lodash"], function (_export, _context) {
       }();
 
       _export("EndpointListCtrl", EndpointListCtrl = function () {
+
         /** @ngInject */
 
         function EndpointListCtrl($scope, $injector, $location, backendSrv) {

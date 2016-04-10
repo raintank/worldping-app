@@ -10,6 +10,7 @@ loadPluginCss({
 });
 
 class EndpointNavCtrl extends PanelCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv, templateSrv) {
     super($scope, $injector);
@@ -57,7 +58,7 @@ class EndpointNavCtrl extends PanelCtrl {
 
   isEndPointReady(endpoint) {
     return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
-  };
+  }
 
   getEndpoints(endpointSlugs) {
     var self = this;
@@ -70,7 +71,9 @@ class EndpointNavCtrl extends PanelCtrl {
           endpoint.states = [];
           endpoint.monitors = {};
           endpoint.ready = false;
-          self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id}).then(function(monitors) {
+
+          self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id})
+            .then(function(monitors) {
             var seenStates = {};
             _.forEach(monitors, function(mon) {
               if (!mon.enabled) {
@@ -167,6 +170,7 @@ class EndpointNavCtrl extends PanelCtrl {
   }
 }
 
-EndpointNavCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/nav-panel/module.html'
-
-export {EndpointNavCtrl as PanelCtrl}
+EndpointNavCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/nav-panel/module.html';
+export {
+  EndpointNavCtrl as PanelCtrl
+};

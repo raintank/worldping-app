@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 class EndpointDetailsCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv) {
     var self = this;
@@ -70,7 +71,7 @@ class EndpointDetailsCtrl {
 
   //TODO: move to directive.
   monitorStateTxt(type) {
-    var mon = this.getMonitorByTypeName(type)
+    var mon = this.getMonitorByTypeName(type);
     if (typeof(mon) !== "object") {
       return "disabled";
     }
@@ -90,7 +91,7 @@ class EndpointDetailsCtrl {
 
   //TODO: move to directive.
   monitorStateClass(type) {
-    var mon = this.getMonitorByTypeName(type)
+    var mon = this.getMonitorByTypeName(type);
     if (typeof(mon) !== "object") {
       return "disabled";
     }
@@ -106,7 +107,7 @@ class EndpointDetailsCtrl {
 
   //TODO: move to directive.
   stateChangeStr(type) {
-    var mon = this.getMonitorByTypeName(type)
+    var mon = this.getMonitorByTypeName(type);
     if (typeof(mon) !== "object") {
       return "";
     }
@@ -128,7 +129,7 @@ class EndpointDetailsCtrl {
     }
     var days = Math.floor(duration/1000/60/60/24);
     return "for " + days + " days";
-  };
+  }
 
   setEndpoint(id) {
     this.$location.url('plugins/raintank-worldping-app/page/endpoint_details?endpoint='+id);
@@ -208,10 +209,10 @@ class EndpointDetailsCtrl {
 
   refresh() {
     this.pageReady = false;
-    this.getEndpoint(thiss.endpoint.id);
+    this.getEndpoint(this.endpoint.id);
     this.refreshTime = new Date();
   }
 }
-EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
 
-export {EndpointDetailsCtrl}
+EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
+export {EndpointDetailsCtrl};

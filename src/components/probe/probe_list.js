@@ -1,7 +1,8 @@
 import _ from 'lodash';
 
 class ProbeListCtrl {
- /** @ngInject */
+
+  /** @ngInject */
   constructor($scope, $injector, $location, $filter, backendSrv) {
     this.backendSrv = backendSrv;
     this.$filter = $filter;
@@ -20,7 +21,6 @@ class ProbeListCtrl {
   }
 
   collectorTags() {
-    var self = this;
     var map = {};
     _.forEach(this.collectors, function(collector) {
       _.forEach(collector.tags, function(tag) {
@@ -42,7 +42,7 @@ class ProbeListCtrl {
       }
       var res = self.$filter('filter')([actual], self.filter.status);
       return res.length > 0;
-    }
+    };
   }
 
   getCollectors() {
@@ -51,21 +51,19 @@ class ProbeListCtrl {
       self.pageReady = true;
       self.collectors = collectors;
     });
-  };
+  }
 
   remove(loc) {
     var self = this;
     this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function() {
       self.getCollectors();
     });
-  };
+  }
 
   gotoDashboard(collector) {
     this.$location.path("/dashboard/db/worldping-collector-summary").search({"var-collector": collector.slug, "var-endpoint": "All"});
-  };
-  
+  }
 }
 
-ProbeListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_list.html'
-
-export {ProbeListCtrl}
+ProbeListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_list.html';
+export {ProbeListCtrl};

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 class EndpointListCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv) {
     this.backendSrv = backendSrv;
@@ -40,7 +41,7 @@ class EndpointListCtrl {
 
   setTagFilter(tag) {
     this.filter.tag = tag;
-  };
+  }
 
   setStatusFilter(status) {
     if (status === this.filter.status) {
@@ -56,10 +57,10 @@ class EndpointListCtrl {
     var equal = (actual === expected);
     return equal;
   }
-  
+
   isEndPointReady(endpoint) {
     return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
-  };
+  }
 
   getEndpoints() {
     var self = this;
@@ -142,8 +143,8 @@ class EndpointListCtrl {
 
   gotoEndpointURL(endpoint) {
     this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
-  };
+  }
 }
-EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html'
 
-export {EndpointListCtrl}
+EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html';
+export {EndpointListCtrl};

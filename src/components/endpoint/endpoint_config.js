@@ -1,7 +1,9 @@
 import _ from 'lodash';
+import angular from 'angular';
 
 class EndpointConfigCtrl {
-   /** @ngInject */
+
+  /** @ngInject */
   constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
@@ -390,7 +392,7 @@ class EndpointConfigCtrl {
     this.discoveryInProgress = false;
     this.showConfig = true;
     this.discoveryError = false;
-  };
+  }
 
   discover(endpoint) {
     if (!endpoint.name){
@@ -488,5 +490,4 @@ class EndpointConfigCtrl {
 }
 
 EndpointConfigCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_config.html';
-
-export {EndpointConfigCtrl}
+export {EndpointConfigCtrl};

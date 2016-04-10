@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-System.register(["lodash"], function (_export, _context) {
-  var _, _createClass, EndpointConfigCtrl;
+System.register(['lodash', 'angular'], function (_export, _context) {
+  var _, angular, _createClass, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,6 +12,8 @@ System.register(["lodash"], function (_export, _context) {
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
+    }, function (_angular) {
+      angular = _angular.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -32,7 +34,8 @@ System.register(["lodash"], function (_export, _context) {
         };
       }();
 
-      _export("EndpointConfigCtrl", EndpointConfigCtrl = function () {
+      _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
+
         /** @ngInject */
 
         function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
@@ -140,7 +143,7 @@ System.register(["lodash"], function (_export, _context) {
         }
 
         _createClass(EndpointConfigCtrl, [{
-          key: "getCollectors",
+          key: 'getCollectors',
           value: function getCollectors() {
             var self = this;
             return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function (collectors) {
@@ -158,7 +161,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "collectorCount",
+          key: 'collectorCount',
           value: function collectorCount(monitor) {
             var self = this;
             if (!monitor) {
@@ -176,7 +179,7 @@ System.register(["lodash"], function (_export, _context) {
             return Object.keys(ids).length;
           }
         }, {
-          key: "getMonitorTypes",
+          key: 'getMonitorTypes',
           value: function getMonitorTypes() {
             var self = this;
             return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
@@ -190,7 +193,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "setDefaultMonitor",
+          key: 'setDefaultMonitor',
           value: function setDefaultMonitor(type) {
             var self = this;
             if (!(type.name.toLowerCase() in this.monitors)) {
@@ -223,7 +226,7 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "defaultSettingByVariable",
+          key: 'defaultSettingByVariable',
           value: function defaultSettingByVariable(monitorType, variable) {
             var s = null;
             var type = this.monitor_types_by_name[monitorType];
@@ -235,7 +238,7 @@ System.register(["lodash"], function (_export, _context) {
             return s;
           }
         }, {
-          key: "currentSettingByVariable",
+          key: 'currentSettingByVariable',
           value: function currentSettingByVariable(monitor, variable) {
             var s = {
               "variable": variable,
@@ -269,7 +272,7 @@ System.register(["lodash"], function (_export, _context) {
             return s;
           }
         }, {
-          key: "reset",
+          key: 'reset',
           value: function reset() {
             var self = this;
             this.discovered = false;
@@ -283,14 +286,14 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "cancel",
+          key: 'cancel',
           value: function cancel() {
             this.reset();
             this.ignoreChanges = true;
             window.history.back();
           }
         }, {
-          key: "getEndpoint",
+          key: 'getEndpoint',
           value: function getEndpoint(idString) {
             var self = this;
             var id = parseInt(idString);
@@ -313,12 +316,12 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "setEndpoint",
+          key: 'setEndpoint',
           value: function setEndpoint(id) {
             this.$location.url('plugins/raintank-worldping-app/page/endpoint-config?endpoint=' + id);
           }
         }, {
-          key: "remove",
+          key: 'remove',
           value: function remove(endpoint) {
             var self = this;
             this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function () {
@@ -326,7 +329,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "removeMonitor",
+          key: 'removeMonitor',
           value: function removeMonitor(mon) {
             var self = this;
             var type = this.monitor_types[mon.monitor_type_id];
@@ -336,18 +339,18 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "updateEndpoint",
+          key: 'updateEndpoint',
           value: function updateEndpoint() {
             this.endpoint.name = this.newEndpointName;
             this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
           }
         }, {
-          key: "tagsUpdated",
+          key: 'tagsUpdated',
           value: function tagsUpdated() {
             this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
           }
         }, {
-          key: "save",
+          key: 'save',
           value: function save(location) {
             var self = this;
             var promises = [];
@@ -372,7 +375,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "addMonitor",
+          key: 'addMonitor',
           value: function addMonitor(monitor) {
             var self = this;
             monitor.endpoint_id = this.endpoint.id;
@@ -389,7 +392,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "updateMonitor",
+          key: 'updateMonitor',
           value: function updateMonitor(monitor) {
             var self = this;
             if (!monitor.id) {
@@ -412,7 +415,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "parseSuggestions",
+          key: 'parseSuggestions',
           value: function parseSuggestions(payload) {
             var self = this;
             var defaults = {
@@ -442,14 +445,14 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "skipDiscovery",
+          key: 'skipDiscovery',
           value: function skipDiscovery() {
             this.discoveryInProgress = false;
             this.showConfig = true;
             this.discoveryError = false;
           }
         }, {
-          key: "discover",
+          key: 'discover',
           value: function discover(endpoint) {
             if (!endpoint.name) {
               return;
@@ -476,7 +479,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "addEndpoint",
+          key: 'addEndpoint',
           value: function addEndpoint() {
             var self = this;
             if (this.endpoint.id) {
@@ -497,7 +500,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "changesPending",
+          key: 'changesPending',
           value: function changesPending() {
             var self = this;
             var changes = false;
@@ -513,7 +516,7 @@ System.register(["lodash"], function (_export, _context) {
             return changes;
           }
         }, {
-          key: "gotoDashboard",
+          key: 'gotoDashboard',
           value: function gotoDashboard(endpoint, type) {
             var self = this;
             if (!type) {
@@ -553,7 +556,7 @@ System.register(["lodash"], function (_export, _context) {
 
       EndpointConfigCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_config.html';
 
-      _export("EndpointConfigCtrl", EndpointConfigCtrl);
+      _export('EndpointConfigCtrl', EndpointConfigCtrl);
     }
   };
 });
