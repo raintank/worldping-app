@@ -31,6 +31,18 @@ module.exports = function(grunt) {
       },
     },
 
+    karma: {
+      dev: {
+        configFile: 'karma.conf.js',
+        singleRun: false,
+      },
+      debug: {
+        configFile: 'karma.conf.js',
+        singleRun: false,
+        browsers: ['Chrome']
+      },
+    },
+
     babel: {
       options: {
         sourceMap: true,
