@@ -132,7 +132,7 @@
 <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/destroyForm.html'"></div>
 <div ng-show="ctrl.showConfig || ctrl.discoveryError" class="gf-form wp-tag-margin--bottom">
   <span class="gf-form-label width-6">Tags:</span>
-  <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
+  <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
 </div>
 <div ng-show="ctrl.showConfig || ctrl.discoveryError">
     <button type="submit" class="btn btn-success" ng-click="endpointForm.$valid && ctrl.addEndpoint(ctrl.endpoint)">Add</button>
