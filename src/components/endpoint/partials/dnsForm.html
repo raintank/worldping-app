@@ -10,7 +10,7 @@
           <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['dns'].enabled"></i>
           <span class="freqMsg disabled" ng-show="!ctrl.monitors['dns'].enabled" > Not enabled |</span>
           <span class="freqMsg" ng-show="!ctrl.monitors['dns'].enabled && ctrl.discovered" > Not Discovered |</span>
-          <!-- Alerting
+          <!-- Alertingreq
           <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['dns'].enabled && monitors['alert'].enabled"></i>
           <span class="freqMsg" ng-show="ctrl.monitors['dns'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
           -->
@@ -47,7 +47,7 @@
           <div class="gf-form-group">
             <div class="gf-form">
               <label class="gf-form-label width-9">Hostname</label>
-              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'name').value" placeholder="www.example.com" required>
+              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'name').value" placeholder="www.example.com">
             </div>
             <div class="gf-form">
               <label class="gf-form-label width-9">Timeout (s)</label>
@@ -69,7 +69,7 @@
               </div>
               <div class="gf-form max-width-9">
                 <label class="gf-form-label width-4">Port</label>
-                <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'port').value" required>
+                <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'port').value">
               </div>
               <div class="gf-form max-width-9">
                 <label class="gf-form-label width-9">Protocol</label>
