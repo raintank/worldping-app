@@ -92,4 +92,15 @@ module.exports = function(grunt) {
     'jshint',
     'jscs',
     ]);
+
+  // does not have sass due to grafana file dependency
+  grunt.registerTask('test', [
+    'clean',
+    'copy:src_to_dist',
+    'copy:pluginDef',
+    'babel',
+    'jshint',
+    'jscs',
+    ]);
 };
+
