@@ -35,7 +35,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
       }();
 
       _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
-
         /** @ngInject */
 
         function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
@@ -209,8 +208,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 id: null,
                 endpoint_id: null,
                 monitor_type_id: type.id,
-                collector_ids: self.global_collectors.collector_ids,
-                collector_tags: self.global_collectors.collector_tags,
+                collector_ids: [],
+                collector_tags: [],
                 settings: settings,
                 enabled: false,
                 frequency: 10,
@@ -223,6 +222,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                   }
                 }
               };
+              self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(self.monitors[type.name.toLowerCase()]);
             }
           }
         }, {
@@ -257,8 +257,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             if (!found) {
               monitor.settings.push(s);
             }
+            var type = this.monitor_types[monitor.monitor_type_id];
             if (s.value === null) {
-              var type = this.monitor_types[monitor.monitor_type_id];
               _.forEach(type.settings, function (setting) {
                 if (setting.variable === variable) {
                   s.value = setting.default_value;
@@ -266,7 +266,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               });
             }
             if (!found) {
-              this.monitorLastState[monitor.id].settings.push(_.cloneDeep(s));
+              this.monitorLastState[type.name.toLowerCase()].settings.push(_.cloneDeep(s));
             }
 
             return s;
@@ -303,13 +303,13 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               //get monitors for this endpoint.
               self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id=' + id).then(function (monitors) {
                 _.forEach(monitors, function (monitor) {
-                  var type = self.monitor_types[monitor.monitor_type_id].name.toLowerCase();
+                  var type = monitor.monitor_type_name.toLowerCase();
                   if (type in self.monitors) {
                     _.assign(self.monitors[type], monitor);
                   } else {
                     self.monitors[type] = monitor;
                   }
-                  self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
+                  self.monitorLastState[type] = _.cloneDeep(monitor);
                 });
                 self.pageReady = true;
               });
@@ -335,7 +335,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             var type = this.monitor_types[mon.monitor_type_id];
             this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/monitors/' + mon.id).then(function () {
               self.setDefaultMonitor(type.name.toLowerCase());
-              delete self.monitorLastState[mon.id];
+              delete self.monitorLastState[type.name.toLowerCase()];
             });
           }
         }, {
@@ -356,8 +356,9 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             var promises = [];
             _.forEach(this.monitors, function (monitor) {
               monitor.endpoint_id = self.endpoint.id;
+              var type = self.monitor_types[monitor.monitor_type_id];
               if (monitor.id) {
-                if (!angular.equals(monitor, self.monitorLastState[monitor.id])) {
+                if (!angular.equals(monitor, self.monitorLastState[type.name.toLowerCase()])) {
                   promises.push(self.updateMonitor(monitor));
                 }
               } else if (monitor.enabled) {
@@ -381,12 +382,12 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             monitor.endpoint_id = this.endpoint.id;
             return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function (resp) {
               _.defaults(monitor, resp);
-              self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
+              var type = self.monitor_types[resp.monitor_type_id];
+              self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(monitor);
               var action = "disabled";
               if (monitor.enabled) {
                 action = "enabled";
               }
-              var type = self.monitor_types[resp.monitor_type_id];
               var message = type.name.toLowerCase() + " " + action + " successfully";
               self.alertSrv.set(message, '', 'success', 3000);
             });
@@ -402,7 +403,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function () {
               var type = self.monitor_types[monitor.monitor_type_id];
               var message = type.name.toLowerCase() + " updated";
-              if (self.monitorLastState[monitor.id].enabled !== monitor.enabled) {
+              if (self.monitorLastState[type.name.toLowerCase()].enabled !== monitor.enabled) {
                 var action = "disabled";
                 if (monitor.enabled) {
                   action = "enabled";
@@ -410,7 +411,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 message = type.name.toLowerCase() + " " + action + " successfully";
               }
 
-              self.monitorLastState[monitor.id] = _.cloneDeep(monitor);
+              self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(monitor);
               self.alertSrv.set(message, '', 'success', 3000);
             });
           }
@@ -508,7 +509,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               if (monitor.id === null) {
                 return;
               }
-              if (!angular.equals(monitor, self.monitorLastState[monitor.id])) {
+              var type = self.monitor_types[monitor.monitor_type_id];
+              if (!angular.equals(monitor, self.monitorLastState[type.name.toLowerCase()])) {
                 changes = true;
               }
             });
