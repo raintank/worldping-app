@@ -35,7 +35,8 @@
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-jscs": "^2.8.0",
     "grunt-cli": "^1.2.0",
-    "lodash": "~4.0.0"
+    "lodash": "~4.0.0",
+    "jshint-stylish": "~2.1.0"
   },
   "homepage": "https://raintank.io"
 }
