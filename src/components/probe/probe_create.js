@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import angular from 'angular';
 
 var defaults = {
   name: '',
@@ -6,7 +6,8 @@ var defaults = {
 };
 
 class ProbeCreateCtrl {
- /** @ngInject */
+
+  /** @ngInject */
   constructor($scope, $injector, $location, $timeout, backendSrv) {
     var self = this;
     this.backendSrv = backendSrv;
@@ -37,7 +38,7 @@ class ProbeCreateCtrl {
 
   save() {
     return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/collectors', this.collector);
-  };
+  }
 
   add() {
     var self = this;
@@ -46,11 +47,11 @@ class ProbeCreateCtrl {
         self.collector = resp;
         self.newCollector = true;
       });
-  };
+  }
 
   configInfo() {
     this.showConfigInfo = true;
-  };
+  }
 
   defaultDistro() {
     this.showDistroConfig = false;
@@ -64,16 +65,18 @@ class ProbeCreateCtrl {
     var self = this;
     var token = {
       role: 'Editor',
-      name: "collector:" + $scope.collector.name
+      name: "collector:" + this.collector.name
     };
+
     this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/auth/keys', token).then(function(result) {
       self.apiKey = result.key;
       self.showApiKey = true;
     });
-  };
+  }
 }
 
-ProbeCreateCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_create.html'
-
-export {ProbeCreateCtrl}
+ProbeCreateCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_create.html';
+export {
+  ProbeCreateCtrl
+};
 

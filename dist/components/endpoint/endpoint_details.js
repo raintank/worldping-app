@@ -39,6 +39,7 @@ System.register(['lodash'], function (_export, _context) {
       }();
 
       _export('EndpointDetailsCtrl', EndpointDetailsCtrl = function () {
+
         /** @ngInject */
 
         function EndpointDetailsCtrl($scope, $injector, $location, backendSrv) {
@@ -261,7 +262,7 @@ System.register(['lodash'], function (_export, _context) {
           key: 'refresh',
           value: function refresh() {
             this.pageReady = false;
-            this.getEndpoint(thiss.endpoint.id);
+            this.getEndpoint(this.endpoint.id);
             this.refreshTime = new Date();
           }
         }]);

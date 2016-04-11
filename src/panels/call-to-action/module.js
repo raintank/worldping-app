@@ -8,6 +8,7 @@ loadPluginCss({
 });
 
 class CallToActionCtrl extends PanelCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv) {
     super($scope, $injector);
@@ -103,6 +104,8 @@ class CallToActionCtrl extends PanelCtrl {
   }
 }
 
-CallToActionCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/call-to-action/module.html'
+CallToActionCtrl.templateUrl = 'public/plugins/raintank-worldping-app/panels/call-to-action/module.html';
 
-export {CallToActionCtrl as PanelCtrl}
+export {
+  CallToActionCtrl as PanelCtrl
+};

@@ -33,6 +33,7 @@ System.register(["lodash"], function (_export, _context) {
       }();
 
       _export("ProbeListCtrl", ProbeListCtrl = function () {
+
         /** @ngInject */
 
         function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv) {
@@ -53,7 +54,6 @@ System.register(["lodash"], function (_export, _context) {
         _createClass(ProbeListCtrl, [{
           key: "collectorTags",
           value: function collectorTags() {
-            var self = this;
             var map = {};
             _.forEach(this.collectors, function (collector) {
               _.forEach(collector.tags, function (tag) {

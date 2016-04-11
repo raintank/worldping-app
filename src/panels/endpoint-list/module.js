@@ -10,6 +10,7 @@ loadPluginCss({
 });
 
 class EndpointListCtrl extends PanelCtrl {
+
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv) {
     super($scope, $injector);
@@ -57,7 +58,7 @@ class EndpointListCtrl extends PanelCtrl {
 
   setTagFilter(tag) {
     this.filter.tag = tag;
-  };
+  }
 
   setStatusFilter(status) {
     if (status === this.filter.status) {
@@ -76,7 +77,7 @@ class EndpointListCtrl extends PanelCtrl {
 
   isEndPointReady(endpoint) {
     return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
-  };
+  }
 
   getEndpoints() {
     var self = this;
@@ -159,9 +160,11 @@ class EndpointListCtrl extends PanelCtrl {
 
   gotoEndpointURL(endpoint) {
     this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+ endpoint.id);
-  };
+  }
 }
-EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html'
 
+EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html';
 
-export {EndpointListCtrl as PanelCtrl}
+export {
+  EndpointListCtrl as PanelCtrl
+};

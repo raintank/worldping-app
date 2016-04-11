@@ -33,6 +33,7 @@ System.register(['lodash'], function (_export, _context) {
       }();
 
       _export('ProbeDetailsCtrl', ProbeDetailsCtrl = function () {
+
         /** @ngInject */
 
         function ProbeDetailsCtrl($scope, $injector, $location, $timeout, backendSrv, contextSrv) {
@@ -142,9 +143,9 @@ System.register(['lodash'], function (_export, _context) {
         return ProbeDetailsCtrl;
       }());
 
-      ProbeDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_details.html';
-
       _export('ProbeDetailsCtrl', ProbeDetailsCtrl);
+
+      ProbeDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_details.html';
     }
   };
 });

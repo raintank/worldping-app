@@ -244,7 +244,7 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
 
       scope.selectTagTitle = function() {
         var selectedTags = _.filter(scope.tags, {selected: true});
-         if (selectedTags.length === 0) {
+        if (selectedTags.length === 0) {
           return "Select Tags";
         }
         if (selectedTags.length <= 2) {

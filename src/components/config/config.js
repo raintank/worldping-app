@@ -59,15 +59,15 @@ class WorldPingConfigCtrl {
     return self.backendSrv.get('/api/datasources').then(function(results) {
       var foundGraphite = false;
       var foundElastic = false;
-        _.forEach(results, function(ds) {
-          if (foundGraphite && foundElastic) { return; }
-          if (ds.name === "raintank") {
-            foundGraphite = true;
-          }
-          if (ds.name === "raintankEvents") {
-            foundElastic = true;
-          }
-        });
+      _.forEach(results, function(ds) {
+        if (foundGraphite && foundElastic) { return; }
+        if (ds.name === "raintank") {
+          foundGraphite = true;
+        }
+        if (ds.name === "raintankEvents") {
+          foundElastic = true;
+        }
+      });
       var promises = [];
       if (!foundGraphite) {
         // create datasource.
