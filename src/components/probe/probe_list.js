@@ -3,7 +3,8 @@ import _ from 'lodash';
 class ProbeListCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $filter, backendSrv) {
+  constructor($scope, $injector, $location, $filter, backendSrv, contextSrv) {
+    this.isOrgAdmin = contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.$filter = $filter;
     this.$location = $location;

@@ -3,7 +3,8 @@ import _ from 'lodash';
 class EndpointListCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv) {
+  constructor($scope, $injector, $location, backendSrv, contextSrv) {
+    this.isOrgAdmin = contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.pageReady = false;
