@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-System.register(["lodash"], function (_export, _context) {
+System.register(['lodash'], function (_export, _context) {
   var _, _typeof, _createClass, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -38,13 +38,14 @@ System.register(["lodash"], function (_export, _context) {
         };
       }();
 
-      _export("EndpointListCtrl", EndpointListCtrl = function () {
+      _export('EndpointListCtrl', EndpointListCtrl = function () {
 
         /** @ngInject */
 
-        function EndpointListCtrl($scope, $injector, $location, backendSrv) {
+        function EndpointListCtrl($scope, $injector, $location, backendSrv, contextSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
+          this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           this.backendSrv = backendSrv;
           this.$location = $location;
           this.pageReady = false;
@@ -62,12 +63,12 @@ System.register(["lodash"], function (_export, _context) {
         }
 
         _createClass(EndpointListCtrl, [{
-          key: "refresh",
+          key: 'refresh',
           value: function refresh() {
             this.getEndpoints();
           }
         }, {
-          key: "endpointTags",
+          key: 'endpointTags',
           value: function endpointTags() {
             var map = {};
             _.forEach(this.endpoints, function (endpoint) {
@@ -78,12 +79,12 @@ System.register(["lodash"], function (_export, _context) {
             return Object.keys(map);
           }
         }, {
-          key: "setTagFilter",
+          key: 'setTagFilter',
           value: function setTagFilter(tag) {
             this.filter.tag = tag;
           }
         }, {
-          key: "setStatusFilter",
+          key: 'setStatusFilter',
           value: function setStatusFilter(status) {
             if (status === this.filter.status) {
               status = "";
@@ -91,7 +92,7 @@ System.register(["lodash"], function (_export, _context) {
             this.filter.status = status;
           }
         }, {
-          key: "statusFilter",
+          key: 'statusFilter',
           value: function statusFilter(actual, expected) {
             if (expected === "" || expected === null) {
               return true;
@@ -100,12 +101,12 @@ System.register(["lodash"], function (_export, _context) {
             return equal;
           }
         }, {
-          key: "isEndPointReady",
+          key: 'isEndPointReady',
           value: function isEndPointReady(endpoint) {
             return endpoint && endpoint.hasOwnProperty('ready') && endpoint.ready;
           }
         }, {
-          key: "getEndpoints",
+          key: 'getEndpoints',
           value: function getEndpoints() {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function (endpoints) {
@@ -134,7 +135,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "remove",
+          key: 'remove',
           value: function remove(endpoint) {
             var self = this;
             this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function () {
@@ -142,10 +143,10 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "monitorStateTxt",
+          key: 'monitorStateTxt',
           value: function monitorStateTxt(endpoint, type) {
             var mon = endpoint.monitors[type];
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -158,10 +159,10 @@ System.register(["lodash"], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: "monitorStateChangeStr",
+          key: 'monitorStateChangeStr',
           value: function monitorStateChangeStr(endpoint, type) {
             var mon = endpoint.monitors[type];
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "";
             }
             var duration = new Date().getTime() - new Date(mon.state_change).getTime();
@@ -184,12 +185,12 @@ System.register(["lodash"], function (_export, _context) {
             return "for " + days + " days";
           }
         }, {
-          key: "gotoDashboard",
+          key: 'gotoDashboard',
           value: function gotoDashboard(endpoint) {
             this.$location.path("/dashboard/db/worldping-endpoint-summary").search({ "var-collector": "All", "var-endpoint": endpoint.slug });
           }
         }, {
-          key: "gotoEndpointURL",
+          key: 'gotoEndpointURL',
           value: function gotoEndpointURL(endpoint) {
             this.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint=' + endpoint.id);
           }
@@ -200,7 +201,7 @@ System.register(["lodash"], function (_export, _context) {
 
       EndpointListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_list.html';
 
-      _export("EndpointListCtrl", EndpointListCtrl);
+      _export('EndpointListCtrl', EndpointListCtrl);
     }
   };
 });

@@ -12,7 +12,7 @@
 					Status
 				</a>
 			</li>
-			<li class="gf-tabs-item">
+			<li class="gf-tabs-item" ng-if="ctrl.isOrgEditor">
 				<a class="gf-tabs-link" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
 					Configuration
 				</a>
@@ -30,7 +30,7 @@
 					<a ng-show="ctrl.getMonitorByTypeName(checktype).enabled" ng-click="ctrl.gotoDashboard(endpoint, checktype)">
 						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for {{checktype}}'"></i>
 					</a>
-					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">
+					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" ng-if="ctrl.isOrgEditor">
 						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{checktype}}'"></i>
 					</a>
 				</div>
@@ -55,17 +55,25 @@
 											<span class="checkTime">{{ctrl.stateChangeStr(checktype)}}</span>
 										</span>
 										<span ng-show="!ctrl.getMonitorByTypeName(checktype).enabled">
-											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Not enabled, configure now.</a>
+											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" ng-if="ctrl.isOrgEditor" class="freqMsg disabled">Not enabled, configure now.</a>
+											<span class="freqMsg" ng-if="!ctrl.isOrgEditor">Not Enabled.</span>
 										</span>
 									</div>
 								</div>
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName(checktype).enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled">Alerting not enabled,<br>configure now</a></span>
+										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i>
+										<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" class="freqMsg disabled" ng-if="ctrl.isOrgEditor">Alerting not enabled,<br>configure now</a>
+										<span ng-if="!ctrl.isOrgEditor">Alerting not enabled.</span>
+										</span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName(checktype).health_settings.notifications.enabled">
-										<span class="endpoint-alerting-status"><i ng-class="icon" class="icon-gf icon-gf-alert"></i><a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}">Alerting Enabled</span>
-										<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype)}}'"><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype).length}} recipients</span></a>
+										<span class="endpoint-alerting-status">
+											<i ng-class="icon" class="icon-gf icon-gf-alert"></i>
+											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype|lowercase}}" ng-if="ctrl.isOrgEditor">Alerting Enabled</a>
+											<span ng-if="!ctrl.isOrgEditor">Alerting Enabled</span>
+											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype)}}'"><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype).length}} recipients</span>
+										</span>
 									</div>
 								</div>
 								<div>

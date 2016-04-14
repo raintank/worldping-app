@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-System.register(["lodash"], function (_export, _context) {
+System.register(['lodash'], function (_export, _context) {
   var _, _createClass, ProbeListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -32,13 +32,14 @@ System.register(["lodash"], function (_export, _context) {
         };
       }();
 
-      _export("ProbeListCtrl", ProbeListCtrl = function () {
+      _export('ProbeListCtrl', ProbeListCtrl = function () {
 
         /** @ngInject */
 
-        function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv) {
+        function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv, contextSrv) {
           _classCallCheck(this, ProbeListCtrl);
 
+          this.isOrgAdmin = contextSrv.hasRole('Admin');
           this.backendSrv = backendSrv;
           this.$filter = $filter;
           this.$location = $location;
@@ -52,7 +53,7 @@ System.register(["lodash"], function (_export, _context) {
         }
 
         _createClass(ProbeListCtrl, [{
-          key: "collectorTags",
+          key: 'collectorTags',
           value: function collectorTags() {
             var map = {};
             _.forEach(this.collectors, function (collector) {
@@ -63,12 +64,12 @@ System.register(["lodash"], function (_export, _context) {
             return Object.keys(map);
           }
         }, {
-          key: "setCollectorFilter",
+          key: 'setCollectorFilter',
           value: function setCollectorFilter(tag) {
             this.filter.tag = tag;
           }
         }, {
-          key: "statusFilter",
+          key: 'statusFilter',
           value: function statusFilter() {
             var self = this;
             return function (actual) {
@@ -80,7 +81,7 @@ System.register(["lodash"], function (_export, _context) {
             };
           }
         }, {
-          key: "getCollectors",
+          key: 'getCollectors',
           value: function getCollectors() {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function (collectors) {
@@ -89,7 +90,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "remove",
+          key: 'remove',
           value: function remove(loc) {
             var self = this;
             this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function () {
@@ -97,7 +98,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "gotoDashboard",
+          key: 'gotoDashboard',
           value: function gotoDashboard(collector) {
             this.$location.path("/dashboard/db/worldping-collector-summary").search({ "var-collector": collector.slug, "var-endpoint": "All" });
           }
@@ -108,7 +109,7 @@ System.register(["lodash"], function (_export, _context) {
 
       ProbeListCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_list.html';
 
-      _export("ProbeListCtrl", ProbeListCtrl);
+      _export('ProbeListCtrl', ProbeListCtrl);
     }
   };
 });
