@@ -4,11 +4,42 @@
   "id": "raintank-worldping-app",
 
   "routes": [
-    {
-      "path": "api/*",
+    { 
+      "path": "api/graphite/*",
       "method": "*",
+      "url": "https://worldping-api.raintank.io/api/graphite",
+      "reqSignedIn": true,
+      "reqRole": "Viewer",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    },
+    { 
+      "path": "api/elasticsearch/*",
+      "method": "*",
+      "url": "https://worldping-api.raintank.io/api/elasticsearch",
+      "reqSignedIn": true,
+      "reqRole": "Viewer",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    },
+    { 
+      "path": "api/*",
+      "method": "PUT,POST,DELETE",
       "url": "https://worldping-api.raintank.io/api",
       "reqSignedIn": true,
+      "reqRole": "Editor",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    },
+    { 
+      "path": "api/*",
+      "method": "GET",
+      "url": "https://worldping-api.raintank.io/api",
+      "reqSignedIn": true,
+      "reqRole": "Viewer",
       "headers": [
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
