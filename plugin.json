@@ -4,7 +4,7 @@
   "id": "raintank-worldping-app",
 
   "routes": [
-    { 
+    {
       "path": "api/graphite/*",
       "method": "*",
       "url": "https://worldping-api.raintank.io/api/graphite",
@@ -14,7 +14,7 @@
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
     },
-    { 
+    {
       "path": "api/elasticsearch/*",
       "method": "*",
       "url": "https://worldping-api.raintank.io/api/elasticsearch",
@@ -24,7 +24,7 @@
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
     },
-    { 
+    {
       "path": "api/*",
       "method": "PUT,POST,DELETE",
       "url": "https://worldping-api.raintank.io/api",
@@ -34,7 +34,7 @@
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
     },
-    { 
+    {
       "path": "api/*",
       "method": "GET",
       "url": "https://worldping-api.raintank.io/api",
@@ -62,8 +62,14 @@
       {"name": "GitHub", "url": "https://github.com/raintank/worldping-app"},
       {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
     ],
-    "version": "1.0.3",
-    "updated": "2016-04-11"
+    "screenshots": [
+      {"name": "worldPing Home Dashboard", "path": "src/img/wP-Screenshot-home.png"},
+      {"name": "worldPing Summary Dashboard", "path": "src/img/wP-Screenshot-dash-summary.png"},
+      {"name": "worldPing Web Dashboard", "path": "src/img/wP-Screenshot-dash-web.png"},
+      {"name": "worldPing Endpoint Details", "path": "src/img/wP-Screenshot-endpoint-details.png"}
+    ],
+    "version": "1.0.4",
+    "updated": "2016-04-14"
   },
 
   "includes": [
