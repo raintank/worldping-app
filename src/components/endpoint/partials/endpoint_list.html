@@ -1,6 +1,6 @@
 <div class="page-header">
 	<h1 class="rt-h1">Endpoints</h1>
-	<a class="btn btn-success" href="plugins/raintank-worldping-app/page/endpoint-config" ng-show="ctrl.isOrgAdmin">
+	<a class="btn btn-success" href="plugins/raintank-worldping-app/page/endpoint-config" ng-show="ctrl.isOrgEditor">
 		<i class="fa fa-plus"></i>
 		New Endpoint
 	</a>
@@ -19,7 +19,7 @@
 	<div ng-if="ctrl.endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config">Add an endpoint now.</a></p>
+			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config" ng-if="ctrl.isOrgEditor">Add an endpoint now.</a></p>
 		</div>
 		<div class="rt-collapse-container">
 			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an endpoint? <i class="fa fa-caret-down"></i></label>

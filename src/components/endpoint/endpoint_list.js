@@ -4,7 +4,7 @@ class EndpointListCtrl {
 
   /** @ngInject */
   constructor($scope, $injector, $location, backendSrv, contextSrv) {
-    this.isOrgAdmin = contextSrv.hasRole('Admin');
+    this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.pageReady = false;

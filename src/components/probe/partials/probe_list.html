@@ -58,7 +58,7 @@
     </div>
     <ol class="card-list" >
       <li class="card-item-wrapper" ng-repeat="collector in ctrl.collectors | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
-        <a class="card-item" href="plugins/raintank-worldping-app/page/probe-details?probe={{collector.id}}">
+        <a class="card-item" ng-href="{{ctrl.isOrgAdmin ? 'plugins/raintank-worldping-app/page/probe-details?probe='+collector.id : ''}}">
           <div class="card-item-header">
             <span class="rt-list-collector-status-{{collector.online?'online':'offline'}}">{{collector.online?"ONLINE":"OFFLINE"}}</span>
           </div>
@@ -70,9 +70,6 @@
                 <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
                 <span ng-repeat="tag in collector.tags" tag-color-from-name="tag"  class="label label-tag">
                   {{tag}}
-                </span>
-                <span ng-if="ds.isDefault">
-                  <span class="btn btn-secondary btn-mini">default</span>
                 </span>
               </div>
             </div>

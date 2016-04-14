@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-System.register(['lodash'], function (_export, _context) {
+System.register(["lodash"], function (_export, _context) {
   var _, _typeof, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -38,14 +38,15 @@ System.register(['lodash'], function (_export, _context) {
         };
       }();
 
-      _export('EndpointDetailsCtrl', EndpointDetailsCtrl = function () {
+      _export("EndpointDetailsCtrl", EndpointDetailsCtrl = function () {
 
         /** @ngInject */
 
-        function EndpointDetailsCtrl($scope, $injector, $location, backendSrv) {
+        function EndpointDetailsCtrl($scope, $injector, $location, backendSrv, contextSrv) {
           _classCallCheck(this, EndpointDetailsCtrl);
 
           var self = this;
+          this.isOrgEditor = contextSrv.hasRole("Admin") || contextSrv.hasRole("Editor");
           this.backendSrv = backendSrv;
           this.$location = $location;
           this.pageReady = false;
@@ -64,7 +65,7 @@ System.register(['lodash'], function (_export, _context) {
         }
 
         _createClass(EndpointDetailsCtrl, [{
-          key: 'getEndpoints',
+          key: "getEndpoints",
           value: function getEndpoints() {
             var self = this;
             var promise = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints');
@@ -74,12 +75,12 @@ System.register(['lodash'], function (_export, _context) {
             return promise;
           }
         }, {
-          key: 'tagsUpdated',
+          key: "tagsUpdated",
           value: function tagsUpdated() {
             this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
           }
         }, {
-          key: 'getMonitorTypes',
+          key: "getMonitorTypes",
           value: function getMonitorTypes() {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
@@ -90,7 +91,7 @@ System.register(['lodash'], function (_export, _context) {
             });
           }
         }, {
-          key: 'getEndpoint',
+          key: "getEndpoint",
           value: function getEndpoint(id) {
             var self = this;
             _.forEach(this.endpoints, function (endpoint) {
@@ -107,7 +108,7 @@ System.register(['lodash'], function (_export, _context) {
             });
           }
         }, {
-          key: 'getMonitorByTypeName',
+          key: "getMonitorByTypeName",
           value: function getMonitorByTypeName(name) {
             if (name in this.monitor_types_by_name) {
               var type = this.monitor_types_by_name[name];
@@ -116,10 +117,10 @@ System.register(['lodash'], function (_export, _context) {
             return undefined;
           }
         }, {
-          key: 'monitorStateTxt',
+          key: "monitorStateTxt",
           value: function monitorStateTxt(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
+            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -136,10 +137,10 @@ System.register(['lodash'], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: 'monitorStateClass',
+          key: "monitorStateClass",
           value: function monitorStateClass(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
+            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -152,10 +153,10 @@ System.register(['lodash'], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: 'stateChangeStr',
+          key: "stateChangeStr",
           value: function stateChangeStr(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
+            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
               return "";
             }
             var duration = new Date().getTime() - new Date(mon.state_change).getTime();
@@ -178,12 +179,12 @@ System.register(['lodash'], function (_export, _context) {
             return "for " + days + " days";
           }
         }, {
-          key: 'setEndpoint',
+          key: "setEndpoint",
           value: function setEndpoint(id) {
             this.$location.url('plugins/raintank-worldping-app/page/endpoint_details?endpoint=' + id);
           }
         }, {
-          key: 'gotoDashboard',
+          key: "gotoDashboard",
           value: function gotoDashboard(endpoint, type) {
             if (!type) {
               type = 'summary';
@@ -216,7 +217,7 @@ System.register(['lodash'], function (_export, _context) {
             }
           }
         }, {
-          key: 'gotoEventDashboard',
+          key: "gotoEventDashboard",
           value: function gotoEventDashboard(endpoint, type) {
             this.$location.url("/dashboard/db/worldping-events").search({
               "var-probe": "All",
@@ -225,7 +226,7 @@ System.register(['lodash'], function (_export, _context) {
             });
           }
         }, {
-          key: 'getNotificationEmails',
+          key: "getNotificationEmails",
           value: function getNotificationEmails(checkType) {
             var mon = this.getMonitorByTypeName(checkType);
             if (!mon || mon.health_settings.notifications.addresses === "") {
@@ -239,7 +240,7 @@ System.register(['lodash'], function (_export, _context) {
             return list;
           }
         }, {
-          key: 'getNotificationEmailsAsString',
+          key: "getNotificationEmailsAsString",
           value: function getNotificationEmailsAsString(checkType) {
             var emails = this.getNotificationEmails(checkType);
             if (emails.length < 1) {
@@ -259,7 +260,7 @@ System.register(['lodash'], function (_export, _context) {
             return list.join(", ");
           }
         }, {
-          key: 'refresh',
+          key: "refresh",
           value: function refresh() {
             this.pageReady = false;
             this.getEndpoint(this.endpoint.id);
@@ -272,7 +273,7 @@ System.register(['lodash'], function (_export, _context) {
 
       EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
 
-      _export('EndpointDetailsCtrl', EndpointDetailsCtrl);
+      _export("EndpointDetailsCtrl", EndpointDetailsCtrl);
     }
   };
 });
