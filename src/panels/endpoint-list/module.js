@@ -12,8 +12,9 @@ loadPluginCss({
 class EndpointListCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv) {
+  constructor($scope, $injector, $location, backendSrv, contextSrv) {
     super($scope, $injector);
+    this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.pageReady = false;

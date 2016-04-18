@@ -62,6 +62,8 @@ System.register(["lodash"], function (_export, _context) {
           promise.then(function () {
             self.getEndpoint($location.search().endpoint);
           });
+
+          this.checktypes = [{ name: 'DNS', dashName: 'worldping-endpoint-dns?' }, { name: 'Ping', dashName: 'worldping-endpoint-ping?' }, { name: 'HTTP', dashName: 'worldping-endpoint-web?var-protocol=http&' }, { name: 'HTTPS', dashName: 'worldping-endpoint-web?var-protocol=https&' }];
         }
 
         _createClass(EndpointDetailsCtrl, [{
