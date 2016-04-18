@@ -295,7 +295,7 @@
               "dashboard": "worldPing: Events",
               "includeVars": true,
               "keepTime": true,
-              "params": "var-monitor_type=ping",
+              "params": "var-monitor_type=$protocol",
               "title": "worldPing: Events",
               "type": "dashboard"
             }
