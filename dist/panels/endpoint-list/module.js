@@ -100,11 +100,12 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
 
         /** @ngInject */
 
-        function EndpointListCtrl($scope, $injector, $location, backendSrv) {
+        function EndpointListCtrl($scope, $injector, $location, backendSrv, contextSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
           var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EndpointListCtrl).call(this, $scope, $injector));
 
+          _this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           _this.backendSrv = backendSrv;
           _this.$location = $location;
           _this.pageReady = false;

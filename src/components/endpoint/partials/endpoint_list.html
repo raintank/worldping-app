@@ -49,7 +49,7 @@
 	<section ng-if="ctrl.endpoints.length > 0" class="card-section card-list-layout-list" layout-mode>
 		<ol class="card-list" >
 			<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
-				<div class="card-item pointer" ng-click="ctrl.gotoDashboard()">
+				<div class="card-item pointer" ng-click="ctrl.gotoDashboard(endpoint)">
 					<div class="card-item-header card-item-header--wp-icons card-item-header-action">
 						<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
 						<a style="margin-left: 15px; vertical-align: sub;" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">
