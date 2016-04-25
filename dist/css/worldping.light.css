@@ -1692,10 +1692,6 @@ raintank POSITIONING
   margin: 5px;
   cursor: pointer; }
 
-.rt-radio-body-label {
-  font-style: normal;
-  color: #555555; }
-
 .rt-radio-jumbo-label {
   position: relative;
   color: #555555;

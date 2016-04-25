@@ -713,12 +713,6 @@ raintank POSITIONING
     cursor: pointer;
 }
 
-.rt-radio-body-label {
-  @extend .rt-modal-body-copy;
-  font-style: normal;
-  color: $text-color;
-}
-
 .rt-radio-jumbo-label {
     position: relative;
     color: $text-color;
