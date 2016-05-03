@@ -2,6 +2,12 @@
 // worldPing APP CONFIG Tab
 // ==========================================================================
 
+.gnet-logo--inline {
+  vertical-align: sub;
+  margin-right: 5px;
+  height: 17px;
+}
+
 .wp-app-advanced-box {
   height: 0px;
   overflow: hidden;
@@ -17,4 +23,8 @@
 
 .wp-app-advanced-link {
   margin: 1rem 0;
+}
+
+.wp-inline-field-margin--right {
+  margin-right: $spacer;
 }

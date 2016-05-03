@@ -1,25 +1,28 @@
-<p>worldPing requires only a Grafana.net account, and is <span class="emphasis">free</span> for the first 10 endpoints and collectors. To get going, <a class="highlight-word" href="//grafana.net/profile" target="_blank">generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up</a> for your free account.</p>
+<p>worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
 <form name="editForm">
 		<div class="gf-form-inline">
-			<div class="gf-form">
-				<span class="gf-form-label width-12">Api Key</span>
+			<div class="gf-form wp-inline-field-margin--right">
+				<span class="gf-form-label width-12"><img src="/public/plugins/raintank-worldping-app/img/icon_grafana-net.svg" class="gnet-logo--inline">Grafana.net API Key</span>
 				<input type="password" class="gf-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet">
 				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
 			</div>
+			<div class="gf-form">
+				<a class="btn btn-danger btn-small" href="#" ng-click="ctrl.appModel.jsonData.apiKeySet=false" ng-if="ctrl.appModel.jsonData.apiKeySet">reset</a>
+			</div>
 		</div>
 		<div class="wp-app-advanced-link">
-	        <a href="#" ng-click="ctrl.appModel.jsonData.apiKeySet=false" ng-if="ctrl.appModel.jsonData.apiKeySet">reset</a>&nbsp;&nbsp;
 			<a href="#" ng-click="ctrl.showAdvanced = !ctrl.showAdvanced">
-				<span>advanced </span>
-				<span><i class="fa fa-caret-down" ng-show="ctrl.showAdvanced"></i></span>
+				<span ng-hide="ctrl.showAdvanced">show data source config</span>
 				<span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showAdvanced"></i></span>
+				<span ng-show="ctrl.showAdvanced">hide data source config</span>
+				<span><i class="fa fa-caret-down" ng-show="ctrl.showAdvanced"></i></span>
 			</a>
 		</div>
 
 		<div class="wp-app-advanced-box" ng-class="{ 'wp-app-advanced-open': ctrl.showAdvanced }">
 		<p>The worldPing datasource is automatically configured with your credentials. If you need to recreate your datasource, you can Reset and Reconfigure below.</p>
 			<div class="gf-form-inline">
-				<div class="gf-form">
+				<div class="gf-form wp-inline-field-margin--right">
 					<span class="gf-form-label width-12">Configure Datasource</span>
 					<button type="submit" class="btn btn-secondary btn-small" ng-if="!ctrl.appModel.jsonData.datasourceSet" ng-click="ctrl.configureDatasource()">Configure</button>
 					<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.datasourceSet">
