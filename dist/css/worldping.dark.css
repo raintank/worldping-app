@@ -947,7 +947,7 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-app-advanced-box.wp-app-advanced-open {
-    height: 100px; }
+    height: 125px; }
 
 .wp-app-advanced-link {
   margin: 1rem 0; }
@@ -956,9 +956,7 @@
   margin-right: 1rem; }
 
 .wp-enabled-box {
-  border: 1px solid #10a345;
-  background-color: #141414;
-  margin-bottom: 2rem; }
+  margin: 1rem 0; }
 
 .page-header--flex {
   display: flex; }

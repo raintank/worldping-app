@@ -17,7 +17,7 @@
   -webkit-transition: height 0.2s;
 
   &.wp-app-advanced-open {
-    height: 100px;
+    height: 125px;
   }
 }
 
@@ -30,7 +30,5 @@
 }
 
 .wp-enabled-box {
-  border: 1px solid $online;
-  background-color: $body-bg;
-  margin-bottom: $spacer * 2;
+  margin: $spacer 0;
 }

@@ -19,7 +19,13 @@
 	<div ng-if="ctrl.endpoints.length === 0" class="wp-empty-endpoint-list">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config" ng-if="ctrl.isOrgEditor">Add an endpoint now.</a></p>
+			<p ng-if="ctrl.isOrgEditor">Looks like you don’t have any endpoints yet.<br>
+				<a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config">Add a new endpoint</a> or
+				<a class="highlight-word" href="dashboard/db/worldping-endpoint-summary?var-endpoint=~google_com_demo">view live demo data.</a>
+			</p>
+			<p ng-if="!ctrl.isOrgEditor">Your org does not have any endpoints.<br>In the meantime,
+				<a class="highlight-word" href="dashboard/db/worldping-endpoint-summary?var-endpoint=~google_com_demo">view some live demo data.</a>
+			</p>
 		</div>
 		<a href="#" ng-click="ctrl.showEndpointDesc = !ctrl.showEndpointDesc">
 			<span ng-hide="ctrl.showEndpointDesc">What's an endpoint?</span>
