@@ -628,51 +628,6 @@ raintank POSITIONING
   margin-bottom: 15px;
 }
 
-.rt-collapse-container{
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 75px;
-}
-
-.rt-collapse-blurb-box{
-  text-align: center;
-  max-width: 500px;
-}
-
-.rt-collapse{
-  margin: 10px 0;
-  display:block;
-  cursor: pointer;
-  color: $rt-blue;
-}
-
-.rt-collapse-secondary{
-  color: $text-color-strong;
-  font-style: italic;
-}
-
-.rt-collapse:hover {
- color: $text-color;
-}
-
-.rt-collapse + input{
-  // display:none;
-  opacity: 0;
-}
-.rt-collapse + input + *{
-  // display:none;
-  opacity: 0;
-
-  transition: opacity 100ms ease-in-out;
-  -moz-transition: opacity 100ms ease-in-out;
-  -webkit-transition: opacity 100ms ease-in-out;
-}
-.rt-collapse+ input:checked + *{
-  // display:block;
-  opacity: 1;
-}
-
 .rt-advanced-options{
   margin: 10px 0 0 0;
   display:block;

@@ -17,7 +17,7 @@
   -webkit-transition: height 0.2s;
 
   &.wp-app-advanced-open {
-    height: 100px;
+    height: 125px;
   }
 }
 
@@ -27,4 +27,8 @@
 
 .wp-inline-field-margin--right {
   margin-right: $spacer;
+}
+
+.wp-enabled-box {
+  margin: $spacer 0;
 }

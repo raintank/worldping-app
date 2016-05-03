@@ -83,6 +83,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
           _this.$location = $location;
           _this.backendSrv = backendSrv;
           _this.templateSrv = templateSrv;
+          _this.endpointSlugs = [];
 
           $scope.ctrl.panel.title = "";
           $scope.ctrl.panel.transparent = true;
@@ -112,6 +113,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                 values;
               }
             });
+            this.endpointSlugs = values;
             return values;
           }
         }, {
@@ -130,8 +132,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
           value: function getEndpoints(endpointSlugs) {
             var self = this;
             this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function (endpoints) {
-              self.pageReady = true;
               self.endpoints = [];
+              self.isGoogleDemo = endpointSlugs.length === 1 && endpointSlugs[0] === '~google_com_demo';
               _.forEach(endpoints, function (endpoint) {
                 if (_.indexOf(endpointSlugs, endpoint.slug) >= 0) {
                   self.endpoints.push(endpoint);
@@ -156,6 +158,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                   });
                 }
               });
+              self.pageReady = true;
             });
           }
         }, {

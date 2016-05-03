@@ -885,6 +885,55 @@
 .message-content {
   margin-bottom: 2rem; }
 
+.wp-empty-endpoint-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; }
+
+.wp-app-endpointdesc-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px; }
+  .wp-app-endpointdesc-box.wp-app-endpointdesc-open {
+    height: 160px; }
+
+.rt-collapse-blurb-box {
+  text-align: center;
+  max-width: 500px; }
+
+.rt-collapse {
+  margin: 10px 0;
+  display: block;
+  cursor: pointer;
+  color: #13B2D4; }
+
+.rt-collapse-secondary {
+  color: #fff;
+  font-style: italic; }
+
+.rt-collapse:hover {
+  color: #555555; }
+
+.rt-collapse + input {
+  opacity: 0; }
+
+.rt-collapse + input + * {
+  opacity: 0;
+  transition: opacity 100ms ease-in-out;
+  -moz-transition: opacity 100ms ease-in-out;
+  -webkit-transition: opacity 100ms ease-in-out; }
+
+.rt-collapse + input:checked + * {
+  opacity: 1; }
+
 .gnet-logo--inline {
   vertical-align: sub;
   margin-right: 5px;
@@ -898,7 +947,7 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-app-advanced-box.wp-app-advanced-open {
-    height: 100px; }
+    height: 125px; }
 
 .wp-app-advanced-link {
   margin: 1rem 0; }
@@ -906,11 +955,18 @@
 .wp-inline-field-margin--right {
   margin-right: 1rem; }
 
+.wp-enabled-box {
+  margin: 1rem 0; }
+
 .page-header--flex {
   display: flex; }
 
 .page-header--flex-item {
   align-self: center; }
+
+.rt-nav {
+  position: relative;
+  display: block; }
 
 .rt-nav-header {
   position: relative;
@@ -932,11 +988,33 @@
   margin-left: -10px;
   border-bottom: solid 1px #f4f5f8; }
 
+.rt-nav-icon {
+  font-size: 24px;
+  vertical-align: sub; }
+
 .wp-icon-success {
   color: #01A64F;
   font-size: 24px;
   text-decoration: none;
   vertical-align: sub; }
+
+.rt-nav--background {
+  background-color: #fbfbfb;
+  margin-left: -10px;
+  border: solid 1px #f4f5f8; }
+
+.wp-nav-no-endpoints {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0; }
+
+.rt-nav-header--message {
+  color: #7B7B7B;
+  margin-right: 10px; }
+
+.rt-nav-header--button {
+  margin-right: 5px; }
 
 /******************************************
 RAINTANK DASHBOARD STYLES
@@ -1633,41 +1711,6 @@ raintank POSITIONING
 .rt-summary-status {
   margin-top: 10px;
   margin-bottom: 15px; }
-
-.rt-collapse-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 75px; }
-
-.rt-collapse-blurb-box {
-  text-align: center;
-  max-width: 500px; }
-
-.rt-collapse {
-  margin: 10px 0;
-  display: block;
-  cursor: pointer;
-  color: #13B2D4; }
-
-.rt-collapse-secondary {
-  color: #fff;
-  font-style: italic; }
-
-.rt-collapse:hover {
-  color: #555555; }
-
-.rt-collapse + input {
-  opacity: 0; }
-
-.rt-collapse + input + * {
-  opacity: 0;
-  transition: opacity 100ms ease-in-out;
-  -moz-transition: opacity 100ms ease-in-out;
-  -webkit-transition: opacity 100ms ease-in-out; }
-
-.rt-collapse + input:checked + * {
-  opacity: 1; }
 
 .rt-advanced-options {
   margin: 10px 0 0 0;

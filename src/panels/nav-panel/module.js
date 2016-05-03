@@ -17,6 +17,7 @@ class EndpointNavCtrl extends PanelCtrl {
     this.$location = $location;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.endpointSlugs = [];
 
     $scope.ctrl.panel.title = "";
     $scope.ctrl.panel.transparent = true;
@@ -48,6 +49,7 @@ class EndpointNavCtrl extends PanelCtrl {
         values;
       }
     });
+    this.endpointSlugs = values;
     return values;
   }
 
@@ -63,8 +65,8 @@ class EndpointNavCtrl extends PanelCtrl {
   getEndpoints(endpointSlugs) {
     var self = this;
     this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function(endpoints) {
-      self.pageReady = true;
       self.endpoints = [];
+      self.isGoogleDemo = endpointSlugs.length === 1 && endpointSlugs[0] === '~google_com_demo';
       _.forEach(endpoints, function(endpoint) {
         if (_.indexOf(endpointSlugs, endpoint.slug) >= 0) {
           self.endpoints.push(endpoint);
@@ -90,6 +92,7 @@ class EndpointNavCtrl extends PanelCtrl {
           });
         }
       });
+      self.pageReady = true;
     });
   }
 

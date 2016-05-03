@@ -16,20 +16,31 @@
 </div>
 
 <div ng-if="ctrl.pageReady">
-	<div ng-if="ctrl.endpoints.length === 0" style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; height: 350px;">
+	<div ng-if="ctrl.endpoints.length === 0" class="wp-empty-endpoint-list">
 		<div style="text-align: center; padding-top: 90px; min-height: 220px; min-width: 400px;  margin: 0 auto;">
 			<i ng-class="icon" class="icon-gf icon-gf-endpoint no-endpoints"></i>
-			<p>Looks like you don’t have any endpoints yet. <a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config" ng-if="ctrl.isOrgEditor">Add an endpoint now.</a></p>
+			<p ng-if="ctrl.isOrgEditor">Looks like you don’t have any endpoints yet.<br>
+				<a class="highlight-word" href="plugins/raintank-worldping-app/page/endpoint-config">Add a new endpoint</a> or
+				<a class="highlight-word" href="dashboard/db/worldping-endpoint-summary?var-endpoint=~google_com_demo">view live demo data.</a>
+			</p>
+			<p ng-if="!ctrl.isOrgEditor">Your org does not have any endpoints.<br>In the meantime,
+				<a class="highlight-word" href="dashboard/db/worldping-endpoint-summary?var-endpoint=~google_com_demo">view some live demo data.</a>
+			</p>
 		</div>
-		<div class="rt-collapse-container">
-			<label class="rt-collapse rt-collapse-secondary" for="_1">What's an endpoint? <i class="fa fa-caret-down"></i></label>
-			<input id="_1" type="checkbox">
+		<a href="#" ng-click="ctrl.showEndpointDesc = !ctrl.showEndpointDesc">
+			<span ng-hide="ctrl.showEndpointDesc">What's an endpoint?</span>
+			<span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showEndpointDesc"></i></span>
+			<span ng-show="ctrl.showEndpointDesc">What's an endpoint?</span>
+			<span><i class="fa fa-caret-down" ng-show="ctrl.showEndpointDesc"></i></span>
+		</a>
+		<div class="wp-app-endpointdesc-box" ng-class="{ 'wp-app-endpointdesc-open': ctrl.showEndpointDesc }">
 			<div class="rt-collapse-blurb-box">
 				<p class="rt-helper-blurb">In worldPing, an endpoint is anything you want to monitor.</p>
 				<p class="rt-helper-blurb">When you enter the fully qualified domain name of your endpoint, we will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
 			</div>
 		</div>
 	</div>
+
 	<div ng-if="ctrl.endpoints.length > 0">
         <div class="gf-form">
           <span class="gf-form-label width-6">Filter by:</span>

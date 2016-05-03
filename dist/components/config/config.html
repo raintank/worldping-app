@@ -1,4 +1,5 @@
-<p>worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
+<p ng-if="!ctrl.appModel.jsonData.apiKeySet">worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
+
 <form name="editForm">
 		<div class="gf-form-inline">
 			<div class="gf-form wp-inline-field-margin--right">
@@ -12,10 +13,8 @@
 		</div>
 		<div class="wp-app-advanced-link">
 			<a href="#" ng-click="ctrl.showAdvanced = !ctrl.showAdvanced">
-				<span ng-hide="ctrl.showAdvanced">show data source config</span>
-				<span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showAdvanced"></i></span>
-				<span ng-show="ctrl.showAdvanced">hide data source config</span>
-				<span><i class="fa fa-caret-down" ng-show="ctrl.showAdvanced"></i></span>
+				<span ng-hide="ctrl.showAdvanced" class="disabled">show data source config <i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showAdvanced"></i></span>
+				<span ng-show="ctrl.showAdvanced">hide data source config <i class="fa fa-caret-down" ng-show="ctrl.showAdvanced"></i></span>
 			</a>
 		</div>
 
@@ -33,3 +32,7 @@
 			</div>
 		</div>
 </form>
+
+<div ng-if="ctrl.appModel.jsonData.apiKeySet" class="wp-enabled-box">
+	<i class="icon-gf icon-gf-check wp-icon-success"></i> worldPing is enabled. <strong>Next up: </strong><a href="dashboard/db/worldping-home" class="external-link">Go to worldPing Home Dashboard</a>
+</div>

@@ -7,6 +7,11 @@
 // Endpoint Nav Header
 // ==========================================================================
 
+.rt-nav {
+  position: relative;
+  display: block;
+}
+
 .rt-nav-header {
   position: relative;
   line-height: normal;
@@ -32,6 +37,11 @@
   border-bottom: $panel-border;
 }
 
+.rt-nav-icon {
+  font-size: 24px;
+  vertical-align: sub;
+}
+
 // Home Dashboard
 
 
@@ -40,6 +50,28 @@
   font-size: 24px;
   text-decoration:none;
   vertical-align: sub;
+}
+
+.rt-nav--background {
+  background-color: $panel-bg;
+  margin-left: -10px;
+  border: $panel-border;
+}
+
+.wp-nav-no-endpoints {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.rt-nav-header--message {
+  color: $gray-2;
+  margin-right: 10px;
+}
+
+.rt-nav-header--button {
+  margin-right: 5px;
 }
 
 /******************************************
