@@ -1,4 +1,4 @@
-<div ng-if="ctrl.endpoints.length > 0" style="position: relative; display: block;">
+<div ng-if="ctrl.endpoints.length > 0" class="rt-nav">
     <div class="rt-nav-header" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
         <div>
             <div class="rt-nav-breadcrumb">
@@ -23,4 +23,26 @@
     </div>
     <div class="rt-nav-hr">
     </div>
+</div>
+
+<div ng-if="ctrl.pageReady && !ctrl.endpoints.length && !ctrl.isGoogleDemo" class="rt-nav rt-nav--background">
+  <div class="rt-nav-header">
+    <div class="wp-nav-no-endpoints">
+      <span class="rt-nav-header--message"><i class="icon-gf icon-gf-skull rt-nav-icon"></i>A slug exists for this endpoint but it is not active. To remove this slug, <a href="mailto:support@raintank.io?subject=Request to delete {{ctrl.endpointSlugs[0]}}">contact us</a></span>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div ng-if="ctrl.pageReady && ctrl.isGoogleDemo" class="rt-nav rt-nav--background">
+  <div class="rt-nav-header">
+    <div class="wp-nav-no-endpoints">
+      <span class="rt-nav-header--message">This is live test data, but it doesnt have to be.</span>
+      <a class="btn btn-success btn-small rt-nav-header--button" href="plugins/raintank-worldping-app/page/endpoint-config">
+        <i class="fa fa-plus"></i>
+        Add an endpoint
+      </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
 </div>

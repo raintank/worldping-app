@@ -28,3 +28,9 @@
 .wp-inline-field-margin--right {
   margin-right: $spacer;
 }
+
+.wp-enabled-box {
+  border: 1px solid $online;
+  background-color: $body-bg;
+  margin-bottom: $spacer * 2;
+}

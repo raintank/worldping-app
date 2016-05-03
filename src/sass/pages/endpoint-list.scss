@@ -1,0 +1,66 @@
+// ==========================================================================
+// worldPing Endpoint List
+// ==========================================================================
+
+.wp-empty-endpoint-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.wp-app-endpointdesc-box {
+  height: 0px;
+  overflow: hidden;
+  transition: height 0.2s;
+  -o-transition: height 0.2s;
+  -moz-transition: height 0.2s;
+  -webkit-transition: height 0.2s;
+
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+
+  &.wp-app-endpointdesc-open {
+    height: 160px;
+  }
+}
+
+.rt-collapse-blurb-box{
+  text-align: center;
+  max-width: 500px;
+}
+
+.rt-collapse{
+  margin: 10px 0;
+  display:block;
+  cursor: pointer;
+  color: $rt-blue;
+}
+
+.rt-collapse-secondary{
+  color: $text-color-strong;
+  font-style: italic;
+}
+
+.rt-collapse:hover {
+ color: $text-color;
+}
+
+.rt-collapse + input{
+  // display:none;
+  opacity: 0;
+}
+.rt-collapse + input + *{
+  // display:none;
+  opacity: 0;
+
+  transition: opacity 100ms ease-in-out;
+  -moz-transition: opacity 100ms ease-in-out;
+  -webkit-transition: opacity 100ms ease-in-out;
+}
+.rt-collapse+ input:checked + *{
+  // display:block;
+  opacity: 1;
+}

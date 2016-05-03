@@ -1,4 +1,9 @@
 <p>worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
+
+<div ng-if="ctrl.appModel.jsonData.apiKeySet" class="wp-enabled-box">
+	worldPing is enabled. Go to Endpoint List
+</div>
+
 <form name="editForm">
 		<div class="gf-form-inline">
 			<div class="gf-form wp-inline-field-margin--right">
