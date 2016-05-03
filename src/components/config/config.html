@@ -1,8 +1,8 @@
-<p>worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
+<p>worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
 <form name="editForm">
 		<div class="gf-form-inline">
 			<div class="gf-form wp-inline-field-margin--right">
-				<span class="gf-form-label width-12"><img src="/public/plugins/raintank-worldping-app/img/icon_grafana-net.svg" class="gnet-logo--inline">Grafana.net API Key</span>
+				<a class="gf-form-label width-12" href="//grafana.net/profile/api-keys"><img src="/public/plugins/raintank-worldping-app/img/icon_grafana-net.svg" class="gnet-logo--inline">Grafana.net API Key</a>
 				<input type="password" class="gf-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet">
 				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
 			</div>
