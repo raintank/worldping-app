@@ -1,140 +1,175 @@
-<div ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="page-header">
-  <h1>Add a new endpoint</h1>
-</div>
-<div class="row" ng-if="ctrl.pageReady && !ctrl.endpoint.id" ng-hide="ctrl.discovered || ctrl.discoveryError || ctrl.showConfig">
-  <div class="col-md-10">
-    <p>An endpoint is anything you want to monitor. <br><br>When you enter the fully qualified domain name of your endpoint, worldPing will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
+<div ng-if="!ctrl.showCreating">
+  <div ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="page-header">
+    <h1>Add a new endpoint</h1>
   </div>
-</div>
-
-<div ng-if="ctrl.endpoint.id" class="page-header">
-  <h1>{{ctrl.endpoint.name}}<a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing: Summary </br>dashboard for this endpoint'"></i></a></h1>
-    <div class="gf-form wp-tag-margin--bottom">
-      <span class="gf-form-label width-6">Tags:</span>
-    <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
+  <div class="row" ng-if="ctrl.pageReady && !ctrl.endpoint.id" ng-hide="ctrl.discovered || ctrl.discoveryError || ctrl.showConfig">
+    <div class="col-md-10">
+      <p>An endpoint is anything you want to monitor. <br><br>When you enter the fully qualified domain name of your endpoint, worldPing will automatically detect what is available to monitor (eg. PING, HTTP, HTTPS) and suggest a customizable set of defaults unique to your endpoint.</p>
     </div>
-
-  <div class="page-header-tabs">
-    <ul class="gf-tabs">
-      <li class="gf-tabs-item">
-        <a class="gf-tabs-link" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
-          Status
-        </a>
-      </li>
-      <li class="gf-tabs-item">
-        <a class="gf-tabs-link active" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
-          Configuration
-        </a>
-      </li>
-    </ul>
   </div>
-</div>
 
-
-<form name="endpointForm">
-
-  <!-- Existing endpoint -->
-  <div class="gf-form-group" ng-if="ctrl.endpoint.id">
-    <div class="gf-form-inline">
-      <div class="gf-form gf-form--right-margin">
-        <span class="gf-form-label width-7">Endpoint</span>
-        <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.newEndpointName" placeholder="www.example.com" required>
+  <div ng-if="ctrl.endpoint.id" class="page-header">
+    <h1>{{ctrl.endpoint.name}}<a ng-click="ctrl.gotoDashboard(ctrl.endpoint)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing: Summary </br>dashboard for this endpoint'"></i></a></h1>
+      <div class="gf-form wp-tag-margin--bottom">
+        <span class="gf-form-label width-6">Tags:</span>
+      <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.tagsUpdated()" ></bootstrap-tagsinput>
       </div>
-      <div class="gf-form">
-        <button class="btn btn-success" ng-click="ctrl.updateEndpoint(ctrl.endpoint)">Update Endpoint Name</button>
-      </div>
-    </div>
-    <br>
-    <div class="gf-form-buttons-row">
+
+    <div class="page-header-tabs">
+      <ul class="gf-tabs">
+        <li class="gf-tabs-item">
+          <a class="gf-tabs-link" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">
+            Status
+          </a>
+        </li>
+        <li class="gf-tabs-item">
+          <a class="gf-tabs-link active" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}">
+            Configuration
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
-  <!-- New endpoint -->
-  <div class="gf-form-group" ng-if="!ctrl.endpoint.id  && ctrl.pageReady">
-    <!-- Below replaces header area on submit -->
-    <div class="message-header">
-      <div class="message-content">
+
+  <form name="endpointForm">
+
+    <!-- Existing endpoint -->
+    <div class="gf-form-group" ng-if="ctrl.endpoint.id">
+      <div class="gf-form-inline">
+        <div class="gf-form gf-form--right-margin">
+          <span class="gf-form-label width-7">Endpoint</span>
+          <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.newEndpointName" placeholder="www.example.com" required>
+        </div>
+        <div class="gf-form">
+          <button class="btn btn-success" ng-click="ctrl.updateEndpoint(ctrl.endpoint)">Update Endpoint Name</button>
+        </div>
+      </div>
+      <br>
+      <div class="gf-form-buttons-row">
+      </div>
+    </div>
+
+    <!-- New endpoint -->
+    <div class="gf-form-group" ng-if="!ctrl.endpoint.id  && ctrl.pageReady">
+      <!-- Below replaces header area on submit -->
+      <div class="message-header">
+        <div class="message-content">
+          <div ng-show="ctrl.discovered">
+            <p><b>Discovery Successful.</b> We've suggested some default checks below based on what we were able to detect. <a class="highlight-word" ng-click="ctrl.reset()">Start Over</a></p>
+          </div>
+          <div ng-show="ctrl.discoveryError">
+            <p><b>Failed to discover endpoint.</b> From here, you can configure manually or <a class="highlight-word" ng-click="ctrl.reset()">start over</a>.</p>
+          </div>
+          <div ng-show="!ctrl.discovered && ctrl.showConfig">
+            <p><b>Discovery Skipped. </b>You can manually configure your endpoint below or <a class="highlight-word" ng-click="ctrl.reset()">start over</a> to enter a new domain.</p>
+          </div>
+        </div>
         <div ng-show="ctrl.discovered">
-          <p><b>Discovery Successful.</b> We've suggested some default checks below based on what we were able to detect. <a class="highlight-word" ng-click="ctrl.reset()">Start Over</a></p>
-        </div>
-        <div ng-show="ctrl.discoveryError">
-          <p><b>Failed to discover endpoint.</b> From here, you can configure manually or <a class="highlight-word" ng-click="ctrl.reset()">start over</a>.</p>
-        </div>
-        <div ng-show="!ctrl.discovered && ctrl.showConfig">
-          <p><b>Discovery Skipped. </b>You can manually configure your endpoint below or <a class="highlight-word" ng-click="ctrl.reset()">start over</a> to enter a new domain.</p>
+          <i class="icon-gf icon-gf-endpoint inline-icon inline-icon--endpoint"></i>
+          <h2 class="inline-header">{{ctrl.endpoint.name }}</h2>
         </div>
       </div>
-      <div ng-show="ctrl.discovered">
-        <i class="icon-gf icon-gf-endpoint inline-icon inline-icon--endpoint"></i>
-        <h2 class="inline-header">{{ctrl.endpoint.name }}</h2>
+      <div class="gf-form-inline">
+        <div class="gf-form gf-form--right-margin" ng-hide="ctrl.discovered">
+          <label class="gf-form-label width-9">Endpoint Name</label>
+          <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.endpoint.name" required="" ng-class="{ 'rt-text-box-success' : ctrl.discovered, 'rt-font-shrinker' : ctrl.endpoint.name > 10 }" placeholder="www.example.com:80">
+        </div>
+        <!-- Unsubmitted state -->
+        <div class="gf-form" ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
+          <button class="btn btn-success" ng-click="ctrl.discover(ctrl.endpoint)">Begin Auto-Discovery</button>
+        </div>
+          <!-- Discovery in progress -->
+        <div ng-show="ctrl.discoveryInProgress">
+            <svg width="25" height="25" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#13B3D4" class="puff">
+                <g fill="none" fill-rule="evenodd" stroke-width="3">
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r"
+                            begin="0s" dur="3s"
+                            values="1; 20"
+                            calcMode="spline"
+                            keyTimes="0; 1"
+                            keySplines="0.165, 0.84, 0.44, 1"
+                            repeatCount="indefinite" />
+                        <animate attributeName="stroke-opacity"
+                            begin="0s" dur="3s"
+                            values="1; 0"
+                            calcMode="spline"
+                            keyTimes="0; 1"
+                            keySplines="0.3, 0.61, 0.355, 1"
+                            repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r"
+                            begin="-1.5s" dur="3s"
+                            values="1; 20"
+                            calcMode="spline"
+                            keyTimes="0; 1"
+                            keySplines="0.165, 0.84, 0.44, 1"
+                            repeatCount="indefinite" />
+                        <animate attributeName="stroke-opacity"
+                            begin="-1.5s" dur="3s"
+                            values="1; 0"
+                            calcMode="spline"
+                            keyTimes="0; 1"
+                            keySplines="0.3, 0.61, 0.355, 1"
+                            repeatCount="indefinite" />
+                    </circle>
+                </g>
+            </svg>
+            <span class="rt-body-copy">Discovery in progress...</span>
+            <a ng-click="ctrl.skipDiscovery()">skip</a>
+        </div>
       </div>
     </div>
-    <div class="gf-form-inline">
-      <div class="gf-form gf-form--right-margin" ng-hide="ctrl.discovered">
-        <label class="gf-form-label width-9">Endpoint Name</label>
-        <input class="gf-form-input max-width-15" type="text" ng-model="ctrl.endpoint.name" required="" ng-class="{ 'rt-text-box-success' : ctrl.discovered, 'rt-font-shrinker' : ctrl.endpoint.name > 10 }" placeholder="www.example.com:80">
-      </div>
-      <!-- Unsubmitted state -->
-      <div class="gf-form" ng-hide="ctrl.showConfig || ctrl.discoveryInProgress || ctrl.discoveryError">
-        <button class="btn btn-success" ng-click="ctrl.discover(ctrl.endpoint)">Begin Auto-Discovery</button>
-      </div>
-        <!-- Discovery in progress -->
-      <div ng-show="ctrl.discoveryInProgress">
-          <svg width="25" height="25" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="#13B3D4" class="puff">
-              <g fill="none" fill-rule="evenodd" stroke-width="3">
-                  <circle cx="22" cy="22" r="1">
-                      <animate attributeName="r"
-                          begin="0s" dur="3s"
-                          values="1; 20"
-                          calcMode="spline"
-                          keyTimes="0; 1"
-                          keySplines="0.165, 0.84, 0.44, 1"
-                          repeatCount="indefinite" />
-                      <animate attributeName="stroke-opacity"
-                          begin="0s" dur="3s"
-                          values="1; 0"
-                          calcMode="spline"
-                          keyTimes="0; 1"
-                          keySplines="0.3, 0.61, 0.355, 1"
-                          repeatCount="indefinite" />
-                  </circle>
-                  <circle cx="22" cy="22" r="1">
-                      <animate attributeName="r"
-                          begin="-1.5s" dur="3s"
-                          values="1; 20"
-                          calcMode="spline"
-                          keyTimes="0; 1"
-                          keySplines="0.165, 0.84, 0.44, 1"
-                          repeatCount="indefinite" />
-                      <animate attributeName="stroke-opacity"
-                          begin="-1.5s" dur="3s"
-                          values="1; 0"
-                          calcMode="spline"
-                          keyTimes="0; 1"
-                          keySplines="0.3, 0.61, 0.355, 1"
-                          repeatCount="indefinite" />
-                  </circle>
-              </g>
-          </svg>
-          <span class="rt-body-copy">Discovery in progress...</span>
-          <a ng-click="ctrl.skipDiscovery()">skip</a>
-      </div>
-    </div>
-  </div>
 
-  <div ng-show="ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError">
-    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
-    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
-    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
-    <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+    <div ng-show="ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError">
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+    </div>
+  </form>
+  <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/destroyForm.html'"></div>
+  <div ng-show="ctrl.showConfig || ctrl.discoveryError" class="gf-form wp-tag-margin--bottom">
+    <span class="gf-form-label width-6">Tags:</span>
+    <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
   </div>
-</form>
-<div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/destroyForm.html'"></div>
-<div ng-show="ctrl.showConfig || ctrl.discoveryError" class="gf-form wp-tag-margin--bottom">
-  <span class="gf-form-label width-6">Tags:</span>
-  <bootstrap-tagsinput ng-model="ctrl.endpoint.tags" tagclass="label rt-label-tag" placeholder="Add tags"></bootstrap-tagsinput>
+  <div ng-show="ctrl.showConfig || ctrl.discoveryError">
+      <button type="submit" class="btn btn-success" ng-click="endpointForm.$valid && ctrl.addEndpoint(ctrl.endpoint)">Add</button>
+      <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+  </div>
 </div>
-<div ng-show="ctrl.showConfig || ctrl.discoveryError">
-    <button type="submit" class="btn btn-success" ng-click="endpointForm.$valid && ctrl.addEndpoint(ctrl.endpoint)">Add</button>
-    <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+
+<!-- After adding an enpoint, allow time for data to arrive. -->
+
+<div ng-if="ctrl.showCreating">
+  <div class="page-header">
+    <h1>Creating endpoint</h1>
+  </div>
+  <div class="creating-container">
+    <div class="rt-world">
+      <div class="rt-spin-dot"></div>
+    </div>
+    <div class="creating-container">
+      <h2>Hold tight, this will take a moment</h2>
+      <p class="creating-body-copy">We're contacting your endpoint from your selected probes around the globe.<br>
+      Based on your config, it can take up to ~<span class="highlight-word"><strong>{{ctrl.endpointReadyDelay}} seconds</strong></span> for data to start appearing in your dashboard.</p>
+      <a class="btn" ng-href="dashboard/db/worldping-endpoint-summary?var-endpoint={{ctrl.endpoint.slug}}&from=now-5m&to=now" ng-class="{ 'btn-success' : ctrl.endpointReady, 'btn-disabled wp-cursor--wait' : !ctrl.endpointReady }">
+        <span ng-show="ctrl.endpointReady">
+          <i ng-class="icon" class="icon-gf icon-gf-dashboard"></i> Go to Summary Dashboard
+        </span>
+        <span ng-show="!ctrl.endpointReady">
+          Getting data
+          <div class="ascii-spinner-container">
+            <span>&nbsp;&nbsp;</span>
+            <span class="ascii-spinner-1">.&nbsp;</span>
+            <span class="ascii-spinner-2">&nbsp;.</span>
+            <span class="ascii-spinner-3">&nbsp;&nbsp;.</span>
+          </div>
+        </span>
+      </a>
+      <a class="btn btn-link" ng-href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{ctrl.endpoint.id}}">Skip to endpoint details</a>
+    </div>
+  </div>
 </div>

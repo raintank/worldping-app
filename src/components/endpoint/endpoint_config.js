@@ -7,6 +7,7 @@ class EndpointConfigCtrl {
     var self = this;
     this.backendSrv = backendSrv;
     this.$location = $location;
+    this.$timeout = $timeout;
     this.alertSrv = alertSrv;
     this.pageReady = false;
     this.monitorLastState = {};
@@ -233,6 +234,7 @@ class EndpointConfigCtrl {
     this.discoveryInProgress = false;
     this.discoveryError = false;
     this.showConfig = false;
+    this.showCreating = false;
     // $scope.endpoint.name = {"name": ""};
     this.monitors = {};
     _.forEach(self.monitor_types, function(type) {
@@ -427,17 +429,29 @@ class EndpointConfigCtrl {
       return this.updateEndpoint();
     }
 
+    var delay = 120;
+
     var payload = this.endpoint;
     payload.monitors = [];
     _.forEach(this.monitors, function(monitor) {
       monitor.endpoint_id = -1;
       payload.monitors.push(monitor);
+      if (monitor.frequency < delay) {
+        delay = monitor.frequency;
+      }
     });
-    this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/endpoints', payload).then(function(resp) {
+    this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/endpoints', payload)
+    .then(function(resp) {
       self.endpoint = resp;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
-      self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+resp.id);
+      self.showCreating = true;
+      self.endpointReadyDelay = delay;
+      self.endpointReady = false;
+      return self.$timeout(delay * 1000);
+    })
+    .then(function() {
+      self.endpointReady = true;
     });
   }
 
