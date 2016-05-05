@@ -885,6 +885,88 @@
 .message-content {
   margin-bottom: 2rem; }
 
+.creating-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.creating-body-copy {
+  text-align: center;
+  margin-bottom: 2rem; }
+
+.wp-creating-button--transition {
+  transition: all 500ms ease-in-out; }
+
+.wp-creating-button--transition.wp-button-disabled {
+  width: 120px; }
+
+.wp-creating-button--transition.wp-button-success {
+  width: 225px; }
+
+.wp-button-text--TextAppear {
+  animation: TextAppear 200ms 2s linear forward; }
+
+@keyframes TextAppear {
+  0% {
+    display: none;
+    opacity: 0; }
+  100% {
+    display: block;
+    opacity: 1; } }
+
+.wp-cursor--wait {
+  cursor: wait; }
+
+.rt-spin-dot {
+  background-image: url("/public/plugins/raintank-worldping-app/img/worldping_dot.svg");
+  opacity: 1;
+  width: 21px;
+  height: 21px;
+  margin: 0 auto;
+  position: absolute;
+  top: 47px;
+  left: 47px;
+  transform: translateX(75px);
+  animation: spinDot 5s infinite linear; }
+
+.rt-world {
+  background-image: url("/public/plugins/raintank-worldping-app/img/worldping_map.svg");
+  background-repeat: repeat;
+  background-position: 0 -60px;
+  opacity: 1;
+  width: 120px;
+  height: 120px;
+  margin: 3rem 0;
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid #666766;
+  transition: transform 200ms linear;
+  transform-style: preserve-3d;
+  animation: moveWorld 15s linear infinite; }
+
+@keyframes moveWorld {
+  0% {
+    background-position: 0 -60px; }
+  100% {
+    background-position: 300px -60px; } }
+
+@keyframes spinWorld {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(-360deg); } }
+
+@keyframes spinDot {
+  0% {
+    opacity: .5;
+    transform: rotate(45deg) translateX(75px); }
+  50% {
+    opacity: 1; }
+  100% {
+    opacity: .5;
+    transform: rotate(405deg) translateX(75px); } }
+
 .wp-empty-endpoint-list {
   display: flex;
   flex-direction: column;
