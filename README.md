@@ -7,7 +7,7 @@ You can use worldPing to get a real-time view of any endpoint's performance and 
 
 ## Live Demo
 
-A live demo of worldPing is available at https://worldping-demo.raintank.io/dashboard/db/worldping-home
+A live demo of worldPing is available at [worldping-demo.raintank.io](http://worldping-demo.raintank.io/)
 
 ## Features
 
@@ -33,10 +33,10 @@ When you have a problem, worldPing will send you a high quality and speedy alert
 Errors are validated across multiple locations to reduce false positives.
 
 ### API Access
-nything that you can do through the UI you can also do through our full featured HTTP API, docs can be found at [docs.worldping.apiary.io](http://docs.worldping.apiary.io)
+Anything that you can do through the UI you can also do through our full featured HTTP API, docs can be found at [docs.worldping.apiary.io](http://docs.worldping.apiary.io)
 
 ### Requirements
-worldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana 3.x](http://grafana.org/download) to install. There are no other external dependencies, accounts or configuration needed.
+WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana 3.x](http://grafana.org/download) to install. There are no other external dependencies, accounts or configuration needed.
 
 ## Getting Help
 
