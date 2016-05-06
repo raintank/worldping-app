@@ -79,7 +79,6 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
 
           _this.quotas = null;
           _this.endpointStatus = "scopeEndpoints";
-          _this.userStatus = "scopeUsers";
           _this.collectorStatus = "scopeCollectors";
           return _this;
         }
@@ -100,24 +99,6 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             }
             //default.
             this.endpointStatus = "hasEndpoints";
-            return;
-          }
-        }, {
-          key: 'setUserStatus',
-          value: function setUserStatus() {
-            if (!this.quotas) {
-              return;
-            }
-            if (this.quotas.org_user.used <= 1) {
-              this.userStatus = "noTeam";
-              return;
-            }
-            if (this.quotas.org_user.used >= 2) {
-              this.userStatus = "hasTeam";
-              return;
-            }
-            //default.
-            this.userStatus = "hasTeam";
             return;
           }
         }, {
@@ -147,9 +128,6 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             if (this.quotas.collector.used === 0) {
               return false;
             }
-            if (this.quotas.org_user.used <= 1) {
-              return false;
-            }
             if (this.quotas.endpoint.used === 0) {
               return false;
             }
@@ -167,7 +145,6 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
               });
               self.quotas = quotaHash;
               self.setEndpointStatus();
-              self.setUserStatus();
               self.setCollectorStatus();
             });
           }
