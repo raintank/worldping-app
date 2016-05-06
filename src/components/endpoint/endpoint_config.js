@@ -436,7 +436,7 @@ class EndpointConfigCtrl {
     _.forEach(this.monitors, function(monitor) {
       monitor.endpoint_id = -1;
       payload.monitors.push(monitor);
-      if (monitor.frequency < delay) {
+      if (monitor.enabled && monitor.frequency < delay) {
         delay = monitor.frequency;
       }
     });
@@ -451,6 +451,7 @@ class EndpointConfigCtrl {
       return self.$timeout(delay * 1000);
     })
     .then(function() {
+      console.log(self.endpointReadyDelay);
       self.endpointReady = true;
     });
   }

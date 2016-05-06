@@ -195,7 +195,22 @@
     top: 47px;
     left: 47px;
     transform: translateX(75px);
-    animation: spinDot 5s infinite linear;
+}
+
+.rt-spin-dot--10s {
+  animation: spinDot 10s infinite linear;
+}
+
+.rt-spin-dot--30s {
+  animation: spinDot 30s infinite linear;
+}
+
+.rt-spin-dot--60s {
+  animation: spinDot 60s infinite linear;
+}
+
+.rt-spin-dot--120s {
+  animation: spinDot 120s infinite linear;
 }
 
 .rt-world {
@@ -220,20 +235,10 @@
     100% {background-position: 300px -60px;}
 }
 
-@keyframes spinWorld {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(-360deg);
-    };
-}
-
 @keyframes spinDot {
     0% {
         opacity: .5;
-        transform: rotate(45deg) translateX(75px);
+        transform: rotate(1deg) translateX(75px);
     }
 
     50% {
@@ -242,6 +247,6 @@
 
     100% {
         opacity: .5;
-        transform: rotate(405deg) translateX(75px);
+        transform: rotate(361deg) translateX(75px);
     };
 }
