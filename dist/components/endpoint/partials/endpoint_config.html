@@ -149,7 +149,7 @@
   </div>
   <div class="creating-container">
     <div class="rt-world">
-      <div class="rt-spin-dot"></div>
+      <div class="rt-spin-dot" ng-class="{ 'rt-spin-dot--10s' : ctrl.endpointReadyDelay == '10', 'rt-spin-dot--30s' : ctrl.endpointReadyDelay == '30', 'rt-spin-dot--60s' : ctrl.endpointReadyDelay == '60', 'rt-spin-dot--120s' : ctrl.endpointReadyDelay == '120' }"></div>
     </div>
     <div class="creating-container">
       <h2>Hold tight, this will take a moment</h2>
