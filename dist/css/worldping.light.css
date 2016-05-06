@@ -1016,12 +1016,12 @@
 @keyframes spinDot {
   0% {
     opacity: .5;
-    transform: rotate(1deg) translateX(75px); }
+    transform: rotate(-60deg) translateX(75px); }
   50% {
     opacity: 1; }
   100% {
     opacity: .5;
-    transform: rotate(361deg) translateX(75px); } }
+    transform: rotate(300deg) translateX(75px); } }
 
 .wp-empty-endpoint-list {
   display: flex;
