@@ -155,7 +155,7 @@
       <h2>Hold tight, this will take a moment</h2>
       <p class="creating-body-copy">We're contacting your endpoint from your selected probes around the globe.<br>
       Based on your config, it can take up to ~<span class="highlight-word"><strong>{{ctrl.endpointReadyDelay}} seconds</strong></span> for data to start appearing in your dashboard.</p>
-      <a class="btn" ng-href="dashboard/db/worldping-endpoint-summary?var-endpoint={{ctrl.endpoint.slug}}&from=now-5m&to=now" ng-class="{ 'btn-success' : ctrl.endpointReady, 'btn-disabled wp-cursor--wait' : !ctrl.endpointReady }">
+      <a class="btn" ng-href="dashboard/db/worldping-endpoint-summary?var-endpoint={{ctrl.endpoint.slug}}&from=now-5m&to=now" ng-class="{ 'btn-success' : ctrl.endpointReady, 'btn-inverse wp-cursor--wait' : !ctrl.endpointReady }" ng-disabled="!ctrl.endpointReady">
         <span ng-show="ctrl.endpointReady">
           <i ng-class="icon" class="icon-gf icon-gf-dashboard"></i> Go to Summary Dashboard
         </span>

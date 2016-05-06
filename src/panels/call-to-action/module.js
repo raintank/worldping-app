@@ -17,7 +17,6 @@ class CallToActionCtrl extends PanelCtrl {
 
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
-    this.userStatus = "scopeUsers";
     this.collectorStatus = "scopeCollectors";
   }
 
@@ -35,23 +34,6 @@ class CallToActionCtrl extends PanelCtrl {
     }
     //default.
     this.endpointStatus = "hasEndpoints";
-    return;
-  }
-
-  setUserStatus() {
-    if (! this.quotas) {
-      return;
-    }
-    if (this.quotas.org_user.used <= 1) {
-      this.userStatus = "noTeam";
-      return;
-    }
-    if (this.quotas.org_user.used >= 2) {
-      this.userStatus = "hasTeam";
-      return;
-    }
-    //default.
-    this.userStatus = "hasTeam";
     return;
   }
 
@@ -79,9 +61,6 @@ class CallToActionCtrl extends PanelCtrl {
     if (this.quotas.collector.used === 0) {
       return false;
     }
-    if (this.quotas.org_user.used <= 1) {
-      return false;
-    }
     if (this.quotas.endpoint.used === 0) {
       return false;
     }
@@ -98,7 +77,6 @@ class CallToActionCtrl extends PanelCtrl {
       });
       self.quotas = quotaHash;
       self.setEndpointStatus();
-      self.setUserStatus();
       self.setCollectorStatus();
     });
   }

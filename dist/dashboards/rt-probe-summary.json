@@ -924,7 +924,7 @@
       "includeVars": true,
       "keepTime": true,
       "tags": [
-        "endpoint"
+        "Endpoints"
       ],
       "title": "Endpoint Dashboards",
       "type": "dashboards"
