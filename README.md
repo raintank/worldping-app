@@ -58,4 +58,3 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 ##### v1.0.7
 - UI changes to improve the flow for enabling the app.
 - Improvements to dashboards.
-- Righted the left
