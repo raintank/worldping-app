@@ -866,15 +866,66 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-config-box.dns-open {
-    height: 820px; }
+    height: 1050px; }
+    @media screen and (min-width: 600px) {
+      .wp-config-box.dns-open {
+        height: 950px; } }
+    @media screen and (min-width: 700px) {
+      .wp-config-box.dns-open {
+        height: 920px; } }
+    @media screen and (min-width: 800px) {
+      .wp-config-box.dns-open {
+        height: 890px; } }
+    @media screen and (min-width: 1000px) {
+      .wp-config-box.dns-open {
+        height: 840px; } }
   .wp-config-box.ping-open {
-    height: 685px; }
+    height: 860px; }
+    @media screen and (min-width: 600px) {
+      .wp-config-box.ping-open {
+        height: 780px; } }
+    @media screen and (min-width: 700px) {
+      .wp-config-box.ping-open {
+        height: 740px; } }
+    @media screen and (min-width: 800px) {
+      .wp-config-box.ping-open {
+        height: 730px; } }
+    @media screen and (min-width: 1000px) {
+      .wp-config-box.ping-open {
+        height: 685px; } }
   .wp-config-box.http-open {
-    height: 855px; }
+    height: 1090px; }
+    @media screen and (min-width: 600px) {
+      .wp-config-box.http-open {
+        height: 950px; } }
+    @media screen and (min-width: 700px) {
+      .wp-config-box.http-open {
+        height: 1000x; } }
+    @media screen and (min-width: 800px) {
+      .wp-config-box.http-open {
+        height: 920px; } }
+    @media screen and (min-width: 1000px) {
+      .wp-config-box.http-open {
+        height: 875px; } }
   .wp-config-box.https-open {
-    height: 875px; }
+    height: 1130px; }
+    @media screen and (min-width: 600px) {
+      .wp-config-box.https-open {
+        height: 1020px; } }
+    @media screen and (min-width: 700px) {
+      .wp-config-box.https-open {
+        height: 970px; } }
+    @media screen and (min-width: 800px) {
+      .wp-config-box.https-open {
+        height: 940px; } }
+    @media screen and (min-width: 1000px) {
+      .wp-config-box.https-open {
+        height: 895px; } }
   .wp-config-box.destroy-open {
-    height: 250px; }
+    height: 350px; }
+    @media screen and (min-width: 1000px) {
+      .wp-config-box.destroy-open {
+        height: 250px; } }
 
 .gf-form-group--header {
   margin-bottom: 5px; }
