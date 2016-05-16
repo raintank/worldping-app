@@ -7,6 +7,10 @@
 				<input type="password" class="gf-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet">
 				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
 			</div>
+			<div class="gf-form wp-inline-field-margin--right">
+				<span class="gf-form-label width-12">Org Id</span>
+				<input type="text" class="gf-form-input max-width-12" ng-model="ctrl.appModel.jsonData.OrgId">
+			</div>
 			<div class="gf-form">
 				<a class="btn btn-danger btn-small" href="#" ng-click="ctrl.appModel.jsonData.apiKeySet=false" ng-if="ctrl.appModel.jsonData.apiKeySet">reset</a>
 			</div>

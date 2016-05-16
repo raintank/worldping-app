@@ -11,7 +11,8 @@
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"},
+        { "name": "X-Worldping-Org", "content": "{{.JsonData.OrgId}}"}
       ]
     },
     {
@@ -21,7 +22,8 @@
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"},
+        { "name": "X-Worldping-Org", "content": "{{.JsonData.OrgId}}"}
       ]
     },
     {
@@ -31,7 +33,8 @@
       "reqSignedIn": true,
       "reqRole": "Editor",
       "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"},
+        { "name": "X-Worldping-Org", "content": "{{.JsonData.OrgId}}"}
       ]
     },
     {
@@ -41,7 +44,8 @@
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
-        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"},
+        { "name": "X-Worldping-Org", "content": "{{.JsonData.OrgId}}"}
       ]
     }
   ],
