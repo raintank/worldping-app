@@ -81,7 +81,11 @@
               <label class="gf-form-label width-9">Headers</label>
               <textarea class="gf-form-input max-width-30" type="textarea" nng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'headers').value"></textarea>
             </div>
-            <editor-checkbox text="Validate SSL Certificate" model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'validateCert').value"></editor-checkbox>
+            <div class="gf-form-checkbox">
+              <input class="cr1" id="validateSSLCheckBox" type="checkbox" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'validateCert').value" ng-true-value="'true'" ng-false-value="'false'">
+              <label for="validateSSLCheckBox" class="cr1"></label>
+              <label for="validateSSLCheckBox" class="checkbox-label">Validate SSL Certificate</label>
+            </div>
           </div>
         </div>
       <div class="gf-form-group">
