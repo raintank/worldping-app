@@ -12,6 +12,7 @@ class EndpointConfigCtrl {
     this.pageReady = false;
     this.showCreating = false;
     this.monitorLastState = {};
+    self.insufficientQuota = false;
 
     this.frequencyOpts = [];
     var freqOpt = [10, 30, 60, 120];
@@ -41,7 +42,8 @@ class EndpointConfigCtrl {
         return self.getEndpoint($location.search().endpoint);
       }));
     } else {
-      console.log($location.search());
+      // make sure we have sufficient quota.
+      promises.push(self.checkQuota());
       this.endpoint = {name: ""};
     }
 
@@ -105,6 +107,24 @@ class EndpointConfigCtrl {
           scope: modalScope,
         });
       }
+    });
+  }
+
+  checkQuota() {
+    var self = this;
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then((quotas) => {
+      _.forEach(quotas, function(q) {
+        if (q.target === "endpoint") {
+          if (q.used >= q.limit) {
+            self.insufficientQuota = true;
+          }
+        }
+      });
+      if (self.insufficientQuota) {
+        console.log("quota reached");
+        return Promise.reject("Quota reached.");
+      }
+      return true;
     });
   }
 
