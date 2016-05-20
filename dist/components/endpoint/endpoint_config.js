@@ -46,6 +46,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.$timeout = $timeout;
           this.alertSrv = alertSrv;
           this.pageReady = false;
+          this.showCreating = false;
           this.monitorLastState = {};
 
           this.frequencyOpts = [];
@@ -89,6 +90,9 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             $timeout(function () {
               $anchorScroll();
             }, 0, false);
+            $scope.$apply();
+          }, function (err) {
+            console.log("endpoint config init failed.", err);
           });
 
           if ($location.search().check) {
