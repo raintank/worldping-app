@@ -453,7 +453,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "PING PERFORMANCE RANGE AND LOSS (AVERGAGE ALL SELECTED PROBES)",
+          "title": "PING PERFORMANCE RANGE AND LOSS (AVERAGE ALL SELECTED PROBES)",
           "tooltip": {
             "shared": true,
             "value_type": "individual"
