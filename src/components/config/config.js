@@ -69,8 +69,8 @@ class WorldPingConfigCtrl {
       return Promise.resolve();
     }
     var self = this;
-    var p = this.validateKey();
-    p.then(() => {
+    return this.validateKey()
+    .then(() => {
       return self.appEditCtrl.importDashboards().then(() => {
         return {
           url: "dashboard/db/worldping-home",
@@ -78,7 +78,6 @@ class WorldPingConfigCtrl {
         };
       });
     });
-    return p;
   }
 
   configureDatasource() {

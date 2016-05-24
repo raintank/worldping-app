@@ -80,7 +80,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           } else {
             // make sure we have sufficient quota.
             promises.push(self.checkQuota());
-            console.log($location.search());
             this.endpoint = { name: "" };
           }
 

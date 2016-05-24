@@ -107,8 +107,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
               return Promise.resolve();
             }
             var self = this;
-            var p = this.validateKey();
-            p.then(function () {
+            return this.validateKey().then(function () {
               return self.appEditCtrl.importDashboards().then(function () {
                 return {
                   url: "dashboard/db/worldping-home",
@@ -116,7 +115,6 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 };
               });
             });
-            return p;
           }
         }, {
           key: 'configureDatasource',
