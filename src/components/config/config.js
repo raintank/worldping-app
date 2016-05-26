@@ -5,27 +5,59 @@ import _ from 'lodash' ;
 class WorldPingConfigCtrl {
   constructor($scope, $injector, backendSrv) {
     this.backendSrv = backendSrv;
-
+    this.validKey = false;
+    this.quotas = {};
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
     }
+    if (!this.appModel.secureJsonData) {
+      this.appModel.secureJsonData = {};
+    }
+    if (this.appModel.enabled) {
+      this.validateKey();
+    }
+  }
+
+  validateKey() {
+    var self = this;
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas');
+    p.then((quotas) => {
+      self.validKey = true;
+      self.quotas = quotas;
+    }, () => {
+      if (self.appModel.enabled) {
+        self.appModel.jsonData.apiKeySet = false;
+        self.appModel.secureJsonData.apiKey = "";
+        self.errorMsg = "invlid apiKey";
+      }
+    });
+    return p;
   }
 
   preUpdate() {
     var model = this.appModel;
+    if (!model.enabled) {
+      return Promise.resolve();
+    }
 
+    if (!model.jsonData.apiKeySet && !model.secureJsonData.apiKey) {
+      model.enabled = false;
+      return Promise.reject("apiKey not set.");
+    }
     // if the apiKey is being set, check and make sure that
     // we have initialized our datasource and dashboards.
-    if (model.secureJsonData && model.secureJsonData.apiKey) {
+    if (model.secureJsonData.apiKey) {
       model.jsonData.apiKeySet = true;
 
       if (!model.jsonData.datasourceSet) {
-        return this.initDatasource().then(() => {
+        var p = this.initDatasource();
+        p.then(() => {
           model.jsonData.datasourceSet = true;
         });
+        return p;
       }
     }
 
@@ -36,12 +68,15 @@ class WorldPingConfigCtrl {
     if (!this.appModel.enabled) {
       return Promise.resolve();
     }
-
-    return this.appEditCtrl.importDashboards().then(() => {
-      return {
-        url: "dashboard/db/worldping-home",
-        message: "worldPing app installed!"
-      };
+    var self = this;
+    return this.validateKey()
+    .then(() => {
+      return self.appEditCtrl.importDashboards().then(() => {
+        return {
+          url: "dashboard/db/worldping-home",
+          message: "worldPing app installed!"
+        };
+      });
     });
   }
 
@@ -49,14 +84,14 @@ class WorldPingConfigCtrl {
     this.appModel.jsonData.datasourceSet = false;
     this.initDatasource().then(() => {
       this.appModel.jsonData.datasourceSet = true;
-      console.log("datasource initialized");
     });
   }
 
   initDatasource() {
     var self = this;
     //check for existing datasource.
-    return self.backendSrv.get('/api/datasources').then(function(results) {
+    var p = self.backendSrv.get('/api/datasources');
+    p.then(function(results) {
       var foundGraphite = false;
       var foundElastic = false;
       _.forEach(results, function(ds) {
@@ -98,6 +133,7 @@ class WorldPingConfigCtrl {
       }
       return Promise.all(promises);
     });
+    return p;
   }
 }
 

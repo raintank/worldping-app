@@ -1,3 +1,6 @@
+<div ng-if="ctrl.insufficientQuota">
+  <div class="alert alert-error"><div class="alert-title ng-binding">Error</div><div>Insufficient Quota</div></div>
+</div>
 <div ng-if="!ctrl.showCreating">
   <div ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="page-header">
     <h1>Add a new endpoint</h1>
