@@ -55,6 +55,6 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 
 #### Changelog
 
-##### v1.0.7
-- UI changes to improve the flow for enabling the app.
-- Improvements to dashboards.
+##### v1.0.9
+- Fixed a bug on the endpoint config page that prevented HTTPS checks from being updated.
+- Added a datasource declaration to the singlestsat panels on the worldPing Probe Dashboard to avoid errors if raintank was not your default datasource. 
