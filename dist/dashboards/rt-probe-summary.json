@@ -27,6 +27,7 @@
             "rgba(63, 104, 51, 1)"
           ],
           "decimals": 2,
+          "datasource": "raintank",
           "editable": true,
           "error": false,
           "format": "percent",
@@ -77,6 +78,7 @@
             "rgba(63, 104, 51, 1)"
           ],
           "decimals": 2,
+          "datasource": "raintank",
           "editable": true,
           "error": false,
           "format": "percent",
@@ -127,6 +129,7 @@
             "rgba(63, 104, 51, 1)"
           ],
           "decimals": 2,
+          "datasource": "raintank",
           "editable": true,
           "error": false,
           "format": "percent",
@@ -177,6 +180,7 @@
             "rgba(63, 104, 51, 1)"
           ],
           "decimals": 2,
+          "datasource": "raintank",
           "editable": true,
           "error": false,
           "format": "percent",
