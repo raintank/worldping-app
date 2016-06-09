@@ -1,6 +1,8 @@
 "use strict";
 
 System.register(["lodash"], function (_export, _context) {
+  "use strict";
+
   var _, _typeof, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {

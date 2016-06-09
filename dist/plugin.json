@@ -67,13 +67,13 @@
       {"name": "License", "url": "https://github.com/raintank/worldping-app/blob/master/LICENSE"}
     ],
     "screenshots": [
-      {"name": "worldPing Home Dashboard", "path": "src/img/wP-Screenshot-home.png"},
-      {"name": "worldPing Summary Dashboard", "path": "src/img/wP-Screenshot-dash-summary.png"},
-      {"name": "worldPing Web Dashboard", "path": "src/img/wP-Screenshot-dash-web.png"},
-      {"name": "worldPing Endpoint Details", "path": "src/img/wP-Screenshot-endpoint-details.png"}
+      {"name": "worldPing Home Dashboard", "path": "img/wP-Screenshot-home.png"},
+      {"name": "worldPing Summary Dashboard", "path": "img/wP-Screenshot-dash-summary.png"},
+      {"name": "worldPing Web Dashboard", "path": "img/wP-Screenshot-dash-web.png"},
+      {"name": "worldPing Endpoint Details", "path": "img/wP-Screenshot-endpoint-details.png"}
     ],
-    "version": "1.0.8",
-    "updated": "2016-05-06"
+    "version": "1.0.9",
+    "updated": "2016-06-07"
   },
 
   "includes": [

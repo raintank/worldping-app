@@ -1,5 +1,5 @@
 <div ng-if="ctrl.insufficientQuota">
-  <div class="alert alert-error"><div class="alert-title ng-binding">Error</div><div>Insufficient Quota</div></div>
+  <div class="alert alert-error"><div class="alert-title ng-binding">Error</div><div>This endpoint will exceed your quota and cannot be added. Contact <a href="mailto:support@raintank.io">support@raintank.io</a> to increase your limit.</div></div>
 </div>
 <div ng-if="!ctrl.showCreating">
   <div ng-if="ctrl.pageReady && !ctrl.endpoint.id" class="page-header">

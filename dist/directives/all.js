@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
+  "use strict";
+
   var angular, _, _typeof;
 
   return {
