@@ -5,15 +5,14 @@
       <div>
         <a href="#">
           <!-- Monitoring -->
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="ctrl.monitors['ping'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.monitors['ping'].enabled"></i>
           <span class="freqMsg" ng-show="ctrl.monitors['ping'].enabled" > Every {{ctrl.monitors['ping'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['ping'])}} {{ctrl.collectorCount(ctrl.monitors['ping']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['ping'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.monitors['ping'].enabled"></i>
           <span class="freqMsg disabled" ng-show="!ctrl.monitors['ping'].enabled" > Not enabled |</span>
           <span class="freqMsg" ng-show="!ctrl.monitors['ping'].enabled && ctrl.discovered" > Not Discovered |</span>
-          <!-- Alerting
-          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['ping'].enabled && monitors['alert'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['ping'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
-          -->
+          <!-- Checks -->
+          <i ng-show="ctrl.monitors['ping'].enabled" class="icon-gf icon-gf-status" style="font-size:17px; vertical-align: sub;"></i>
+          <span ng-show="ctrl.monitors['ping'].enabled" class="freqMsg" bs-tooltip="'Estimated checks per month, in Millions'">{{ctrl.totalChecks(ctrl.monitors['ping'])| number:0}}M/mo</span><span ng-show="ctrl.monitors['ping'].enabled" class="freqMsg"> |</span
           <!-- Configure -->
           <span class="highlight-word"> Configure</span>
           <span><i class="fa fa-caret-down" ng-show="ctrl.showPing"></i></span>
@@ -53,6 +52,11 @@
               <info-popover offset="0px -95px">
                 The timeout, in seconds, is the amount of time our probe will wait for a response.
               </info-popover>
+            </div>
+          </div>
+          <div class="gf-form-group" ng-show="ctrl.monitors['ping'].enabled">
+            <div class="rt-body-copy">
+              <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> With this config, you'll generate approixmately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks(ctrl.monitors['ping'])| number:0}} Million</span><span class="pluginlist-none-installed"> checks per month.</span>
             </div>
           </div>
         </div>

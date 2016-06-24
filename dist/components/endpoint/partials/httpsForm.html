@@ -6,15 +6,14 @@
       <div>
         <a href="#">
           <!-- Monitoring -->
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="ctrl.monitors['https'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.monitors['https'].enabled"></i>
           <span class="freqMsg" ng-show="ctrl.monitors['https'].enabled" > Every {{ctrl.monitors['https'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['https'])}} {{ctrl.collectorCount(ctrl.monitors['https']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['dns'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.monitors['dns'].enabled"></i>
           <span class="freqMsg disabled" ng-show="!ctrl.monitors['https'].enabled" > Not enabled |</span>
           <span class="freqMsg" ng-show="!ctrl.monitors['https'].enabled && ctrl.discovered" > Not Discovered |</span>
-          <!-- Alerting
-          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['https'].enabled && monitors['alert'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['https'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
-          -->
+          <!-- Checks -->
+          <i ng-show="ctrl.monitors['https'].enabled" class="icon-gf icon-gf-status" style="font-size:17px; vertical-align: sub;"></i>
+          <span ng-show="ctrl.monitors['https'].enabled" class="freqMsg" bs-tooltip="'Estimated checks per month, in Millions'">{{ctrl.totalChecks(ctrl.monitors['https'])| number:0}}M/mo</span><span ng-show="ctrl.monitors['https'].enabled" class="freqMsg"> |</span
           <!-- Configure -->
           <span class="highlight-word"> Configure</span>
           <span><i class="fa fa-caret-down" ng-show="ctrl.showHTTPS"></i></span>
@@ -85,6 +84,11 @@
               <input class="cr1" id="validateSSLCheckBox" type="checkbox" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['https'], 'validateCert').value" ng-true-value="'true'" ng-false-value="'false'">
               <label for="validateSSLCheckBox" class="cr1"></label>
               <label for="validateSSLCheckBox" class="checkbox-label">Validate SSL Certificate</label>
+            </div>
+          </div>
+          <div class="gf-form-group" ng-show="ctrl.monitors['https'].enabled">
+            <div class="rt-body-copy">
+              <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> With this config, you'll generate approixmately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks(ctrl.monitors['https'])| number:0}} Million</span><span class="pluginlist-none-installed"> checks per month.</span>
             </div>
           </div>
         </div>

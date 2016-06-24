@@ -12,6 +12,7 @@ class EndpointConfigCtrl {
     this.pageReady = false;
     this.showCreating = false;
     this.monitorLastState = {};
+    this.$window = $window;
     self.insufficientQuota = false;
 
     this.frequencyOpts = [];
@@ -162,6 +163,10 @@ class EndpointConfigCtrl {
     return Object.keys(ids).length;
   }
 
+  totalChecks(monitor) {
+    return (30.5 * 24 * (3600/monitor.frequency) * this.collectorCount(monitor) / 1000000) + 0.5;
+  }
+
   getMonitorTypes() {
     var self = this;
     return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
@@ -269,7 +274,7 @@ class EndpointConfigCtrl {
   cancel() {
     this.reset();
     this.ignoreChanges = true;
-    window.history.back();
+    this.$window.history.back();
   }
 
   getEndpoint(idString) {

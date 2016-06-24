@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['lodash', 'angular'], function (_export, _context) {
-  "use strict";
-
   var _, angular, _createClass, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -50,6 +48,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.pageReady = false;
           this.showCreating = false;
           this.monitorLastState = {};
+          this.$window = $window;
           self.insufficientQuota = false;
 
           this.frequencyOpts = [];
@@ -206,6 +205,11 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             return Object.keys(ids).length;
           }
         }, {
+          key: 'totalChecks',
+          value: function totalChecks(monitor) {
+            return 30.5 * 24 * (3600 / monitor.frequency) * this.collectorCount(monitor) / 1000000 + 0.5;
+          }
+        }, {
           key: 'getMonitorTypes',
           value: function getMonitorTypes() {
             var self = this;
@@ -319,7 +323,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           value: function cancel() {
             this.reset();
             this.ignoreChanges = true;
-            window.history.back();
+            this.$window.history.back();
           }
         }, {
           key: 'getEndpoint',

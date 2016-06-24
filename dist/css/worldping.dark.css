@@ -855,6 +855,13 @@
 .endpoint-config-left-margin {
   margin-left: 45px; }
 
+.wp-note--mild-emphasis {
+  font-weight: 500; }
+
+.gf-form-natural-language-input {
+  padding-left: 10px;
+  margin-left: 5px; }
+
 .wp-config-box--hit-area {
   cursor: pointer; }
 
@@ -866,19 +873,19 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-config-box.dns-open {
-    height: 1050px; }
+    height: 1140px; }
     @media screen and (min-width: 600px) {
       .wp-config-box.dns-open {
-        height: 950px; } }
+        height: 984px; } }
     @media screen and (min-width: 700px) {
       .wp-config-box.dns-open {
-        height: 920px; } }
+        height: 944px; } }
     @media screen and (min-width: 800px) {
       .wp-config-box.dns-open {
-        height: 890px; } }
+        height: 940px; } }
     @media screen and (min-width: 1000px) {
       .wp-config-box.dns-open {
-        height: 840px; } }
+        height: 894px; } }
   .wp-config-box.ping-open {
     height: 860px; }
     @media screen and (min-width: 600px) {
@@ -1715,6 +1722,10 @@ raintank POSITIONING
 
 .filter-icon:hover {
   opacity: 0.8; }
+
+.wp-icon-medium {
+  font-size: 21px;
+  vertical-align: sub; }
 
 .rt-list-status, .rt-list-status-up, .rt-list-status-up:link, .rt-list-status-up:visited, .rt-list-status-warning, .rt-list-status-warning:link, .rt-list-status-warning:visited, .rt-list-status-down, .rt-list-status-down:link, .rt-list-status-down:visited, .rt-list-status-disabled, .rt-list-status-disabled:link, .rt-list-status-disabled:visited {
   font-size: 1rem;
