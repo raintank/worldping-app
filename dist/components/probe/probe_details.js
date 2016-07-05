@@ -104,6 +104,14 @@ System.register(['lodash'], function (_export, _context) {
             this.save();
           }
         }, {
+          key: 'remove',
+          value: function remove(collector) {
+            var self = this;
+            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + collector.id).then(function () {
+              self.$location.path('plugins/raintank-worldping-app/page/probes');
+            });
+          }
+        }, {
           key: 'gotoDashboard',
           value: function gotoDashboard(collector) {
             this.$location.path("/dashboard/db/worldping-probes").search({ "var-probe": collector.slug, "var-endpoint": "All" });

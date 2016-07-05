@@ -1,0 +1,36 @@
+<div class="gf-form-group" id="destroy">
+  <div class="wp-config-box--hit-area" ng-click="ctrl.showDestroy = !ctrl.showDestroy">
+    <div class="playlist-column-header section-header-flex-container">
+      <h3 class="page-headering">DESTROY</h3>
+      <div>
+        <a href="#">
+          <!-- Configure -->
+          <span class="highlight-word"> Expand</span>
+          <span><i class="fa fa-caret-down" ng-show="ctrl.showDestroy"></i></span>
+          <span><i class="fa fa-caret-right rt-box-accordian-control" ng-hide="ctrl.showDestroy"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <form name="destroyProbeForm">
+    <div class="wp-config-box rt-page-box" id="destroy" ng-class="{ 'destroy-open': ctrl.showDestroy }">
+      <div>
+          <div class="gf-form">
+            <i class="icon-gf icon-gf-skull inline-icon"></i>
+            <h3 class="inline-header">Delete Private Probe</h3>
+          </div>
+          <div class="endpoint-config-left-margin">
+            <p>When a probe is deleted, all endpoints being monitored from this probe will update configs automatically and remove this probe.</p>
+            <p>Type DELETE to confirm:</p>
+            <div class="gf-form">
+              <input class="gf-form-input max-width-21" type="text" required pattern="^[dD][eE][lL][eE][tT][eE]$" ng-model="verifyDelete">
+            </div>
+            <div class="gf-form-button-row">
+              <button type="submit" class="btn btn-danger" ng-disabled="destroyProbeForm.$invalid" ng-click="ctrl.remove(ctrl.probe)">DELETE</button>
+              <a class="btn btn-link" ng-click="ctrl.showDestroy = !ctrl.showDestroy">Cancel</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -63,6 +63,13 @@ export class ProbeDetailsCtrl {
     this.save();
   }
 
+  remove(collector) {
+    var self = this;
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + collector.id).then(function() {
+      self.$location.path('plugins/raintank-worldping-app/page/probes');
+    });
+  }
+
   gotoDashboard(collector) {
     this.$location.path("/dashboard/db/worldping-probes").search({"var-probe": collector.slug, "var-endpoint": "All"});
   }
