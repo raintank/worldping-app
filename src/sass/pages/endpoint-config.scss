@@ -25,6 +25,15 @@
   margin-left: 45px;
 }
 
+.wp-note--mild-emphasis {
+  font-weight: 500;
+}
+
+.gf-form-natural-language-input {
+  padding-left: 10px;
+  margin-left: 5px;
+}
+
 .wp-config-box--hit-area {
   cursor: pointer;
   &:hover {
@@ -40,22 +49,22 @@
   -webkit-transition: height 0.2s;
 
   &.dns-open {
-    height: 1050px;
+    height: 1140px;
 
     @media screen and (min-width: 600px) {
-      height: 950px;
+      height: 984px;
       }
 
     @media screen and (min-width: 700px) {
-      height: 920px;
+      height: 944px;
       }
 
     @media screen and (min-width: 800px) {
-      height: 890px;
+      height: 940px;
       }
 
     @media screen and (min-width: 1000px) {
-      height: 840px;
+      height: 894px;
       }
   }
 

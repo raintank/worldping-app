@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
-  "use strict";
-
   var _, PanelCtrl, loadPluginCss, _createClass, CallToActionCtrl;
 
   function _classCallCheck(instance, Constructor) {
