@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash'], function (_export, _context) {
+  "use strict";
+
   var _, _createClass, ProbeDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -48,6 +50,7 @@ System.register(['lodash'], function (_export, _context) {
           this.collectors = [];
           this.collector = null;
           this.collectorUpdates = {};
+          this.showDestroy = false;
           var promise = this.getCollectors();
           promise.then(function () {
             self.getCollector($location.search().probe);
@@ -102,6 +105,14 @@ System.register(['lodash'], function (_export, _context) {
             this.collector.name = this.collectorUpdates.name;
             this.collector.public = this.collectorUpdates.public;
             this.save();
+          }
+        }, {
+          key: 'remove',
+          value: function remove(collector) {
+            var self = this;
+            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + collector.id).then(function () {
+              self.$location.path('plugins/raintank-worldping-app/page/probes');
+            });
           }
         }, {
           key: 'gotoDashboard',

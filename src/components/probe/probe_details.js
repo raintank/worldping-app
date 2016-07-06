@@ -13,6 +13,7 @@ export class ProbeDetailsCtrl {
     this.collectors = [];
     this.collector = null;
     this.collectorUpdates = {};
+    this.showDestroy = false;
     var promise = this.getCollectors();
     promise.then(function() {
       self.getCollector($location.search().probe);
@@ -61,6 +62,13 @@ export class ProbeDetailsCtrl {
     this.collector.name = this.collectorUpdates.name;
     this.collector.public = this.collectorUpdates.public;
     this.save();
+  }
+
+  remove(collector) {
+    var self = this;
+    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + collector.id).then(function() {
+      self.$location.path('plugins/raintank-worldping-app/page/probes');
+    });
   }
 
   gotoDashboard(collector) {
