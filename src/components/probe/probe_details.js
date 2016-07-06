@@ -13,6 +13,7 @@ export class ProbeDetailsCtrl {
     this.collectors = [];
     this.collector = null;
     this.collectorUpdates = {};
+    this.showDestroy = false;
     var promise = this.getCollectors();
     promise.then(function() {
       self.getCollector($location.search().probe);
