@@ -53,7 +53,7 @@ class EndpointListCtrl {
   }
 
   monitorStateTxt(endpoint, type) {
-    var check = null;
+    var check;
     _.forEach(endpoint.checks, function(c) {
       if (c.type.toLowerCase() === type.toLowerCase()) {
         check = c;
@@ -73,7 +73,7 @@ class EndpointListCtrl {
   }
 
   monitorStateChangeStr(endpoint, type) {
-    var check = null;
+    var check;
     _.forEach(endpoint.checks, function(c) {
       if (c.type.toLowerCase() === type.toLowerCase()) {
         check = c;

@@ -102,7 +102,7 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'monitorStateTxt',
           value: function monitorStateTxt(endpoint, type) {
-            var check = null;
+            var check;
             _.forEach(endpoint.checks, function (c) {
               if (c.type.toLowerCase() === type.toLowerCase()) {
                 check = c;
@@ -123,7 +123,7 @@ System.register(['lodash'], function (_export, _context) {
         }, {
           key: 'monitorStateChangeStr',
           value: function monitorStateChangeStr(endpoint, type) {
-            var check = null;
+            var check;
             _.forEach(endpoint.checks, function (c) {
               if (c.type.toLowerCase() === type.toLowerCase()) {
                 check = c;
