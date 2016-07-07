@@ -112,35 +112,28 @@ angular.module('grafana.directives').directive("rtEndpointHealth", function() {
   };
 });
 
-angular.module('grafana.directives').directive('endpointCollectorSelect', function($compile, $window, $timeout) {
+angular.module('grafana.directives').directive('endpointProbeSelect', function($compile, $window, $timeout) {
   return {
     scope: {
-      collectors: "=",
+      probes: "=",
       model: "=",
     },
     templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointCollectorSelect.html',
     link: function(scope, elem) {
       var bodyEl = angular.element($window.document.body);
-      var currentIds = scope.model.collector_ids;
-      var currentTags = scope.model.collector_tags;
+      var selectedIds = [];
+      var selectedTags = [];
+
       scope.init = function() {
-        currentIds = scope.model.collector_ids;
-        currentTags = scope.model.collector_tags;
-        scope.footprint = {value: "static"};
+        if (scope.model.route.type === 'byIds') {
+          selectedIds = scope.model.route.config.ids;
+          scope.footprint = {value: "static"};
+        } else {
+          selectedTags = scope.model.route.config.tags;
+          scope.footprint = {value: "dynamic"};
+        }
         scope.error = false;
 
-        // determine if we are using static or dynamic allocation.
-        if (currentIds.length > 0) {
-          scope.footprint.value = 'static';
-          _.forEach(scope.tags, function(t) {
-            t.selected = false;
-          });
-        } else if (currentTags.length > 0) {
-          scope.footprint.value = 'dynamic';
-          _.forEach(scope.ids, function(i) {
-            i.selected = false;
-          });
-        }
         scope.reset();
       };
 
@@ -150,16 +143,16 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
         scope.tags = [];
         //build out our list of collectorIds and tags
         var seenTags = {};
-        _.forEach(scope.collectors, function(c) {
+        _.forEach(scope.probes, function(c) {
           var option = {id: c.id, selected: false, text: c.name};
-          if (_.indexOf(currentIds, c.id) >= 0) {
+          if (_.indexOf(selectedIds, c.id) >= 0) {
             option.selected = true;
           }
           _.forEach(c.tags, function(t) {
             if (!(t in seenTags)) {
               seenTags[t] = true;
               var o = {selected: false, text: t};
-              if (_.indexOf(currentTags, t) >= 0) {
+              if (_.indexOf(selectedTags, t) >= 0) {
                 o.selected = true;
               }
               scope.tags.push(o);
@@ -194,7 +187,7 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
 
       scope.selectAll = function() {
         var select = true;
-        var selectedIds = _.filter(scope.ids, {selected: true});
+        selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
 
         if (selectedIds.length === scope.ids.length) {
           select = false;
@@ -208,21 +201,21 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
         option.selected = !option.selected;
       };
 
-      scope.collectorsWithTags = function() {
-        var collectorList = {};
-        _.forEach(scope.collectors, function(c) {
+      scope.probesWithTags = function() {
+        var probeList = {};
+        _.forEach(scope.probes, function(c) {
           _.forEach(_.filter(scope.tags, {selected: true}), function(t) {
             if (_.indexOf(c.tags, t.text) !== -1) {
-              collectorList[c.name] = true;
+              probeList[c.name] = true;
             }
           });
         });
-        return Object.keys(collectorList).join(', ');
+        return Object.keys(probeList).join(', ');
       };
 
-      scope.collectorCount = function(tag) {
+      scope.probeCount = function(tag) {
         var count = 0;
-        _.forEach(scope.collectors, function(c) {
+        _.forEach(scope.probes, function(c) {
           if (_.indexOf(c.tags, tag.text) !== -1) {
             count++;
           }
@@ -231,43 +224,80 @@ angular.module('grafana.directives').directive('endpointCollectorSelect', functi
       };
 
       scope.selectTagTitle = function() {
-        var selectedTags = _.filter(scope.tags, {selected: true});
+        selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
         if (selectedTags.length === 0) {
           return "Select Tags";
         }
         if (selectedTags.length <= 2) {
-          return _.pluck(selectedTags, 'text').join(", ");
+          return selectedTags.join(", ");
         }
-        return _.pluck(selectedTags, 'text').slice(0, 2).join(", ") + " and " + (selectedTags.length - 2) + " more";
+        return selectedTags.slice(0, 2).join(", ") + " and " + (selectedTags.length - 2) + " more";
       };
 
       scope.selectIdTitle = function() {
-        var selectedIds = _.filter(scope.ids, {selected: true});
+        selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
         if (selectedIds.length === 0) {
           return "Select Probes";
         }
         if (selectedIds.length <= 2) {
-          return _.pluck(selectedIds, 'text').join(", ");
+          return _.pluck(_.filter(scope.ids, {selected: true}), "text").join(", ");
         }
-        return _.pluck(selectedIds, 'text').slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+        return _.pluck(_.filter(scope.ids, {selected: true}), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+      };
+
+      scope.routeTypeChange = function() {
+        if (scope.footprint.value === 'dynamic') {
+          selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
+          scope.model.route = {
+            type: "byTags",
+            config: {
+              tags: []
+            }
+          };
+          _.forEach(selectedTags, function(t) {
+            scope.model.route.config.tags.push(t.text);
+          });
+        } else {
+          selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+          scope.model.route = {
+            type: "byIds",
+            config: {
+              ids: []
+            }
+          };
+          _.forEach(selectedIds, function(c) {
+            scope.model.route.config.ids.push(c.id);
+          });
+        }
       };
 
       scope.hide = function() {
-        var selectedIds = _.filter(scope.ids, {selected: true});
-        var selectedTags = _.filter(scope.tags, {selected: true});
-        if (selectedIds.length === 0 && selectedTags.length === 0) {
-          scope.error = "at least 1 option must be selected.";
-          return;
+        if (scope.footprint.value === 'dynamic') {
+          scope.model.route = {
+            type: "byTags",
+            config: {
+              tags: []
+            }
+          };
+          selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
+          _.forEach(selectedTags, function(t) {
+            scope.model.route.config.tags.push(t);
+          });
+        } else {
+          console.log("setting route type to byIds");
+          scope.model.route = {
+            type: "byIds",
+            config: {
+              ids: []
+            }
+          };
+          selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+          _.forEach(selectedIds, function(c) {
+            console.log("%s is is selected", c);
+            scope.model.route.config.ids.push(c);
+          });
         }
-
-        scope.model.collector_ids.splice(0,scope.model.collector_ids.length);
-        _.forEach(selectedIds, function(c) {
-          scope.model.collector_ids.push(c.id);
-        });
-        scope.model.collector_tags.splice(0, scope.model.collector_tags.length);
-        _.forEach(selectedTags, function(t) {
-          scope.model.collector_tags.push(t.text);
-        });
+        console.log(scope.model.route);
         scope.selectorOpen = false;
         bodyEl.off('click', scope.bodyOnClick);
       };

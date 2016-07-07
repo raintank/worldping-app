@@ -126,11 +126,11 @@
       </div>
     </div>
 
-    <div ng-show="ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError">
-      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/dnsForm.html'" ng-if="ctrl.monitors['dns']"></div>
-      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/pingForm.html'" ng-if="ctrl.monitors['ping']"></div>
-      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpForm.html'" ng-if="ctrl.monitors['http']"></div>
-      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpsForm.html'" ng-if="ctrl.monitors['https']"></div>
+    <div ng-if="ctrl.pageReady && (ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError)">
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/dnsForm.html'"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/pingForm.html'"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpForm.html'"></div>
+      <div ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/httpsForm.html'"></div>
     </div>
   </form>
   <div ng-show="ctrl.endpoint.id" ng-include src="'public/plugins/raintank-worldping-app/components/endpoint/partials/destroyForm.html'"></div>
