@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-System.register(['lodash'], function (_export, _context) {
+System.register([], function (_export, _context) {
   "use strict";
 
-  var _, _createClass, ProbeDetailsCtrl;
+  var _createClass, ProbeDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,9 +12,7 @@ System.register(['lodash'], function (_export, _context) {
   }
 
   return {
-    setters: [function (_lodash) {
-      _ = _lodash.default;
-    }],
+    setters: [],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -34,115 +32,126 @@ System.register(['lodash'], function (_export, _context) {
         };
       }();
 
-      _export('ProbeDetailsCtrl', ProbeDetailsCtrl = function () {
+      _export("ProbeDetailsCtrl", ProbeDetailsCtrl = function () {
 
         /** @ngInject */
 
-        function ProbeDetailsCtrl($scope, $injector, $location, $timeout, backendSrv, contextSrv) {
+        function ProbeDetailsCtrl($scope, $injector, $location, $timeout, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, ProbeDetailsCtrl);
 
           var self = this;
           this.contextSrv = contextSrv;
           this.backendSrv = backendSrv;
+          this.alertSrv = alertSrv;
           this.$location = $location;
           this.$timeout = $timeout;
+          this.$q = $q;
           this.pageReady = false;
-          this.collectors = [];
-          this.collector = null;
-          this.collectorUpdates = {};
+          this.probe = null;
+          this.probeUpdates = {};
           this.showDestroy = false;
-          var promise = this.getCollectors();
-          promise.then(function () {
-            self.getCollector($location.search().probe);
-          });
+          if ($location.search().probe) {
+            this.getProbe($location.search().probe);
+          } else {
+            this.alertSrv.set("no probe id provided.", "", 'error', 10000);
+          }
           $scope.$on("$destroy", function () {
             $timeout.cancel(self.poller);
           });
         }
 
         _createClass(ProbeDetailsCtrl, [{
-          key: 'getCollectors',
-          value: function getCollectors() {
-            var self = this;
-            return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function (collectors) {
-              self.collectors = collectors;
-            });
-          }
-        }, {
-          key: 'save',
+          key: "save",
           value: function save() {
-            this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/collectors", this.collector);
-          }
-        }, {
-          key: 'getCollector',
-          value: function getCollector(id) {
             var self = this;
-            _.forEach(this.collectors, function (collector) {
-              if (collector.id === parseInt(id)) {
-                self.collector = collector;
-                self.collectorUpdates = {
-                  "name": collector.name,
-                  "public": collector.public
-                };
-                if (!collector.online) {
-                  self.checkIfOnline();
-                }
+            return this.backendSrv.put("api/plugin-proxy/raintank-worldping-app/api/v2/probes", this.probe).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to save probe.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
               }
             });
           }
         }, {
-          key: 'setEnabled',
-          value: function setEnabled(newState) {
+          key: "getProbe",
+          value: function getProbe(id) {
             var self = this;
-            this.collector.enabled = newState;
-            this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/collectors', this.collector).then(function () {
-              self.collector.enabled_change = new Date();
+            return this.backendSrv.get("api/plugin-proxy/raintank-worldping-app/api/v2/probes/" + id).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+              self.probe = resp.body;
+              self.probeUpdates = { name: self.probe.name, public: self.probe.public };
+              if (!self.probe.online) {
+                self.checkIfOnline();
+              }
             });
           }
         }, {
-          key: 'update',
+          key: "setEnabled",
+          value: function setEnabled(newState) {
+            var self = this;
+            this.probe.enabled = newState;
+            return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/probes', this.probe).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to update probe.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+              self.probe = resp.body;
+            });
+          }
+        }, {
+          key: "update",
           value: function update() {
-            this.collector.name = this.collectorUpdates.name;
-            this.collector.public = this.collectorUpdates.public;
+            this.probe.name = this.probeUpdates.name;
+            this.probe.public = this.probeUpdates.public;
             this.save();
           }
         }, {
-          key: 'remove',
-          value: function remove(collector) {
+          key: "remove",
+          value: function remove(probe) {
             var self = this;
-            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + collector.id).then(function () {
+            return this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + probe.id).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to delete probe.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
               self.$location.path('plugins/raintank-worldping-app/page/probes');
             });
           }
         }, {
-          key: 'gotoDashboard',
-          value: function gotoDashboard(collector) {
-            this.$location.path("/dashboard/db/worldping-probes").search({ "var-probe": collector.slug, "var-endpoint": "All" });
+          key: "gotoDashboard",
+          value: function gotoDashboard(probe) {
+            this.$location.path("/dashboard/db/worldping-probes").search({ "var-probe": probe.slug, "var-endpoint": "All" });
           }
         }, {
-          key: 'gotoEventDashboard',
-          value: function gotoEventDashboard(collector) {
-            this.$location.path("/dashboard/db/worldping-events").search({ "var-probe": collector.slug, "var-endpoint": "All" });
+          key: "gotoEventDashboard",
+          value: function gotoEventDashboard(probe) {
+            this.$location.path("/dashboard/db/worldping-events").search({ "var-probe": probe.slug, "var-endpoint": "All" });
           }
         }, {
-          key: 'getEventsDashboardLink',
+          key: "getEventsDashboardLink",
           value: function getEventsDashboardLink() {
-            if (!this.collector) {
+            if (!this.probe) {
               return "";
             }
             var path = "/dashboard-solo/db/worldping-events";
-            var qstring = "?panelId=1&fullscreen&from=now-1d&to=now&var-probe=" + this.collector.slug;
+            var qstring = "?panelId=1&fullscreen&from=now-1d&to=now&var-probe=" + this.probe.slug;
             return path + qstring;
           }
         }, {
-          key: 'checkIfOnline',
+          key: "checkIfOnline",
           value: function checkIfOnline() {
             var self = this;
             this.verifyOnline = true;
 
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors/' + this.collector.id).then(function (res) {
-              self.collector = res;
-              if (!res.online) {
+            return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + this.probe.id).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
+              } else {
+                self.probe = resp.body;
+              }
+              if (!self.probe.online) {
                 self.poller = self.$timeout(function () {
                   self.checkIfOnline();
                 }, 1000);
@@ -154,7 +163,7 @@ System.register(['lodash'], function (_export, _context) {
         return ProbeDetailsCtrl;
       }());
 
-      _export('ProbeDetailsCtrl', ProbeDetailsCtrl);
+      _export("ProbeDetailsCtrl", ProbeDetailsCtrl);
 
       ProbeDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/probe/partials/probe_details.html';
     }

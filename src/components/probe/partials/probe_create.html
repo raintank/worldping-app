@@ -1,13 +1,13 @@
-<div ng-if="!ctrl.collector.id" class="page-header page-header--flex">
+<div ng-if="!ctrl.probe.id" class="page-header page-header--flex">
   <h1>Add a private probe</h1>
   <span class="form-step-count page-header--flex-item">Step 1 of 2</span>
 </div>
-<p ng-if="!ctrl.collector.id" class="playlist-description">Private probes are the way to reach the deepest, darkest corners of your private networks - or, a way to extend our global footprint. Acts exactly like a public probe, but you control it.</p>
+<p ng-if="!ctrl.probe.id" class="playlist-description">Private probes are the way to reach the deepest, darkest corners of your private networks - or, a way to extend our global footprint. Acts exactly like a public probe, but you control it.</p>
 
-<form ng-if="!ctrl.collector.id" name="collectorNameForm">
+<form ng-if="!ctrl.probe.id" name="collectorNameForm">
   <div class="gf-form">
       <label class="gf-form-label width-7">Probe Name</label>
-      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.collector.name" required>
+      <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.probe.name" required>
     </div>
   <div class="gf-form-button-row">
     <button type="submit" class="btn btn-success" required ng-click="collectorNameForm.$valid && ctrl.add()">Next -> Install Probe</button>
@@ -17,7 +17,7 @@
 
 <!-- Step 2 - Show after collector record has been added. -->
 
-<div ng-if="ctrl.collector.id">
+<div ng-if="ctrl.probe.id">
   <div class="page-header page-header--flex">
     <h1>Add a private probe</h1>
     <span class="form-step-count page-header--flex-item">Step 2 of 2</span>
@@ -26,12 +26,12 @@
   <div class="message-header">
     <div class="message-content">
       <div ng-show="ctrl.newCollector">
-        <p><i class="icon-gf icon-gf-check wp-icon-success"></i><strong>Probe record added</strong>. Please install the application or <a class="highlight-word" ng-href="plugins/raintank-worldping-app/page/probe-details?probe={{ctrl.collector.id}}">skip to probe summary</a>.</p>
+        <p><i class="icon-gf icon-gf-check wp-icon-success"></i><strong>Probe record added</strong>. Please install the application or <a class="highlight-word" ng-href="plugins/raintank-worldping-app/page/probe-details?probe={{ctrl.probe.id}}">skip to probe summary</a>.</p>
       </div>
     </div>
     <div class="gf-form-group">
       <i class="icon-gf icon-gf-probe inline-icon inline-icon--endpoint"></i>
-      <h2 class="inline-header">{{ctrl.collector.name }}</h2>
+      <h2 class="inline-header">{{ctrl.probe.name }}</h2>
     </div>
   </div>
 
@@ -43,19 +43,6 @@
       </div>
     </div>
 
-    <div class="gf-form-group" ng-hide="!ctrl.showConfigInfo">
-      <div class="section-header-flex-container">
-        <h4><span class="emphasis">1. </span> Have your API key</h4>
-        <a class="highlight-word" href="org/apikeys">Manage API keys</a>
-      </div>
-      <div ng-hide="ctrl.showApiKey">
-        <button class="btn btn-secondary" ng-click="ctrl.apiKey()">Generate New API Key</button>
-      </div>
-      <div ng-hide="!ctrl.showApiKey">
-        <span class="helper success">New API key generated</span>
-        <pre><code>{{ ctrl.apiKey }}</code></pre>
-        <span class="helper">You will only be able to view this key here <span class="emphasis">once</span>, so be sure to copy it and keep it safe.</span>
-      </div>
     </div>
     <div ng-hide="!ctrl.showDistroConfig">
       <h3>Install the probe</h3>
@@ -87,7 +74,7 @@
         <h3><span class="emphasis">7. </span>Create a config file using etc/config.json as a template, with the probe name and ApiKey</h3>
 <pre><code>{
 "collector": {
-"name": "<span class="h">{{ctrl.collector.name}}</span>"
+"name": "<span class="h">{{ctrl.probe.name}}</span>"
 },
 "numCPUs": 1,
 "serverUrl": "https://controller.raintank.io",
@@ -103,7 +90,7 @@
   </div>
 
   <div>
-    <a href="plugins/raintank-worldping-app/page/probe-details?probe={{ctrl.collector.id}}"><button class="btn btn-success">Continue to Summary and Verify</button></a>
+    <a href="plugins/raintank-worldping-app/page/probe-details?probe={{ctrl.probe.id}}"><button class="btn btn-success">Continue to Summary and Verify</button></a>
   <!--       <a href="#" class="btn-link">Having issues? Read our troubleshooting guide.</a> -->
   </div>
 </div>
