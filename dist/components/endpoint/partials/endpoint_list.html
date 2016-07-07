@@ -57,29 +57,29 @@
 	</div>
 </div>
 
-	<section ng-if="ctrl.endpoints.length > 0" class="card-section card-list-layout-list" layout-mode>
-		<ol class="card-list" >
-			<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
-				<div class="card-item pointer" ng-click="ctrl.gotoDashboard(endpoint)">
-					<div class="card-item-header card-item-header--wp-icons card-item-header-action">
-						<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
-						<a style="margin-left: 15px; vertical-align: sub;" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}"  ng-click="$event.stopPropagation();">
-							<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Endpoint<br>Details & Config'"></i>
-						</a>
-					</div>
-					<div class="card-item-body">
-						<div class="card-item-details">
-							<div class="card-item-name">
-								<a href="dashboard/db/worldping-endpoint-summary?&var-endpoint={{endpoint.slug}}&var-probe=All" ng-click="$event.stopPropagation();">
-									{{endpoint.name}}
-								</a>
-								<span ng-repeat="tag in endpoint.tags" tag-color-from-name="tag"  class="label label-tag">
-									{{tag}}
-								</span>
-							</div>
+<section ng-if="ctrl.endpoints.length > 0" class="card-section card-list-layout-list" layout-mode>
+	<ol class="card-list" >
+		<li class="card-item-wrapper" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
+			<div class="card-item pointer" ng-click="ctrl.gotoDashboard(endpoint)">
+				<div class="card-item-header card-item-header--wp-icons card-item-header-action">
+					<rt-endpoint-health endpoint="endpoint" ctrl="ctrl"></rt-endpoint-health>
+					<a style="margin-left: 15px; vertical-align: sub;" href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}"  ng-click="$event.stopPropagation();">
+						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Endpoint<br>Details & Config'"></i>
+					</a>
+				</div>
+				<div class="card-item-body">
+					<div class="card-item-details">
+						<div class="card-item-name">
+							<a href="dashboard/db/worldping-endpoint-summary?&var-endpoint={{endpoint.slug}}&var-probe=All" ng-click="$event.stopPropagation();">
+								{{endpoint.name}}
+							</a>
+							<span ng-repeat="tag in endpoint.tags" tag-color-from-name="tag"  class="label label-tag">
+								{{tag}}
+							</span>
 						</div>
 					</div>
 				</div>
-			</li>
-		</ol>
-	</section>
+			</div>
+		</li>
+	</ol>
+</section>
