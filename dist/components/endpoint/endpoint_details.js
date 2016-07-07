@@ -100,7 +100,7 @@ System.register(["lodash"], function (_export, _context) {
           key: "getProbes",
           value: function getProbes() {
             var self = this;
-            self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+            return self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
@@ -185,9 +185,12 @@ System.register(["lodash"], function (_export, _context) {
           key: "getProbesForCheck",
           value: function getProbesForCheck(type) {
             var check = this.getMonitorByTypeName(type);
+            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
+              return [];
+            }
             if (check.route.type === "byIds") {
               return check.route.config.ids;
-            } else if (check.rotue.type === "byTags") {
+            } else if (check.route.type === "byTags") {
               var probeList = {};
               _.forEach(this.probes, function (p) {
                 _.forEach(check.route.config.tags, function (t) {

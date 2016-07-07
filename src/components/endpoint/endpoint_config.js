@@ -12,6 +12,19 @@ var defaultHealthSettings = {
   steps: 3
 };
 
+var defaultCheck = {
+  settings: {},
+  healthSettings: {
+    notifications: {}
+  },
+  route: {
+    type: "byIds",
+    config: {
+      "ids": []
+    }
+  }
+};
+
 class EndpointConfigCtrl {
    /** @ngInject */
   constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
@@ -123,6 +136,26 @@ class EndpointConfigCtrl {
       _.forEach(resp.body.checks, function(check) {
         self.checks[check.type] = _.cloneDeep(check);
       });
+      var definedChecks = _.keys(self.checks);
+      console.log(definedChecks);
+      if (definedChecks.length < 4) {
+        if (_.indexOf(definedChecks, "http") === -1) {
+          self.checks["http"] = _.cloneDeep(defaultCheck);
+          self.checks["http"].type = "http";
+        }
+        if (_.indexOf(definedChecks, "https") === -1) {
+          self.checks["https"] = _.cloneDeep(defaultCheck);
+          self.checks["https"].type = "https";
+        }
+        if (_.indexOf(definedChecks, "ping") === -1) {
+          self.checks["ping"] = _.cloneDeep(defaultCheck);
+          self.checks["ping"].type = "ping";
+        }
+        if (_.indexOf(definedChecks, "dns") === -1) {
+          self.checks["dns"] = _.cloneDeep(defaultCheck);
+          self.checks["dns"].type = "dns";
+        }
+      }
     });
   }
 

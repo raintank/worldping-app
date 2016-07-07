@@ -74,7 +74,7 @@
 									</div>
 								</div>
 								<div>
-									<div ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled">
+									<div ng-if="ctrl.getMonitorByTypeName(checktype.name).enabled">
 										<div class="frequency">
 											<span class="freqMsg"><span class="emphasis-word">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getProbesForCheck(checktype.name).length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="$event.stopPropagation(); ctrl.gotoEventDashboard(ctrl.endpoint, checktype.name)" bs-tooltip="'Go to worldPing: Events </br>dashboard for {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'><i class="frequency fa fa-fw fa-external-link"></i></a>
 										</div>
