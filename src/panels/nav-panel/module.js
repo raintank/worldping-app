@@ -12,11 +12,13 @@ loadPluginCss({
 class EndpointNavCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv, templateSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv) {
     super($scope, $injector);
     this.$location = $location;
+    this.$q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.alertSrv = alertSrv;
     this.endpointSlugs = [];
 
     $scope.ctrl.panel.title = "";
@@ -58,38 +60,18 @@ class EndpointNavCtrl extends PanelCtrl {
     this.getEndpoints(endpointSlugs);
   }
 
-  isEndPointReady(endpoint) {
-    return endpoint && endpoint.hasOwnProperty('ready') &&  endpoint.ready;
-  }
-
   getEndpoints(endpointSlugs) {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function(endpoints) {
+    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
       self.endpoints = [];
       self.isGoogleDemo = endpointSlugs.length === 1 && endpointSlugs[0] === '~google_com_demo';
-      _.forEach(endpoints, function(endpoint) {
+      _.forEach(resp.body, function(endpoint) {
         if (_.indexOf(endpointSlugs, endpoint.slug) >= 0) {
           self.endpoints.push(endpoint);
-          endpoint.states = [];
-          endpoint.monitors = {};
-          endpoint.ready = false;
-
-          self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', {"endpoint_id": endpoint.id})
-            .then(function(monitors) {
-            var seenStates = {};
-            _.forEach(monitors, function(mon) {
-              if (!mon.enabled) {
-                return;
-              }
-              seenStates[mon.state] = true;
-              endpoint.monitors[mon.monitor_type_name.toLowerCase()] = mon;
-            });
-            for (var s in seenStates) {
-              self.endpointState[s]++;
-              endpoint.states.push(parseInt(s));
-            }
-            endpoint.ready = true;
-          });
         }
       });
       self.pageReady = true;
@@ -97,26 +79,36 @@ class EndpointNavCtrl extends PanelCtrl {
   }
 
   monitorStateTxt(endpoint, type) {
-    var mon = endpoint.monitors[type];
-    if (typeof(mon) !== "object") {
+    var check;
+    _.forEach(endpoint.checks, function(c) {
+      if (c.type.toLowerCase() === type.toLowerCase()) {
+        check = c;
+      }
+    });
+    if (typeof(check) !== "object") {
       return "disabled";
     }
-    if (!mon.enabled) {
+    if (!check.enabled) {
       return "disabled";
     }
-    if (mon.state < 0 || mon.state > 2) {
+    if (check.state < 0 || check.state > 2) {
       return 'nodata';
     }
     var states = ["online", "warn", "critical"];
-    return states[mon.state];
+    return states[check.state];
   }
 
   monitorStateChangeStr(endpoint, type) {
-    var mon = endpoint.monitors[type];
-    if (typeof(mon) !== "object") {
+    var check;
+    _.forEach(endpoint.checks, function(c) {
+      if (c.type.toLowerCase() === type.toLowerCase()) {
+        check = c;
+      }
+    });
+    if (typeof(check) !== "object") {
       return "";
     }
-    var duration = new Date().getTime() - new Date(mon.state_change).getTime();
+    var duration = new Date().getTime() - new Date(check.stateChange).getTime();
     if (duration < 10000) {
       return "for a few seconds ago";
     }

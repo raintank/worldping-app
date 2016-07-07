@@ -10,10 +10,12 @@ loadPluginCss({
 class CallToActionCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, backendSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, alertSrv) {
     super($scope, $injector);
     this.backendSrv = backendSrv;
+    this.alertSrv = alertSrv;
     this.$location = $location;
+    this.$q = $q;
 
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
@@ -41,11 +43,11 @@ class CallToActionCtrl extends PanelCtrl {
     if (! this.quotas) {
       return;
     }
-    if (this.quotas.collector.used === 0) {
+    if (this.quotas.probe.used === 0) {
       this.collectorStatus = "noCollectors";
       return;
     }
-    if (this.quotas.collector.used >= 1) {
+    if (this.quotas.probe.used >= 1) {
       this.collectorStatus = "hasCollectors";
       return;
     }
@@ -58,7 +60,7 @@ class CallToActionCtrl extends PanelCtrl {
     if (! this.quotas) {
       return false;
     }
-    if (this.quotas.collector.used === 0) {
+    if (this.quotas.probe.used === 0) {
       return false;
     }
     if (this.quotas.endpoint.used === 0) {
@@ -70,9 +72,13 @@ class CallToActionCtrl extends PanelCtrl {
 
   refresh() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then(function(quotas) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function(resp) {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
       var quotaHash = {};
-      _.forEach(quotas, function(q) {
+      _.forEach(resp.body, function(q) {
         quotaHash[q.target] = q;
       });
       self.quotas = quotaHash;
