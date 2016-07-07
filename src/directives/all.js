@@ -15,41 +15,36 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
   return {
     templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/checkHealth.html',
     scope: {
-      model: "=",
+      check: "=",
+      ctrl: "="
     },
     link: function(scope) {
-      scope.$watch("model", function(monitor) {
-        scope.eventReady = false;
-        if (typeof(monitor) === "object") {
-          timeSrv.init({
-            time: {from: "now-"+(monitor.frequency + 30)+ 's', to: "now"}
-          });
-          var metricsQuery = {
-            range: timeSrv.timeRange(),
-            rangeRaw: timeSrv.timeRange(true),
-            interval: monitor.frequency + 's',
-            targets: [
-              {target: "litmus."+monitor.endpoint_slug + ".*." +
-                monitor.monitor_type_name.toLowerCase()+".{ok_state,warn_state,error_state}"}
-            ],
-            format: 'json',
-            maxDataPoints: 10,
-          };
+      timeSrv.init({
+        time: {from: "now-"+(scope.check.frequency + 30)+ 's', to: "now"}
+      });
+      var metricsQuery = {
+        range: timeSrv.timeRange(),
+        rangeRaw: timeSrv.timeRange(true),
+        interval: scope.check.frequency + 's',
+        targets: [
+          {target: "litmus."+scope.ctrl.endpoint.slug + ".*." +
+            scope.check.type.toLowerCase()+".{ok_state,error_state}"}
+        ],
+        format: 'json',
+        maxDataPoints: 10,
+      };
 
-          var datasource = datasourceSrv.get('raintank');
-          datasource.then(function(ds) {
-            ds.query(metricsQuery).then(function(results) {
-              showHealth(results);
-            }, function() {
-              showHealth({data: []});
-            });
-          });
-        }
+      var datasource = datasourceSrv.get('raintank');
+      datasource.then(function(ds) {
+        ds.query(metricsQuery).then(function(results) {
+          showHealth(results);
+        }, function() {
+          showHealth({data: []});
+        });
       });
 
       function showHealth(metrics) {
         var okCount = 0;
-        var warnCount = 0;
         var errorCount = 0;
         var unknownCount = 0;
         var collectorResults = {};
@@ -71,9 +66,6 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
                   case 'ok_state':
                     collectorResults[collector].state = 0;
                     break;
-                  case 'warn_state':
-                    collectorResults[collector].state = 1;
-                    break;
                   case 'error_state':
                     collectorResults[collector].state = 2;
                     break;
@@ -91,9 +83,6 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
           case 0:
             okCount++;
             break;
-          case 1:
-            warnCount++;
-            break;
           case 2:
             errorCount++;
             break;
@@ -101,11 +90,10 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
             unknownCount++;
           }
         }
-        var unknowns = scope.model.collectors.length - Object.keys(collectorResults).length;
+        var unknowns = scope.ctrl.getProbesForCheck(scope.check.type).length - Object.keys(collectorResults).length;
         unknownCount += unknowns;
 
         scope.okCount = okCount;
-        scope.warnCount = warnCount;
         scope.errorCount = errorCount;
         scope.unknownCount = unknownCount;
         scope.eventReady = true;
