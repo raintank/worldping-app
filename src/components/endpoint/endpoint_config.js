@@ -374,15 +374,13 @@ class EndpointConfigCtrl {
     _.forEach(this.endpoint.checks, function(check) {
       seenCheckTypes[check.type] = true;
       if (!angular.equals(check, self.checks[check.type])) {
-        console.log("%s check has changed.", check.type);
         changes = true;
       }
     });
 
     //check if any new checks added.
     _.forEach(_.keys(self.checks), function(type) {
-      if (!(type in seenCheckTypes)) {
-        console.log("new check added.");
+      if (!(type in seenCheckTypes) && ("frequency" in self.checks[type])) {
         changes = true;
       }
     });
