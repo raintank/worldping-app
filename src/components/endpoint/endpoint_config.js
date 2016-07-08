@@ -137,7 +137,6 @@ class EndpointConfigCtrl {
         self.checks[check.type] = _.cloneDeep(check);
       });
       var definedChecks = _.keys(self.checks);
-      console.log(definedChecks);
       if (definedChecks.length < 4) {
         if (_.indexOf(definedChecks, "http") === -1) {
           self.checks["http"] = _.cloneDeep(defaultCheck);
@@ -227,6 +226,9 @@ class EndpointConfigCtrl {
   }
 
   totalChecks(check) {
+    if (check === undefined) {
+      return 0;
+    }
     return (30.5 * 24 * (3600/check.frequency) * this.probeCount(check) / 1000000) + 0.5;
   }
 
@@ -324,6 +326,25 @@ class EndpointConfigCtrl {
         check.healthSettings = _.cloneDeep(defaultHealthSettings);
         self.checks[check.type] = _.cloneDeep(check);
       });
+      var definedChecks = _.keys(self.checks);
+      if (definedChecks.length < 4) {
+        if (_.indexOf(definedChecks, "http") === -1) {
+          self.checks["http"] = _.cloneDeep(defaultCheck);
+          self.checks["http"].type = "http";
+        }
+        if (_.indexOf(definedChecks, "https") === -1) {
+          self.checks["https"] = _.cloneDeep(defaultCheck);
+          self.checks["https"].type = "https";
+        }
+        if (_.indexOf(definedChecks, "ping") === -1) {
+          self.checks["ping"] = _.cloneDeep(defaultCheck);
+          self.checks["ping"].type = "ping";
+        }
+        if (_.indexOf(definedChecks, "dns") === -1) {
+          self.checks["dns"] = _.cloneDeep(defaultCheck);
+          self.checks["dns"].type = "dns";
+        }
+      }
       self.showConfig = true;
       self.discovered = true;
     }, function() {
@@ -335,33 +356,35 @@ class EndpointConfigCtrl {
 
   addEndpoint() {
     var self = this;
-    if (this.endpoint.id) {
-      return this.updateEndpoint();
-    }
-
     var delay = 120;
-    _.forEach(this.endpoint.checks, function(check) {
-      if (check.enabled && check.frequency < delay) {
-        delay = check.frequency;
+    var newChecks = [];
+    _.forEach(this.checks, function(check) {
+      if (check.enabled) {
+        if (check.frequency < delay) {
+          delay = check.frequency;
+        }
+        var numProbes = self.probeCount(check);
+        if (numProbes < 3) {
+          check.healthSettings.num_collectors = numProbes;
+        }
+        newChecks.push(check);
       }
     });
+    this.endpoint.checks = newChecks;
     return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint)
     .then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
       }
-      self.endpoint = resp.body;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
       self.showCreating = true;
       self.endpointReadyDelay = delay;
       self.endpointReady = false;
-      return self.$timeout(delay * 1000);
-    })
-    .then(function() {
-      console.log(self.endpointReadyDelay);
-      self.endpointReady = true;
+      self.$timeout(function() {
+        self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+resp.body.id);
+      }, delay * 1000);
     });
   }
 
