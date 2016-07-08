@@ -143,12 +143,15 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
         scope.tags = [];
         //build out our list of collectorIds and tags
         var seenTags = {};
-        _.forEach(scope.probes, function(c) {
+        var sortedProbes = _.sortBy(scope.probes, function(o) {
+          return o.name.toLowerCase();
+        });
+        _.forEach(sortedProbes, function(c) {
           var option = {id: c.id, selected: false, text: c.name};
           if (_.indexOf(selectedIds, c.id) >= 0) {
             option.selected = true;
           }
-          _.forEach(c.tags, function(t) {
+          _.forEach(c.tags.sort(), function(t) {
             if (!(t in seenTags)) {
               seenTags[t] = true;
               var o = {selected: false, text: t};
@@ -284,7 +287,6 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
             scope.model.route.config.tags.push(t);
           });
         } else {
-          console.log("setting route type to byIds");
           scope.model.route = {
             type: "byIds",
             config: {
@@ -293,11 +295,9 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
           };
           selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
           _.forEach(selectedIds, function(c) {
-            console.log("%s is is selected", c);
             scope.model.route.config.ids.push(c);
           });
         }
-        console.log(scope.model.route);
         scope.selectorOpen = false;
         bodyEl.off('click', scope.bodyOnClick);
       };
