@@ -282,6 +282,7 @@ class EndpointConfigCtrl {
 
   updateCheck(check) {
     var self = this;
+
     if (check.id) {
       for (var i=0; i < this.endpoint.checks.length; i++) {
         if (this.endpoint.checks[i].id === check.id) {
@@ -290,6 +291,12 @@ class EndpointConfigCtrl {
       }
     } else {
       this.endpoint.checks.push(check);
+    }
+    if (check.enabled) {
+      var numProbes = self.probeCount(check);
+      if (numProbes < check.healthSettings.num_collector) {
+        check.healthSettings.num_collectors = numProbes;
+      }
     }
     return this.saveEndpoint().then(() => {
       self.alertSrv.set(check.type + " check updated.", "", "success", 2000);
