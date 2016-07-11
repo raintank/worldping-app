@@ -466,6 +466,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 return self.$q.reject(resp.meta.message);
               }
               self.endpoint.id = resp.body.id;
+              self.endpoint.slug = resp.body.slug;
               self.ignoreChanges = true;
               self.alertSrv.set("endpoint added", '', 'success', 3000);
               self.showCreating = true;
