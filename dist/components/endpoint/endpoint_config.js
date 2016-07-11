@@ -150,7 +150,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               };
 
               modalScope.save = function () {
-                self.save(nextUrl);
+                self.savePending(nextUrl);
               };
 
               $rootScope.appEvent('show-modal', {
@@ -318,6 +318,31 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           key: 'tagsUpdated',
           value: function tagsUpdated() {
             this.saveEndpoint();
+          }
+        }, {
+          key: 'savePending',
+          value: function savePending(nextUrl) {
+            var self = this;
+            _.forEach(this.checks, function (check) {
+              if (!check.id && check.enabled) {
+                //add the check
+                self.endpoint.checks.push(check);
+                return;
+              }
+              for (var i = 0; i < self.endpoint.checks.length; i++) {
+                if (self.endpoint.checks[i].id === check.id) {
+                  self.endpoint.checks[i] = _.cloneDeep(check);
+                }
+              }
+            });
+            return this.saveEndpoint().then(function () {
+              self.ignoreChanges = true;
+              if (nextUrl) {
+                self.$location.path(nextUrl);
+              } else {
+                self.$location.path("plugins/raintank-worldping-app/page/endpoints");
+              }
+            });
           }
         }, {
           key: 'saveEndpoint',

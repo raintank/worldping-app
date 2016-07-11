@@ -111,7 +111,7 @@ class EndpointConfigCtrl {
         };
 
         modalScope.save = function() {
-          self.save(nextUrl);
+          self.savePending(nextUrl);
         };
 
         $rootScope.appEvent('show-modal', {
@@ -267,6 +267,30 @@ class EndpointConfigCtrl {
 
   tagsUpdated() {
     this.saveEndpoint();
+  }
+
+  savePending(nextUrl) {
+    var self = this;
+    _.forEach(this.checks, function(check) {
+      if (!check.id && check.enabled) {
+        //add the check
+        self.endpoint.checks.push(check);
+        return;
+      }
+      for (var i=0; i < self.endpoint.checks.length; i++) {
+        if (self.endpoint.checks[i].id === check.id) {
+          self.endpoint.checks[i] = _.cloneDeep(check);
+        }
+      }
+    });
+    return this.saveEndpoint().then(() => {
+      self.ignoreChanges = true;
+      if (nextUrl) {
+        self.$location.path(nextUrl);
+      } else {
+        self.$location.path("plugins/raintank-worldping-app/page/endpoints");
+      }
+    });
   }
 
   saveEndpoint() {
