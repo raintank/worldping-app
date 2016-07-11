@@ -414,7 +414,7 @@ class EndpointConfigCtrl {
       self.endpointReadyDelay = delay;
       self.endpointReady = false;
       self.$timeout(function() {
-        self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint='+resp.body.id);
+        self.endpointReady = true;
       }, delay * 1000);
     });
   }
