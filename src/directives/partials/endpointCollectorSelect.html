@@ -2,7 +2,7 @@
     <div class="gf-form-inline">
 	<label class="gf-form-label width-9">Monitoring from</label>
 	<div class="gf-form-select-wrapper">
-		<select class="gf-form-input gf-size-auto" ng-model="footprint.value">
+		<select class="gf-form-input gf-size-auto" ng-model="footprint.value" ng-change="routeTypeChange()">
 			<option value="static" selected="selected">Static Footprint</option>
 			<option value="dynamic">Dynamic Footprint</option>
 		</select>
@@ -24,7 +24,7 @@
 								{{option.text}}
 								<i ng-class="icon" class="tag-icon icon-rt-collector"></i>
 							</span>
-							<span class="collector-dropdown-tag-count">({{collectorCount(option)}})</span>
+							<span class="collector-dropdown-tag-count">({{probeCount(option)}})</span>
 						</a>
 					</div>
 					<div class="collector-dropdown-container-col">
@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div class="collector-dropdown-footer">
-					<p>Preview: {{collectorsWithTags()}}</p>
+					<p>Preview: {{probesWithTags()}}</p>
 					<p ng-show="error">{{error}}</p>
 		    	</div>
 			</div>

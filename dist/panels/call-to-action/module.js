@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _createClass, CallToActionCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -69,13 +71,15 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
 
         /** @ngInject */
 
-        function CallToActionCtrl($scope, $injector, $location, backendSrv) {
+        function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
           _classCallCheck(this, CallToActionCtrl);
 
           var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CallToActionCtrl).call(this, $scope, $injector));
 
           _this.backendSrv = backendSrv;
+          _this.alertSrv = alertSrv;
           _this.$location = $location;
+          _this.$q = $q;
 
           _this.quotas = null;
           _this.endpointStatus = "scopeEndpoints";
@@ -107,11 +111,11 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             if (!this.quotas) {
               return;
             }
-            if (this.quotas.collector.used === 0) {
+            if (this.quotas.probe.used === 0) {
               this.collectorStatus = "noCollectors";
               return;
             }
-            if (this.quotas.collector.used >= 1) {
+            if (this.quotas.probe.used >= 1) {
               this.collectorStatus = "hasCollectors";
               return;
             }
@@ -125,7 +129,7 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             if (!this.quotas) {
               return false;
             }
-            if (this.quotas.collector.used === 0) {
+            if (this.quotas.probe.used === 0) {
               return false;
             }
             if (this.quotas.endpoint.used === 0) {
@@ -138,9 +142,13 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           key: 'refresh',
           value: function refresh() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then(function (quotas) {
+            return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
               var quotaHash = {};
-              _.forEach(quotas, function (q) {
+              _.forEach(resp.body, function (q) {
                 quotaHash[q.target] = q;
               });
               self.quotas = quotaHash;

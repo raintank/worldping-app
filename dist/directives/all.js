@@ -1,7 +1,9 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
-  var angular, _, _typeof;
+  "use strict";
+
+  var angular, _;
 
   return {
     setters: [function (_angular) {
@@ -10,12 +12,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       _ = _lodash.default;
     }],
     execute: function () {
-      _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-      } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
-      };
-
 
       angular.module('grafana.directives').directive("rtEndpointHealthDashboard", function () {
         return {
@@ -31,38 +27,33 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         return {
           templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/checkHealth.html',
           scope: {
-            model: "="
+            check: "=",
+            ctrl: "="
           },
           link: function link(scope) {
-            scope.$watch("model", function (monitor) {
-              scope.eventReady = false;
-              if ((typeof monitor === 'undefined' ? 'undefined' : _typeof(monitor)) === "object") {
-                timeSrv.init({
-                  time: { from: "now-" + (monitor.frequency + 30) + 's', to: "now" }
-                });
-                var metricsQuery = {
-                  range: timeSrv.timeRange(),
-                  rangeRaw: timeSrv.timeRange(true),
-                  interval: monitor.frequency + 's',
-                  targets: [{ target: "litmus." + monitor.endpoint_slug + ".*." + monitor.monitor_type_name.toLowerCase() + ".{ok_state,warn_state,error_state}" }],
-                  format: 'json',
-                  maxDataPoints: 10
-                };
+            timeSrv.init({
+              time: { from: "now-" + (scope.check.frequency + 30) + 's', to: "now" }
+            });
+            var metricsQuery = {
+              range: timeSrv.timeRange(),
+              rangeRaw: timeSrv.timeRange(true),
+              interval: scope.check.frequency + 's',
+              targets: [{ target: "litmus." + scope.ctrl.endpoint.slug + ".*." + scope.check.type.toLowerCase() + ".{ok_state,error_state}" }],
+              format: 'json',
+              maxDataPoints: 10
+            };
 
-                var datasource = datasourceSrv.get('raintank');
-                datasource.then(function (ds) {
-                  ds.query(metricsQuery).then(function (results) {
-                    showHealth(results);
-                  }, function () {
-                    showHealth({ data: [] });
-                  });
-                });
-              }
+            var datasource = datasourceSrv.get('raintank');
+            datasource.then(function (ds) {
+              ds.query(metricsQuery).then(function (results) {
+                showHealth(results);
+              }, function () {
+                showHealth({ data: [] });
+              });
             });
 
             function showHealth(metrics) {
               var okCount = 0;
-              var warnCount = 0;
               var errorCount = 0;
               var unknownCount = 0;
               var collectorResults = {};
@@ -84,9 +75,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                         case 'ok_state':
                           collectorResults[collector].state = 0;
                           break;
-                        case 'warn_state':
-                          collectorResults[collector].state = 1;
-                          break;
                         case 'error_state':
                           collectorResults[collector].state = 2;
                           break;
@@ -104,9 +92,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                   case 0:
                     okCount++;
                     break;
-                  case 1:
-                    warnCount++;
-                    break;
                   case 2:
                     errorCount++;
                     break;
@@ -114,11 +99,10 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                     unknownCount++;
                 }
               }
-              var unknowns = scope.model.collectors.length - Object.keys(collectorResults).length;
+              var unknowns = scope.ctrl.getProbesForCheck(scope.check.type).length - Object.keys(collectorResults).length;
               unknownCount += unknowns;
 
               scope.okCount = okCount;
-              scope.warnCount = warnCount;
               scope.errorCount = errorCount;
               scope.unknownCount = unknownCount;
               scope.eventReady = true;
@@ -137,35 +121,28 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         };
       });
 
-      angular.module('grafana.directives').directive('endpointCollectorSelect', function ($compile, $window, $timeout) {
+      angular.module('grafana.directives').directive('endpointProbeSelect', function ($compile, $window, $timeout) {
         return {
           scope: {
-            collectors: "=",
+            probes: "=",
             model: "="
           },
           templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointCollectorSelect.html',
           link: function link(scope, elem) {
             var bodyEl = angular.element($window.document.body);
-            var currentIds = scope.model.collector_ids;
-            var currentTags = scope.model.collector_tags;
+            var selectedIds = [];
+            var selectedTags = [];
+
             scope.init = function () {
-              currentIds = scope.model.collector_ids;
-              currentTags = scope.model.collector_tags;
-              scope.footprint = { value: "static" };
+              if (scope.model.route.type === 'byIds') {
+                selectedIds = scope.model.route.config.ids;
+                scope.footprint = { value: "static" };
+              } else {
+                selectedTags = scope.model.route.config.tags;
+                scope.footprint = { value: "dynamic" };
+              }
               scope.error = false;
 
-              // determine if we are using static or dynamic allocation.
-              if (currentIds.length > 0) {
-                scope.footprint.value = 'static';
-                _.forEach(scope.tags, function (t) {
-                  t.selected = false;
-                });
-              } else if (currentTags.length > 0) {
-                scope.footprint.value = 'dynamic';
-                _.forEach(scope.ids, function (i) {
-                  i.selected = false;
-                });
-              }
               scope.reset();
             };
 
@@ -175,16 +152,19 @@ System.register(['angular', 'lodash'], function (_export, _context) {
               scope.tags = [];
               //build out our list of collectorIds and tags
               var seenTags = {};
-              _.forEach(scope.collectors, function (c) {
+              var sortedProbes = _.sortBy(scope.probes, function (o) {
+                return o.name.toLowerCase();
+              });
+              _.forEach(sortedProbes, function (c) {
                 var option = { id: c.id, selected: false, text: c.name };
-                if (_.indexOf(currentIds, c.id) >= 0) {
+                if (_.indexOf(selectedIds, c.id) >= 0) {
                   option.selected = true;
                 }
-                _.forEach(c.tags, function (t) {
+                _.forEach(c.tags.sort(), function (t) {
                   if (!(t in seenTags)) {
                     seenTags[t] = true;
                     var o = { selected: false, text: t };
-                    if (_.indexOf(currentTags, t) >= 0) {
+                    if (_.indexOf(selectedTags, t) >= 0) {
                       o.selected = true;
                     }
                     scope.tags.push(o);
@@ -219,7 +199,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.selectAll = function () {
               var select = true;
-              var selectedIds = _.filter(scope.ids, { selected: true });
+              selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
 
               if (selectedIds.length === scope.ids.length) {
                 select = false;
@@ -233,21 +213,21 @@ System.register(['angular', 'lodash'], function (_export, _context) {
               option.selected = !option.selected;
             };
 
-            scope.collectorsWithTags = function () {
-              var collectorList = {};
-              _.forEach(scope.collectors, function (c) {
+            scope.probesWithTags = function () {
+              var probeList = {};
+              _.forEach(scope.probes, function (c) {
                 _.forEach(_.filter(scope.tags, { selected: true }), function (t) {
                   if (_.indexOf(c.tags, t.text) !== -1) {
-                    collectorList[c.name] = true;
+                    probeList[c.name] = true;
                   }
                 });
               });
-              return Object.keys(collectorList).join(', ');
+              return Object.keys(probeList).join(', ');
             };
 
-            scope.collectorCount = function (tag) {
+            scope.probeCount = function (tag) {
               var count = 0;
-              _.forEach(scope.collectors, function (c) {
+              _.forEach(scope.probes, function (c) {
                 if (_.indexOf(c.tags, tag.text) !== -1) {
                   count++;
                 }
@@ -256,43 +236,77 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             };
 
             scope.selectTagTitle = function () {
-              var selectedTags = _.filter(scope.tags, { selected: true });
+              selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
               if (selectedTags.length === 0) {
                 return "Select Tags";
               }
               if (selectedTags.length <= 2) {
-                return _.pluck(selectedTags, 'text').join(", ");
+                return selectedTags.join(", ");
               }
-              return _.pluck(selectedTags, 'text').slice(0, 2).join(", ") + " and " + (selectedTags.length - 2) + " more";
+              return selectedTags.slice(0, 2).join(", ") + " and " + (selectedTags.length - 2) + " more";
             };
 
             scope.selectIdTitle = function () {
-              var selectedIds = _.filter(scope.ids, { selected: true });
+              selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
               if (selectedIds.length === 0) {
                 return "Select Probes";
               }
               if (selectedIds.length <= 2) {
-                return _.pluck(selectedIds, 'text').join(", ");
+                return _.pluck(_.filter(scope.ids, { selected: true }), "text").join(", ");
               }
-              return _.pluck(selectedIds, 'text').slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+              return _.pluck(_.filter(scope.ids, { selected: true }), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+            };
+
+            scope.routeTypeChange = function () {
+              if (scope.footprint.value === 'dynamic') {
+                selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
+                scope.model.route = {
+                  type: "byTags",
+                  config: {
+                    tags: []
+                  }
+                };
+                _.forEach(selectedTags, function (t) {
+                  scope.model.route.config.tags.push(t.text);
+                });
+              } else {
+                selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+                scope.model.route = {
+                  type: "byIds",
+                  config: {
+                    ids: []
+                  }
+                };
+                _.forEach(selectedIds, function (c) {
+                  scope.model.route.config.ids.push(c.id);
+                });
+              }
             };
 
             scope.hide = function () {
-              var selectedIds = _.filter(scope.ids, { selected: true });
-              var selectedTags = _.filter(scope.tags, { selected: true });
-              if (selectedIds.length === 0 && selectedTags.length === 0) {
-                scope.error = "at least 1 option must be selected.";
-                return;
+              if (scope.footprint.value === 'dynamic') {
+                scope.model.route = {
+                  type: "byTags",
+                  config: {
+                    tags: []
+                  }
+                };
+                selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
+                _.forEach(selectedTags, function (t) {
+                  scope.model.route.config.tags.push(t);
+                });
+              } else {
+                scope.model.route = {
+                  type: "byIds",
+                  config: {
+                    ids: []
+                  }
+                };
+                selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+                _.forEach(selectedIds, function (c) {
+                  scope.model.route.config.ids.push(c);
+                });
               }
-
-              scope.model.collector_ids.splice(0, scope.model.collector_ids.length);
-              _.forEach(selectedIds, function (c) {
-                scope.model.collector_ids.push(c.id);
-              });
-              scope.model.collector_tags.splice(0, scope.model.collector_tags.length);
-              _.forEach(selectedTags, function (t) {
-                scope.model.collector_tags.push(t.text);
-              });
               scope.selectorOpen = false;
               bodyEl.off('click', scope.bodyOnClick);
             };

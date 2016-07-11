@@ -1,6 +1,8 @@
 "use strict";
 
 System.register(["lodash"], function (_export, _context) {
+  "use strict";
+
   var _, _typeof, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -42,81 +44,80 @@ System.register(["lodash"], function (_export, _context) {
 
         /** @ngInject */
 
-        function EndpointDetailsCtrl($scope, $injector, $location, backendSrv, contextSrv) {
+        function EndpointDetailsCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointDetailsCtrl);
 
-          var self = this;
           this.isOrgEditor = contextSrv.hasRole("Admin") || contextSrv.hasRole("Editor");
           this.backendSrv = backendSrv;
+          this.alertSrv = alertSrv;
           this.$location = $location;
-          this.pageReady = false;
+          this.$q = $q;
 
-          this.endpoints = [];
-          this.monitors = {};
-          this.monitor_types = {};
-          this.monitor_types_by_name = {};
+          this.pageReady = false;
           this.endpoint = null;
-          this.refreshTime = new Date();
-          this.getMonitorTypes();
-          var promise = this.getEndpoints();
-          promise.then(function () {
-            self.getEndpoint($location.search().endpoint);
-          });
+
+          if ($location.search().endpoint) {
+            this.getEndpoint($location.search().endpoint);
+          } else {
+            this.alertSrv.set("no endpoint id provided.", "", 'error', 10000);
+          }
 
           this.checktypes = [{ name: 'DNS', dashName: 'worldping-endpoint-dns?' }, { name: 'Ping', dashName: 'worldping-endpoint-ping?' }, { name: 'HTTP', dashName: 'worldping-endpoint-web?var-protocol=http&' }, { name: 'HTTPS', dashName: 'worldping-endpoint-web?var-protocol=https&' }];
         }
 
         _createClass(EndpointDetailsCtrl, [{
-          key: "getEndpoints",
-          value: function getEndpoints() {
-            var self = this;
-            var promise = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints');
-            promise.then(function (endpoints) {
-              self.endpoints = endpoints;
-            });
-            return promise;
-          }
-        }, {
           key: "tagsUpdated",
           value: function tagsUpdated() {
             this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
           }
         }, {
-          key: "getMonitorTypes",
-          value: function getMonitorTypes() {
-            var self = this;
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function (types) {
-              _.forEach(types, function (type) {
-                self.monitor_types[type.id] = type;
-                self.monitor_types_by_name[type.name] = type;
-              });
-            });
-          }
-        }, {
           key: "getEndpoint",
           value: function getEndpoint(id) {
             var self = this;
-            _.forEach(this.endpoints, function (endpoint) {
-              if (endpoint.id === parseInt(id)) {
-                self.endpoint = endpoint;
-                //get monitors for this endpoint.
-                self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id=' + id).then(function (monitors) {
-                  _.forEach(monitors, function (monitor) {
-                    self.monitors[monitor.monitor_type_id] = monitor;
-                  });
+
+            self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + id).then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+              self.endpoint = resp.body;
+              var getProbes = false;
+              _.forEach(self.endpoint.checks, function (check) {
+                if (check.route.type === 'byTags') {
+                  getProbes = true;
+                }
+              });
+              if (getProbes) {
+                self.getProbes().then(function () {
                   self.pageReady = true;
                 });
+              } else {
+                self.pageReady = true;
               }
+            });
+          }
+        }, {
+          key: "getProbes",
+          value: function getProbes() {
+            var self = this;
+            return self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+              self.probes = resp.body;
             });
           }
         }, {
           key: "getMonitorByTypeName",
           value: function getMonitorByTypeName(name) {
-            if (name in this.monitor_types_by_name) {
-              var type = this.monitor_types_by_name[name];
-              return this.monitors[type.id];
-            }
-            return undefined;
+            var check;
+            _.forEach(this.endpoint.checks, function (c) {
+              if (c.type.toLowerCase() === name.toLowerCase()) {
+                check = c;
+              }
+            });
+            return check;
           }
         }, {
           key: "monitorStateTxt",
@@ -161,7 +162,7 @@ System.register(["lodash"], function (_export, _context) {
             if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
               return "";
             }
-            var duration = new Date().getTime() - new Date(mon.state_change).getTime();
+            var duration = new Date().getTime() - new Date(mon.stateChange).getTime();
             if (duration < 10000) {
               return "a few seconds ago";
             }
@@ -179,6 +180,30 @@ System.register(["lodash"], function (_export, _context) {
             }
             var days = Math.floor(duration / 1000 / 60 / 60 / 24);
             return "for " + days + " days";
+          }
+        }, {
+          key: "getProbesForCheck",
+          value: function getProbesForCheck(type) {
+            var check = this.getMonitorByTypeName(type);
+            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
+              return [];
+            }
+            if (check.route.type === "byIds") {
+              return check.route.config.ids;
+            } else if (check.route.type === "byTags") {
+              var probeList = {};
+              _.forEach(this.probes, function (p) {
+                _.forEach(check.route.config.tags, function (t) {
+                  if (_.indexOf(p.tags, t) !== -1) {
+                    probeList[p.id] = true;
+                  }
+                });
+              });
+              return _.keys(probeList);
+            } else {
+              this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
+              return [];
+            }
           }
         }, {
           key: "setEndpoint",
@@ -231,10 +256,10 @@ System.register(["lodash"], function (_export, _context) {
           key: "getNotificationEmails",
           value: function getNotificationEmails(checkType) {
             var mon = this.getMonitorByTypeName(checkType);
-            if (!mon || mon.health_settings.notifications.addresses === "") {
+            if (!mon || mon.healthSettings.notifications.addresses === "") {
               return [];
             }
-            var addresses = mon.health_settings.notifications.addresses.split(',');
+            var addresses = mon.healthSettings.notifications.addresses.split(',');
             var list = [];
             addresses.forEach(function (addr) {
               list.push(addr.trim());
@@ -260,13 +285,6 @@ System.register(["lodash"], function (_export, _context) {
               }
             });
             return list.join(", ");
-          }
-        }, {
-          key: "refresh",
-          value: function refresh() {
-            this.pageReady = false;
-            this.getEndpoint(this.endpoint.id);
-            this.refreshTime = new Date();
           }
         }]);
 

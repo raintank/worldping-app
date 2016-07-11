@@ -23,7 +23,7 @@
         <div class="gf-form-select-wrapper">
           <select class="gf-form-input gf-size-auto" ng-model="ctrl.filter.tag">
             <option value="" label="All tags">All Tags</option>
-            <option ng-repeat="t in ctrl.collectorTags()" value="{{t}}" label="{{t}}">{{t}}</option>
+            <option ng-repeat="t in ctrl.probeTags()" value="{{t}}" label="{{t}}">{{t}}</option>
           </select>
         </div>
         <div class="gf-form-select-wrapper">
@@ -36,10 +36,10 @@
       <div class="rt-list-showing-header">
         <div class="rt-list-status">
           <span class="small">Showing</span>
-          <span class="rt-list-status-up">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:true}).length}} ONLINE</span> |
-          <span class="rt-list-status-disabled">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:false}).length}} OFFLINE</span> |
-            <span class="rt-list-status-disabled">{{(ctrl.collectors|filterByTag:ctrl.filter.tag|filter:{enabled:false}).length}} DISABLED</span>
-            <span class="small"> of <span class="rt-list-links" ng-click="setCollectorFilter('')">{{(ctrl.collectors|filterByTag:ctrl.filter.tag).length}} total.</span>
+          <span class="rt-list-status-up">{{(ctrl.probes|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:true}).length}} ONLINE</span> |
+          <span class="rt-list-status-disabled">{{(ctrl.probes|filterByTag:ctrl.filter.tag|filter:{enabled:true, online:false}).length}} OFFLINE</span> |
+            <span class="rt-list-status-disabled">{{(ctrl.probes|filterByTag:ctrl.filter.tag|filter:{enabled:false}).length}} DISABLED</span>
+            <span class="small"> of <span class="rt-list-links" ng-click="setProbeFilter('')">{{(ctrl.probes|filterByTag:ctrl.filter.tag).length}} total.</span>
         </div>
         <div class="editor-option" style="float: right;">
 <!--        <span class="small">Sorted By:</span>
@@ -53,22 +53,22 @@
   <section class="card-section" layout-mode>
     <layout-selector></layout-selector>
 
-    <div ng-if="ctrl.collectors.length === 0">
+    <div ng-if="ctrl.probes.length === 0">
       <em>No probes found</em>
     </div>
     <ol class="card-list" >
-      <li class="card-item-wrapper" ng-repeat="collector in ctrl.collectors | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
-        <a class="card-item" ng-href="{{ctrl.isOrgAdmin ? 'plugins/raintank-worldping-app/page/probe-details?probe='+collector.id : ''}}">
+      <li class="card-item-wrapper" ng-repeat="probe in ctrl.probes | filterByTag:ctrl.filter.tag | filter:ctrl.statusFilter() | orderBy:ctrl.sort_field">
+        <a class="card-item" ng-href="{{ctrl.isOrgAdmin ? 'plugins/raintank-worldping-app/page/probe-details?probe='+probe.id : ''}}">
           <div class="card-item-header">
-            <span class="rt-list-collector-status-{{collector.online?'online':'offline'}}">{{collector.online?"ONLINE":"OFFLINE"}}</span>
+            <span class="rt-list-collector-status-{{probe.online?'online':'offline'}}">{{probe.online?"ONLINE":"OFFLINE"}}</span>
           </div>
           <div class="card-item-body">
             <div class="card-item-details">
               <div class="card-item-name">
-                {{collector.name}}
-                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="collector.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Collector'"></img></span>
-                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="collector.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Collector'"></img></span>
-                <span ng-repeat="tag in collector.tags" tag-color-from-name="tag"  class="label label-tag">
+                {{probe.name}}
+                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/raintank_icn.svg" width="15px" height="15px" ng-if="probe.public == 1" style="margin-right: 5px;" bs-tooltip="'raintank Public Probe'"></img></span>
+                <span style="vertical-align: 2px;"><img src="public/plugins/raintank-worldping-app/img/rt-private_collector.svg" width="15px" height="15px" ng-if="probe.public == 0" style="margin-right: 5px;" bs-tooltip="'Private Probe'"></img></span>
+                <span ng-repeat="tag in probe.tags" tag-color-from-name="tag"  class="label label-tag">
                   {{tag}}
                 </span>
               </div>

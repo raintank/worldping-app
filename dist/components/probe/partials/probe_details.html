@@ -1,9 +1,9 @@
 <div class="page-header">
-	<h1>{{ctrl.collector.name}}<span class="collector_icon public"><i ng-class="icon" class="icon-gf icon-gf-raintank_icn" style="" ng-if="ctrl.collector.public" bs-tooltip="'This is a public probe'"></i></span>
-		<span class="collector_icon private"><i ng-class="icon" class="icon-gf icon-gf-private-collector" style="" ng-if="!ctrl.collector.public" bs-tooltip="'This is a private collector'"></i></span><a ng-click="ctrl.gotoDashboard(ctrl.collector)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to probe summary </br>dashboard for this colletor'"></i></a></h1>
+	<h1>{{ctrl.probe.name}}<span class="collector_icon public"><i ng-class="icon" class="icon-gf icon-gf-raintank_icn" style="" ng-if="ctrl.probe.public" bs-tooltip="'This is a public probe'"></i></span>
+		<span class="collector_icon private"><i ng-class="icon" class="icon-gf icon-gf-private-collector" style="" ng-if="!ctrl.probe.public" bs-tooltip="'This is a private probe'"></i></span><a ng-click="ctrl.gotoDashboard(ctrl.probe)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to probe summary </br>dashboard for this probe'"></i></a></h1>
     <div class="gf-form wp-tag-margin--bottom">
     	<span class="gf-form-label width-6">Tags:</span>
-		<bootstrap-tagsinput ng-model="ctrl.collector.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.save()" ></bootstrap-tagsinput>
+		<bootstrap-tagsinput ng-model="ctrl.probe.tags" tagclass="label rt-label-tag" placeholder="New Tag" on-tags-updated="ctrl.save()" ></bootstrap-tagsinput>
 	</div>
 
 	<div class="page-header-tabs">
@@ -24,24 +24,21 @@
 		<div class="max-width-32">
 			<h5 class="page-headering playlist-column-header">Probe Details</h5>
 			<div>
-				<div ng-show="ctrl.collector.online" class="collectorCurrentStatus">
+				<div ng-show="ctrl.probe.online" class="collectorCurrentStatus">
 					<div class="rt-summary-status">
-						<span class="{{ctrl.collector.online?'online':'offline'}} jumbo"> {{ctrl.collector.online?'online':'offline'}}</span>
-					  <span class="checkTime">&nbsp; {{ctrl.collector.online_change | timeDuration}}</span>
+						<span class="{{ctrl.probe.online?'online':'offline'}} jumbo"> {{ctrl.probe.online?'online':'offline'}}</span>
+					  <span class="checkTime">&nbsp; {{ctrl.probe.online_change | timeDuration}}</span>
 					</div>
 					<div class="collectorStatus">
-						<div class="pull-left msg">This probe is <span ng-class="{disabled: !ctrl.collector.enabled, enabled: ctrl.collector.enabled}">{{ctrl.collector.enabled? "enabled": "disabled"}}</span>.</div>
-					  <span class="checkTime">&nbsp; {{ctrl.collector.enabled_change | timeDuration}}</span>
-						<button type="submit" ng-if="!ctrl.collector.public" class="pull-right tertiaryCTA" ng-click="ctrl.setEnabled(!ctrl.collector.enabled)" ng-hide="ctrl.collector.enabled">Enable</button>
-						<button type="submit" ng-if="!ctrl.collector.public" class="pull-right tertiaryCTA" ng-click="ctrl.setEnabled(!collector.enabled)" ng-show="ctrl.collector.enabled">Disable</button>
-					</div>
-					<div class="statusEvents" >
-						<rt-collector-summary-health model="ctrl.collector"></rt-collector-summary-health>
+						<div class="pull-left msg">This probe is <span ng-class="{disabled: !ctrl.probe.enabled, enabled: ctrl.probe.enabled}">{{ctrl.probe.enabled? "enabled": "disabled"}}</span>.</div>
+					  <span class="checkTime">&nbsp; {{ctrl.probe.enabled_change | timeDuration}}</span>
+						<button type="submit" ng-if="!ctrl.probe.public" class="pull-right tertiaryCTA" ng-click="ctrl.setEnabled(!ctrl.probe.enabled)" ng-hide="ctrl.probe.enabled">Enable</button>
+						<button type="submit" ng-if="!ctrl.probe.public" class="pull-right tertiaryCTA" ng-click="ctrl.setEnabled(!ctrl.probe.enabled)" ng-show="ctrl.probe.enabled">Disable</button>
 					</div>
 					<!-- <button type="submit" class="secondaryCTA">View All Errors</button> -->
 					<div class="clearfix"></div>
 				</div>
-				<div ng-show="!ctrl.collector.online" class="collectorCurrentStatus">
+				<div ng-show="!ctrl.probe.online" class="collectorCurrentStatus">
 					<div class="rt-summary-status">
 						<div class="collector-animation" id="collector-animation">
 							<div class="collector collector-1"></div>
@@ -57,10 +54,7 @@
 							<span class="ascii-ellipses-4">&nbsp;&nbsp;.</span>
 						</h5>
 						<p>We havent seen this probe appear online yet.</p>
-						<p>Still need to install it? <a href="plugins/raintank-worldping-app/page/probe-create?probe={{ctrl.collector.id}}" class="highlight-word">Read the installation instructions</a></p>
-					</div>
-					<div class="statusEvents" >
-						<rt-collector-summary-health model="ctrl.collector"></rt-collector-summary-health>
+						<p>Still need to install it? <a href="plugins/raintank-worldping-app/page/probe-create?probe={{ctrl.probe.id}}" class="highlight-word">Read the installation instructions</a></p>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -73,11 +67,11 @@
 			<h5 class="page-headering playlist-column-header">Configuration</h5>
             <div class="gf-form">
               <label class="gf-form-label width-7">Probe Name</label>
-			  <input type="text" class="gf-form-input max-width-15" ng-model="ctrl.collectorUpdates.name" required="" ng-disabled="ctrl.collector.public">
+			  <input type="text" class="gf-form-input max-width-15" ng-model="ctrl.probeUpdates.name" required="" ng-disabled="ctrl.probe.public">
             </div>
 			<div class="gf-form-button-row">
-				<!-- <a class="btn btn-success " ng-click="ctrl.update()" ng-if="ctrl.collector.id">Update Probe</a> -->
-				<button class="btn btn-secondary" ng-click="ctrl.update()" ng-if="ctrl.collector.id && !ctrl.collector.public">Update Probe</button>
+				<!-- <a class="btn btn-success " ng-click="ctrl.update()" ng-if="ctrl.probe.id">Update Probe</a> -->
+				<button class="btn btn-secondary" ng-click="ctrl.update()" ng-if="ctrl.probe.id && !ctrl.probe.public">Update Probe</button>
 			</div>
 		</div>
 	</div>
@@ -89,20 +83,20 @@
 			<h5 class="page-headering playlist-column-header">Probe Events: Last 24 Hours
 				<div style="float: right; display: inline;">
 					<div style="display: inline; margin-right: 15px;">
-						<a ng-click="ctrl.gotoEventDashboard(ctrl.collector)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" style="vertical-align: super;"></i><span class="disabled small" style="vertical-align: text-top;">&nbsp;Go to worldPing: Events dashboard</span></a>
+						<a ng-click="ctrl.gotoEventDashboard(ctrl.probe)"><i ng-class="icon" class="icon-gf icon-gf-dashboard" style="vertical-align: super;"></i><span class="disabled small" style="vertical-align: text-top;">&nbsp;Go to worldPing: Events dashboard</span></a>
 					</div>
 				</div>
 			</h5>
 			<div class="panel-iframe-container">
 				<div class="panel-iframe-container-bg">
-					<iframe ng-src="{{ctrl.getEventsDashboardLink(ctrl.collector)}}" width="100%" height="250" frameborder="0"></iframe>
+					<iframe ng-src="{{ctrl.getEventsDashboardLink(ctrl.probe)}}" width="100%" height="250" frameborder="0"></iframe>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="row gf-form-group" ng-if="ctrl.collector.id && !ctrl.collector.public">
+<div class="row gf-form-group" ng-if="ctrl.probe.id && !ctrl.probe.public">
 	<div class="col-md-12">
 		<div class="max-width-32">
 			<div ng-include src="'public/plugins/raintank-worldping-app/components/probe/partials/destroyProbe.html'"></div>

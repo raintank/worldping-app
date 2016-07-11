@@ -3,8 +3,10 @@ import configTemplate from './config.html!text';
 import _ from 'lodash' ;
 
 class WorldPingConfigCtrl {
-  constructor($scope, $injector, backendSrv) {
+  constructor($scope, $injector, $q, backendSrv, alertSrv) {
+    this.$q = $q;
     this.backendSrv = backendSrv;
+    this.alertSrv = alertSrv;
     this.validKey = false;
     this.quotas = {};
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
@@ -21,17 +23,29 @@ class WorldPingConfigCtrl {
     }
   }
 
+  reset() {
+    this.appModel.jsonData.apiKeySet=false;
+    this.validKey = false;
+  }
+
   validateKey() {
     var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas');
-    p.then((quotas) => {
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
+    p.then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get Quotas", resp.message, 'error', 10000);
+        return self.$q.reject(resp.message);
+      }
       self.validKey = true;
-      self.quotas = quotas;
-    }, () => {
+      self.quotas = resp.body;
+    }, (resp) => {
       if (self.appModel.enabled) {
+        self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
+        self.appModel.enabled = false;
         self.appModel.jsonData.apiKeySet = false;
         self.appModel.secureJsonData.apiKey = "";
-        self.errorMsg = "invlid apiKey";
+        self.errorMsg = "invalid apiKey";
+        this.validKey = false;
       }
     });
     return p;
@@ -40,33 +54,22 @@ class WorldPingConfigCtrl {
   preUpdate() {
     var model = this.appModel;
     if (!model.enabled) {
-      return Promise.resolve();
+      return this.$q.resolve();
     }
 
     if (!model.jsonData.apiKeySet && !model.secureJsonData.apiKey) {
       model.enabled = false;
-      return Promise.reject("apiKey not set.");
+      this.errorMsg = "apiKey not set";
+      this.validKey = false;
+      return this.$q.reject("apiKey not set.");
     }
-    // if the apiKey is being set, check and make sure that
-    // we have initialized our datasource and dashboards.
-    if (model.secureJsonData.apiKey) {
-      model.jsonData.apiKeySet = true;
-
-      if (!model.jsonData.datasourceSet) {
-        var p = this.initDatasource();
-        p.then(() => {
-          model.jsonData.datasourceSet = true;
-        });
-        return p;
-      }
-    }
-
-    return Promise.resolve();
+    model.jsonData.apiKeySet = true;
+    return this.initDatasource();
   }
 
   postUpdate() {
     if (!this.appModel.enabled) {
-      return Promise.resolve();
+      return this.$q.resolve();
     }
     var self = this;
     return this.validateKey()
@@ -131,7 +134,7 @@ class WorldPingConfigCtrl {
         };
         promises.push(self.backendSrv.post('/api/datasources', elastic));
       }
-      return Promise.all(promises);
+      return self.$q.all(promises);
     });
     return p;
   }

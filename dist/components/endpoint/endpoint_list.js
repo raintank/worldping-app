@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash'], function (_export, _context) {
+  "use strict";
+
   var _, _typeof, _createClass, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -42,15 +44,16 @@ System.register(['lodash'], function (_export, _context) {
 
         /** @ngInject */
 
-        function EndpointListCtrl($scope, $injector, $location, backendSrv, contextSrv) {
+        function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
           this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           this.backendSrv = backendSrv;
+          this.alertSrv = alertSrv;
+          this.$q = $q;
           this.$location = $location;
           this.pageReady = false;
-          this.statuses = [{ label: "Ok", value: 0 }, { label: "Warning", value: 1 }, { label: "Error", value: 2 }, { label: "Unknown", value: -1 }];
-          this.filter = { 'tag': '', 'status': '' };
+          this.filter = { 'tag': '' };
           this.sort_field = 'name';
           this.endpoints = [];
           this.refresh();
@@ -84,88 +87,53 @@ System.register(['lodash'], function (_export, _context) {
             this.filter.tag = tag;
           }
         }, {
-          key: 'setStatusFilter',
-          value: function setStatusFilter(status) {
-            if (status === this.filter.status) {
-              status = "";
-            }
-            this.filter.status = status;
-          }
-        }, {
-          key: 'statusFilter',
-          value: function statusFilter(actual, expected) {
-            if (expected === "" || expected === null) {
-              return true;
-            }
-            var equal = actual === expected;
-            return equal;
-          }
-        }, {
-          key: 'isEndPointReady',
-          value: function isEndPointReady(endpoint) {
-            return endpoint && endpoint.hasOwnProperty('ready') && endpoint.ready;
-          }
-        }, {
           key: 'getEndpoints',
           value: function getEndpoints() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints').then(function (endpoints) {
+            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
+              self.endpoints = resp.body;
               self.pageReady = true;
-              _.forEach(endpoints, function (endpoint) {
-                endpoint.states = [];
-                endpoint.monitors = {};
-                endpoint.ready = false;
-                self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors', { "endpoint_id": endpoint.id }).then(function (monitors) {
-                  var seenStates = {};
-                  _.forEach(monitors, function (mon) {
-                    if (!mon.enabled) {
-                      return;
-                    }
-                    seenStates[mon.state] = true;
-                    endpoint.monitors[mon.monitor_type_name.toLowerCase()] = mon;
-                  });
-                  for (var s in seenStates) {
-                    self.endpointState[s]++;
-                    endpoint.states.push(parseInt(s));
-                  }
-                  endpoint.ready = true;
-                });
-              });
-              self.endpoints = endpoints;
-            });
-          }
-        }, {
-          key: 'remove',
-          value: function remove(endpoint) {
-            var self = this;
-            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function () {
-              self.getEndpoints();
             });
           }
         }, {
           key: 'monitorStateTxt',
           value: function monitorStateTxt(endpoint, type) {
-            var mon = endpoint.monitors[type];
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
+            var check;
+            _.forEach(endpoint.checks, function (c) {
+              if (c.type.toLowerCase() === type.toLowerCase()) {
+                check = c;
+              }
+            });
+            if ((typeof check === 'undefined' ? 'undefined' : _typeof(check)) !== "object") {
               return "disabled";
             }
-            if (!mon.enabled) {
+            if (!check.enabled) {
               return "disabled";
             }
-            if (mon.state < 0 || mon.state > 2) {
+            if (check.state < 0 || check.state > 2) {
               return 'nodata';
             }
             var states = ["online", "warn", "critical"];
-            return states[mon.state];
+            return states[check.state];
           }
         }, {
           key: 'monitorStateChangeStr',
           value: function monitorStateChangeStr(endpoint, type) {
-            var mon = endpoint.monitors[type];
-            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
+            var check;
+            _.forEach(endpoint.checks, function (c) {
+              if (c.type.toLowerCase() === type.toLowerCase()) {
+                check = c;
+              }
+            });
+            if ((typeof check === 'undefined' ? 'undefined' : _typeof(check)) !== "object") {
               return "";
             }
-            var duration = new Date().getTime() - new Date(mon.state_change).getTime();
+
+            var duration = new Date().getTime() - new Date(check.stateChange).getTime();
             if (duration < 10000) {
               return "for a few seconds ago";
             }

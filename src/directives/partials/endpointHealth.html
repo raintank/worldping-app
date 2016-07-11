@@ -1,4 +1,4 @@
-<div ng-if="ctrl.isEndPointReady(endpoint)" style="display:inline-block;">
+<div style="display:inline-block;">
 	<a class="rt-health-list small" href="dashboard/db/worldping-endpoint-dns?&var-endpoint={{endpoint.slug}}&var-probe=All">
 		DNS:
 		<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'dns')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'dns')}} {{ctrl.monitorStateChangeStr(endpoint, 'dns')}}'">
