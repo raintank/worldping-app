@@ -8,7 +8,7 @@
           <!-- Monitoring -->
           <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.checks['http'].enabled"></i>
           <span class="freqMsg" ng-show="ctrl.checks['http'].enabled" > Every {{ctrl.checks['http'].frequency}}s from {{ctrl.probeCount(ctrl.checks['http'])}} {{ctrl.probeCount(ctrl.checks['http']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['dns'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['http'].enabled"></i>
           <span class="freqMsg disabled" ng-show="!ctrl.checks['http'].enabled" > Not enabled |</span>
           <span class="freqMsg" ng-show="!ctrl.checks['http'].enabled && ctrl.discovered" > Not Discovered |</span>
           <!-- Checks -->
