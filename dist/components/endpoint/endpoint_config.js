@@ -230,6 +230,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 return self.$q.reject(resp.meta.message);
               }
               self.probes = resp.body;
+              defaultRoute.config.ids = [];
               _.forEach(self.probes, function (probe) {
                 defaultRoute.config.ids.push(probe.id);
                 _.forEach(probe.tags, function (t) {
