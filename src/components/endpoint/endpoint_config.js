@@ -409,6 +409,7 @@ class EndpointConfigCtrl {
         self.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
       }
+      self.endpoint.id = resp.body.id;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
       self.showCreating = true;
