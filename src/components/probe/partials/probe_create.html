@@ -42,36 +42,37 @@
         Setup time: 5-7 minutes
       </div>
     </div>
+  </div>
 
+  <div ng-hide="!ctrl.showDistroConfig">
+    <h3>Install the probe</h3>
+    <pre><code>curl https://app.raintank.io/scripts/collector_install.sh | sudo KEY="<span class="h">asdfasdf7897asdfljadskjads889</span>" bash</code></pre>
+  </div>
+
+  <div ng-hide="ctrl.showDistroConfig">
+    <div class="gf-form-group">
+      <h3><span class="emphasis">2. </span>Clone the repository</h3>
+      <pre><code>git clone https://github.com/raintank/raintank-collector.git</code></pre>
     </div>
-    <div ng-hide="!ctrl.showDistroConfig">
-      <h3>Install the probe</h3>
-      <pre><code>curl https://app.raintank.io/scripts/collector_install.sh | sudo KEY="<span class="h">asdfasdf7897asdfljadskjads889</span>" bash</code></pre>
+    <div class="gf-form-group">
+      <h3><span class="emphasis">3. </span>Install Go.</h3>
+      <p>>> <a href="https://golang.org/doc/install">https://golang.org/doc/install</a>.</p>
+      <p>Once you've installed Go, you'll need to configure your workspace like so: <a href="https://golang.org/doc/code.html#Workspaces">https://golang.org/doc/code.html#Workspaces</a></p>
     </div>
-    <div ng-hide="ctrl.showDistroConfig">
-      <div class="gf-form-group">
-        <h3><span class="emphasis">2. </span>Clone the repository</h3>
-        <pre><code>git clone https://github.com/raintank/raintank-collector.git</code></pre>
-      </div>
-      <div class="gf-form-group">
-        <h3><span class="emphasis">3. </span>Install Go.</h3>
-        <p>>> <a href="https://golang.org/doc/install">https://golang.org/doc/install</a>.</p>
-        <p>Once you've installed Go, you'll need to configure your workspace like so: <a href="https://golang.org/doc/code.html#Workspaces">https://golang.org/doc/code.html#Workspaces</a></p>
-      </div>
-      <div class="gf-form-group">
-        <h3><span class="emphasis">4. </span>Install raintank_probe.</h3>
-        <pre><code>go get github.com/raintank/raintank-probe</code></pre>
-      </div>
-      <div class="gf-form-group">
-        <h3><span class="emphasis">5. </span>Copy raintank-probe to raintank-collector's directory.</h3>
-        <pre><code>cd raintank-collector &amp;&amp; cp $(which raintank-probe) .</code></pre>
-      </div>
-      <div class="gf-form-group">
-        <h3><span class="emphasis">6. </span>Install all of the dependent node_modules.</h3>
-        <pre><code>npm install</code></pre>
-      </div>
-      <div class="gf-form-group">
-        <h3><span class="emphasis">7. </span>Create a config file using etc/config.json as a template, with the probe name and ApiKey</h3>
+    <div class="gf-form-group">
+      <h3><span class="emphasis">4. </span>Install raintank_probe.</h3>
+      <pre><code>go get github.com/raintank/raintank-probe</code></pre>
+    </div>
+    <div class="gf-form-group">
+      <h3><span class="emphasis">5. </span>Copy raintank-probe to raintank-collector's directory.</h3>
+      <pre><code>cd raintank-collector &amp;&amp; cp $(which raintank-probe) .</code></pre>
+    </div>
+    <div class="gf-form-group">
+      <h3><span class="emphasis">6. </span>Install all of the dependent node_modules.</h3>
+      <pre><code>npm install</code></pre>
+    </div>
+    <div class="gf-form-group">
+      <h3><span class="emphasis">7. </span>Create a config file using etc/config.json as a template, with the probe name and ApiKey</h3>
 <pre><code>{
 "collector": {
 "name": "<span class="h">{{ctrl.probe.name}}</span>"
@@ -81,12 +82,11 @@
 "apiKey": "<span class="h">{{ctrl.apiKey}}</span>",
 "probeServerPort": 8284
 }</code></pre>
-      </div>
     </div>
-    <div class="gf-form-group">
-      <h3><span class="emphasis">8. </span>Start the app</h3>
-      <pre><code>nodejs app.js -c <span class="h">/path/to/config.json</span></code></pre>
-    </div>
+  </div>
+  <div class="gf-form-group">
+    <h3><span class="emphasis">8. </span>Start the app</h3>
+    <pre><code>nodejs app.js -c <span class="h">/path/to/config.json</span></code></pre>
   </div>
 
   <div>

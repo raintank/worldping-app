@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['angular'], function (_export, _context) {
-  "use strict";
-
   var angular, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {

@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['./config.html!text', 'lodash'], function (_export, _context) {
-  "use strict";
-
   var configTemplate, _, _createClass, WorldPingConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {

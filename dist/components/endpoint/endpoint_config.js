@@ -150,7 +150,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               };
 
               modalScope.save = function () {
-                self.save(nextUrl);
+                self.savePending(nextUrl);
               };
 
               $rootScope.appEvent('show-modal', {
@@ -230,6 +230,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 return self.$q.reject(resp.meta.message);
               }
               self.probes = resp.body;
+              defaultRoute.config.ids = [];
               _.forEach(self.probes, function (probe) {
                 defaultRoute.config.ids.push(probe.id);
                 _.forEach(probe.tags, function (t) {
@@ -318,6 +319,31 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           key: 'tagsUpdated',
           value: function tagsUpdated() {
             this.saveEndpoint();
+          }
+        }, {
+          key: 'savePending',
+          value: function savePending(nextUrl) {
+            var self = this;
+            _.forEach(this.checks, function (check) {
+              if (!check.id && check.enabled) {
+                //add the check
+                self.endpoint.checks.push(check);
+                return;
+              }
+              for (var i = 0; i < self.endpoint.checks.length; i++) {
+                if (self.endpoint.checks[i].id === check.id) {
+                  self.endpoint.checks[i] = _.cloneDeep(check);
+                }
+              }
+            });
+            return this.saveEndpoint().then(function () {
+              self.ignoreChanges = true;
+              if (nextUrl) {
+                self.$location.path(nextUrl);
+              } else {
+                self.$location.path("plugins/raintank-worldping-app/page/endpoints");
+              }
+            });
           }
         }, {
           key: 'saveEndpoint',
@@ -439,13 +465,15 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 self.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
               }
+              self.endpoint.id = resp.body.id;
+              self.endpoint.slug = resp.body.slug;
               self.ignoreChanges = true;
               self.alertSrv.set("endpoint added", '', 'success', 3000);
               self.showCreating = true;
               self.endpointReadyDelay = delay;
               self.endpointReady = false;
               self.$timeout(function () {
-                self.$location.url('plugins/raintank-worldping-app/page/endpoint-details?endpoint=' + resp.body.id);
+                self.endpointReady = true;
               }, delay * 1000);
             });
           }
