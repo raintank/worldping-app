@@ -56,7 +56,7 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 #### Changelog
 
 ##### v1.0.10
-- With the releaes of worldPing pricing, the estimated number of checks per month (in Millions) is provided on the Endpoint Config pages.
-- The worldPing app has been refactored to use the new v2 API, providing faster load times on non-dashboard pages.
+- With the release of worldPing pricing, the estimated number of checks per month (in Millions) is provided on Endpoint Config pages.
+- The worldPing app has been refactored to use the new v2 API, providing faster load times and other efficiencies.
 - Admins now have the ability to delete private probes within the interface.
-- Many other bugfixes and optimizations. 
+- Many other bugfixes and optimizations.
