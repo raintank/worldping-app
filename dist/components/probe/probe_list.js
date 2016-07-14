@@ -50,24 +50,24 @@ System.register(['lodash'], function (_export, _context) {
 
           this.filter = { tag: "", status: "" };
           this.sort_field = "name";
-          this.collectors = [];
-          this.getCollectors();
+          this.probes = [];
+          this.getProbes();
         }
 
         _createClass(ProbeListCtrl, [{
-          key: 'collectorTags',
-          value: function collectorTags() {
+          key: 'probeTags',
+          value: function probeTags() {
             var map = {};
-            _.forEach(this.collectors, function (collector) {
-              _.forEach(collector.tags, function (tag) {
+            _.forEach(this.probes, function (probe) {
+              _.forEach(probe.tags, function (tag) {
                 map[tag] = true;
               });
             });
             return Object.keys(map);
           }
         }, {
-          key: 'setCollectorFilter',
-          value: function setCollectorFilter(tag) {
+          key: 'setProbeFilter',
+          value: function setProbeFilter(tag) {
             this.filter.tag = tag;
           }
         }, {
@@ -83,20 +83,16 @@ System.register(['lodash'], function (_export, _context) {
             };
           }
         }, {
-          key: 'getCollectors',
-          value: function getCollectors() {
+          key: 'getProbes',
+          value: function getProbes() {
             var self = this;
-            this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function (collectors) {
+            return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+              if (resp.meta.code !== 200) {
+                self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
+                return self.$q.reject(resp.meta.message);
+              }
               self.pageReady = true;
-              self.collectors = collectors;
-            });
-          }
-        }, {
-          key: 'remove',
-          value: function remove(loc) {
-            var self = this;
-            this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function () {
-              self.getCollectors();
+              self.probes = resp.body;
             });
           }
         }, {

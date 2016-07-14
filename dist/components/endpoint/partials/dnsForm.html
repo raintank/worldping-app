@@ -5,15 +5,14 @@
       <div>
         <a href="#">
           <!-- Monitoring -->
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;" ng-show="ctrl.monitors['dns'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['dns'].enabled" > Every {{ctrl.monitors['dns'].frequency}}s from {{ctrl.collectorCount(ctrl.monitors['dns'])}} {{ctrl.collectorCount(ctrl.monitors['dns']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px;"ng-show="!ctrl.monitors['dns'].enabled"></i>
-          <span class="freqMsg disabled" ng-show="!ctrl.monitors['dns'].enabled" > Not enabled |</span>
-          <span class="freqMsg" ng-show="!ctrl.monitors['dns'].enabled && ctrl.discovered" > Not Discovered |</span>
-          <!-- Alertingreq
-          <i class="icon-gf icon-gf-alert" style="font-size:17px;"ng-show="ctrl.monitors['dns'].enabled && monitors['alert'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.monitors['dns'].enabled && monitors['alert'].enabled" > Alerting enabled |</span<!
-          -->
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.checks['dns'].enabled"></i>
+          <span class="freqMsg" ng-show="ctrl.checks['dns'].enabled" > Every {{ctrl.checks['dns'].frequency}}s from {{ctrl.probeCount(ctrl.checks['dns'])}} {{ctrl.probeCount(ctrl.checks['dns']) == 1 ? "Probe" : "Probes"}} |</span>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['dns'].enabled"></i>
+          <span class="freqMsg disabled" ng-show="!ctrl.checks['dns'].enabled" > Not enabled |</span>
+          <span class="freqMsg" ng-show="!ctrl.checks['dns'].enabled && ctrl.discovered" > Not Discovered |</span>
+          <!-- Checks -->
+          <i ng-show="ctrl.checks['dns'].enabled" class="icon-gf icon-gf-status" style="font-size:17px; vertical-align: sub;"></i>
+          <span ng-show="ctrl.checks['dns'].enabled" class="freqMsg" bs-tooltip="'Estimated checks per month, in Millions'"> {{ctrl.totalChecks(ctrl.checks['dns'])| number:0}}M/mo</span><span ng-show="ctrl.checks['dns'].enabled" class="freqMsg"> |</span
           <!-- Configure -->
           <span class="highlight-word"> Configure</span>
           <span><i class="fa fa-caret-down" ng-show="ctrl.showDNS"></i></span>
@@ -28,7 +27,7 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-monitoring inline-icon"></i>
           <h3 class="inline-header">Monitoring</h3>
-          <editor-checkbox text="Enabled" model="ctrl.monitors['dns'].enabled"></editor-checkbox>
+          <editor-checkbox text="Enabled" model="ctrl.checks['dns'].enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <p>We do a single DNS lookup at the specified <span class="emphasis-word">frequency</span>, on the <span class="emphasis-word">DNS servers</span>, from the selected <span class="emphasis-word">dynamic or static footprint</span>. If one fails, we will move on to the next, just like DNS works in the real world.</p>
@@ -36,10 +35,10 @@
             <div class="gf-form">
               <span class="gf-form-label width-9">Frequency</span>
               <div class="gf-form-select-wrapper">
-                <select class="gf-form-input gf-size-auto" ng-model="ctrl.monitors['dns'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
+                <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['dns'].frequency" ng-options="f.value as f.label for f in ctrl.frequencyOpts"></select>
               </div>
             </div>
-            <endpoint-collector-select model="ctrl.monitors['dns']" collectors="ctrl.collectors" style="modal-collector-select"></endpoint-collector-select>
+            <endpoint-probe-select model="ctrl.checks['dns']" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
           </div>
 
 
@@ -47,16 +46,17 @@
           <div class="gf-form-group">
             <div class="gf-form">
               <label class="gf-form-label width-9">Hostname</label>
-              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'name').value" placeholder="www.example.com">
+              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.checks['dns'].settings.name" placeholder="www.example.com">
             </div>
             <div class="gf-form">
               <label class="gf-form-label width-9">Timeout (s)</label>
-              <input class="gf-form-input max-width-3" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'timeout').value" ng-pattern="timeoutRegex">
+              <input class="gf-form-input max-width-5" type="number" ng-model="ctrl.checks['dns'].settings.timeout" min="1" max="10">
               <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
             </div>
             <div class="gf-form gf-form--v-stretch">
               <label class="gf-form-label width-9">DNS Servers</label>
-              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'server').value"></textarea>
+              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.checks['dns'].settings.server"></textarea>
+              <info-popover offset="0px -95px">Comma separated list of servers to try until a successful result is received.</info-popover>
             </div>
           </div>
           <div class="gf-form-group">
@@ -64,19 +64,24 @@
               <div class="gf-form max-width-17">
                 <label class="gf-form-label width-9">Record Type</label>
                 <div class="gf-form-select-wrapper">
-                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'type').value" ng-options="r for r in ctrl.defaultSettingByVariable('dns','type').conditions.values"></select>
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['dns'].settings.type" ng-options="r for r in ['A', 'AAAA', 'CNAME','MX','NS','PTR','SOA','SRV','TXT']"></select>
                 </div>
               </div>
               <div class="gf-form max-width-9">
                 <label class="gf-form-label width-4">Port</label>
-                <input class="gf-form-input max-width-4" type="text" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'port').value">
+                <input class="gf-form-input max-width-4" type="number" ng-model="ctrl.checks['dns'].settings.port" min="1" max="65535">
               </div>
               <div class="gf-form max-width-9">
                 <label class="gf-form-label width-9">Protocol</label>
                 <div class="gf-form-select-wrapper">
-                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.currentSettingByVariable(ctrl.monitors['dns'], 'protocol').value" ng-options="p for p in ctrl.defaultSettingByVariable('dns','protocol').conditions.values"></select>
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['dns'].settings.protocol" ng-options="p for p in ['udp', 'tcp']"></select>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="gf-form-group" ng-show="ctrl.checks['dns'].enabled">
+            <div class="rt-body-copy">
+              <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> With this config, you'll generate approixmately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks(ctrl.checks['dns'])| number:0}} Million</span><span class="pluginlist-none-installed"> checks per month.</span>
             </div>
           </div>
         </div>
@@ -91,11 +96,11 @@
             <div class="rt-body-copy">
               <span class="rt-body-copy" style="margin: 0;">If</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['dns'].health_settings.num_collectors"></select></label>
+                <label><input type="number" min="1" value="3"class="gf-form-natural-language-input max-width-3" ng-model="ctrl.checks['dns'].healthSettings.num_collectors"></select></label>
               </div>
               <span class="rt-body-copy">or more probes report <span class="emphasis-word">connection errors</span> for</span>
               <div class="rt-input-styles editor-option">
-                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="ctrl.monitors['dns'].health_settings.steps"></select></label>
+                <label><input type="number" min="1" value="5" class="gf-form-natural-language-input max-width-3" ng-model="ctrl.checks['dns'].healthSettings.steps"></select></label>
               </div>
               <span class="rt-body-copy">or more consecutive checks, health will be marked as down <img width="20px" height="20px" src="public/plugins/raintank-worldping-app/img/critical.svg" class="rt-inline-health-icon">.</span>
             </div>
@@ -107,13 +112,13 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-alert inline-icon"></i>
           <h3 class="inline-header">Alerting</h3>
-          <editor-checkbox text="Enabled" model="ctrl.monitors['dns'].health_settings.notifications.enabled"></editor-checkbox>
+          <editor-checkbox text="Enabled" model="ctrl.checks['dns'].healthSettings.notifications.enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <div class="rt-box-interior-content">
             When the DNS health changes, send a notification to the following emails: </span>
             <div class="gf-form">
-              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.monitors['dns'].health_settings.notifications.addresses"></textarea>
+              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.checks['dns'].healthSettings.notifications.addresses"></textarea>
            </div>
             <div>
               <span class="small">Comma separated email addresses accepted.</span>
@@ -125,7 +130,7 @@
 
     <div class="endpoint-config-left-margin" ng-if="ctrl.endpoint.id">
       <div class="gf-form-button-row">
-        <button type="submit" class="btn btn-success" ng-click="ctrl.updateMonitor(ctrl.monitors['dns'])">Update DNS Settings</button>
+        <button type="submit" class="btn btn-success" ng-click="ctrl.updateCheck(ctrl.checks['dns'])">Update DNS Settings</button>
         <a class="btn btn-link" ng-click="ctrl.cancel()">Cancel</a>
       </div>
     </div>

@@ -1,17 +1,43 @@
 import _ from 'lodash';
 import angular from 'angular';
 
+var defaultRoute = {
+  type: "byIds",
+  config: {
+    ids: []
+  }
+};
+var defaultHealthSettings = {
+  num_collectors: 3,
+  steps: 3
+};
+
+var defaultCheck = {
+  settings: {},
+  healthSettings: {
+    notifications: {}
+  },
+  route: {
+    type: "byIds",
+    config: {
+      "ids": []
+    }
+  }
+};
+
 class EndpointConfigCtrl {
    /** @ngInject */
-  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, backendSrv, alertSrv) {
+  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.$timeout = $timeout;
+    this.$q = $q;
     this.alertSrv = alertSrv;
+    this.$window = $window;
+
     this.pageReady = false;
     this.showCreating = false;
-    this.monitorLastState = {};
     self.insufficientQuota = false;
 
     this.frequencyOpts = [];
@@ -20,45 +46,32 @@ class EndpointConfigCtrl {
       self.frequencyOpts.push({value: f, label: "Every "+f+"s"});
     });
 
-    this.timeoutRegex = /^([1-9](\.\d)?|10)$/;
-    this.editor = {index: 0};
     this.newEndpointName = "";
+    this.checks = {};
     this.endpoint = {};
-    this.monitors = {};
-    this.monitor_types = {};
-    this.monitor_types_by_name = {};
-    this.allCollectors = [];
-    this.collectorsOption = {selection: "all"};
-    this.collectorsByTag = {};
-    this.global_collectors = {collector_ids: [], collector_tags: []};
+    this.probes = [];
+    this.probesByTag = {};
+
     this.ignoreChanges = false;
-    this.originalState = {};
 
     var promises = [];
-    var typesPromise = this.getMonitorTypes();
-    promises.push(typesPromise);
+    self.reset();
     if ("endpoint" in $location.search()) {
-      promises.push(typesPromise.then(function() {
-        return self.getEndpoint($location.search().endpoint);
-      }));
+      promises.push(self.getEndpoint($location.search().endpoint));
     } else {
       // make sure we have sufficient quota.
       promises.push(self.checkQuota());
       this.endpoint = {name: ""};
     }
 
-    this.checks = {};
-
-    promises.push(this.getCollectors());
-    Promise.all(promises).then(function() {
+    promises.push(this.getProbes());
+    $q.all(promises).then(function() {
       self.pageReady = true;
-      self.reset();
       $timeout(function() {
         $anchorScroll();
       }, 0, false);
-      $scope.$apply();
     }, function(err) {
-      console.log("endpoint config init failed.", err);
+      alertSrv.set("endpoint config init failed", err, 'error', 10000);
     });
 
     if ($location.search().check) {
@@ -98,7 +111,7 @@ class EndpointConfigCtrl {
         };
 
         modalScope.save = function() {
-          self.save(nextUrl);
+          self.savePending(nextUrl);
         };
 
         $rootScope.appEvent('show-modal', {
@@ -110,146 +123,114 @@ class EndpointConfigCtrl {
     });
   }
 
+  getEndpoint(idString) {
+    var self = this;
+    var id = parseInt(idString);
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/'+id).then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
+      self.endpoint = resp.body;
+      self.newEndpointName = self.endpoint.name;
+      _.forEach(resp.body.checks, function(check) {
+        self.checks[check.type] = _.cloneDeep(check);
+      });
+      var definedChecks = _.keys(self.checks);
+      if (definedChecks.length < 4) {
+        if (_.indexOf(definedChecks, "http") === -1) {
+          self.checks["http"] = _.cloneDeep(defaultCheck);
+          self.checks["http"].type = "http";
+        }
+        if (_.indexOf(definedChecks, "https") === -1) {
+          self.checks["https"] = _.cloneDeep(defaultCheck);
+          self.checks["https"].type = "https";
+        }
+        if (_.indexOf(definedChecks, "ping") === -1) {
+          self.checks["ping"] = _.cloneDeep(defaultCheck);
+          self.checks["ping"].type = "ping";
+        }
+        if (_.indexOf(definedChecks, "dns") === -1) {
+          self.checks["dns"] = _.cloneDeep(defaultCheck);
+          self.checks["dns"].type = "dns";
+        }
+      }
+    });
+  }
+
   checkQuota() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/org/quotas').then((quotas) => {
-      _.forEach(quotas, function(q) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
+      _.forEach(resp.body, function(q) {
         if (q.target === "endpoint") {
-          if (q.used >= q.limit) {
+          if (q.limit > 0 && q.used >= q.limit) {
             self.insufficientQuota = true;
           }
         }
       });
       if (self.insufficientQuota) {
-        console.log("quota reached");
-        return Promise.reject("Quota reached.");
+        return self.$q.reject("Endpoint quota reached.");
       }
       return true;
     });
   }
 
-  getCollectors() {
+  getProbes() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function(collectors) {
-      self.collectors = collectors;
-      _.forEach(collectors, function(c) {
-        self.allCollectors.push(c.id);
-        _.forEach(c.tags, function(t) {
-          if (!(t in self.collectorsByTag)) {
-            self.collectorsByTag[t] = [];
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get getProbes.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
+      self.probes = resp.body;
+      defaultRoute.config.ids = [];
+      _.forEach(self.probes, function(probe) {
+        defaultRoute.config.ids.push(probe.id);
+        _.forEach(probe.tags, function(t) {
+          if (!(t in self.probesByTag)) {
+            self.probesByTag[t] = [];
           }
-          self.collectorsByTag[t].push(c);
+          self.probesByTag[t].push(probe);
         });
       });
-      self.global_collectors = {collector_ids: self.allCollectors, collector_tags: []};
     });
   }
 
-  collectorCount(monitor) {
-    var self = this;
-    if (!monitor) {
+  probeCount(check) {
+    if (!check) {
       return 0;
     }
-    var ids = {};
-    _.forEach(monitor.collector_ids, function(id) {
-      ids[id] = true;
-    });
-    _.forEach(monitor.collector_tags, function(t) {
-      _.forEach(self.collectorsByTag[t], function(c) {
-        ids[c.id] = true;
-      });
-    });
-    return Object.keys(ids).length;
+    return this.getProbesForCheck(check).length;
   }
 
-  getMonitorTypes() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitor_types').then(function(types) {
-      var typesMap = {};
-      _.forEach(types, function(type) {
-        typesMap[type.id] = type;
-        self.monitor_types_by_name[type.name.toLowerCase()] = type;
-        self.setDefaultMonitor(type);
-      });
-      self.monitor_types = typesMap;
-    });
-  }
-
-  setDefaultMonitor(type) {
-    var self = this;
-    if (!(type.name.toLowerCase() in this.monitors)) {
-      var settings = [];
-      _.forEach(type.settings, function(setting) {
-        var val = setting.default_value;
-        if (self.endpoint && (setting.variable === "host" || setting.variable === "name" || setting.variable === "hostname")) {
-          val = self.endpoint.name || "";
-        }
-        settings.push({variable: setting.variable, value: val});
-      });
-      self.monitors[type.name.toLowerCase()] = {
-        id: null,
-        endpoint_id: null,
-        monitor_type_id: type.id,
-        collector_ids: [],
-        collector_tags: [],
-        settings: settings,
-        enabled: false,
-        frequency: 10,
-        health_settings: {
-          steps: 3,
-          num_collectors: 3,
-          notifications: {
-            enabled: false,
-            addresses: ""
+  getProbesForCheck(check) {
+    if (check.route.type === "byIds") {
+      return check.route.config.ids;
+    } else if (check.route.type === "byTags") {
+      var probeList = {};
+      _.forEach(this.probes, function(p) {
+        _.forEach(check.route.config.tags, function(t) {
+          if (_.indexOf(p.tags, t) !== -1) {
+            probeList[p.id] = true;
           }
-        }
-      };
-      self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(self.monitors[type.name.toLowerCase()]);
-    }
-  }
-
-  defaultSettingByVariable(monitorType, variable) {
-    var s = null;
-    var type = this.monitor_types_by_name[monitorType];
-    _.forEach(type.settings, function(setting) {
-      if (setting.variable === variable) {
-        s = setting;
-      }
-    });
-    return s;
-  }
-
-  currentSettingByVariable(monitor, variable) {
-    var s = {
-      "variable": variable,
-      "value": null
-    };
-    var found = false;
-    _.forEach(monitor.settings, function(setting) {
-      if (found) {
-        return;
-      }
-      if (setting.variable === variable) {
-        s = setting;
-        found = true;
-      }
-    });
-    if (! found) {
-      monitor.settings.push(s);
-    }
-    var type = this.monitor_types[monitor.monitor_type_id];
-    if (s.value === null) {
-      _.forEach(type.settings, function(setting) {
-        if (setting.variable === variable) {
-          s.value = setting.default_value;
-        }
+        });
       });
+      return _.keys(probeList);
+    } else {
+      this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
+      return [];
     }
-    if (!found) {
-      this.monitorLastState[type.name.toLowerCase()].settings.push(_.cloneDeep(s));
-    }
+  }
 
-    return s;
+  totalChecks(check) {
+    if (check === undefined) {
+      return 0;
+    }
+    return (30.5 * 24 * (3600/check.frequency) * this.probeCount(check) / 1000000) + 0.5;
   }
 
   reset() {
@@ -259,159 +240,96 @@ class EndpointConfigCtrl {
     this.discoveryError = false;
     this.showConfig = false;
     this.showCreating = false;
-    // $scope.endpoint.name = {"name": ""};
-    this.monitors = {};
-    _.forEach(self.monitor_types, function(type) {
-      self.setDefaultMonitor(type);
-    });
+    this.endpoint = {};
+    self.checks = {};
   }
 
   cancel() {
     this.reset();
     this.ignoreChanges = true;
-    window.history.back();
-  }
-
-  getEndpoint(idString) {
-    var self = this;
-    var id = parseInt(idString);
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints/'+id).then(function(endpoint) {
-      self.endpoint = endpoint;
-      self.newEndpointName = endpoint.name;
-      //get monitors for this endpoint.
-      self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/monitors?endpoint_id='+id).then(function(monitors) {
-        _.forEach(monitors, function(monitor) {
-          var type = monitor.monitor_type_name.toLowerCase();
-          if (type in self.monitors) {
-            _.assign(self.monitors[type], monitor);
-          } else {
-            self.monitors[type] = monitor;
-          }
-          self.monitorLastState[type] = _.cloneDeep(monitor);
-        });
-        self.pageReady = true;
-      });
-    });
-  }
-
-  setEndpoint(id) {
-    this.$location.url('plugins/raintank-worldping-app/page/endpoint-config?endpoint='+id);
+    this.$window.history.back();
   }
 
   remove(endpoint) {
     var self = this;
-    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/endpoints/' + endpoint.id).then(function() {
+    return this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + endpoint.id).then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to delete endpoint.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
       self.$location.path('plugins/raintank-worldping-app/page/endpoints');
-    });
-  }
-
-  removeMonitor(mon) {
-    var self = this;
-    var type = this.monitor_types[mon.monitor_type_id];
-    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/monitors/' + mon.id).then(function() {
-      self.setDefaultMonitor(type.name.toLowerCase());
-      delete self.monitorLastState[type.name.toLowerCase()];
     });
   }
 
   updateEndpoint() {
     this.endpoint.name = this.newEndpointName;
-    this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', this.endpoint);
+    this.saveEndpoint();
   }
 
   tagsUpdated() {
-    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+    this.saveEndpoint();
   }
 
-  save(location) {
+  savePending(nextUrl) {
     var self = this;
-    var promises = [];
-    _.forEach(this.monitors, function(monitor) {
-      monitor.endpoint_id = self.endpoint.id;
-      var type = self.monitor_types[monitor.monitor_type_id];
-      if (monitor.id) {
-        if (!angular.equals(monitor, self.monitorLastState[type.name.toLowerCase()])) {
-          promises.push(self.updateMonitor(monitor));
+    _.forEach(this.checks, function(check) {
+      if (!check.id && check.enabled) {
+        //add the check
+        self.endpoint.checks.push(check);
+        return;
+      }
+      for (var i=0; i < self.endpoint.checks.length; i++) {
+        if (self.endpoint.checks[i].id === check.id) {
+          self.endpoint.checks[i] = _.cloneDeep(check);
         }
-      } else if (monitor.enabled) {
-        promises.push(self.addMonitor(monitor));
       }
     });
-
-    promises.push(self.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/endpoints', self.endpoint));
-    Promise.all(promises).then(function() {
-      if (location) {
-        self.$location.path(location);
+    return this.saveEndpoint().then(() => {
+      self.ignoreChanges = true;
+      if (nextUrl) {
+        self.$location.path(nextUrl);
       } else {
         self.$location.path("plugins/raintank-worldping-app/page/endpoints");
       }
     });
   }
 
-  addMonitor(monitor) {
+  saveEndpoint() {
     var self = this;
-    monitor.endpoint_id = this.endpoint.id;
-    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function(resp) {
-      _.defaults(monitor, resp);
-      var type = self.monitor_types[resp.monitor_type_id];
-      self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(monitor);
-      var action = "disabled";
-      if (monitor.enabled) {
-        action = "enabled";
+    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then((resp) => {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
       }
-      var message = type.name.toLowerCase() + " " + action + " successfully";
-      self.alertSrv.set(message, '', 'success', 3000);
+      self.endpoint = resp.body;
     });
   }
 
-  updateMonitor(monitor) {
+  updateCheck(check) {
     var self = this;
-    if (!monitor.id) {
-      return this.addMonitor(monitor);
+
+    if (check.id) {
+      for (var i=0; i < this.endpoint.checks.length; i++) {
+        if (this.endpoint.checks[i].id === check.id) {
+          this.endpoint.checks[i] = _.cloneDeep(check);
+        }
+      }
+    } else {
+      this.endpoint.checks.push(check);
     }
-
-    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/monitors', monitor, true).then(function() {
-      var type = self.monitor_types[monitor.monitor_type_id];
-      var message = type.name.toLowerCase() + " updated";
-      if (self.monitorLastState[type.name.toLowerCase()].enabled !== monitor.enabled) {
-        var action = "disabled";
-        if (monitor.enabled) {
-          action = "enabled";
+    if (check.enabled) {
+      var numProbes = self.probeCount(check);
+      if (numProbes < check.healthSettings.num_collector) {
+        check.healthSettings.num_collectors = numProbes;
+      }
+    }
+    return this.saveEndpoint().then(() => {
+      self.alertSrv.set(check.type + " check updated.", "", "success", 2000);
+      _.forEach(self.endpoint.checks, function(c) {
+        if (c.type === check.type) {
+          self.checks[check.type] = _.cloneDeep(c);
         }
-        message = type.name.toLowerCase() + " " + action + " successfully";
-      }
-
-      self.monitorLastState[type.name.toLowerCase()] = _.cloneDeep(monitor);
-      self.alertSrv.set(message, '', 'success', 3000);
-    });
-  }
-
-  parseSuggestions(payload) {
-    var self = this;
-    var defaults = {
-      endpoint_id: 0,
-      monitor_type_id: 1,
-      collector_ids: this.global_collectors.collector_ids,
-      collector_tags: this.global_collectors.collector_tags,
-      settings: [],
-      enabled: true,
-      frequency: 60,
-      health_settings: {
-        steps: 3,
-        num_collectors: 3,
-        notifications: {
-          enabled: false,
-          addresses: ""
-        }
-      }
-    };
-    _.forEach(payload, function(suggestion) {
-      _.defaults(suggestion, defaults);
-      var type = self.monitor_types[suggestion.monitor_type_id];
-      if (type.name.indexOf("Ping") === 0) {
-        suggestion.frequency = 10;
-      }
-      self.monitors[type.name.toLowerCase()] = suggestion;
+      });
     });
   }
 
@@ -428,18 +346,39 @@ class EndpointConfigCtrl {
     var self = this;
     this.discoveryInProgress = true;
     this.discoveryError = false;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/endpoints/discover', endpoint).then(function(resp) {
-      if (!self.showConfig) {
-        if (endpoint.name.indexOf("://") > -1) {
-          //endpoint name is in the form scheme://domain
-          var parser = document.createElement('a');
-          parser.href = endpoint.name;
-          endpoint.name = parser.hostname;
-        }
-        self.showConfig = true;
-        self.discovered = true;
-        self.parseSuggestions(resp);
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/discover', endpoint).then(function(resp) {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
+        this.discoveryError = "Failed to discover endpoint.";
+        return self.$q.reject(resp.meta.message);
       }
+      self.endpoint = resp.body;
+      _.forEach(self.endpoint.checks, function(check) {
+        check.route = _.cloneDeep(defaultRoute);
+        check.healthSettings = _.cloneDeep(defaultHealthSettings);
+        self.checks[check.type] = _.cloneDeep(check);
+      });
+      var definedChecks = _.keys(self.checks);
+      if (definedChecks.length < 4) {
+        if (_.indexOf(definedChecks, "http") === -1) {
+          self.checks["http"] = _.cloneDeep(defaultCheck);
+          self.checks["http"].type = "http";
+        }
+        if (_.indexOf(definedChecks, "https") === -1) {
+          self.checks["https"] = _.cloneDeep(defaultCheck);
+          self.checks["https"].type = "https";
+        }
+        if (_.indexOf(definedChecks, "ping") === -1) {
+          self.checks["ping"] = _.cloneDeep(defaultCheck);
+          self.checks["ping"].type = "ping";
+        }
+        if (_.indexOf(definedChecks, "dns") === -1) {
+          self.checks["dns"] = _.cloneDeep(defaultCheck);
+          self.checks["dns"].type = "dns";
+        }
+      }
+      self.showConfig = true;
+      self.discovered = true;
     }, function() {
       self.discoveryError = "Failed to discover endpoint.";
     }).finally(function() {
@@ -449,46 +388,56 @@ class EndpointConfigCtrl {
 
   addEndpoint() {
     var self = this;
-    if (this.endpoint.id) {
-      return this.updateEndpoint();
-    }
-
     var delay = 120;
-
-    var payload = this.endpoint;
-    payload.monitors = [];
-    _.forEach(this.monitors, function(monitor) {
-      monitor.endpoint_id = -1;
-      payload.monitors.push(monitor);
-      if (monitor.enabled && monitor.frequency < delay) {
-        delay = monitor.frequency;
+    var newChecks = [];
+    _.forEach(this.checks, function(check) {
+      if (check.enabled) {
+        if (check.frequency < delay) {
+          delay = check.frequency;
+        }
+        var numProbes = self.probeCount(check);
+        if (numProbes < 3) {
+          check.healthSettings.num_collectors = numProbes;
+        }
+        newChecks.push(check);
       }
     });
-    this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/endpoints', payload)
+    this.endpoint.checks = newChecks;
+    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint)
     .then(function(resp) {
-      self.endpoint = resp;
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
+      self.endpoint.id = resp.body.id;
+      self.endpoint.slug = resp.body.slug;
       self.ignoreChanges = true;
       self.alertSrv.set("endpoint added", '', 'success', 3000);
       self.showCreating = true;
       self.endpointReadyDelay = delay;
       self.endpointReady = false;
-      return self.$timeout(delay * 1000);
-    })
-    .then(function() {
-      console.log(self.endpointReadyDelay);
-      self.endpointReady = true;
+      self.$timeout(function() {
+        self.endpointReady = true;
+      }, delay * 1000);
     });
   }
 
   changesPending() {
     var self = this;
     var changes = false;
-    _.forEach(this.monitors, function(monitor) {
-      if (monitor.id === null) {
-        return;
+    var seenCheckTypes = {};
+
+    //check if any existing checks have changed
+    _.forEach(this.endpoint.checks, function(check) {
+      seenCheckTypes[check.type] = true;
+      if (!angular.equals(check, self.checks[check.type])) {
+        changes = true;
       }
-      var type = self.monitor_types[monitor.monitor_type_id];
-      if (!angular.equals(monitor, self.monitorLastState[type.name.toLowerCase()])) {
+    });
+
+    //check if any new checks added.
+    _.forEach(_.keys(self.checks), function(type) {
+      if (!(type in seenCheckTypes) && ("frequency" in self.checks[type])) {
         changes = true;
       }
     });

@@ -55,6 +55,8 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 
 #### Changelog
 
-##### v1.0.9
-- Fixed a bug on the endpoint config page that prevented HTTPS checks from being updated.
-- Added a datasource declaration to the singlestat panels on the worldPing Probe Dashboard to avoid errors if raintank was not your default datasource. 
+##### v1.0.10
+- With the release of worldPing pricing, the estimated number of checks per month (in Millions) is provided on Endpoint Config pages.
+- The worldPing app has been refactored to use the new v2 API, providing faster load times and other efficiencies.
+- Admins now have the ability to delete private probes within the interface.
+- Many other bugfixes and optimizations.

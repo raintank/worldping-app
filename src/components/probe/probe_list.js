@@ -17,21 +17,21 @@ class ProbeListCtrl {
 
     this.filter = {tag: "", status: ""};
     this.sort_field = "name";
-    this.collectors = [];
-    this.getCollectors();
+    this.probes = [];
+    this.getProbes();
   }
 
-  collectorTags() {
+  probeTags() {
     var map = {};
-    _.forEach(this.collectors, function(collector) {
-      _.forEach(collector.tags, function(tag) {
+    _.forEach(this.probes, function(probe) {
+      _.forEach(probe.tags, function(tag) {
         map[tag] = true;
       });
     });
     return Object.keys(map);
   }
 
-  setCollectorFilter(tag) {
+  setProbeFilter(tag) {
     this.filter.tag = tag;
   }
 
@@ -46,18 +46,15 @@ class ProbeListCtrl {
     };
   }
 
-  getCollectors() {
+  getProbes() {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/collectors').then(function(collectors) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
       self.pageReady = true;
-      self.collectors = collectors;
-    });
-  }
-
-  remove(loc) {
-    var self = this;
-    this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/collectors/' + loc.id).then(function() {
-      self.getCollectors();
+      self.probes = resp.body;
     });
   }
 

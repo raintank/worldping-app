@@ -818,7 +818,7 @@
   .endpoint-alerting-status.not-enabled,
   .endpoint-alerting-status.not-enabled a {
     display: inline-block;
-    color: #555555;
+    color: #7B7B7B;
     font-weight: normal; }
     .endpoint-alerting-status.not-enabled:hover,
     .endpoint-alerting-status.not-enabled a:hover {
@@ -830,7 +830,7 @@
       margin-bottom: 2px; } }
 
 .endpoint-alerting-recipients {
-  color: #555555; }
+  color: #7B7B7B; }
 
 @media (min-width: 675px) {
   .endpoint-alerting-status,
@@ -855,6 +855,13 @@
 .endpoint-config-left-margin {
   margin-left: 45px; }
 
+.wp-note--mild-emphasis {
+  font-weight: 500; }
+
+.gf-form-natural-language-input {
+  padding-left: 10px;
+  margin-left: 5px; }
+
 .wp-config-box--hit-area {
   cursor: pointer; }
 
@@ -866,19 +873,19 @@
   -moz-transition: height 0.2s;
   -webkit-transition: height 0.2s; }
   .wp-config-box.dns-open {
-    height: 1050px; }
+    height: 1140px; }
     @media screen and (min-width: 600px) {
       .wp-config-box.dns-open {
-        height: 950px; } }
+        height: 984px; } }
     @media screen and (min-width: 700px) {
       .wp-config-box.dns-open {
-        height: 920px; } }
+        height: 944px; } }
     @media screen and (min-width: 800px) {
       .wp-config-box.dns-open {
-        height: 890px; } }
+        height: 940px; } }
     @media screen and (min-width: 1000px) {
       .wp-config-box.dns-open {
-        height: 840px; } }
+        height: 894px; } }
   .wp-config-box.ping-open {
     height: 860px; }
     @media screen and (min-width: 600px) {
@@ -1120,7 +1127,7 @@
   color: #666766; }
 
 .pipe-separator {
-  color: #555555; }
+  color: #7B7B7B; }
 
 .rt-nav-hr {
   margin-left: -10px;
@@ -1238,7 +1245,7 @@ a.rt-dashboard-blurb:hover {
   margin: 10px 0; }
 
 .rt-blurb-success {
-  color: #555555;
+  color: #7B7B7B;
   text-decoration: line-through; }
 
 .rt-dashboard-icons-container {
@@ -1582,7 +1589,7 @@ raintank TYPE
   font-size: 1rem; }
 
 .checkTime {
-  color: #555555;
+  color: #7B7B7B;
   font-size: 1rem; }
 
 .no-endpoints {
@@ -1613,7 +1620,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .offline {
-  color: #555555;
+  color: #7B7B7B;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1623,12 +1630,12 @@ raintank TYPE
   text-transform: uppercase; }
 
 .disabled, .none {
-  color: #555555;
+  color: #7B7B7B;
   font-weight: 400; }
   .disabled:hover, .none:hover {
     color: #222222; }
   .disabled a, .none a {
-    color: #555555;
+    color: #7B7B7B;
     font-weight: 400; }
 
 .critical {
@@ -1637,7 +1644,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .nodata {
-  color: #555555;
+  color: #7B7B7B;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1716,9 +1723,13 @@ raintank POSITIONING
 .filter-icon:hover {
   opacity: 0.8; }
 
+.wp-icon-medium {
+  font-size: 21px;
+  vertical-align: sub; }
+
 .rt-list-status, .rt-list-status-up, .rt-list-status-up:link, .rt-list-status-up:visited, .rt-list-status-warning, .rt-list-status-warning:link, .rt-list-status-warning:visited, .rt-list-status-down, .rt-list-status-down:link, .rt-list-status-down:visited, .rt-list-status-disabled, .rt-list-status-disabled:link, .rt-list-status-disabled:visited {
   font-size: 1rem;
-  color: #555555;
+  color: #7B7B7B;
   text-transform: uppercase;
   text-decoration: none; }
 
@@ -1767,7 +1778,7 @@ raintank POSITIONING
       color: #6f6f6f; }
 
 .rt-list-links {
-  color: #555555;
+  color: #7B7B7B;
   font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;
@@ -1896,7 +1907,7 @@ raintank POSITIONING
 .rt-radio-custom + *:before {
   content: '';
   background: transparent;
-  border: 2px solid #555555;
+  border: 2px solid #7B7B7B;
   display: inline-block;
   vertical-align: middle;
   width: 10px;
