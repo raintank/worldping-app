@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['lodash', 'angular'], function (_export, _context) {
-  "use strict";
-
   var _, angular, _createClass, defaultRoute, defaultHealthSettings, defaultCheck, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
