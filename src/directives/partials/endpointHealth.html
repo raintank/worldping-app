@@ -1,17 +1,17 @@
 <div style="display:inline-block;">
-	<a class="rt-health-list small" href="dashboard/db/worldping-endpoint-dns?&var-endpoint={{endpoint.slug}}&var-probe=All">
+	<a ng-click="$event.stopPropagation()" class="rt-health-list small" href="dashboard/db/worldping-endpoint-dns?&var-endpoint={{endpoint.slug}}&var-probe=All">
 		DNS:
 		<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'dns')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'dns')}} {{ctrl.monitorStateChangeStr(endpoint, 'dns')}}'">
 	</a>
-	<a class="rt-health-list small" href="dashboard/db/worldping-endpoint-ping?&var-endpoint={{endpoint.slug}}&var-probe=All">
+	<a ng-click="$event.stopPropagation()" class="rt-health-list small" href="dashboard/db/worldping-endpoint-ping?&var-endpoint={{endpoint.slug}}&var-probe=All">
 		Ping:
 		<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'ping')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'ping')}} {{ctrl.monitorStateChangeStr(endpoint, 'ping')}}'">
 	</a>
-	<a class="rt-health-list small" href="dashboard/db/worldping-endpoint-web?&var-endpoint={{endpoint.slug}}&var-probe=All&var-protocol=http">
+	<a ng-click="$event.stopPropagation()" class="rt-health-list small" href="dashboard/db/worldping-endpoint-web?&var-endpoint={{endpoint.slug}}&var-probe=All&var-protocol=http">
 		HTTP:
 		<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'http')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'http')}} {{ctrl.monitorStateChangeStr(endpoint, 'http')}}'">
 	</a>
-	<a class="rt-health-list small" href="dashboard/db/worldping-endpoint-web?&var-endpoint={{endpoint.slug}}&var-probe=All&var-protocol=https">
+	<a ng-click="$event.stopPropagation()" class="rt-health-list small" href="dashboard/db/worldping-endpoint-web?&var-endpoint={{endpoint.slug}}&var-probe=All&var-protocol=https">
 		HTTPS:
 		<img ng-src="public/plugins/raintank-worldping-app/img/{{ctrl.monitorStateTxt(endpoint,'https')}}.svg" width="20px" height="20px" bs-tooltip="'{{ctrl.monitorStateTxt(endpoint,'https')}} {{ctrl.monitorStateChangeStr(endpoint, 'https')}}'">
 	</a>
