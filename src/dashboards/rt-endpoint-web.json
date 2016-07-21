@@ -205,7 +205,7 @@
           "decimals": 1,
           "editable": true,
           "error": false,
-          "format": "bps",
+          "format": "Bps",
           "id": 592,
           "interval": null,
           "links": [],
@@ -501,7 +501,7 @@
           "y-axis": true,
           "y_formats": [
             "bytes",
-            "bps"
+            "Bps"
           ]
         }
       ],
