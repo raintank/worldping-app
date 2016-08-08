@@ -1,4 +1,5 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 var defaults = {
   name: '',
@@ -15,7 +16,12 @@ class ProbeCreateCtrl {
     this.backendSrv = backendSrv;
     this.$location = $location;
     this.newProbe = false;
-
+    this.installMethod = {
+      deb: false,
+      rpm: false,
+      docker: false,
+      manual: false,
+    };
     this.probe = angular.copy(defaults);
 
     if ("probe" in $location.search()) {
@@ -23,6 +29,18 @@ class ProbeCreateCtrl {
     } else {
       self.reset();
     }
+  }
+
+  setInstallMethod(newMethod) {
+    var self = this;
+    _.forEach(this.installMethod, function(enabled, method) {
+      if (method === newMethod) {
+        self.installMethod[method] = true;
+      } else {
+        self.installMethod[method] = false;
+      }
+    });
+    console.log(this.installMethod);
   }
 
   getProbe(id) {
