@@ -125,7 +125,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "scale(averageSeries(litmus.$endpoint.$probe.ping.ok_state), 100)"
+              "target": "scale(averageSeries(worldping.$endpoint.$probe.ping.ok_state), 100)"
             }
           ],
           "thresholds": "0,100,100",
@@ -175,7 +175,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.ping.loss)"
+              "target": "averageSeries(worldping.$endpoint.$probe.ping.loss)"
             }
           ],
           "thresholds": "",
@@ -225,7 +225,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.ping.mean)"
+              "target": "averageSeries(worldping.$endpoint.$probe.ping.mean)"
             }
           ],
           "thresholds": "",
@@ -322,7 +322,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(removeBelowValue(consolidateBy(litmus.$endpoint.$probe.ping.error_state, 'sum'), 1), 2)"
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.ping.error_state, 'sum'), 1), 2)"
             }
           ],
           "timeFrom": null,
@@ -436,19 +436,19 @@
             {
               "hide": false,
               "refId": "D",
-              "target": "alias(removeBelowValue(averageSeries(litmus.$endpoint.$probe.ping.loss), 1), 'loss %')"
+              "target": "alias(removeBelowValue(averageSeries(worldping.$endpoint.$probe.ping.loss), 1), 'loss %')"
             },
             {
               "refId": "B",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.ping.mean), 'average')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.ping.mean), 'average')"
             },
             {
               "refId": "A",
-              "target": "alias(consolidateBy(minSeries(litmus.$endpoint.$probe.ping.min), 'min'), 'minimum')"
+              "target": "alias(consolidateBy(minSeries(worldping.$endpoint.$probe.ping.min), 'min'), 'minimum')"
             },
             {
               "refId": "C",
-              "target": "alias(removeAbovePercentile(consolidateBy(maxSeries(litmus.$endpoint.$probe.ping.max), 'max'), $outliers), 'maximum')"
+              "target": "alias(removeAbovePercentile(consolidateBy(maxSeries(worldping.$endpoint.$probe.ping.max), 'max'), $outliers), 'maximum')"
             }
           ],
           "timeFrom": null,
@@ -534,7 +534,7 @@
             {
               "hide": false,
               "refId": "A",
-              "target": "aliasByNode(removeAbovePercentile(litmus.$endpoint.$probe.ping.mean, $outliers), 2)",
+              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.ping.mean, $outliers), 2)",
               "textEditor": false
             }
           ],
@@ -605,7 +605,7 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
-        "query": "litmus.*",
+        "query": "worldping.*",
         "refresh": true,
         "refresh_on_load": true,
         "type": "query",
@@ -620,7 +620,7 @@
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "query": "litmus.$endpoint.*",
+        "query": "worldping.$endpoint.*",
         "refresh": true,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",

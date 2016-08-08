@@ -27,7 +27,7 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
         rangeRaw: timeSrv.timeRange(true),
         interval: scope.check.frequency + 's',
         targets: [
-          {target: "litmus."+scope.ctrl.endpoint.slug + ".*." +
+          {target: "worldping."+scope.ctrl.endpoint.slug + ".*." +
             scope.check.type.toLowerCase()+".{ok_state,error_state}"}
         ],
         format: 'json',
