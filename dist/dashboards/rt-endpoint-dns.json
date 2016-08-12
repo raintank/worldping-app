@@ -125,7 +125,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "scale(averageSeries(litmus.$endpoint.$probe.dns.ok_state), 100)"
+              "target": "scale(averageSeries(worldping.$endpoint.$probe.dns.ok_state), 100)"
             }
           ],
           "thresholds": "0,100,100",
@@ -175,7 +175,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.dns.answers)"
+              "target": "averageSeries(worldping.$endpoint.$probe.dns.answers)"
             }
           ],
           "thresholds": "",
@@ -225,7 +225,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.dns.time)"
+              "target": "averageSeries(worldping.$endpoint.$probe.dns.time)"
             }
           ],
           "thresholds": "",
@@ -322,7 +322,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(removeBelowValue(consolidateBy(litmus.$endpoint.$probe.dns.error_state, 'sum'), 1), 2)"
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.dns.error_state, 'sum'), 1), 2)"
             }
           ],
           "timeFrom": null,
@@ -409,7 +409,7 @@
             {
               "hide": false,
               "refId": "A",
-              "target": "aliasByNode(removeAbovePercentile(litmus.$endpoint.$probe.dns.time, $outliers), 2)",
+              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.dns.time, $outliers), 2)",
               "textEditor": false
             }
           ],
@@ -480,7 +480,7 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
-        "query": "litmus.*",
+        "query": "worldping.*",
         "refresh": true,
         "refresh_on_load": true,
         "type": "query",
@@ -495,7 +495,7 @@
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "query": "litmus.$endpoint.*",
+        "query": "worldping.$endpoint.*",
         "refresh": true,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",

@@ -1,7 +1,9 @@
 'use strict';
 
-System.register(['angular'], function (_export, _context) {
-  var angular, _createClass, defaults, ProbeCreateCtrl;
+System.register(['angular', 'lodash'], function (_export, _context) {
+  "use strict";
+
+  var angular, _, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,6 +14,8 @@ System.register(['angular'], function (_export, _context) {
   return {
     setters: [function (_angular) {
       angular = _angular.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -40,7 +44,6 @@ System.register(['angular'], function (_export, _context) {
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-
         function ProbeCreateCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
@@ -50,7 +53,12 @@ System.register(['angular'], function (_export, _context) {
           this.backendSrv = backendSrv;
           this.$location = $location;
           this.newProbe = false;
-
+          this.installMethod = {
+            deb: false,
+            rpm: false,
+            docker: false,
+            manual: false
+          };
           this.probe = angular.copy(defaults);
 
           if ("probe" in $location.search()) {
@@ -61,6 +69,19 @@ System.register(['angular'], function (_export, _context) {
         }
 
         _createClass(ProbeCreateCtrl, [{
+          key: 'setInstallMethod',
+          value: function setInstallMethod(newMethod) {
+            var self = this;
+            _.forEach(this.installMethod, function (enabled, method) {
+              if (method === newMethod) {
+                self.installMethod[method] = true;
+              } else {
+                self.installMethod[method] = false;
+              }
+            });
+            console.log(this.installMethod);
+          }
+        }, {
           key: 'getProbe',
           value: function getProbe(id) {
             var self = this;

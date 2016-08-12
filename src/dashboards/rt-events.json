@@ -253,7 +253,7 @@
             "selected": true
           }
         ],
-        "query": "litmus.*",
+        "query": "worldping.*",
         "refresh": true,
         "refresh_on_load": false,
         "regex": "",
@@ -278,7 +278,7 @@
             "selected": true
           }
         ],
-        "query": "litmus.$endpoint.*",
+        "query": "worldping.$endpoint.*",
         "refresh": true,
         "refresh_on_load": false,
         "type": "query"
@@ -301,7 +301,7 @@
             "selected": true
           }
         ],
-        "query": "litmus.$endpoint.$probe.*",
+        "query": "worldping.$endpoint.$probe.*",
         "refresh": true,
         "refresh_on_load": false,
         "regex": "",

@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
+  "use strict";
+
   var angular, _;
 
   return {
@@ -36,7 +38,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
               range: timeSrv.timeRange(),
               rangeRaw: timeSrv.timeRange(true),
               interval: scope.check.frequency + 's',
-              targets: [{ target: "litmus." + scope.ctrl.endpoint.slug + ".*." + scope.check.type.toLowerCase() + ".{ok_state,error_state}" }],
+              targets: [{ target: "worldping." + scope.ctrl.endpoint.slug + ".*." + scope.check.type.toLowerCase() + ".{ok_state,error_state}" }],
               format: 'json',
               maxDataPoints: 10
             };

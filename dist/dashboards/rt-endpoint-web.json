@@ -125,7 +125,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "scale(averageSeries(litmus.$endpoint.$probe.$protocol.ok_state), 100)"
+              "target": "scale(averageSeries(worldping.$endpoint.$probe.$protocol.ok_state), 100)"
             }
           ],
           "thresholds": "0,100,100",
@@ -176,7 +176,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.$protocol.total)"
+              "target": "averageSeries(worldping.$endpoint.$probe.$protocol.total)"
             }
           ],
           "thresholds": "",
@@ -226,7 +226,7 @@
           "targets": [
             {
               "refId": "C",
-              "target": "averageSeries(litmus.$endpoint.$probe.$protocol.throughput)"
+              "target": "averageSeries(worldping.$endpoint.$probe.$protocol.throughput)"
             }
           ],
           "thresholds": "",
@@ -323,7 +323,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(removeBelowValue(consolidateBy(litmus.$endpoint.$probe.$protocol.error_state, 'sum'), 1), 2)"
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$protocol.error_state, 'sum'), 1), 2)"
             }
           ],
           "timeFrom": null,
@@ -396,23 +396,23 @@
           "targets": [
             {
               "refId": "A",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.dns), 'dns')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.dns), 'dns')"
             },
             {
               "refId": "B",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.connect), 'connect')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.connect), 'connect')"
             },
             {
               "refId": "E",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.send), 'send')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.send), 'send')"
             },
             {
               "refId": "C",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.wait), 'wait')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.wait), 'wait')"
             },
             {
               "refId": "D",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.recv), 'recv')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.recv), 'recv')"
             }
           ],
           "timeFrom": null,
@@ -482,11 +482,11 @@
           "targets": [
             {
               "refId": "A",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.throughput), 'throughput')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.throughput), 'throughput')"
             },
             {
               "refId": "B",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.dataLength), 'content size')"
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.dataLength), 'content size')"
             }
           ],
           "timeFrom": null,
@@ -571,7 +571,7 @@
             {
               "hide": false,
               "refId": "A",
-              "target": "aliasByNode(removeAbovePercentile(litmus.$endpoint.$probe.$protocol.total, $outliers), 2)",
+              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.$protocol.total, $outliers), 2)",
               "textEditor": false
             }
           ],
@@ -642,7 +642,7 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
-        "query": "litmus.*",
+        "query": "worldping.*",
         "refresh": true,
         "refresh_on_load": true,
         "type": "query",
@@ -657,7 +657,7 @@
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "query": "litmus.$endpoint.*",
+        "query": "worldping.$endpoint.*",
         "refresh": true,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",
