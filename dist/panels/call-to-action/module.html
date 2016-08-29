@@ -1,29 +1,18 @@
-<h4 style="font-weight: 300;">Hello.</h4>
-<p class="rt-dashboard-blurb">worldPing network monitoring continually tests, stores and alerts on the global performance and availability of your Internet applications. Brought to you by raintank, the team behind Grafana.</p>
+<p class="rt-dashboard-blurb">worldPing network monitoring continually tests, stores and alerts on the global performance and availability of your Internet applications. Brought to you by <a href="https://raintank.io" target="_blank">raintank</a>, the team behind Grafana.</p>
 
 <div class="rt-dash-flex-container">
-    <div class="rt-dash-flex-item" ng-if="!ctrl.allDone()">
-        <span class="rt-dashboard-blurb">To do:</span>
-        <div ng-if="ctrl.endpointStatus === 'noEndpoints'" class="rt-CTA-item">
-            <div class="rt-dashboard-icons-container">
-                <i class="icon-gf icon-gf-endpoint rt-dashboard-icons" style="font-size: 20px;"></i>
-            </div>
-            <a href="plugins/raintank-worldping-app/page/endpoint-config" class="rt-dashboard-blurb">Add your first endpoint.</a> <i class="tooltip-subtle grafana-tip tag-tip fa fa-question-circle ng-scope" bs-tooltip="'An endpoint is any domain, IP address</br>or URL you would like to monitor.'"></i>
-        </div>
-        <div ng-if="ctrl.collectorStatus === 'noCollectors'" class="rt-CTA-item">
-            <div class="rt-dashboard-icons-container">
-                <i class="icon-gf icon-gf-probe rt-dashboard-icons" style="font-size: 20px;"></i>
-            </div>
-            <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">Deploy a private probe.</a> <i class="tooltip-subtle grafana-tip tag-tip fa fa-question-circle ng-scope" bs-tooltip="'Install our open-source private probe to measure network latency to, from and within your own network, and send the data back to worldPing.'"></i>
-        </div>
-    </div>
     <div class="rt-dash-flex-item">
-        <span class="rt-dashboard-blurb">Complete:</span>
         <div class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-check wp-icon-success"></i>
             </div>
             <span class="rt-dashboard-blurb rt-blurb-success">Install worldPing.</span>
+        </div>
+        <div ng-if="ctrl.endpointStatus === 'noEndpoints'" class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="icon-gf icon-gf-endpoint rt-dashboard-icons"></i>
+            </div>
+            <a href="plugins/raintank-worldping-app/page/endpoint-config" class="rt-dashboard-blurb">Add your first endpoint.</a> <i class="tooltip-subtle grafana-tip tag-tip fa fa-question-circle ng-scope" bs-tooltip="'An endpoint is any domain, IP address</br>or URL you would like to monitor.'"></i>
         </div>
         <div  ng-if="ctrl.endpointStatus === 'hasEndpoints'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
@@ -35,7 +24,22 @@
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-check wp-icon-success"></i>
             </div>
-            <span class="rt-dashboard-blurb rt-blurb-success">Deploy a private probe</span>
+            <span class="rt-dashboard-blurb rt-blurb-success">Upgrade your account</span>
+        </div>
+        <div ng-if="ctrl.collectorStatus === 'noCollectors'" class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="fa fa-credit-card rt-dashboard-icons""></i>
+            </div>
+            <div class="rt-dashboard-icons-copy-container">
+                <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">Upgrade your account.</a>
+                <p class="rt-dashboard-icons-subcopy">This is subtext for the item.</p>
+            </div>
+        </div>
+        <div  class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="icon-gf icon-gf-probe rt-dashboard-icons-upcoming"></i>
+            </div>
+            <a class="rt-dashboard-blurb rt-blurb-upcoming">Add a private probe, slacker.</a>
         </div>
     </div>
 </div>

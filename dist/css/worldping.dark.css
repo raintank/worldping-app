@@ -1238,7 +1238,13 @@ a.rt-dashboard-blurb:hover {
   background: linear-gradient(to right, rgba(255, 213, 0, 0.7) 0%, rgba(255, 68, 0, 0.7) 99%, rgba(255, 68, 0, 0.7) 100%);
   -webkit-background-clip: text;
   text-decoration: none;
-  font-size: 85px;
+  font-size: 20px;
+  vertical-align: sub; }
+
+.rt-dashboard-icons-upcoming {
+  color: #7B7B7B;
+  text-decoration: none;
+  font-size: 20px;
   vertical-align: sub; }
 
 .rt-CTA-item {
@@ -1248,11 +1254,23 @@ a.rt-dashboard-blurb:hover {
   color: #7B7B7B;
   text-decoration: line-through; }
 
+a.rt-blurb-upcoming {
+  color: #7B7B7B; }
+
 .rt-dashboard-icons-container {
   width: 30px;
   display: inline-block;
   margin-right: 5px;
-  text-align: center; }
+  text-align: center;
+  vertical-align: top; }
+
+.rt-dashboard-icons-copy-container {
+  display: inline-block; }
+
+.rt-dashboard-icons-subcopy {
+  font-size: 12px;
+  color: #D8D9DA;
+  margin: 0; }
 
 .variable-value-dropdown.collector-dropdown {
   min-width: 300px;
@@ -1625,7 +1643,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .warn {
-  color: #ffc03c;
+  color: #F79520;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1696,10 +1714,10 @@ raintank POSITIONING
   box-shadow: 0 0 1px fade(#10a345, 90%); }
 
 .rt-event-warning {
-  color: #ffc03c;
-  background-color: fade(#ffc03c, 30%);
-  border-color: fade(#ffc03c, 50%);
-  box-shadow: 0 0 1px fade(#ffc03c, 90%); }
+  color: #F79520;
+  background-color: fade(#F79520, 30%);
+  border-color: fade(#F79520, 50%);
+  box-shadow: 0 0 1px fade(#F79520, 90%); }
 
 .rt-event-error {
   color: #ed2e18;
@@ -1747,13 +1765,13 @@ raintank POSITIONING
 .rt-list-status-warning {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffc03c; }
+  color: #F79520; }
   .rt-list-status-warning:link, .rt-list-status-warning:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #ffc03c; }
+    color: #F79520; }
     .rt-list-status-warning:link:hover, .rt-list-status-warning:visited:hover {
-      color: #ffd06f; }
+      color: #f9ac51; }
 
 .rt-list-status-down {
   font-size: 1.1rem;
