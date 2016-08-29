@@ -8,6 +8,8 @@
             </div>
             <span class="rt-dashboard-blurb rt-blurb-success">Install worldPing.</span>
         </div>
+
+        <!-- Endpoint Section -->
         <div ng-if="ctrl.endpointStatus === 'noEndpoints'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-endpoint rt-dashboard-icons"></i>
@@ -20,6 +22,9 @@
             </div>
             <span class="rt-dashboard-blurb rt-blurb-success">Add your first endpoint.</span>
         </div>
+        <!-- End Endpoint Section -->
+
+        <!-- Upgrade Section -->
         <div ng-if="ctrl.collectorStatus === 'hasCollectors'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-check wp-icon-success"></i>
@@ -31,15 +36,20 @@
                 <i class="fa fa-credit-card rt-dashboard-icons""></i>
             </div>
             <div class="rt-dashboard-icons-copy-container">
-                <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">Upgrade your account.</a>
-                <p class="rt-dashboard-icons-subcopy">This is subtext for the item.</p>
+                <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">
+                    <span>Upgrade your account.</span>
+                    <span class="rt-dashboard-icons-subcopy">Unlimited endpoints. Pay-as-you-go pricing. Upgrade instantly.</span>
+                </a>
             </div>
         </div>
+        <!-- End Upgrade Section -->
+
+        <!-- Getting the most Section -->
         <div  class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
-                <i class="icon-gf icon-gf-probe rt-dashboard-icons-upcoming"></i>
+                <i class="fa fa-book rt-dashboard-icons-upcoming"></i>
             </div>
-            <a class="rt-dashboard-blurb rt-blurb-upcoming">Add a private probe, slacker.</a>
+            <a class="rt-dashboard-blurb rt-blurb-upcoming">Get more from worldPing.</a>
         </div>
     </div>
 </div>

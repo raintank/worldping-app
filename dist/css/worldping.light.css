@@ -1226,7 +1226,7 @@ p.rt-dashboard-blurb {
 
 a.rt-dashboard-blurb {
   font-size: 14px;
-  color: #Ff7941;
+  color: #555555;
   margin: 0; }
 
 a.rt-dashboard-blurb:hover {
@@ -1265,9 +1265,11 @@ a.rt-blurb-upcoming {
   vertical-align: top; }
 
 .rt-dashboard-icons-copy-container {
+  max-width: 285px;
   display: inline-block; }
 
 .rt-dashboard-icons-subcopy {
+  display: block;
   font-size: 12px;
   color: #555555;
   margin: 0; }
