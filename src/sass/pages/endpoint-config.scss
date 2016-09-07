@@ -41,99 +41,35 @@
 }
 
 .wp-config-box {
-  height: 0px;
+  max-height: 0px;
   overflow: hidden;
-  transition: height 0.2s;
-  -o-transition: height 0.2s;
-  -moz-transition: height 0.2s;
-  -webkit-transition: height 0.2s;
+  transition: max-height 500ms;
+  -o-transition: max-height 500ms;
+  -moz-transition: max-height 500ms;
+  -webkit-transition: max-height 500ms;
 
   &.dns-open {
-    height: 1140px;
-
-    @media screen and (min-width: 600px) {
-      height: 984px;
-      }
-
-    @media screen and (min-width: 700px) {
-      height: 944px;
-      }
-
-    @media screen and (min-width: 800px) {
-      height: 940px;
-      }
-
-    @media screen and (min-width: 1000px) {
-      height: 894px;
-      }
+    max-height: 1250px;
+    padding-bottom: 50px;
   }
 
   &.ping-open {
-    height: 860px;
-
-    @media screen and (min-width: 600px) {
-      height: 780px;
-      }
-
-    @media screen and (min-width: 700px) {
-      height: 740px;
-      }
-
-    @media screen and (min-width: 800px) {
-      height: 730px;
-      }
-
-    @media screen and (min-width: 1000px) {
-      height: 685px;
-      }
+    max-height: 1250px;
+    padding-bottom: 50px;
   }
 
   &.http-open {
-    height: 1090px;
-
-    @media screen and (min-width: 600px) {
-      height: 950px;
-      }
-
-    @media screen and (min-width: 700px) {
-      height: 1000x;
-      }
-
-    @media screen and (min-width: 800px) {
-      height: 920px;
-      }
-
-    @media screen and (min-width: 1000px) {
-      height: 875px;
-      }
+    max-height: 1250px;
+    padding-bottom: 50px;
   }
 
   &.https-open {
-    height: 1130px;
-
-    @media screen and (min-width: 600px) {
-      height: 1020px;
-      }
-
-    @media screen and (min-width: 700px) {
-      height: 970px;
-      }
-
-    @media screen and (min-width: 800px) {
-      height: 940px;
-      }
-
-    @media screen and (min-width: 1000px) {
-      height: 895px;
-      }
+    max-height: 1250px;
+    padding-bottom: 50px;
   }
 
   &.destroy-open {
-    height: 350px;
-
-    @media screen and (min-width: 1000px) {
-      height: 250px;
-      }
+    max-height: 300px;
   }
 }
 
