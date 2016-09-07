@@ -7,7 +7,7 @@
     {
       "path": "api/graphite/*",
       "method": "*",
-      "url": "https://tsdb-gw.raintank.io/api/graphite",
+      "url": "https://tsdb-gw.raintank.io/graphite",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
@@ -17,7 +17,7 @@
     {
       "path": "api/elasticsearch/*",
       "method": "*",
-      "url": "https://tsdb-gw.raintank.io/api/elasticsearch",
+      "url": "https://tsdb-gw.raintank.io/elasticsearch",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
