@@ -129,6 +129,11 @@
   cursor: wait;
 }
 
+.endpoint-config--checks-exceeded {
+  font-size: $font-size-sm;
+  color: $brand-danger;
+}
+
 // worldSpin Animation
 .rt-spin-dot {
     background-image: url("/public/plugins/raintank-worldping-app/img/worldping_dot.svg");

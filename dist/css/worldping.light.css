@@ -770,6 +770,9 @@
 .wp-tag-margin--bottom {
   margin-bottom: 50px; }
 
+.wp-tag-margin--bottom-new-endpoint {
+  margin-bottom: 30px; }
+
 .card-item-header--wp-icons i {
   font-size: 16px; }
 
@@ -866,73 +869,26 @@
   cursor: pointer; }
 
 .wp-config-box {
-  height: 0px;
+  max-height: 0px;
   overflow: hidden;
-  transition: height 0.2s;
-  -o-transition: height 0.2s;
-  -moz-transition: height 0.2s;
-  -webkit-transition: height 0.2s; }
+  transition: max-height 500ms;
+  -o-transition: max-height 500ms;
+  -moz-transition: max-height 500ms;
+  -webkit-transition: max-height 500ms; }
   .wp-config-box.dns-open {
-    height: 1140px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.dns-open {
-        height: 984px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.dns-open {
-        height: 944px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.dns-open {
-        height: 940px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.dns-open {
-        height: 894px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.ping-open {
-    height: 860px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.ping-open {
-        height: 780px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.ping-open {
-        height: 740px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.ping-open {
-        height: 730px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.ping-open {
-        height: 685px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.http-open {
-    height: 1090px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.http-open {
-        height: 950px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.http-open {
-        height: 1000x; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.http-open {
-        height: 920px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.http-open {
-        height: 875px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.https-open {
-    height: 1130px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.https-open {
-        height: 1020px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.https-open {
-        height: 970px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.https-open {
-        height: 940px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.https-open {
-        height: 895px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.destroy-open {
-    height: 350px; }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.destroy-open {
-        height: 250px; } }
+    max-height: 300px; }
 
 .gf-form-group--header {
   margin-bottom: 5px; }
@@ -975,6 +931,10 @@
 
 .wp-cursor--wait {
   cursor: wait; }
+
+.endpoint-config--checks-exceeded {
+  font-size: 0.875rem;
+  color: #FF4136; }
 
 .rt-spin-dot {
   background-image: url("/public/plugins/raintank-worldping-app/img/worldping_dot.svg");

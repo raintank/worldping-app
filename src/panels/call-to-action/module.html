@@ -1,3 +1,4 @@
+<h4 style="font-weight: 300;">Hello.</h4>
 <p class="rt-dashboard-blurb">worldPing network monitoring continually tests, stores and alerts on the global performance and availability of your Internet applications. Brought to you by <a href="https://raintank.io" target="_blank">raintank</a>, the team behind Grafana.</p>
 
 <div class="rt-dash-flex-container">
@@ -25,15 +26,9 @@
         <!-- End Endpoint Section -->
 
         <!-- Upgrade Section -->
-        <div ng-if="ctrl.collectorStatus === 'hasCollectors'" class="rt-CTA-item">
-            <div class="rt-dashboard-icons-container">
-                <i class="icon-gf icon-gf-check wp-icon-success"></i>
-            </div>
-            <span class="rt-dashboard-blurb rt-blurb-success">Upgrade your account</span>
-        </div>
         <div ng-if="ctrl.collectorStatus === 'noCollectors'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
-                <i class="fa fa-credit-card rt-dashboard-icons""></i>
+                <i class="fa fa-credit-card rt-dashboard-icons"></i>
             </div>
             <div class="rt-dashboard-icons-copy-container">
                 <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">
@@ -42,7 +37,19 @@
                 </a>
             </div>
         </div>
+        <div ng-if="ctrl.collectorStatus === 'hasCollectors'" class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="icon-gf icon-gf-check wp-icon-success"></i>
+            </div>
+            <span class="rt-dashboard-blurb rt-blurb-success">Upgrade your account</span>
+        </div>
         <!-- End Upgrade Section -->
+
+        <!-- Totally Complete Section -->
+
+
+
+        <!-- End Complete Section -->
 
         <!-- Getting the most Section -->
         <div  class="rt-CTA-item">
