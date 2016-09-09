@@ -24,12 +24,12 @@
 <section class="card-section card-list-layout-list" layout-mode  ng-if="ctrl.pageReady">
 	<ol class="card-list" >
 		<li class="card-item-wrapper" ng-repeat="checktype in ctrl.checktypes">
-			<div class="card-item pointer" ng-click="ctrl.gotoDashboard(endpoint, checktype.name)">
+			<div class="card-item pointer" ng-click="ctrl.gotoDashboard(endpoint, checktype.name, $event)">
 				<div class="card-item-header card-item-header--wp-icons card-item-header-action">
-					<a ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled" ng-click="$event.stopPropagation();ctrl.gotoDashboard(endpoint, checktype.name)">
+					<a ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled" ng-click="ctrl.gotoDashboard(endpoint, checktype.name, $event)">
 						<i ng-class="icon" class="icon-gf icon-gf-dashboard" bs-tooltip="'Go to worldPing Endpoint: </br>dashboard for {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'></i>
 					</a>
-					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" ng-click="$event.stopPropagation();">
+					<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor">
 						<i ng-class="icon" class="icon-gf icon-gf-settings" bs-tooltip="'Configure {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'></i>
 					</a>
 				</div>
@@ -41,15 +41,15 @@
 						<div class="card-item-name">
 							<div class="endpoint-detail-flex-container">
 								<div class="endpoint-name">
-									<a ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled" href="/dashboard/db/{{checktype.dashName}}var-endpoint={{ctrl.endpoint.slug}}&var-probe=All" bs-tooltip="'Go to {{checktype.name}} dashboard'" data-delay='{"show":"750", "hide":"0"}' ng-click="$event.stopPropagation();">{{checktype.name}}</a>
-									<a ng-show="!ctrl.getMonitorByTypeName(checktype.name).enabled" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" class="disabled" ng-click="$event.stopPropagation();">{{checktype.name}}</a>
+									<a ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled" href="/dashboard/db/{{checktype.dashName}}var-endpoint={{ctrl.endpoint.slug}}&var-probe=All" bs-tooltip="'Go to {{checktype.name}} dashboard'" data-delay='{"show":"750", "hide":"0"}'>{{checktype.name}}</a>
+									<a ng-show="!ctrl.getMonitorByTypeName(checktype.name).enabled" href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" class="disabled">{{checktype.name}}</a>
 									<div class="endpoint-name">
 										<span ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled">
 											<span class="checkStatus {{ctrl.monitorStateClass(checktype.name)}}">{{ctrl.monitorStateTxt(checktype.name)}}</span>
 											<span class="checkTime">{{ctrl.stateChangeStr(checktype.name)}}</span>
 										</span>
 										<span ng-show="!ctrl.getMonitorByTypeName(checktype.name).enabled">
-											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" class="freqMsg disabled" ng-click="$event.stopPropagation();">Not enabled, configure now.</a>
+											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" class="freqMsg disabled">Not enabled, configure now.</a>
 											<span class="freqMsg" ng-if="!ctrl.isOrgEditor">Not Enabled.</span>
 										</span>
 									</div>
@@ -57,14 +57,14 @@
 								<div class="endpoint-alerting" ng-show="ctrl.getMonitorByTypeName(checktype.name).enabled">
 									<div ng-if="!ctrl.getMonitorByTypeName(checktype.name).healthSettings.notifications.enabled">
 										<span class="endpoint-alerting-status not-enabled"><i ng-class="icon" class="icon-gf icon-disabled"></i>
-										<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" class="freqMsg disabled" ng-if="ctrl.isOrgEditor" ng-click="$event.stopPropagation();">Alerting not enabled,<br>configure now</a>
+										<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" class="freqMsg disabled" ng-if="ctrl.isOrgEditor">Alerting not enabled,<br>configure now</a>
 										<span ng-if="!ctrl.isOrgEditor">Alerting not enabled.</span>
 										</span>
 									</div>
 									<div ng-if="ctrl.getMonitorByTypeName(checktype.name).healthSettings.notifications.enabled">
 										<span class="endpoint-alerting-status">
 											<i ng-class="icon" class="icon-gf icon-gf-alert"></i>
-											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor" ng-click="$event.stopPropagation();">Alerting Enabled</a>
+											<a href="plugins/raintank-worldping-app/page/endpoint-config?endpoint={{ctrl.endpoint.id}}&check={{checktype.name|lowercase}}" ng-if="ctrl.isOrgEditor">Alerting Enabled</a>
 											<span ng-if="!ctrl.isOrgEditor">Alerting Enabled</span>
 											<span class="endpoint-alerting-recipients" bs-tooltip="'{{ctrl.getNotificationEmailsAsString(checktype.name)}}'" data-delay='{"show":"750", "hide":"0"}'><i ng-class="icon" class="icon-gf icon-gf-users"></i>{{ctrl.getNotificationEmails(checktype.name).length}} recipients</span>
 										</span>
@@ -73,7 +73,7 @@
 								<div>
 									<div ng-if="ctrl.getMonitorByTypeName(checktype.name).enabled">
 										<div class="frequency">
-											<span class="freqMsg"><span class="emphasis-word">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getProbesForCheck(checktype.name).length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="$event.stopPropagation(); ctrl.gotoEventDashboard(ctrl.endpoint, checktype.name)" bs-tooltip="'Go to worldPing: Events </br>dashboard for {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'><i class="frequency fa fa-fw fa-external-link"></i></a>
+											<span class="freqMsg"><span class="emphasis-word">Events - </span>&nbsp;Last check from&nbsp;</span>{{ctrl.getProbesForCheck(checktype.name).length}}<span class="freqMsg">&nbsp;probes&nbsp;</span><a ng-click="ctrl.gotoEventDashboard(ctrl.endpoint, checktype.name, $event)" bs-tooltip="'Go to worldPing: Events </br>dashboard for {{checktype.name}}'" data-delay='{"show":"750", "hide":"0"}'><i class="frequency fa fa-fw fa-external-link"></i></a>
 										</div>
 										<rt-check-health check="ctrl.getMonitorByTypeName(checktype.name)" ctrl="ctrl" ></rt-check-health>
 									</div>

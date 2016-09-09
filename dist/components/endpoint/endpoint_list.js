@@ -1,7 +1,7 @@
 'use strict';
 
-System.register(['lodash'], function (_export, _context) {
-  var _, _typeof, _createClass, EndpointListCtrl;
+System.register(['lodash', 'jquery'], function (_export, _context) {
+  var _, $, _typeof, _createClass, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,6 +12,8 @@ System.register(['lodash'], function (_export, _context) {
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
+    }, function (_jquery) {
+      $ = _jquery.default;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -152,8 +154,11 @@ System.register(['lodash'], function (_export, _context) {
           }
         }, {
           key: 'gotoDashboard',
-          value: function gotoDashboard(endpoint) {
-            this.$location.path("/dashboard/db/worldping-endpoint-summary").search({ "var-collector": "All", "var-endpoint": endpoint.slug });
+          value: function gotoDashboard(endpoint, evt) {
+            var clickTargetIsLinkOrHasLinkParents = $(evt.target).closest('a').length > 0;
+            if (clickTargetIsLinkOrHasLinkParents === false) {
+              this.$location.path("/dashboard/db/worldping-endpoint-summary").search({ "var-collector": "All", "var-endpoint": endpoint.slug });
+            }
           }
         }, {
           key: 'gotoEndpointURL',
