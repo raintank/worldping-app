@@ -228,9 +228,22 @@ class EndpointConfigCtrl {
 
   totalChecks(check) {
     if (check === undefined) {
+      var self = this;
+      return _.reduce(self.checks, function(total, value) {
+        if (!value.enabled) {
+          return total;
+        }
+
+        return total + self.totalChecks(value);
+      }, 0);
+    }
+
+    var probeCount = this.probeCount(check);
+    if (probeCount < 1 || check.frequency < 1) {
       return 0;
     }
-    return (30.5 * 24 * (3600/check.frequency) * this.probeCount(check) / 1000000) + 0.5;
+
+    return (30.5 * 24 * (3600/check.frequency) * probeCount / 1000000) + 0.5;
   }
 
   reset() {
