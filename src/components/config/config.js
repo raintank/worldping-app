@@ -11,6 +11,7 @@ class WorldPingConfigCtrl {
     this.quotas = {};
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
+    this.org = null;
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
@@ -26,6 +27,7 @@ class WorldPingConfigCtrl {
   reset() {
     this.appModel.jsonData.apiKeySet=false;
     this.validKey = false;
+    this.org = null;
   }
 
   validateKey() {
@@ -38,6 +40,8 @@ class WorldPingConfigCtrl {
       }
       self.validKey = true;
       self.quotas = resp.body;
+
+      self.getOrgDetails();
     }, (resp) => {
       if (self.appModel.enabled) {
         self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
@@ -45,8 +49,19 @@ class WorldPingConfigCtrl {
         self.appModel.jsonData.apiKeySet = false;
         self.appModel.secureJsonData.apiKey = "";
         self.errorMsg = "invalid apiKey";
-        this.validKey = false;
+        self.validKey = false;
       }
+    });
+    return p;
+  }
+
+  getOrgDetails() {
+    var self = this;
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    p.then((resp) => {
+      self.org = resp;
+    }, (resp) => {
+      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
     });
     return p;
   }

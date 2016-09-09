@@ -19,19 +19,19 @@
 			<div class="alert alert-error"><div class="alert-title ng-binding">Error</div><div>{{ctrl.errorMsg}}</div></div>
 		</div>
 	</div>
-	<div class="gf-form-group" ng-if="ctrl.appModel.jsonData.apiKeySet">
+	<div class="gf-form-group" ng-if="ctrl.appModel.jsonData.apiKeySet && ctrl.org">
 		<h3 class="page-heading">Account Details</h3>
 		<div class="gf-form">
 			<span class="gf-form-label width-12">Org Name</span>
-			<span class="gf-form-label width-12">Name of Org</span>
+			<span class="gf-form-label width-12">{{ctrl.org.name}}</span>
 		</div>
 		<div class="gf-form">
 			<span class="gf-form-label width-12">Org ID</span>
-			<span class="gf-form-label width-12">12345</span>
+			<span class="gf-form-label width-12">{{ctrl.org.id}}</span>
 		</div>
 		<div class="gf-form">
 			<span class="gf-form-label width-12">Est. Checks/Mo</span>
-			<span class="gf-form-label width-12">30 Million</span>
+			<span class="gf-form-label width-12">{{ctrl.org.checksPerMonth}}</span>
 		</div>
 	</div>
 </form>

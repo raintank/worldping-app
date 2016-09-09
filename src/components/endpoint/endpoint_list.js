@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import $ from 'jquery';
 
 class EndpointListCtrl {
 
@@ -103,8 +104,11 @@ class EndpointListCtrl {
     return "for " + days + " days";
   }
 
-  gotoDashboard(endpoint) {
-    this.$location.path("/dashboard/db/worldping-endpoint-summary").search({"var-collector": "All", "var-endpoint": endpoint.slug});
+  gotoDashboard(endpoint, evt) {
+    var clickTargetIsLinkOrHasLinkParents = $(evt.target).closest('a').length > 0;
+    if (clickTargetIsLinkOrHasLinkParents === false) {
+      this.$location.path("/dashboard/db/worldping-endpoint-summary").search({"var-collector": "All", "var-endpoint": endpoint.slug});
+    }
   }
 
   gotoEndpointURL(endpoint) {
