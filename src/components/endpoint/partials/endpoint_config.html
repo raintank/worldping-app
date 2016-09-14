@@ -141,10 +141,10 @@
   <div class="gf-form wp-tag-margin--bottom-new-endpoint" >
     <div class="rt-body-copy" ng-show="ctrl.showConfig || ctrl.discoveryError">
       <div ng-if="!ctrl.requiresUpgrade()">
-        <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> This endpoint will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> checks per month.</span>
+        <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> checks per month.</span>
       </div>
       <div ng-if="ctrl.requiresUpgrade()">
-        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This endpoint will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> checks per month and exceed your free tier. <a href="#">Upgrade now</a></span>
+        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> additional checks per month and exceed your free tier. <a href="https://grafana.net/orgs/{{ctrl.org.slug}}/worldping/upgrade">Upgrade now</a></span>
       </div>
     </div>
   </div>
