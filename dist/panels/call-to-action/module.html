@@ -15,7 +15,12 @@
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-endpoint rt-dashboard-icons"></i>
             </div>
-            <a href="plugins/raintank-worldping-app/page/endpoint-config" class="rt-dashboard-blurb">Add your first endpoint.</a> <i class="tooltip-subtle grafana-tip tag-tip fa fa-question-circle ng-scope" bs-tooltip="'An endpoint is any domain, IP address</br>or URL you would like to monitor.'"></i>
+            <div class="rt-dashboard-icons-copy-container">
+              <a href="plugins/raintank-worldping-app/page/endpoint-config" class="rt-dashboard-blurb">
+                <span>Add your first endpoint.</span>
+                <span class="rt-dashboard-icons-subcopy">An endpoint is any domain, IP address</br>or URL you would like to monitor.</span>
+              </a>
+            </div>
         </div>
         <div  ng-if="ctrl.endpointStatus === 'hasEndpoints'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
@@ -26,18 +31,28 @@
         <!-- End Endpoint Section -->
 
         <!-- Upgrade Section -->
-        <div ng-if="ctrl.collectorStatus === 'noCollectors'" class="rt-CTA-item">
+        <div ng-if="ctrl.org && ctrl.requiresUpgrade && ctrl.endpointStatus === 'noEndpoints'" class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="fa fa-credit-card rt-dashboard-icons-upcoming"></i>
+            </div>
+            <div class="rt-dashboard-icons-copy-container">
+                <a href="https://grafana.net/orgs/{{ctrl.org.slug}}/worldping/upgrade" class="rt-dashboard-blurb rt-blurb-upcoming">
+                    <span>Upgrade your account.</span>
+                </a>
+            </div>
+        </div>
+        <div ng-if="ctrl.org && ctrl.requiresUpgrade && ctrl.endpointStatus === 'hasEndpoints'" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
                 <i class="fa fa-credit-card rt-dashboard-icons"></i>
             </div>
             <div class="rt-dashboard-icons-copy-container">
-                <a href="plugins/raintank-worldping-app/page/probe-create" class="rt-dashboard-blurb">
+                <a href="https://grafana.net/orgs/{{ctrl.org.slug}}/worldping/upgrade" class="rt-dashboard-blurb">
                     <span>Upgrade your account.</span>
                     <span class="rt-dashboard-icons-subcopy">Unlimited endpoints. Pay-as-you-go pricing. Upgrade instantly.</span>
                 </a>
             </div>
         </div>
-        <div ng-if="ctrl.collectorStatus === 'hasCollectors'" class="rt-CTA-item">
+        <div ng-if="ctrl.org && !ctrl.requiresUpgrade" class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
                 <i class="icon-gf icon-gf-check wp-icon-success"></i>
             </div>
@@ -56,7 +71,7 @@
             <div class="rt-dashboard-icons-container">
                 <i class="fa fa-book rt-dashboard-icons-upcoming"></i>
             </div>
-            <a class="rt-dashboard-blurb rt-blurb-upcoming">Get more from worldPing.</a>
+            <a class="rt-dashboard-blurb rt-blurb-upcoming" href="https://worldping.raintank.io/docs" target="_blank">Get more from worldPing.</a>
         </div>
     </div>
 </div>

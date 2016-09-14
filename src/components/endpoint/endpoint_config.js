@@ -257,7 +257,7 @@ class EndpointConfigCtrl {
       return 0;
     }
 
-    return (30.5 * 24 * (3600/check.frequency) * probeCount / 1000000) + 0.5;
+    return (30.5 * 24 * (3600/check.frequency) * probeCount / 1000000);
   }
 
   requiresUpgrade() {
