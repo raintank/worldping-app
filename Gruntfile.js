@@ -8,7 +8,10 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    clean: ["dist", "tmp"],
+    clean: {
+      dist: "dist",
+      tmp: "tmp",
+    },
 
     copy: {
       src_to_dist: {
@@ -134,11 +137,13 @@ module.exports = function(grunt) {
     ]);
 
   grunt.registerTask('rebuild', [
-    'clean',
+    'clean:dist',
     'sass',
     'copy:src_to_dist',
     'copy:pluginDef',
     'babel',
+    'unzip:worldmap',
+    'regex-replace:worldmap',
     'jshint',
     'jscs',
     ]);
