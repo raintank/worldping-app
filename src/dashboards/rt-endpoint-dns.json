@@ -1,7 +1,6 @@
 {
-  "id": null,
+  "id": 28,
   "title": "worldPing Endpoint: |--- DNS",
-  "originalTitle": "worldPing Endpoint: |--- DNS",
   "tags": [
     "worldPing",
     "Endpoints"
@@ -49,9 +48,27 @@
           "editable": true,
           "error": false,
           "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 590,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": "100",
           "nullPointMode": "connected",
           "nullText": null,
@@ -59,6 +76,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -72,7 +96,7 @@
               "target": "averageSeries(health.$endpoint.dns.ok_state)"
             }
           ],
-          "thresholds": "0,1,1",
+          "thresholds": "1,1",
           "title": "DNS HEALTH (LAST)",
           "transparent": false,
           "type": "singlestat",
@@ -105,9 +129,27 @@
           "editable": true,
           "error": false,
           "format": "percent",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 593,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": "100",
           "nullPointMode": "connected",
           "nullText": null,
@@ -115,6 +157,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -128,7 +177,7 @@
               "target": "scale(averageSeries(worldping.$endpoint.$probe.dns.ok_state), 100)"
             }
           ],
-          "thresholds": "0,100,100",
+          "thresholds": "100,100",
           "title": "DNS UPTIME",
           "transparent": false,
           "type": "singlestat",
@@ -155,9 +204,27 @@
           "editable": true,
           "error": false,
           "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 592,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -165,6 +232,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -205,9 +279,27 @@
           "editable": true,
           "error": false,
           "format": "ms",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 591,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -215,6 +307,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -248,9 +347,152 @@
     {
       "collapse": false,
       "editable": true,
-      "height": "125",
+      "height": "",
       "panels": [
         {
+          "alert": {
+            "crit": {
+              "op": ">"
+            },
+            "warn": {
+              "op": ">"
+            }
+          },
+          "alerting": {},
+          "aliasColors": {
+            "connect": "#0A50A1",
+            "dns": "#890F02",
+            "recv": "#6ED0E0",
+            "send": "#508642",
+            "wait": "#EAB839"
+          },
+          "bars": false,
+          "datasource": "raintank",
+          "decimals": 1,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "grid": {},
+          "height": "411",
+          "id": 589,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "maxDataPoints": "",
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 1,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 7,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "hide": false,
+              "refId": "A",
+              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.dns.time, $outliers), 2)",
+              "textEditor": false
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "DNS PERFORMANCE (EACH INDIVIDUAL PROBE)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": "latency",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "circleMaxSize": "20",
+          "circleMinSize": "1",
+          "colors": [
+            "rgba(255, 255, 255, 0)",
+            "rgba(209, 44, 32, 0.89)",
+            "rgba(209, 44, 32, 0.89)"
+          ],
+          "datasource": "raintank",
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "esMetric": "Count",
+          "height": "250",
+          "id": 597,
+          "initialZoom": 1,
+          "isNew": true,
+          "jsonUrl": "api/plugin-proxy/raintank-worldping-app/api/v2/probes/locations",
+          "links": [],
+          "locationData": "json endpoint",
+          "mapCenter": "(0°, 0°)",
+          "mapCenterLatitude": 0,
+          "mapCenterLongitude": 0,
+          "maxDataPoints": "120",
+          "showLegend": true,
+          "span": 5,
+          "targets": [
+            {
+              "refId": "A",
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.dns.error_state, 'sum'), 1), 2)",
+              "textEditor": false
+            }
+          ],
+          "thresholds": "1",
+          "title": "",
+          "transparent": false,
+          "type": "grafana-worldmap-panel",
+          "unitPlural": "errors",
+          "unitSingle": "",
+          "unitSingular": "error",
+          "valueName": "total"
+        },
+        {
+          "alert": {
+            "crit": {
+              "op": ">"
+            },
+            "warn": {
+              "op": ">"
+            }
+          },
+          "alerting": {},
           "aliasColors": {
             "error": "#E24D42",
             "ok": "#508642"
@@ -260,19 +502,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": 0,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(56, 149, 0, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": "125",
+          "grid": {},
+          "height": "150",
           "id": 586,
           "legend": {
             "alignAsTable": true,
@@ -305,7 +536,6 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "scopedVars": {},
           "seriesOverrides": [
             {
               "alias": "//",
@@ -316,7 +546,7 @@
               "color": "#629E51"
             }
           ],
-          "span": 12,
+          "span": 5,
           "stack": true,
           "steppedLine": false,
           "targets": [
@@ -325,112 +555,125 @@
               "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.dns.error_state, 'sum'), 1), 2)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "DNS ERRORS (ALL SELECTED PROBES)",
+          "title": "DNS ERRORS",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
-          "x-axis": true,
-          "y-axis": false,
-          "y_formats": [
-            "short",
-            "short"
-          ],
-          "leftYAxisLabel": "Errors"
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": "Errors",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": false
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ]
         }
       ],
-      "title": "New row"
+      "showTitle": true,
+      "title": "Events  (ALL SELECTED PROBES)"
     },
     {
       "collapse": false,
       "editable": true,
-      "height": "250px",
+      "height": "",
       "panels": [
         {
-          "aliasColors": {
-            "connect": "#0A50A1",
-            "dns": "#890F02",
-            "recv": "#6ED0E0",
-            "send": "#508642",
-            "wait": "#EAB839"
-          },
-          "bars": false,
-          "datasource": "raintank",
-          "decimals": 1,
-          "editable": true,
-          "error": false,
-          "fill": 0,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": 0,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": "600",
-          "id": 589,
-          "leftYAxisLabel": "latency",
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": false,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "current",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": false,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": "",
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 1,
-          "points": true,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
+          "columns": [
             {
-              "hide": false,
-              "refId": "A",
-              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.dns.time, $outliers), 2)",
-              "textEditor": false
+              "text": "timestamp",
+              "value": "timestamp"
+            },
+            {
+              "text": "tags.collector",
+              "value": "tags.collector"
+            },
+            {
+              "text": "severity",
+              "value": "severity"
+            },
+            {
+              "text": "message",
+              "value": "message"
             }
           ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "DNS PERFORMANCE (EACH INDIVIDUAL PROBE)",
-          "tooltip": {
-            "shared": true,
-            "value_type": "individual"
+          "datasource": "raintankEvents",
+          "editable": true,
+          "error": false,
+          "fontSize": "100%",
+          "height": "",
+          "id": 598,
+          "isNew": true,
+          "links": [
+            {
+              "dashUri": "db/worldping-events",
+              "dashboard": "worldPing: Events",
+              "includeVars": true,
+              "keepTime": true,
+              "title": "worldPing: Events",
+              "type": "dashboard"
+            }
+          ],
+          "pageSize": null,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": null,
+            "desc": false
           },
-          "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "ms",
-            "short"
-          ]
+          "span": 12,
+          "styles": [
+            {
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "timestamp",
+              "type": "date"
+            }
+          ],
+          "targets": [
+            {
+              "bucketAggs": [],
+              "dsType": "elasticsearch",
+              "metrics": [
+                {
+                  "field": "select field",
+                  "id": "1",
+                  "meta": {},
+                  "settings": {},
+                  "type": "raw_document"
+                }
+              ],
+              "query": "tags.endpoint:$endpoint AND tags.collector:$probe AND tags.monitor_type:dns",
+              "refId": "A",
+              "timeField": "timestamp"
+            }
+          ],
+          "title": "DNS EVENTS",
+          "transform": "json",
+          "transparent": true,
+          "type": "table"
         }
       ],
       "showTitle": false,
-      "title": "ping performance for $endpoint (mean of each selected Probe)"
+      "title": ""
     }
   ],
   "time": {
@@ -475,58 +718,51 @@
       {
         "allFormat": "glob",
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": false,
         "label": "Endpoint",
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
         "query": "worldping.*",
-        "refresh": true,
+        "refresh": 1,
         "refresh_on_load": true,
-        "type": "query",
-        "options": [],
-        "current": {}
+        "type": "query"
       },
       {
         "allFormat": "glob",
+        "current": {
+          "value": [
+            "$__all"
+          ],
+          "text": "All"
+        },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": true,
         "label": "Probe(s)",
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
         "query": "worldping.$endpoint.*",
-        "refresh": true,
+        "refresh": 1,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",
-        "tags": [
-          "AsiaPac",
-          "EMEA",
-          "USA"
-        ],
+        "tags": [],
         "tagsQuery": "raintank_db.tags.collectors.*",
         "type": "query",
-        "useTags": true,
-        "options": [
-          {
-            "text": "All",
-            "value": "$__all",
-            "selected": true
-          }
-        ],
-        "current": {
-          "text": "All",
-          "value": "$__all",
-          "selected": true
-        }
+        "useTags": true
       },
       {
         "allFormat": "glob",
         "current": {
-          "text": "100",
-          "value": "100"
+          "selected": true,
+          "tags": [],
+          "text": "99",
+          "value": "99"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": false,
         "label": "Outliers",
         "multi": false,
@@ -534,7 +770,7 @@
         "name": "outliers",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "100",
             "value": "100"
           },
@@ -549,7 +785,7 @@
             "value": "99.5"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "99",
             "value": "99"
           },
@@ -565,6 +801,7 @@
           }
         ],
         "query": "100,99.9,99.5,99,95,50",
+        "refresh": 0,
         "refresh_on_load": false,
         "type": "custom"
       }
@@ -574,8 +811,8 @@
     "list": []
   },
   "refresh": false,
-  "schemaVersion": 7,
-  "version": 2,
+  "schemaVersion": 13,
+  "version": 16,
   "links": [
     {
       "asDropdown": true,
@@ -588,5 +825,6 @@
       "title": "Endpoint Dashboards",
       "type": "dashboards"
     }
-  ]
+  ],
+  "gnetId": null
 }

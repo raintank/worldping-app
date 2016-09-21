@@ -1,7 +1,6 @@
 {
-  "id": null,
+  "id": 33,
   "title": "worldPing: Events",
-  "originalTitle": "worldPing: Events",
   "tags": [
     "worldPing",
     "Events"
@@ -18,6 +17,47 @@
       "height": 142,
       "panels": [
         {
+          "circleMaxSize": "20",
+          "circleMinSize": "1",
+          "colors": [
+            "rgba(255, 255, 255, 0)",
+            "rgba(209, 44, 32, 0.89)",
+            "rgba(209, 44, 32, 0.89)"
+          ],
+          "datasource": "raintank",
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "esMetric": "Count",
+          "height": "250",
+          "id": 3,
+          "initialZoom": 1,
+          "isNew": true,
+          "jsonUrl": "api/plugin-proxy/raintank-worldping-app/api/v2/probes/locations",
+          "links": [],
+          "locationData": "json endpoint",
+          "mapCenter": "(0°, 0°)",
+          "mapCenterLatitude": 0,
+          "mapCenterLongitude": 0,
+          "maxDataPoints": 1,
+          "showLegend": true,
+          "span": 5,
+          "targets": [
+            {
+              "refId": "A",
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$monitor_type.error_state, 'sum'), 1), 2)",
+              "textEditor": true
+            }
+          ],
+          "thresholds": "1",
+          "title": "",
+          "type": "grafana-worldmap-panel",
+          "unitPlural": "errors",
+          "unitSingle": "",
+          "unitSingular": "error",
+          "valueName": "total"
+        },
+        {
           "aliasColors": {
             "ERROR": "#E24D42",
             "OK": "#508642"
@@ -27,28 +67,22 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": null,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
+          "grid": {},
+          "height": "250",
           "id": 1,
+          "interval": "",
           "isNew": true,
           "legend": {
+            "alignAsTable": true,
             "avg": false,
-            "current": false,
+            "current": true,
+            "hideEmpty": true,
             "max": false,
             "min": false,
-            "show": false,
-            "total": false,
-            "values": false
+            "rightSide": true,
+            "show": true,
+            "total": true,
+            "values": true
           },
           "lines": false,
           "linewidth": 2,
@@ -58,8 +92,17 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 12,
+          "seriesOverrides": [
+            {
+              "alias": "//",
+              "color": "#BF1B00"
+            },
+            {
+              "alias": "OKs",
+              "color": "#629E51"
+            }
+          ],
+          "span": 7,
           "stack": true,
           "steppedLine": false,
           "targets": [
@@ -80,11 +123,14 @@
                   "field": "timestamp",
                   "id": "2",
                   "settings": {
-                    "interval": "10m"
+                    "interval": "$error_interval",
+                    "min_doc_count": 0,
+                    "trimEdges": 0
                   },
                   "type": "date_histogram"
                 }
               ],
+              "dsType": "elasticsearch",
               "metrics": [
                 {
                   "field": "select field",
@@ -98,19 +144,35 @@
               "timeField": "timestamp"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
           "title": "",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
           "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "short",
-            "short"
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
           ]
         }
       ],
@@ -120,7 +182,7 @@
     {
       "collapse": false,
       "editable": true,
-      "height": "250px",
+      "height": "",
       "panels": [
         {
           "columns": [
@@ -174,6 +236,7 @@
           "targets": [
             {
               "bucketAggs": [],
+              "dsType": "elasticsearch",
               "metrics": [
                 {
                   "field": "select field",
@@ -189,7 +252,7 @@
               "timeField": "timestamp"
             }
           ],
-          "title": "",
+          "title": "EVENTS",
           "transform": "json",
           "type": "table"
         }
@@ -198,7 +261,7 @@
     }
   ],
   "time": {
-    "from": "now-12h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {
@@ -239,22 +302,16 @@
         "allFormat": "wildcard",
         "current": {
           "text": "All",
-          "value": "*"
+          "value": "$__all"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "multiFormat": "lucene",
         "name": "endpoint",
-        "options": [
-          {
-            "text": "All",
-            "value": "*",
-            "selected": true
-          }
-        ],
         "query": "worldping.*",
-        "refresh": true,
+        "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
         "type": "query"
@@ -263,46 +320,36 @@
         "allFormat": "wildcard",
         "current": {
           "text": "All",
-          "value": "*"
+          "value": "$__all"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": true,
         "label": "probe",
         "multi": true,
         "multiFormat": "lucene",
         "name": "probe",
-        "options": [
-          {
-            "text": "All",
-            "value": "*",
-            "selected": true
-          }
-        ],
         "query": "worldping.$endpoint.*",
-        "refresh": true,
+        "refresh": 1,
         "refresh_on_load": false,
         "type": "query"
       },
       {
         "allFormat": "wildcard",
         "current": {
-          "text": "All",
-          "value": "*"
+          "value": [
+            "$__all"
+          ],
+          "text": "All"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": true,
         "multi": true,
         "multiFormat": "lucene",
         "name": "monitor_type",
-        "options": [
-          {
-            "text": "All",
-            "value": "*",
-            "selected": true
-          }
-        ],
         "query": "worldping.$endpoint.$probe.*",
-        "refresh": true,
+        "refresh": 1,
         "refresh_on_load": false,
         "regex": "",
         "type": "query"
@@ -311,10 +358,14 @@
         "allFormat": "glob",
         "current": {
           "tags": [],
-          "text": "ERROR",
-          "value": "ERROR"
+          "text": "ERROR + OK",
+          "value": [
+            "ERROR",
+            "OK"
+          ]
         },
         "datasource": null,
+        "hide": 0,
         "includeAll": false,
         "multi": true,
         "multiFormat": "lucene",
@@ -326,15 +377,90 @@
             "value": "ERROR"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "OK",
             "value": "OK"
           }
         ],
         "query": "ERROR,OK",
+        "refresh": 0,
         "refresh_on_load": false,
         "regex": "",
         "type": "custom"
+      },
+      {
+        "auto": true,
+        "auto_count": 30,
+        "current": {
+          "text": "auto",
+          "value": "$__auto_interval"
+        },
+        "datasource": null,
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "error_interval",
+        "options": [
+          {
+            "selected": true,
+            "text": "auto",
+            "value": "$__auto_interval"
+          },
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "30m"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "1h"
+          },
+          {
+            "selected": false,
+            "text": "6h",
+            "value": "6h"
+          },
+          {
+            "selected": false,
+            "text": "12h",
+            "value": "12h"
+          },
+          {
+            "selected": false,
+            "text": "1d",
+            "value": "1d"
+          },
+          {
+            "selected": false,
+            "text": "7d",
+            "value": "7d"
+          },
+          {
+            "selected": false,
+            "text": "14d",
+            "value": "14d"
+          },
+          {
+            "selected": false,
+            "text": "30d",
+            "value": "30d"
+          }
+        ],
+        "query": "1m,10m,30m,1h,6h,12h,1d,7d,14d,30d",
+        "refresh": 0,
+        "sort": 1,
+        "type": "interval"
       }
     ]
   },
@@ -342,7 +468,20 @@
     "list": []
   },
   "refresh": false,
-  "schemaVersion": 7,
-  "version": 1,
-  "links": []
+  "schemaVersion": 13,
+  "version": 7,
+  "links": [
+    {
+      "asDropdown": true,
+      "icon": "external link",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [
+        "Endpoints"
+      ],
+      "title": "Endpoint Dashboards",
+      "type": "dashboards"
+    }
+  ],
+  "gnetId": null
 }
