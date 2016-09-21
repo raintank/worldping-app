@@ -87,6 +87,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.endpoint = {};
           this.probes = [];
           this.probesByTag = {};
+          this.org = null;
 
           this.ignoreChanges = false;
 
@@ -101,6 +102,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           }
 
           promises.push(this.getProbes());
+          promises.push(this.getOrgDetails());
+
           $q.all(promises).then(function () {
             self.pageReady = true;
             $timeout(function () {
@@ -242,6 +245,18 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             });
           }
         }, {
+          key: 'getOrgDetails',
+          value: function getOrgDetails() {
+            var self = this;
+            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            p.then(function (resp) {
+              self.org = resp;
+            }, function (resp) {
+              self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+            });
+            return p;
+          }
+        }, {
           key: 'probeCount',
           value: function probeCount(check) {
             if (!check) {
@@ -273,9 +288,39 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           key: 'totalChecks',
           value: function totalChecks(check) {
             if (check === undefined) {
+              var self = this;
+              return _.reduce(self.checks, function (total, value) {
+                if (!value.enabled) {
+                  return total;
+                }
+
+                return total + self.totalChecks(value);
+              }, 0);
+            }
+
+            var probeCount = this.probeCount(check);
+            if (probeCount < 1 || check.frequency < 1) {
               return 0;
             }
-            return 30.5 * 24 * (3600 / check.frequency) * this.probeCount(check) / 1000000 + 0.5;
+
+            return 30.5 * 24 * (3600 / check.frequency) * probeCount / 1000000;
+          }
+        }, {
+          key: 'requiresUpgrade',
+          value: function requiresUpgrade() {
+            if (!this.org) {
+              return true;
+            }
+
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+              return false;
+            }
+
+            if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 3) {
+              return true;
+            }
+
+            return false;
           }
         }, {
           key: 'reset',

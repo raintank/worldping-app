@@ -20,6 +20,12 @@ module.exports = function(grunt) {
         src: ['**/*', '!**/*.js', '!**/*.scss'],
         dest: 'dist'
       },
+      includes_to_dist: {
+        cwd: 'includes',
+        expand: true,
+        src: ['**/*', '!**/*.js', '!**/*.scss'],
+        dest: 'dist'
+      },
       pluginDef: {
         expand: true,
         src: ['README.md'],
@@ -158,4 +164,3 @@ module.exports = function(grunt) {
     'jscs',
     ]);
 };
-

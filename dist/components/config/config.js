@@ -47,6 +47,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           this.quotas = {};
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
+          this.org = null;
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};
@@ -64,12 +65,11 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           value: function reset() {
             this.appModel.jsonData.apiKeySet = false;
             this.validKey = false;
+            this.org = null;
           }
         }, {
           key: 'validateKey',
           value: function validateKey() {
-            var _this = this;
-
             var self = this;
             var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
             p.then(function (resp) {
@@ -79,6 +79,8 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
               }
               self.validKey = true;
               self.quotas = resp.body;
+
+              self.getOrgDetails();
             }, function (resp) {
               if (self.appModel.enabled) {
                 self.alertSrv.set("failed to verify apiKey", resp.statusText, 'error', 10000);
@@ -86,8 +88,29 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
                 self.appModel.jsonData.apiKeySet = false;
                 self.appModel.secureJsonData.apiKey = "";
                 self.errorMsg = "invalid apiKey";
-                _this.validKey = false;
+                self.validKey = false;
               }
+            });
+            return p;
+          }
+        }, {
+          key: 'getOrgDetails',
+          value: function getOrgDetails() {
+            var self = this;
+            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            p.then(function (resp) {
+              self.org = resp;
+
+              var millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 1000000);
+              if (millionChecksPerMonth > 1000) {
+                self.org.strChecksPerMonth = Math.ceil(millionChecksPerMonth / 1000) + ' Billion';
+              } else if (millionChecksPerMonth > 0) {
+                self.org.strChecksPerMonth = millionChecksPerMonth + ' Million';
+              } else {
+                self.org.strChecksPerMonth = 'N/A';
+              }
+            }, function (resp) {
+              self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
             });
             return p;
           }
@@ -127,11 +150,11 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
         }, {
           key: 'configureDatasource',
           value: function configureDatasource() {
-            var _this2 = this;
+            var _this = this;
 
             this.appModel.jsonData.datasourceSet = false;
             this.initDatasource().then(function () {
-              _this2.appModel.jsonData.datasourceSet = true;
+              _this.appModel.jsonData.datasourceSet = true;
             });
           }
         }, {
