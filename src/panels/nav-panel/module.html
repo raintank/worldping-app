@@ -2,7 +2,9 @@
     <div class="rt-nav-header" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">
         <div>
             <div class="rt-nav-breadcrumb">
-                <a href="plugins/raintank-worldping-app/page/endpoints" class="freqMsg disabled">All endpoints ></a>
+                <a href="dashboard/db/worldping-home" class="freqMsg disabled">
+                    <img src="public/plugins/raintank-worldping-app/img/worldPing-grey.svg" height="30"> >
+                </a>
                 <span class="rt-list-item-title" style="margin: 2px;"><a href="plugins/raintank-worldping-app/page/endpoint-details?endpoint={{endpoint.id}}">{{endpoint.name}}</a></span>
                 <div style="display: inline-block;">
                     <span class="label rt-label-tag dropdown rt-list-tag-menu" ng-repeat="tag in endpoint.tags" tag-color-from-name="tag"> <span>{{tag}} <i ng-class="icon" class="tag-icon icon-rt-endpoint-tiny"></i></a>

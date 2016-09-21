@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _createClass, CallToActionCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -68,11 +70,10 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _inherits(CallToActionCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
           _classCallCheck(this, CallToActionCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CallToActionCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (CallToActionCtrl.__proto__ || Object.getPrototypeOf(CallToActionCtrl)).call(this, $scope, $injector));
 
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
@@ -82,6 +83,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           _this.quotas = null;
           _this.endpointStatus = "scopeEndpoints";
           _this.collectorStatus = "scopeCollectors";
+
+          _this.getOrgDetails();
           return _this;
         }
 
@@ -120,6 +123,32 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             //default.
             this.collectorStatus = "hasCollectors";
             return;
+          }
+        }, {
+          key: 'getOrgDetails',
+          value: function getOrgDetails() {
+            var self = this;
+            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            p.then(function (resp) {
+              self.org = resp;
+              self.requiresUpgrade = self._requiresUpgrade();
+            }, function (resp) {
+              self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+            });
+            return p;
+          }
+        }, {
+          key: '_requiresUpgrade',
+          value: function _requiresUpgrade() {
+            if (!this.org) {
+              return true;
+            }
+
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+              return false;
+            }
+
+            return true;
           }
         }, {
           key: 'allDone',

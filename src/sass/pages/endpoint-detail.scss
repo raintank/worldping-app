@@ -6,6 +6,9 @@
   margin-bottom: 50px;
 }
 
+.wp-tag-margin--bottom-new-endpoint {
+  margin-bottom: 30px;
+}
 .card-item-header--wp-icons i {
   font-size: 16px;
 }
@@ -63,7 +66,7 @@
 
 .endpoint-alerting-status {
   margin-right: 30px;
-  font-weight: 400; 
+  font-weight: 400;
 
   &.not-enabled,
   &.not-enabled a {
