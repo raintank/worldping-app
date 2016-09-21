@@ -4,10 +4,14 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-execute');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-regex-replace');
 
   grunt.initConfig({
 
-    clean: ["dist"],
+    clean: {
+      dist: "dist",
+      tmp: "tmp",
+    },
 
     copy: {
       src_to_dist: {
@@ -32,7 +36,7 @@ module.exports = function(grunt) {
     watch: {
       rebuild_all: {
         files: ['src/**/*', 'README.md'],
-        tasks: ['default'],
+        tasks: ['rebuild'],
         options: {spawn: false}
       },
     },
@@ -54,6 +58,41 @@ module.exports = function(grunt) {
       },
     },
 
+    curl: {
+      worldmap: {
+        src: 'https://grafana.net/plugins/grafana-worldmap-panel/download',
+        dest: 'tmp/worldmap.zip',
+      },
+    },
+
+    unzip: {
+      worldmap: {
+        src: 'tmp/worldmap.zip',
+        dest: 'dist/grafana-worldmap-panel',
+        router: function (filepath) {
+          var matches = filepath.match(/^.+?\/dist\/(.+)/);
+          if (matches) {
+            return matches[1];
+          }
+
+          return null;
+        },
+      },
+    },
+
+    "regex-replace": {
+      worldmap: {
+        src: 'dist/grafana-worldmap-panel/worldmap_ctrl.js',
+        actions: [
+          {
+            name: 'module.html',
+            search: "'module.html';",
+            replace: "'../../plugins/grafana-worldmap-panel/module.html';",
+          },
+        ],
+      },
+    },
+
     jshint: {
       source: {
         files: {
@@ -69,6 +108,7 @@ module.exports = function(grunt) {
         ]
       }
     },
+
     jscs: {
       src: ['src/**/*.js'],
       options: {
@@ -95,6 +135,21 @@ module.exports = function(grunt) {
     'copy:src_to_dist',
     'copy:pluginDef',
     'babel',
+    'curl:worldmap',
+    'unzip:worldmap',
+    'regex-replace:worldmap',
+    'jshint',
+    'jscs',
+    ]);
+
+  grunt.registerTask('rebuild', [
+    'clean:dist',
+    'sass',
+    'copy:src_to_dist',
+    'copy:pluginDef',
+    'babel',
+    'unzip:worldmap',
+    'regex-replace:worldmap',
     'jshint',
     'jscs',
     ]);
