@@ -1,5 +1,5 @@
 {
-  "id": 28,
+  "id": null,
   "title": "worldPing Endpoint: |--- DNS",
   "tags": [
     "worldPing",
@@ -731,12 +731,6 @@
       },
       {
         "allFormat": "glob",
-        "current": {
-          "value": [
-            "$__all"
-          ],
-          "text": "All"
-        },
         "datasource": "raintank",
         "hide": 0,
         "includeAll": true,
@@ -813,6 +807,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 16,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,
