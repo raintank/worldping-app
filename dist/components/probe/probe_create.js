@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
-  "use strict";
-
   var angular, _, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -44,6 +42,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
+
         function ProbeCreateCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
