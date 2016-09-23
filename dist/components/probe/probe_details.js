@@ -134,7 +134,7 @@ System.register([], function (_export, _context) {
               return "";
             }
             var path = "/dashboard-solo/db/worldping-events";
-            var qstring = "?panelId=1&fullscreen&from=now-1d&to=now&var-probe=" + this.probe.slug;
+            var qstring = "?panelId=2&fullscreen&from=now-1d&to=now&var-probe=" + this.probe.slug;
             return path + qstring;
           }
         }, {
