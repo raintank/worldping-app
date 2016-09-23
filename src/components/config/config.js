@@ -61,7 +61,7 @@ class WorldPingConfigCtrl {
     p.then((resp) => {
       self.org = resp;
 
-      const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 1000000);
+      const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
       if (millionChecksPerMonth > 1000) {
         self.org.strChecksPerMonth = Math.ceil(millionChecksPerMonth / 1000) + ' Billion';
       } else if (millionChecksPerMonth > 0) {

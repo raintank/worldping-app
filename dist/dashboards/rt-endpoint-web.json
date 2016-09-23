@@ -747,7 +747,7 @@
     {
       "collapse": false,
       "editable": true,
-      "height": "250px",
+      "height": "",
       "panels": [
         {
           "columns": [

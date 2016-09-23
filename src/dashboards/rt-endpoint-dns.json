@@ -764,7 +764,7 @@
         "name": "outliers",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "100",
             "value": "100"
           },
@@ -779,7 +779,7 @@
             "value": "99.5"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "99",
             "value": "99"
           },
