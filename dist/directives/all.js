@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['angular', 'lodash'], function (_export, _context) {
+  "use strict";
+
   var angular, _;
 
   return {
@@ -197,7 +199,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.selectAll = function () {
               var select = true;
-              selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+              selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
 
               if (selectedIds.length === scope.ids.length) {
                 select = false;
@@ -234,7 +236,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             };
 
             scope.selectTagTitle = function () {
-              selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
+              selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
               if (selectedTags.length === 0) {
                 return "Select Tags";
               }
@@ -245,19 +247,19 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             };
 
             scope.selectIdTitle = function () {
-              selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+              selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
               if (selectedIds.length === 0) {
                 return "Select Probes";
               }
               if (selectedIds.length <= 2) {
-                return _.pluck(_.filter(scope.ids, { selected: true }), "text").join(", ");
+                return _.map(_.filter(scope.ids, { selected: true }), "text").join(", ");
               }
-              return _.pluck(_.filter(scope.ids, { selected: true }), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+              return _.map(_.filter(scope.ids, { selected: true }), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
             };
 
             scope.routeTypeChange = function () {
               if (scope.footprint.value === 'dynamic') {
-                selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
+                selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
                 scope.model.route = {
                   type: "byTags",
                   config: {
@@ -268,7 +270,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                   scope.model.route.config.tags.push(t.text);
                 });
               } else {
-                selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+                selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
                 scope.model.route = {
                   type: "byIds",
                   config: {
@@ -289,7 +291,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                     tags: []
                   }
                 };
-                selectedTags = _.pluck(_.filter(scope.tags, { selected: true }), "text");
+                selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
                 _.forEach(selectedTags, function (t) {
                   scope.model.route.config.tags.push(t);
                 });
@@ -300,7 +302,7 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                     ids: []
                   }
                 };
-                selectedIds = _.pluck(_.filter(scope.ids, { selected: true }), "id");
+                selectedIds = _.map(_.filter(scope.ids, { selected: true }), "id");
                 _.forEach(selectedIds, function (c) {
                   scope.model.route.config.ids.push(c);
                 });

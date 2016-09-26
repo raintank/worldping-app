@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _typeof, _createClass, EndpointNavCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -74,11 +76,10 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         _inherits(EndpointNavCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function EndpointNavCtrl($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv) {
           _classCallCheck(this, EndpointNavCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EndpointNavCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (EndpointNavCtrl.__proto__ || Object.getPrototypeOf(EndpointNavCtrl)).call(this, $scope, $injector));
 
           _this.$location = $location;
           _this.$q = $q;
