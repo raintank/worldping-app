@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'jquery'], function (_export, _context) {
+  "use strict";
+
   var _, $, _typeof, _createClass, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -43,7 +45,6 @@ System.register(['lodash', 'jquery'], function (_export, _context) {
       _export('EndpointListCtrl', EndpointListCtrl = function () {
 
         /** @ngInject */
-
         function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointListCtrl);
 

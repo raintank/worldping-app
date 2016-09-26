@@ -129,6 +129,13 @@ p.rt-dashboard-copy {
     margin-top: 15px;
 }
 
+.rt-dash--warning {
+  background-color: rgba($red, 0.5);
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+
  @media screen and (max-width: 780px) {
   .rt-dash-flex-item {
     flex: 0 100%;
@@ -177,6 +184,13 @@ a.rt-dashboard-blurb:hover{
   vertical-align: sub;
 }
 
+.rt-dashboard-icons-warning {
+  color: $text-color-strong;
+  text-decoration:none;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
 .rt-CTA-item {
   margin: 10px 0;
 }
@@ -209,4 +223,3 @@ a.rt-blurb-upcoming {
      color: $text-color;
      margin: 0;
 }
-

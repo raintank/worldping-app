@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _createClass, CallToActionCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -68,11 +70,10 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
         _inherits(CallToActionCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
           _classCallCheck(this, CallToActionCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CallToActionCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (CallToActionCtrl.__proto__ || Object.getPrototypeOf(CallToActionCtrl)).call(this, $scope, $injector));
 
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
@@ -82,6 +83,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           _this.quotas = null;
           _this.endpointStatus = "scopeEndpoints";
           _this.collectorStatus = "scopeCollectors";
+          _this.requiresUpgrade = null;
+          _this.aboveFreeTier = null;
 
           _this.getOrgDetails();
           return _this;
@@ -131,6 +134,7 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             p.then(function (resp) {
               self.org = resp;
               self.requiresUpgrade = self._requiresUpgrade();
+              self.aboveFreeTier = self._aboveFreeTier();
             }, function (resp) {
               self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
             });
@@ -148,6 +152,23 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
             }
 
             return true;
+          }
+        }, {
+          key: '_aboveFreeTier',
+          value: function _aboveFreeTier() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+              return false;
+            }
+
+            if (this.org.checksPerMonth / 1000000 > 3) {
+              return true;
+            }
+
+            return false;
           }
         }, {
           key: 'allDone',

@@ -20,6 +20,8 @@ class CallToActionCtrl extends PanelCtrl {
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
     this.collectorStatus = "scopeCollectors";
+    this.requiresUpgrade = null;
+    this.aboveFreeTier = null;
 
     this.getOrgDetails();
   }
@@ -64,6 +66,7 @@ class CallToActionCtrl extends PanelCtrl {
     p.then((resp) => {
       self.org = resp;
       self.requiresUpgrade = self._requiresUpgrade();
+      self.aboveFreeTier = self._aboveFreeTier();
     }, (resp) => {
       self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
     });
@@ -80,6 +83,22 @@ class CallToActionCtrl extends PanelCtrl {
     }
 
     return true;
+  }
+
+  _aboveFreeTier() {
+    if (!this.org) {
+      return false;
+    }
+
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+      return false;
+    }
+
+    if (this.org.checksPerMonth / 1000000 > 3) {
+      return true;
+    }
+
+    return false;
   }
 
   allDone() {
