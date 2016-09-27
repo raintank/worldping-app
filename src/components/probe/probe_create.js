@@ -23,12 +23,16 @@ class ProbeCreateCtrl {
       manual: false,
     };
     this.probe = angular.copy(defaults);
+    this.org = null;
+    this.requiresUpgrade = null;
 
     if ("probe" in $location.search()) {
       self.getProbe($location.search().probe);
     } else {
       self.reset();
     }
+
+    self.getOrgDetails();
   }
 
   setInstallMethod(newMethod) {
@@ -52,6 +56,30 @@ class ProbeCreateCtrl {
       }
       self.probe = resp.body;
     });
+  }
+
+  getOrgDetails() {
+    var self = this;
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    p.then((resp) => {
+      self.org = resp;
+      self.requiresUpgrade = self._requiresUpgrade();
+    }, (resp) => {
+      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+    });
+    return p;
+  }
+
+  _requiresUpgrade() {
+    if (!this.org) {
+      return true;
+    }
+
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+      return false;
+    }
+
+    return true;
   }
 
   reset() {
@@ -97,4 +125,3 @@ ProbeCreateCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/
 export {
   ProbeCreateCtrl
 };
-
