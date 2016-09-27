@@ -276,18 +276,3 @@
   34% { opacity: 0; }
   100% { opacity: 0; }
 }
-
-// Floating probe
-
-.rt-floating-probe {
-  display: inline-block;
-	animation: floating 15000ms infinite linear;
-  margin-bottom: 15px;
-}
-
-@keyframes floating {
-  6.25%   {transform: translate(2%,5%);}
-  31.25%  {transform: translate(5%,2%);}
-  56.25%  {transform: translate(2%,0%);}
-  81.25%  {transform: translate(0%,2%);}
-}

@@ -9,8 +9,9 @@ var defaults = {
 class ProbeCreateCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, alertSrv) {
+  constructor($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
     var self = this;
+    this.$window = $window;
     this.$q = $q;
     this.alertSrv = alertSrv;
     this.backendSrv = backendSrv;
@@ -84,6 +85,12 @@ class ProbeCreateCtrl {
 
   reset() {
     this.probe = angular.copy(defaults);
+  }
+
+  cancel() {
+    this.reset();
+    this.ignoreChanges = true;
+    this.$window.history.back();
   }
 
   save() {

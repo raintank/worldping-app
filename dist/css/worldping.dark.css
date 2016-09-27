@@ -313,21 +313,6 @@
   100% {
     opacity: 0; } }
 
-.rt-floating-probe {
-  display: inline-block;
-  animation: floating 15000ms infinite linear;
-  margin-bottom: 15px; }
-
-@keyframes floating {
-  6.25% {
-    transform: translate(2%, 5%); }
-  31.25% {
-    transform: translate(5%, 2%); }
-  56.25% {
-    transform: translate(2%, 0%); }
-  81.25% {
-    transform: translate(0%, 2%); } }
-
 .collector-animation {
   position: relative;
   width: 450px;
@@ -1938,5 +1923,15 @@ raintank POSITIONING
 
 .gf-form--right-margin {
   margin-right: 1rem; }
+
+.rt-exclamation-probe--container {
+  background: linear-gradient(135deg, #2f2f2f, #262626);
+  padding: 15px;
+  max-width: 555px; }
+
+.rt-exclamation-probe {
+  font-size: 25px;
+  vertical-align: sub;
+  margin-right: 5px; }
 
 /*# sourceMappingURL=worldping.dark.css.map */

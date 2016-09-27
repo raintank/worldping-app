@@ -44,10 +44,11 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-        function ProbeCreateCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
           var self = this;
+          this.$window = $window;
           this.$q = $q;
           this.alertSrv = alertSrv;
           this.backendSrv = backendSrv;
@@ -127,6 +128,13 @@ System.register(['angular', 'lodash'], function (_export, _context) {
           key: 'reset',
           value: function reset() {
             this.probe = angular.copy(defaults);
+          }
+        }, {
+          key: 'cancel',
+          value: function cancel() {
+            this.reset();
+            this.ignoreChanges = true;
+            this.$window.history.back();
           }
         }, {
           key: 'save',
