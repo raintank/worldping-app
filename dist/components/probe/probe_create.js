@@ -44,10 +44,11 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-        function ProbeCreateCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
           var self = this;
+          this.$window = $window;
           this.$q = $q;
           this.alertSrv = alertSrv;
           this.backendSrv = backendSrv;
@@ -60,12 +61,16 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             manual: false
           };
           this.probe = angular.copy(defaults);
+          this.org = null;
+          this.requiresUpgrade = null;
 
           if ("probe" in $location.search()) {
             self.getProbe($location.search().probe);
           } else {
             self.reset();
           }
+
+          self.getOrgDetails();
         }
 
         _createClass(ProbeCreateCtrl, [{
@@ -94,9 +99,42 @@ System.register(['angular', 'lodash'], function (_export, _context) {
             });
           }
         }, {
+          key: 'getOrgDetails',
+          value: function getOrgDetails() {
+            var self = this;
+            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            p.then(function (resp) {
+              self.org = resp;
+              self.requiresUpgrade = self._requiresUpgrade();
+            }, function (resp) {
+              self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+            });
+            return p;
+          }
+        }, {
+          key: '_requiresUpgrade',
+          value: function _requiresUpgrade() {
+            if (!this.org) {
+              return true;
+            }
+
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+              return false;
+            }
+
+            return true;
+          }
+        }, {
           key: 'reset',
           value: function reset() {
             this.probe = angular.copy(defaults);
+          }
+        }, {
+          key: 'cancel',
+          value: function cancel() {
+            this.reset();
+            this.ignoreChanges = true;
+            this.$window.history.back();
           }
         }, {
           key: 'save',

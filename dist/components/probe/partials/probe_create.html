@@ -2,18 +2,29 @@
   <h1>Add a private probe</h1>
   <span class="form-step-count page-header--flex-item">Step 1 of 2</span>
 </div>
-<p ng-if="!ctrl.probe.id" class="playlist-description">Private probes are the way to reach the deepest, darkest corners of your private networks - or, a way to extend our global footprint. Acts exactly like a public probe, but you control it.</p>
+<p ng-if="!ctrl.probe.id" class="playlist-description">Private probes are the way to reach the deepest, darkest corners of your private networks - or, a way to extend our global footprint. Acts exactly like a public probe, but you control it and the results of each test are then transfered back to the raintank backend.</p>
 
-<form ng-if="!ctrl.probe.id" name="collectorNameForm">
+<form ng-if="!ctrl.probe.id && !ctrl.requiresUpgrade" name="collectorNameForm">
   <div class="gf-form">
       <label class="gf-form-label width-7">Probe Name</label>
       <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.probe.name" required>
-    </div>
+  </div>
   <div class="gf-form-button-row">
     <button type="submit" class="btn btn-success" required ng-click="collectorNameForm.$valid && ctrl.add()">Next -> Install Probe</button>
     <a class="btn btn-link" href="#">Cancel</a>
   </div>
 </form>
+
+<div ng-if="ctrl.requiresUpgrade">
+  <div class="rt-exclamation-probe--container">
+    <i class="fa fa-exclamation-triangle rt-exclamation-probe"></i>
+    <span class="rt-dashboard-blurb">Private probes are only available on paid accounts.</span>
+  </div>
+  <div class="gf-form-button-row">
+    <a class="btn btn-secondary" href="https://grafana.net/{{ctrl.org.slug}}/worldping/upgrade">Upgrade worldPing now</a>
+    <a class="btn btn-link" ng-click="ctrl.cancel();">Cancel</a>
+  </div>
+</div>
 
 <!-- Step 2 - Show after collector record has been added. -->
 

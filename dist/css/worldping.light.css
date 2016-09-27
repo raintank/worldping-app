@@ -1924,4 +1924,14 @@ raintank POSITIONING
 .gf-form--right-margin {
   margin-right: 1rem; }
 
+.rt-exclamation-probe--container {
+  background: linear-gradient(135deg, #ECECEC, #f4f5f8);
+  padding: 15px;
+  max-width: 555px; }
+
+.rt-exclamation-probe {
+  font-size: 25px;
+  vertical-align: sub;
+  margin-right: 5px; }
+
 /*# sourceMappingURL=worldping.light.css.map */
