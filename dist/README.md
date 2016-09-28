@@ -55,8 +55,7 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 
 #### Changelog
 
-##### v1.0.10
-- With the release of worldPing pricing, the estimated number of checks per month (in Millions) is provided on Endpoint Config pages.
-- The worldPing app has been refactored to use the new v2 API, providing faster load times and other efficiencies.
-- Admins now have the ability to delete private probes within the interface.
-- Many other bugfixes and optimizations.
+##### v1.1.0
+- The biggest new addition to worldPing is in the inclusion of the WorldMap panel, alloweing you to see distribution of errors plotted across the globe.
+- Version 1.1.0 brings increased visibility into your worldPing usage, both showing your overall account usage within the Plugin Config section, as well as letting you know when you're exceeding the free limits.
+- Small bug fixes on endpoint config that previously prevented you from updating your probe config.
