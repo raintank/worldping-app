@@ -1,8 +1,6 @@
 'use strict';
 
 System.register(['./components/config/config', './components/endpoint/endpoint_list', './components/endpoint/endpoint_details', './components/endpoint/endpoint_config', './components/probe/probe_list', './components/probe/probe_details', './components/probe/probe_create', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
-  "use strict";
-
   var ConfigCtrl, EndpointListCtrl, EndpointDetailsCtrl, EndpointConfigCtrl, ProbeListCtrl, ProbeDetailsCtrl, ProbeCreateCtrl, loadPluginCss;
   return {
     setters: [function (_componentsConfigConfig) {
