@@ -57,7 +57,7 @@ class WorldPingConfigCtrl {
 
   getOrgDetails() {
     var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/orgs/'+self.appModel.jsonData.OrgId);
     p.then((resp) => {
       self.org = resp;
 
@@ -161,6 +161,13 @@ class WorldPingConfigCtrl {
       return self.$q.all(promises);
     });
     return p;
+  }
+
+  disableEndpoints() {
+    var self = this;
+    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/disable').then(() => {
+      self.alertSrv.set("success", "Endpoints Disabled", 'success', 5000);
+    });
   }
 }
 

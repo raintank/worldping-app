@@ -303,7 +303,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               return 0;
             }
 
-            return 30.5 * 24 * (3600 / check.frequency) * probeCount / 1000000;
+            return 30.4375 * 24 * (3600 / check.frequency) * probeCount / 1000000;
           }
         }, {
           key: 'requiresUpgrade',
