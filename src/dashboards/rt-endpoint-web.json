@@ -633,7 +633,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$potocol.error_state, 'sum'), 1), 2)",
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$protocol.error_state, 'sum'), 1), 2)",
               "textEditor": true
             }
           ],
@@ -982,7 +982,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 4,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,
