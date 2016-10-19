@@ -63,7 +63,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "target": "groupByNode(sortByName(litmus.$endpoint.$probe.$protocol.default), 1, 'avg')"
+              "target": "groupByNode(sortByName(worldping.$endpoint.$probe.$protocol.default), 1, 'avg')"
             }
           ],
           "timeFrom": null,
@@ -147,7 +147,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "target": "aliasByNode(sortByName(litmus.$endpoint.$probe.$protocol.default), 1)"
+              "target": "aliasByNode(sortByName(worldping.$endpoint.$probe.$protocol.default), 1)"
             }
           ],
           "timeFrom": null,
@@ -219,7 +219,7 @@
         "multi": true,
         "multiFormat": "glob",
         "name": "endpoint",
-        "query": "litmus.*",
+        "query": "worldping.*",
         "refresh": true,
         "refresh_on_load": false,
         "tagValuesQuery": "raintank_db.tags.endpoints.$tag",
@@ -238,7 +238,7 @@
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "query": "litmus.$endpoint.*",
+        "query": "worldping.$endpoint.*",
         "refresh": true,
         "refresh_on_load": false,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",
@@ -257,7 +257,7 @@
         "multi": false,
         "multiFormat": "glob",
         "name": "protocol",
-        "query": "litmus.$endpoint.$probe.*",
+        "query": "worldping.$endpoint.$probe.*",
         "refresh": true,
         "refresh_on_load": false,
         "type": "query"
@@ -270,6 +270,7 @@
   "refresh": false,
   "schemaVersion": 6,
   "version": 3,
+  "revision": 2,
   "links": [
     {
       "type": "dashboards",

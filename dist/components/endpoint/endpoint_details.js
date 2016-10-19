@@ -43,7 +43,6 @@ System.register(["lodash"], function (_export, _context) {
       _export("EndpointDetailsCtrl", EndpointDetailsCtrl = function () {
 
         /** @ngInject */
-
         function EndpointDetailsCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointDetailsCtrl);
 

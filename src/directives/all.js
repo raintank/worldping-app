@@ -27,7 +27,7 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
         rangeRaw: timeSrv.timeRange(true),
         interval: scope.check.frequency + 's',
         targets: [
-          {target: "litmus."+scope.ctrl.endpoint.slug + ".*." +
+          {target: "worldping."+scope.ctrl.endpoint.slug + ".*." +
             scope.check.type.toLowerCase()+".{ok_state,error_state}"}
         ],
         format: 'json',
@@ -190,7 +190,7 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
 
       scope.selectAll = function() {
         var select = true;
-        selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+        selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
 
         if (selectedIds.length === scope.ids.length) {
           select = false;
@@ -227,7 +227,7 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
       };
 
       scope.selectTagTitle = function() {
-        selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
+        selectedTags = _.map(_.filter(scope.tags, {selected: true}), "text");
         if (selectedTags.length === 0) {
           return "Select Tags";
         }
@@ -238,19 +238,19 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
       };
 
       scope.selectIdTitle = function() {
-        selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+        selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
         if (selectedIds.length === 0) {
           return "Select Probes";
         }
         if (selectedIds.length <= 2) {
-          return _.pluck(_.filter(scope.ids, {selected: true}), "text").join(", ");
+          return _.map(_.filter(scope.ids, {selected: true}), "text").join(", ");
         }
-        return _.pluck(_.filter(scope.ids, {selected: true}), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
+        return _.map(_.filter(scope.ids, {selected: true}), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
       };
 
       scope.routeTypeChange = function() {
         if (scope.footprint.value === 'dynamic') {
-          selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
+          selectedTags = _.map(_.filter(scope.tags, {selected: true}), "text");
           scope.model.route = {
             type: "byTags",
             config: {
@@ -261,7 +261,7 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
             scope.model.route.config.tags.push(t.text);
           });
         } else {
-          selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+          selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
           scope.model.route = {
             type: "byIds",
             config: {
@@ -282,7 +282,7 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
               tags: []
             }
           };
-          selectedTags = _.pluck(_.filter(scope.tags, {selected: true}), "text");
+          selectedTags = _.map(_.filter(scope.tags, {selected: true}), "text");
           _.forEach(selectedTags, function(t) {
             scope.model.route.config.tags.push(t);
           });
@@ -293,7 +293,7 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
               ids: []
             }
           };
-          selectedIds = _.pluck(_.filter(scope.ids, {selected: true}), "id");
+          selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
           _.forEach(selectedIds, function(c) {
             scope.model.route.config.ids.push(c);
           });

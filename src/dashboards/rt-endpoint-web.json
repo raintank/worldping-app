@@ -1,7 +1,6 @@
 {
   "id": null,
   "title": "worldPing Endpoint: |--- Web",
-  "originalTitle": "worldPing Endpoint: |--- Web",
   "tags": [
     "worldPing",
     "Endpoints"
@@ -49,9 +48,27 @@
           "editable": true,
           "error": false,
           "format": "none",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 590,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": "100",
           "nullPointMode": "connected",
           "nullText": null,
@@ -59,6 +76,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -72,7 +96,7 @@
               "target": "averageSeries(health.$endpoint.$protocol.ok_state)"
             }
           ],
-          "thresholds": "0,1,1",
+          "thresholds": "1,1",
           "title": "WEB HEALTH (LAST)",
           "transparent": false,
           "type": "singlestat",
@@ -105,9 +129,27 @@
           "editable": true,
           "error": false,
           "format": "percent",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 593,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": "100",
           "nullPointMode": "connected",
           "nullText": null,
@@ -115,6 +157,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -125,10 +174,10 @@
           "targets": [
             {
               "refId": "A",
-              "target": "scale(averageSeries(litmus.$endpoint.$probe.$protocol.ok_state), 100)"
+              "target": "scale(averageSeries(worldping.$endpoint.$probe.$protocol.ok_state), 100)"
             }
           ],
-          "thresholds": "0,100,100",
+          "thresholds": "100,100",
           "title": "WEB UPTIME",
           "transparent": false,
           "type": "singlestat",
@@ -156,9 +205,27 @@
           "editable": true,
           "error": false,
           "format": "ms",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 591,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -166,6 +233,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -176,7 +250,7 @@
           "targets": [
             {
               "refId": "A",
-              "target": "averageSeries(litmus.$endpoint.$probe.$protocol.total)"
+              "target": "averageSeries(worldping.$endpoint.$probe.$protocol.total)"
             }
           ],
           "thresholds": "",
@@ -206,9 +280,27 @@
           "editable": true,
           "error": false,
           "format": "Bps",
+          "gauge": {
+            "maxValue": 100,
+            "minValue": 0,
+            "show": false,
+            "thresholdLabels": false,
+            "thresholdMarkers": true
+          },
           "id": 592,
           "interval": null,
           "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
           "maxDataPoints": 100,
           "nullPointMode": "connected",
           "nullText": null,
@@ -216,6 +308,13 @@
           "postfixFontSize": "50%",
           "prefix": "",
           "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
           "span": 3,
           "sparkline": {
             "fillColor": "rgba(255, 255, 255, 0)",
@@ -226,7 +325,7 @@
           "targets": [
             {
               "refId": "C",
-              "target": "averageSeries(litmus.$endpoint.$probe.$protocol.throughput)"
+              "target": "averageSeries(worldping.$endpoint.$probe.$protocol.throughput)"
             }
           ],
           "thresholds": "",
@@ -249,8 +348,303 @@
     {
       "collapse": false,
       "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "raintank",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {},
+          "id": 594,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "maxDataPoints": "20",
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "refId": "A",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.dns), 'dns')"
+            },
+            {
+              "refId": "B",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.connect), 'connect')"
+            },
+            {
+              "refId": "E",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.send), 'send')"
+            },
+            {
+              "refId": "C",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.wait), 'wait')"
+            },
+            {
+              "refId": "D",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.recv), 'recv')"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "WEB RESPONSE (ALL SELECTED PROBES)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {
+            "content size": "#7EB26D",
+            "throughput": "#EAB839"
+          },
+          "bars": false,
+          "datasource": "raintank",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "grid": {},
+          "id": 595,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "throughput",
+              "yaxis": 2
+            }
+          ],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "refId": "A",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.throughput), 'throughput')"
+            },
+            {
+              "refId": "B",
+              "target": "alias(averageSeries(worldping.$endpoint.$probe.$protocol.dataLength), 'content size')"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "WEB THROUGHPUT (ALL SELECTED PROBES)",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "Bps",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
       "height": "125px",
       "panels": [
+        {
+          "aliasColors": {
+            "connect": "#0A50A1",
+            "dns": "#890F02",
+            "recv": "#6ED0E0",
+            "send": "#508642",
+            "wait": "#EAB839"
+          },
+          "bars": false,
+          "datasource": "raintank",
+          "decimals": 1,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "grid": {},
+          "height": "411",
+          "id": 589,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "max": false,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "maxDataPoints": "",
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 1,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 7,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "hide": false,
+              "refId": "A",
+              "target": "aliasByNode(removeAbovePercentile(worldping.$endpoint.$probe.$protocol.total, $outliers), 2)",
+              "textEditor": false
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "WEB PERFORMANCE",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "show": true
+          },
+          "yaxes": [
+            {
+              "format": "ms",
+              "label": "latency",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "circleMaxSize": "20",
+          "circleMinSize": "1",
+          "colors": [
+            "rgba(255, 255, 255, 0)",
+            "rgba(209, 44, 32, 0.89)",
+            "rgba(209, 44, 32, 0.89)"
+          ],
+          "datasource": "raintank",
+          "decimals": 0,
+          "editable": true,
+          "error": false,
+          "esMetric": "Count",
+          "height": "250",
+          "id": 597,
+          "initialZoom": 1,
+          "isNew": true,
+          "jsonUrl": "api/plugin-proxy/raintank-worldping-app/api/v2/probes/locations",
+          "links": [],
+          "locationData": "json endpoint",
+          "mapCenter": "(0°, 0°)",
+          "mapCenterLatitude": 0,
+          "mapCenterLongitude": 0,
+          "maxDataPoints": 1,
+          "showLegend": true,
+          "span": 5,
+          "targets": [
+            {
+              "refId": "A",
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$potocol.error_state, 'sum'), 1), 2)",
+              "textEditor": true
+            }
+          ],
+          "thresholds": "1",
+          "title": "",
+          "type": "grafana-worldmap-panel",
+          "unitPlural": "errors",
+          "unitSingle": "",
+          "unitSingular": "error",
+          "valueName": "total"
+        },
         {
           "aliasColors": {
             "error": "#E24D42",
@@ -261,19 +655,8 @@
           "editable": true,
           "error": false,
           "fill": 1,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": 0,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(56, 149, 0, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": "",
+          "grid": {},
+          "height": "150",
           "id": 586,
           "legend": {
             "alignAsTable": true,
@@ -306,7 +689,6 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "scopedVars": {},
           "seriesOverrides": [
             {
               "alias": "//",
@@ -317,191 +699,46 @@
               "color": "#629E51"
             }
           ],
-          "span": 12,
+          "span": 5,
           "stack": true,
           "steppedLine": false,
           "targets": [
             {
               "refId": "A",
-              "target": "aliasByNode(removeBelowValue(consolidateBy(litmus.$endpoint.$probe.$protocol.error_state, 'sum'), 1), 2)"
+              "target": "aliasByNode(removeBelowValue(consolidateBy(worldping.$endpoint.$probe.$protocol.error_state, 'sum'), 1), 2)"
             }
           ],
+          "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "WEB ERRORS (ALL SELECTED PROBES)",
+          "title": "WEB ERRORS",
           "tooltip": {
+            "msResolution": false,
             "shared": true,
+            "sort": 0,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
-          "x-axis": true,
-          "y-axis": false,
-          "y_formats": [
-            "short",
-            "short"
-          ],
-          "leftYAxisLabel": "Errors"
-        }
-      ],
-      "title": "New row"
-    },
-    {
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": true,
-          "datasource": "raintank",
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": null,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          "xaxis": {
+            "show": true
           },
-          "id": 594,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": false,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": "20",
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
+          "yaxes": [
             {
-              "refId": "A",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.dns), 'dns')"
+              "format": "short",
+              "label": "Errors",
+              "logBase": 1,
+              "max": null,
+              "min": 0,
+              "show": false
             },
             {
-              "refId": "B",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.connect), 'connect')"
-            },
-            {
-              "refId": "E",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.send), 'send')"
-            },
-            {
-              "refId": "C",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.wait), 'wait')"
-            },
-            {
-              "refId": "D",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.recv), 'recv')"
+              "format": "short",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
             }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "WEB RESPONSE (ALL SELECTED PROBES)",
-          "tooltip": {
-            "shared": true,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "short",
-            "short"
-          ]
-        },
-        {
-          "aliasColors": {
-            "content size": "#7EB26D",
-            "throughput": "#EAB839"
-          },
-          "bars": false,
-          "datasource": "raintank",
-          "editable": true,
-          "error": false,
-          "fill": 0,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": null,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 595,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "throughput",
-              "yaxis": 2
-            }
-          ],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refId": "A",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.throughput), 'throughput')"
-            },
-            {
-              "refId": "B",
-              "target": "alias(averageSeries(litmus.$endpoint.$probe.$protocol.dataLength), 'content size')"
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "WEB THROUGHPUT (ALL SELECTED PROBES)",
-          "tooltip": {
-            "shared": true,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "bytes",
-            "Bps"
           ]
         }
       ],
@@ -510,85 +747,70 @@
     {
       "collapse": false,
       "editable": true,
-      "height": "250px",
+      "height": "",
       "panels": [
         {
-          "aliasColors": {
-            "connect": "#0A50A1",
-            "dns": "#890F02",
-            "recv": "#6ED0E0",
-            "send": "#508642",
-            "wait": "#EAB839"
-          },
-          "bars": false,
-          "datasource": "raintank",
-          "decimals": 1,
-          "editable": true,
-          "error": false,
-          "fill": 0,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": 0,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "height": "600",
-          "id": 589,
-          "leftYAxisLabel": "latency",
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": false,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sort": "current",
-            "sortDesc": true,
-            "total": false,
-            "values": true
-          },
-          "lines": false,
-          "linewidth": 2,
-          "links": [],
-          "maxDataPoints": "",
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 1,
-          "points": true,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
+          "columns": [
             {
-              "hide": false,
-              "refId": "A",
-              "target": "aliasByNode(removeAbovePercentile(litmus.$endpoint.$probe.$protocol.total, $outliers), 2)",
-              "textEditor": false
+              "text": "timestamp",
+              "value": "timestamp"
+            },
+            {
+              "text": "tags.collector",
+              "value": "tags.collector"
+            },
+            {
+              "text": "severity",
+              "value": "severity"
+            },
+            {
+              "text": "message",
+              "value": "message"
             }
           ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "WEB PERFORMANCE (EACH INDIVIDUAL PROBE)",
-          "tooltip": {
-            "shared": true,
-            "value_type": "individual"
+          "datasource": "raintankEvents",
+          "editable": true,
+          "error": false,
+          "fontSize": "100%",
+          "id": 598,
+          "isNew": true,
+          "links": [],
+          "pageSize": null,
+          "scroll": true,
+          "showHeader": true,
+          "sort": {
+            "col": 0,
+            "desc": true
           },
-          "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "ms",
-            "short"
-          ]
+          "span": 12,
+          "styles": [
+            {
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "pattern": "Time",
+              "type": "date"
+            }
+          ],
+          "targets": [
+            {
+              "bucketAggs": [],
+              "dsType": "elasticsearch",
+              "metrics": [
+                {
+                  "field": "select field",
+                  "id": "1",
+                  "meta": {},
+                  "settings": {},
+                  "type": "raw_document"
+                }
+              ],
+              "query": "tags.endpoint:$endpoint AND tags.collector:$probe AND tags.monitor_type:$protocol",
+              "refId": "A",
+              "timeField": "timestamp"
+            }
+          ],
+          "title": "WEB EVENTS",
+          "transform": "json",
+          "type": "table"
         }
       ],
       "showTitle": false,
@@ -637,58 +859,48 @@
       {
         "allFormat": "glob",
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": false,
         "label": "Endpoint",
         "multi": false,
         "multiFormat": "glob",
         "name": "endpoint",
-        "query": "litmus.*",
-        "refresh": true,
+        "query": "worldping.*",
+        "refresh": 1,
         "refresh_on_load": true,
-        "type": "query",
-        "options": [],
-        "current": {}
+        "type": "query"
       },
       {
         "allFormat": "glob",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": true,
         "label": "Probe(s)",
         "multi": true,
         "multiFormat": "glob",
         "name": "probe",
-        "query": "litmus.$endpoint.*",
-        "refresh": true,
+        "query": "worldping.$endpoint.*",
+        "refresh": 1,
         "refresh_on_load": true,
         "tagValuesQuery": "raintank_db.tags.collectors.$tag",
-        "tags": [
-          "AsiaPac",
-          "EMEA",
-          "USA"
-        ],
+        "tags": [],
         "tagsQuery": "raintank_db.tags.collectors.*",
         "type": "query",
-        "useTags": true,
-        "options": [
-          {
-            "text": "All",
-            "value": "$__all",
-            "selected": true
-          }
-        ],
-        "current": {
-          "text": "All",
-          "value": "$__all",
-          "selected": true
-        }
+        "useTags": true
       },
       {
         "allFormat": "glob",
         "current": {
+          "tags": [],
           "text": "http",
           "value": "http"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": false,
         "label": "Protocol",
         "multi": false,
@@ -696,21 +908,20 @@
         "name": "protocol",
         "options": [
           {
+            "selected": true,
             "text": "http",
-            "value": "http",
-            "selected": true
+            "value": "http"
           },
           {
+            "selected": false,
             "text": "https",
-            "value": "https",
-            "selected": false
+            "value": "https"
           }
         ],
         "query": "http,https",
-        "refresh_on_load": false,
-        "type": "custom",
         "refresh": 0,
-        "hide": 0
+        "refresh_on_load": false,
+        "type": "custom"
       },
       {
         "allFormat": "glob",
@@ -720,6 +931,7 @@
           "value": "100"
         },
         "datasource": "raintank",
+        "hide": 0,
         "includeAll": false,
         "label": "Outliers",
         "multi": false,
@@ -758,6 +970,7 @@
           }
         ],
         "query": "100,99.9,99.5,99,95,50",
+        "refresh": 0,
         "refresh_on_load": false,
         "type": "custom"
       }
@@ -767,8 +980,9 @@
     "list": []
   },
   "refresh": false,
-  "schemaVersion": 7,
-  "version": 11,
+  "schemaVersion": 13,
+  "version": 4,
+  "revision": 2,
   "links": [
     {
       "asDropdown": true,
@@ -781,5 +995,6 @@
       "title": "Endpoint Dashboards",
       "type": "dashboards"
     }
-  ]
+  ],
+  "gnetId": null
 }

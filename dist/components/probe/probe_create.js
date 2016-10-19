@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['angular'], function (_export, _context) {
+System.register(['angular', 'lodash'], function (_export, _context) {
   "use strict";
 
-  var angular, _createClass, defaults, ProbeCreateCtrl;
+  var angular, _, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,6 +14,8 @@ System.register(['angular'], function (_export, _context) {
   return {
     setters: [function (_angular) {
       angular = _angular.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -42,27 +44,49 @@ System.register(['angular'], function (_export, _context) {
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-
-        function ProbeCreateCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
           var self = this;
+          this.$window = $window;
           this.$q = $q;
           this.alertSrv = alertSrv;
           this.backendSrv = backendSrv;
           this.$location = $location;
           this.newProbe = false;
-
+          this.installMethod = {
+            deb: false,
+            rpm: false,
+            docker: false,
+            manual: false
+          };
           this.probe = angular.copy(defaults);
+          this.org = null;
+          this.requiresUpgrade = null;
 
           if ("probe" in $location.search()) {
             self.getProbe($location.search().probe);
           } else {
             self.reset();
           }
+
+          self.getOrgDetails();
         }
 
         _createClass(ProbeCreateCtrl, [{
+          key: 'setInstallMethod',
+          value: function setInstallMethod(newMethod) {
+            var self = this;
+            _.forEach(this.installMethod, function (enabled, method) {
+              if (method === newMethod) {
+                self.installMethod[method] = true;
+              } else {
+                self.installMethod[method] = false;
+              }
+            });
+            console.log(this.installMethod);
+          }
+        }, {
           key: 'getProbe',
           value: function getProbe(id) {
             var self = this;
@@ -75,9 +99,42 @@ System.register(['angular'], function (_export, _context) {
             });
           }
         }, {
+          key: 'getOrgDetails',
+          value: function getOrgDetails() {
+            var self = this;
+            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            p.then(function (resp) {
+              self.org = resp;
+              self.requiresUpgrade = self._requiresUpgrade();
+            }, function (resp) {
+              self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+            });
+            return p;
+          }
+        }, {
+          key: '_requiresUpgrade',
+          value: function _requiresUpgrade() {
+            if (!this.org) {
+              return true;
+            }
+
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+              return false;
+            }
+
+            return true;
+          }
+        }, {
           key: 'reset',
           value: function reset() {
             this.probe = angular.copy(defaults);
+          }
+        }, {
+          key: 'cancel',
+          value: function cancel() {
+            this.reset();
+            this.ignoreChanges = true;
+            this.$window.history.back();
           }
         }, {
           key: 'save',

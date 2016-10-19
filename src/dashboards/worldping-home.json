@@ -12,10 +12,10 @@
       {
         "collapse": false,
         "editable": true,
-        "height": "125px",
+        "height": "39px",
         "panels": [
           {
-            "content": "<img src=\"public/plugins/raintank-worldping-app/img/worldPing-grey.svg\" width=\"350\" style=\"margin-top: 25px;\">",
+            "content": "<img src=\"public/plugins/raintank-worldping-app/img/worldPing-grey.svg\" height=\"50\">",
             "editable": true,
             "error": false,
             "id": 2,
@@ -40,7 +40,7 @@
             "error": false,
             "id": 5,
             "span": 7.5,
-            "height": "415px",
+            "height": "550px",
             "title": "",
             "type": "worldping-endpoint-list"
           },
@@ -147,5 +147,6 @@
     },
     "schemaVersion": 7,
     "version": 2,
+    "revision": 2,
     "links": []
   }

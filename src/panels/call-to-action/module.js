@@ -20,6 +20,10 @@ class CallToActionCtrl extends PanelCtrl {
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
     this.collectorStatus = "scopeCollectors";
+    this.requiresUpgrade = null;
+    this.aboveFreeTier = null;
+
+    this.getOrgDetails();
   }
 
   setEndpointStatus() {
@@ -54,6 +58,47 @@ class CallToActionCtrl extends PanelCtrl {
     //default.
     this.collectorStatus = "hasCollectors";
     return;
+  }
+
+  getOrgDetails() {
+    var self = this;
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    p.then((resp) => {
+      self.org = resp;
+      self.requiresUpgrade = self._requiresUpgrade();
+      self.aboveFreeTier = self._aboveFreeTier();
+    }, (resp) => {
+      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+    });
+    return p;
+  }
+
+  _requiresUpgrade() {
+    if (!this.org) {
+      return true;
+    }
+
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+      return false;
+    }
+
+    return true;
+  }
+
+  _aboveFreeTier() {
+    if (!this.org) {
+      return false;
+    }
+
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+      return false;
+    }
+
+    if (this.org.checksPerMonth / 1000000 > 3) {
+      return true;
+    }
+
+    return false;
   }
 
   allDone() {

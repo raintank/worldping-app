@@ -770,6 +770,9 @@
 .wp-tag-margin--bottom {
   margin-bottom: 50px; }
 
+.wp-tag-margin--bottom-new-endpoint {
+  margin-bottom: 30px; }
+
 .card-item-header--wp-icons i {
   font-size: 16px; }
 
@@ -866,73 +869,26 @@
   cursor: pointer; }
 
 .wp-config-box {
-  height: 0px;
+  max-height: 0px;
   overflow: hidden;
-  transition: height 0.2s;
-  -o-transition: height 0.2s;
-  -moz-transition: height 0.2s;
-  -webkit-transition: height 0.2s; }
+  transition: max-height 500ms;
+  -o-transition: max-height 500ms;
+  -moz-transition: max-height 500ms;
+  -webkit-transition: max-height 500ms; }
   .wp-config-box.dns-open {
-    height: 1140px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.dns-open {
-        height: 984px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.dns-open {
-        height: 944px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.dns-open {
-        height: 940px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.dns-open {
-        height: 894px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.ping-open {
-    height: 860px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.ping-open {
-        height: 780px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.ping-open {
-        height: 740px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.ping-open {
-        height: 730px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.ping-open {
-        height: 685px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.http-open {
-    height: 1090px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.http-open {
-        height: 950px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.http-open {
-        height: 1000x; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.http-open {
-        height: 920px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.http-open {
-        height: 875px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.https-open {
-    height: 1130px; }
-    @media screen and (min-width: 600px) {
-      .wp-config-box.https-open {
-        height: 1020px; } }
-    @media screen and (min-width: 700px) {
-      .wp-config-box.https-open {
-        height: 970px; } }
-    @media screen and (min-width: 800px) {
-      .wp-config-box.https-open {
-        height: 940px; } }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.https-open {
-        height: 895px; } }
+    max-height: 1250px;
+    padding-bottom: 50px; }
   .wp-config-box.destroy-open {
-    height: 350px; }
-    @media screen and (min-width: 1000px) {
-      .wp-config-box.destroy-open {
-        height: 250px; } }
+    max-height: 300px; }
 
 .gf-form-group--header {
   margin-bottom: 5px; }
@@ -975,6 +931,10 @@
 
 .wp-cursor--wait {
   cursor: wait; }
+
+.endpoint-config--checks-exceeded {
+  font-size: 0.875rem;
+  color: #CC3900; }
 
 .rt-spin-dot {
   background-image: url("/public/plugins/raintank-worldping-app/img/worldping_dot.svg");
@@ -1207,6 +1167,12 @@ p.rt-dashboard-copy {
   margin-left: 15px;
   margin-top: 15px; }
 
+.rt-dash--warning {
+  background-color: rgba(204, 57, 0, 0.5);
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px; }
+
 @media screen and (max-width: 780px) {
   .rt-dash-flex-item {
     flex: 0 100%;
@@ -1226,7 +1192,7 @@ p.rt-dashboard-blurb {
 
 a.rt-dashboard-blurb {
   font-size: 14px;
-  color: #dF7518;
+  color: #D8D9DA;
   margin: 0; }
 
 a.rt-dashboard-blurb:hover {
@@ -1238,7 +1204,19 @@ a.rt-dashboard-blurb:hover {
   background: linear-gradient(to right, rgba(255, 213, 0, 0.7) 0%, rgba(255, 68, 0, 0.7) 99%, rgba(255, 68, 0, 0.7) 100%);
   -webkit-background-clip: text;
   text-decoration: none;
-  font-size: 85px;
+  font-size: 20px;
+  vertical-align: sub; }
+
+.rt-dashboard-icons-upcoming {
+  color: #7B7B7B;
+  text-decoration: none;
+  font-size: 20px;
+  vertical-align: sub; }
+
+.rt-dashboard-icons-warning {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
   vertical-align: sub; }
 
 .rt-CTA-item {
@@ -1248,11 +1226,25 @@ a.rt-dashboard-blurb:hover {
   color: #7B7B7B;
   text-decoration: line-through; }
 
+a.rt-blurb-upcoming {
+  color: #7B7B7B; }
+
 .rt-dashboard-icons-container {
   width: 30px;
   display: inline-block;
   margin-right: 5px;
-  text-align: center; }
+  text-align: center;
+  vertical-align: top; }
+
+.rt-dashboard-icons-copy-container {
+  max-width: 285px;
+  display: inline-block; }
+
+.rt-dashboard-icons-subcopy {
+  display: block;
+  font-size: 12px;
+  color: #D8D9DA;
+  margin: 0; }
 
 .variable-value-dropdown.collector-dropdown {
   min-width: 300px;
@@ -1625,7 +1617,7 @@ raintank TYPE
   text-transform: uppercase; }
 
 .warn {
-  color: #ffc03c;
+  color: #F79520;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1696,10 +1688,10 @@ raintank POSITIONING
   box-shadow: 0 0 1px fade(#10a345, 90%); }
 
 .rt-event-warning {
-  color: #ffc03c;
-  background-color: fade(#ffc03c, 30%);
-  border-color: fade(#ffc03c, 50%);
-  box-shadow: 0 0 1px fade(#ffc03c, 90%); }
+  color: #F79520;
+  background-color: fade(#F79520, 30%);
+  border-color: fade(#F79520, 50%);
+  box-shadow: 0 0 1px fade(#F79520, 90%); }
 
 .rt-event-error {
   color: #ed2e18;
@@ -1747,13 +1739,13 @@ raintank POSITIONING
 .rt-list-status-warning {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ffc03c; }
+  color: #F79520; }
   .rt-list-status-warning:link, .rt-list-status-warning:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #ffc03c; }
+    color: #F79520; }
     .rt-list-status-warning:link:hover, .rt-list-status-warning:visited:hover {
-      color: #ffd06f; }
+      color: #f9ac51; }
 
 .rt-list-status-down {
   font-size: 1.1rem;
@@ -1931,5 +1923,15 @@ raintank POSITIONING
 
 .gf-form--right-margin {
   margin-right: 1rem; }
+
+.rt-exclamation-probe--container {
+  background: linear-gradient(135deg, #2f2f2f, #262626);
+  padding: 15px;
+  max-width: 555px; }
+
+.rt-exclamation-probe {
+  font-size: 25px;
+  vertical-align: sub;
+  margin-right: 5px; }
 
 /*# sourceMappingURL=worldping.dark.css.map */

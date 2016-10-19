@@ -37,7 +37,6 @@ System.register(['lodash'], function (_export, _context) {
       _export('ProbeListCtrl', ProbeListCtrl = function () {
 
         /** @ngInject */
-
         function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv, contextSrv) {
           _classCallCheck(this, ProbeListCtrl);
 

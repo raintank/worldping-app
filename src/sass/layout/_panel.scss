@@ -129,6 +129,13 @@ p.rt-dashboard-copy {
     margin-top: 15px;
 }
 
+.rt-dash--warning {
+  background-color: rgba($red, 0.5);
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px;
+}
+
  @media screen and (max-width: 780px) {
   .rt-dash-flex-item {
     flex: 0 100%;
@@ -152,7 +159,7 @@ p.rt-dashboard-blurb{
 
 a.rt-dashboard-blurb{
      font-size:14px;
-     color: $brand-primary;
+     color: $text-color;
      margin: 0;
 }
 
@@ -166,7 +173,21 @@ a.rt-dashboard-blurb:hover{
   background: $brand-gradient;
   -webkit-background-clip: text;
   text-decoration:none;
-  font-size: 85px;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
+.rt-dashboard-icons-upcoming {
+  color: $text-color-weak;
+  text-decoration:none;
+  font-size: 20px;
+  vertical-align: sub;
+}
+
+.rt-dashboard-icons-warning {
+  color: $text-color-strong;
+  text-decoration:none;
+  font-size: 20px;
   vertical-align: sub;
 }
 
@@ -179,9 +200,26 @@ a.rt-dashboard-blurb:hover{
   text-decoration: line-through;
 }
 
+a.rt-blurb-upcoming {
+  color: $text-color-weak;
+}
+
 .rt-dashboard-icons-container {
   width: 30px;
   display: inline-block;
   margin-right: 5px;
   text-align: center;
+  vertical-align: top;
+}
+
+.rt-dashboard-icons-copy-container {
+  max-width: 285px;
+  display: inline-block;
+}
+
+.rt-dashboard-icons-subcopy {
+     display: block;
+     font-size:12px;
+     color: $text-color;
+     margin: 0;
 }

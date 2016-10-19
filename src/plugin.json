@@ -7,7 +7,7 @@
     {
       "path": "api/graphite/*",
       "method": "*",
-      "url": "https://worldping-api.raintank.io/api/graphite",
+      "url": "https://tsdb-gw.raintank.io/graphite",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
@@ -18,7 +18,17 @@
     {
       "path": "api/elasticsearch/*",
       "method": "*",
-      "url": "https://worldping-api.raintank.io/api/elasticsearch",
+      "url": "https://tsdb-gw.raintank.io/elasticsearch",
+      "reqSignedIn": true,
+      "reqRole": "Viewer",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
+    },
+    {
+      "path": "api/grafana-net/*",
+      "method": "GET",
+      "url": "https://grafana.net/api",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
@@ -72,8 +82,8 @@
       {"name": "worldPing Web Dashboard", "path": "img/wP-Screenshot-dash-web.png"},
       {"name": "worldPing Endpoint Details", "path": "img/wP-Screenshot-endpoint-details.png"}
     ],
-    "version": "1.0.10",
-    "updated": "2016-07-13"
+    "version": "1.1.0",
+    "updated": "2016-09-28"
   },
 
   "includes": [
