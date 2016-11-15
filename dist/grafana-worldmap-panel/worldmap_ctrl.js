@@ -1,7 +1,9 @@
 'use strict';
 
-System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core/utils/kbn', './map_renderer', './data_formatter', './geohash', './css/worldmap-panel.css!'], function (_export, _context) {
-  var MetricsPanelCtrl, _, TimeSeries, kbn, mapRenderer, DataFormatter, decodeGeoHash, _createClass, panelDefaults, mapCenters, WorldmapCtrl;
+System.register(['app/plugins/sdk', 'app/core/time_series2', 'app/core/utils/kbn', 'lodash', './map_renderer', './data_formatter', './css/worldmap-panel.css!'], function (_export, _context) {
+  "use strict";
+
+  var MetricsPanelCtrl, TimeSeries, kbn, _, mapRenderer, DataFormatter, _createClass, panelDefaults, mapCenters, WorldmapCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -35,19 +37,18 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
 
   return {
     setters: [function (_appPluginsSdk) {
+      /* eslint import/no-extraneous-dependencies: 0 */
       MetricsPanelCtrl = _appPluginsSdk.MetricsPanelCtrl;
-    }, function (_lodash) {
-      _ = _lodash.default;
     }, function (_appCoreTime_series) {
       TimeSeries = _appCoreTime_series.default;
     }, function (_appCoreUtilsKbn) {
       kbn = _appCoreUtilsKbn.default;
+    }, function (_lodash) {
+      _ = _lodash.default;
     }, function (_map_renderer) {
       mapRenderer = _map_renderer.default;
     }, function (_data_formatter) {
       DataFormatter = _data_formatter.default;
-    }, function (_geohash) {
-      decodeGeoHash = _geohash.default;
     }, function (_cssWorldmapPanelCss) {}],
     execute: function () {
       _createClass = function () {
@@ -84,7 +85,10 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
         unitPlural: '',
         showLegend: true,
         esMetric: 'Count',
-        decimals: 0
+        decimals: 0,
+        hideEmpty: false,
+        hideZero: false,
+        stickyLabels: false
       };
       mapCenters = {
         '(0°, 0°)': { mapCenterLatitude: 0, mapCenterLongitude: 0 },
@@ -94,13 +98,13 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
         'SE Asia': { mapCenterLatitude: 10, mapCenterLongitude: 106 }
       };
 
-      _export('WorldmapCtrl', WorldmapCtrl = function (_MetricsPanelCtrl) {
+      WorldmapCtrl = function (_MetricsPanelCtrl) {
         _inherits(WorldmapCtrl, _MetricsPanelCtrl);
 
         function WorldmapCtrl($scope, $injector, contextSrv) {
           _classCallCheck(this, WorldmapCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WorldmapCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (WorldmapCtrl.__proto__ || Object.getPrototypeOf(WorldmapCtrl)).call(this, $scope, $injector));
 
           _this.setMapProvider(contextSrv);
           _.defaults(_this.panel, panelDefaults);
@@ -184,7 +188,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
         }, {
           key: 'onInitEditMode',
           value: function onInitEditMode() {
-            this.addEditorTab('Worldmap', 'public/plugins/grafana-worldmap-panel/editor.html', 2);
+            this.addEditorTab('Worldmap', 'public/plugins/grafana-worldmap-panel/partials/editor.html', 2);
           }
         }, {
           key: 'onDataReceived',
@@ -198,11 +202,10 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
             var data = [];
 
             if (this.panel.locationData === 'geohash') {
-              this.series = dataList.map(this.seriesHandler.bind(this));
-              this.setGeohashValues(data);
+              this.dataFormatter.setGeohashValues(dataList, data);
             } else if (this.panel.locationData === 'table') {
-              this.series = dataList.map(this.tableHandler.bind(this));
-              this.setTableValues(data);
+              var tableData = dataList.map(DataFormatter.tableHandler.bind(this));
+              this.dataFormatter.setTableValues(tableData, data);
             } else {
               this.series = dataList.map(this.seriesHandler.bind(this));
               this.dataFormatter.setValues(data);
@@ -219,86 +222,6 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
             this.onDataReceived(snapshotData);
           }
         }, {
-          key: 'setGeohashValues',
-          value: function setGeohashValues(data) {
-            var _this3 = this;
-
-            if (!this.panel.esGeoPoint || !this.panel.esMetric) return;
-
-            if (this.series && this.series.length > 0) {
-              (function () {
-                var highestValue = 0;
-                var lowestValue = Number.MAX_VALUE;
-
-                _this3.series[0].datapoints.forEach(function (datapoint) {
-                  var encodedGeohash = datapoint[_this3.panel.esGeoPoint];
-                  var decodedGeohash = decodeGeoHash(encodedGeohash);
-
-                  var dataValue = {
-                    key: encodedGeohash,
-                    locationName: _this3.panel.esLocationName ? datapoint[_this3.panel.esLocationName] : encodedGeohash,
-                    locationLatitude: decodedGeohash.latitude,
-                    locationLongitude: decodedGeohash.longitude,
-                    value: datapoint[_this3.panel.esMetric],
-                    valueFormatted: datapoint[_this3.panel.esMetric],
-                    valueRounded: 0
-                  };
-
-                  if (dataValue.value > highestValue) highestValue = dataValue.value;
-                  if (dataValue.value < lowestValue) lowestValue = dataValue.value;
-
-                  dataValue.valueRounded = kbn.roundValue(dataValue.value, _this3.panel.decimals || 0);
-                  data.push(dataValue);
-                });
-
-                data.highestValue = highestValue;
-                data.lowestValue = lowestValue;
-                data.valueRange = highestValue - lowestValue;
-              })();
-            }
-          }
-        }, {
-          key: 'setTableValues',
-          value: function setTableValues(data) {
-            var _this4 = this;
-
-            if (this.series && this.series.length > 0) {
-              (function () {
-                var highestValue = 0;
-                var lowestValue = Number.MAX_VALUE;
-
-                _this4.series[0].datapoints.forEach(function (datapoint) {
-                  if (!datapoint.geohash) {
-                    return;
-                  }
-
-                  var encodedGeohash = datapoint.geohash;
-                  var decodedGeohash = decodeGeoHash(encodedGeohash);
-
-                  var dataValue = {
-                    key: encodedGeohash,
-                    locationName: datapoint[_this4.panel.tableLabel] || 'n/a',
-                    locationLatitude: decodedGeohash.latitude,
-                    locationLongitude: decodedGeohash.longitude,
-                    value: datapoint.metric,
-                    valueFormatted: datapoint.metric,
-                    valueRounded: 0
-                  };
-
-                  if (dataValue.value > highestValue) highestValue = dataValue.value;
-                  if (dataValue.value < lowestValue) lowestValue = dataValue.value;
-
-                  dataValue.valueRounded = kbn.roundValue(dataValue.value, _this4.panel.decimals || 0);
-                  data.push(dataValue);
-                });
-
-                data.highestValue = highestValue;
-                data.lowestValue = lowestValue;
-                data.valueRange = highestValue - lowestValue;
-              })();
-            }
-          }
-        }, {
           key: 'seriesHandler',
           value: function seriesHandler(seriesData) {
             var series = new TimeSeries({
@@ -306,37 +229,6 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
               alias: seriesData.target
             });
 
-            series.flotpairs = series.getFlotPairs(this.panel.nullPointMode);
-            return series;
-          }
-        }, {
-          key: 'tableHandler',
-          value: function tableHandler(tableData) {
-            var datapoints = [];
-            var alias = null;
-
-            if (tableData.type === 'table') {
-              (function () {
-                var columnNames = {};
-
-                tableData.columns.forEach(function (column, columnIndex) {
-                  columnNames[columnIndex] = column.text;
-                });
-
-                tableData.rows.forEach(function (row) {
-                  var datapoint = {};
-
-                  row.forEach(function (value, columnIndex) {
-                    var key = columnNames[columnIndex];
-                    datapoint[key] = value;
-                  });
-
-                  datapoints.push(datapoint);
-                });
-              })();
-            }
-
-            var series = new TimeSeries({ datapoints: datapoints, alias: alias });
             series.flotpairs = series.getFlotPairs(this.panel.nullPointMode);
             return series;
           }
@@ -353,7 +245,7 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
         }, {
           key: 'setZoom',
           value: function setZoom() {
-            this.map.setZoom(this.panel.initialZoom);
+            this.map.setZoom(this.panel.initialZoom || 1);
           }
         }, {
           key: 'toggleLegend',
@@ -361,6 +253,12 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
             if (!this.panel.showLegend) {
               this.map.removeLegend();
             }
+            this.render();
+          }
+        }, {
+          key: 'toggleStickyLabels',
+          value: function toggleStickyLabels() {
+            this.map.clearCircles();
             this.render();
           }
         }, {
@@ -376,6 +274,15 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
             this.data.thresholds = this.panel.thresholds.split(',').map(function (strValue) {
               return Number(strValue.trim());
             });
+            while (_.size(this.panel.colors) > _.size(this.data.thresholds) + 1) {
+              // too many colors. remove the last one.
+              this.panel.colors.pop();
+            }
+            while (_.size(this.panel.colors) < _.size(this.data.thresholds) + 1) {
+              // not enough colors. add one.
+              var newColor = 'rgba(50, 172, 45, 0.97)';
+              this.panel.colors.push(newColor);
+            }
           }
         }, {
           key: 'changeLocationData',
@@ -394,9 +301,9 @@ System.register(['app/plugins/sdk', 'lodash', 'app/core/time_series2', 'app/core
         }]);
 
         return WorldmapCtrl;
-      }(MetricsPanelCtrl));
+      }(MetricsPanelCtrl);
 
-      _export('WorldmapCtrl', WorldmapCtrl);
+      _export('default', WorldmapCtrl);
 
       WorldmapCtrl.templateUrl = '../../plugins/grafana-worldmap-panel/module.html';
     }

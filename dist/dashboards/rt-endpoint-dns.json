@@ -350,15 +350,6 @@
       "height": "",
       "panels": [
         {
-          "alert": {
-            "crit": {
-              "op": ">"
-            },
-            "warn": {
-              "op": ">"
-            }
-          },
-          "alerting": {},
           "aliasColors": {
             "connect": "#0A50A1",
             "dns": "#890F02",
@@ -484,15 +475,6 @@
           "valueName": "total"
         },
         {
-          "alert": {
-            "crit": {
-              "op": ">"
-            },
-            "warn": {
-              "op": ">"
-            }
-          },
-          "alerting": {},
           "aliasColors": {
             "error": "#E24D42",
             "ok": "#508642"
@@ -807,7 +789,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 16,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,
