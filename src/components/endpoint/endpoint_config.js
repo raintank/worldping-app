@@ -1,21 +1,12 @@
 import _ from 'lodash';
 import angular from 'angular';
 
-var defaultRoute = {
-  type: "byIds",
-  config: {
-    ids: []
-  }
-};
-var defaultHealthSettings = {
-  num_collectors: 3,
-  steps: 3
-};
-
-var defaultCheck = {
+var _defaultCheck = {
   settings: {},
   healthSettings: {
-    notifications: {}
+    notifications: {},
+    num_collectors: 3,
+    steps: 3
   },
   route: {
     type: "byIds",
@@ -24,6 +15,58 @@ var defaultCheck = {
     }
   }
 };
+
+function defaultCheck(checkType) {
+  var check = _.cloneDeep(_defaultCheck);
+  switch (checkType) {
+  case "http":
+    check.type = "http";
+    check.settings = {
+      timeout: 5,
+      port: 80,
+      path: "/",
+      headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+      method: "GET",
+      host: ""
+    };
+    check.frequency = 120;
+    break;
+  case "https":
+    check.type = "https";
+    check.settings = {
+      timeout: 5,
+      port: 443,
+      path: "/",
+      headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+      method: "GET",
+      host: "",
+      validateCert: true,
+    };
+    check.frequency = 120;
+    break;
+  case "ping":
+    check.type = "ping";
+    check.settings = {
+      timeout: 5,
+      hostname: ""
+    };
+    check.frequency = 60;
+    break;
+  case "dns":
+    check.type = "dns";
+    check.settings = {
+      timeout: 5,
+      name: "",
+      port: 53,
+      protocol: "udp",
+      server: "",
+      type: "A"
+    };
+    check.frequency = 120;
+    break;
+  }
+  return check;
+}
 
 class EndpointConfigCtrl {
    /** @ngInject */
@@ -142,20 +185,16 @@ class EndpointConfigCtrl {
       var definedChecks = _.keys(self.checks);
       if (definedChecks.length < 4) {
         if (_.indexOf(definedChecks, "http") === -1) {
-          self.checks["http"] = _.cloneDeep(defaultCheck);
-          self.checks["http"].type = "http";
+          self.checks["http"] = defaultCheck("http");
         }
         if (_.indexOf(definedChecks, "https") === -1) {
-          self.checks["https"] = _.cloneDeep(defaultCheck);
-          self.checks["https"].type = "https";
+          self.checks["https"] = defaultCheck("https");
         }
         if (_.indexOf(definedChecks, "ping") === -1) {
-          self.checks["ping"] = _.cloneDeep(defaultCheck);
-          self.checks["ping"].type = "ping";
+          self.checks["ping"] = defaultCheck("ping");
         }
         if (_.indexOf(definedChecks, "dns") === -1) {
-          self.checks["dns"] = _.cloneDeep(defaultCheck);
-          self.checks["dns"].type = "dns";
+          self.checks["dns"] = defaultCheck("dns");
         }
       }
     });
@@ -190,9 +229,7 @@ class EndpointConfigCtrl {
         return self.$q.reject(resp.meta.message);
       }
       self.probes = resp.body;
-      defaultRoute.config.ids = [];
       _.forEach(self.probes, function(probe) {
-        defaultRoute.config.ids.push(probe.id);
         _.forEach(probe.tags, function(t) {
           if (!(t in self.probesByTag)) {
             self.probesByTag[t] = [];
@@ -397,27 +434,21 @@ class EndpointConfigCtrl {
       }
       self.endpoint = resp.body;
       _.forEach(self.endpoint.checks, function(check) {
-        check.route = _.cloneDeep(defaultRoute);
-        check.healthSettings = _.cloneDeep(defaultHealthSettings);
         self.checks[check.type] = _.cloneDeep(check);
       });
       var definedChecks = _.keys(self.checks);
       if (definedChecks.length < 4) {
         if (_.indexOf(definedChecks, "http") === -1) {
-          self.checks["http"] = _.cloneDeep(defaultCheck);
-          self.checks["http"].type = "http";
+          self.checks["http"] = defaultCheck("http");
         }
         if (_.indexOf(definedChecks, "https") === -1) {
-          self.checks["https"] = _.cloneDeep(defaultCheck);
-          self.checks["https"].type = "https";
+          self.checks["https"] = defaultCheck("https");
         }
         if (_.indexOf(definedChecks, "ping") === -1) {
-          self.checks["ping"] = _.cloneDeep(defaultCheck);
-          self.checks["ping"].type = "ping";
+          self.checks["ping"] =defaultCheck("ping");
         }
         if (_.indexOf(definedChecks, "dns") === -1) {
-          self.checks["dns"] = _.cloneDeep(defaultCheck);
-          self.checks["dns"].type = "dns";
+          self.checks["dns"] = defaultCheck("dns");
         }
       }
       self.showConfig = true;
