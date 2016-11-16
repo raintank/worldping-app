@@ -83,7 +83,8 @@
         }
       ],
       "showTitle": true,
-      "title": "overall $protocol endpoint performance (average all selected probes)"
+      "titleSize": "h5",
+      "title": "Overall $protocol endpoint performance (average all selected probes)"
     },
     {
       "collapse": false,
@@ -168,7 +169,8 @@
       ],
       "repeat": null,
       "showTitle": true,
-      "title": "$protocol PERFORMANCE (FOR EACH PROBE)"
+      "titleSize": "h5",
+      "title": "$protocol performance (per probe)"
     }
   ],
   "nav": [
@@ -270,7 +272,7 @@
   "refresh": false,
   "schemaVersion": 6,
   "version": 3,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "type": "dashboards",
