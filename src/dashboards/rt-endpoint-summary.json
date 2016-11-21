@@ -84,7 +84,7 @@
           ],
           "thresholds": "0,0,100",
           "title": "DNS",
-          "transparent": true,
+          "transparent": false,
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -144,7 +144,7 @@
           ],
           "thresholds": "0,0,100",
           "title": "Ping",
-          "transparent": true,
+          "transparent": false,
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -205,7 +205,7 @@
           ],
           "thresholds": "0,0,100",
           "title": "HTTP",
-          "transparent": true,
+          "transparent": false,
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -266,7 +266,7 @@
           ],
           "thresholds": "0,0,100",
           "title": "HTTPS",
-          "transparent": true,
+          "transparent": false,
           "type": "singlestat",
           "valueFontSize": "80%",
           "valueMaps": [
@@ -280,7 +280,8 @@
         }
       ],
       "showTitle": true,
-      "title": "$endpoint Uptime"
+      "titleSize": "h5",
+      "title": "Uptime:"
     },
     {
       "collapse": false,
@@ -358,7 +359,7 @@
             "shared": true,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
           "x-axis": true,
           "y-axis": false,
@@ -437,7 +438,7 @@
             "shared": true,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
           "x-axis": true,
           "y-axis": false,
@@ -518,7 +519,7 @@
             "shared": true,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
           "x-axis": true,
           "y-axis": false,
@@ -598,7 +599,7 @@
             "shared": true,
             "value_type": "individual"
           },
-          "transparent": true,
+          "transparent": false,
           "type": "graph",
           "x-axis": true,
           "y-axis": false,
@@ -609,7 +610,8 @@
         }
       ],
       "showTitle": true,
-      "title": "$endpoint Status"
+      "titleSize": "h5",
+      "title": "Status:"
     },
     {
       "collapse": false,
@@ -917,7 +919,8 @@
         }
       ],
       "showTitle": true,
-      "title": "$endpoint Performance"
+      "titleSize": "h5",
+      "title": "Performance:"
     }
   ],
   "nav": [
@@ -1017,7 +1020,7 @@
   "refresh": false,
   "schemaVersion": 6,
   "version": 4,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,
