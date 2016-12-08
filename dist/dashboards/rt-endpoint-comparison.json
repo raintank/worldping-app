@@ -13,7 +13,7 @@
   "sharedCrosshair": true,
   "rows": [
     {
-      "collapse": true,
+      "collapse": false,
       "editable": true,
       "height": "250px",
       "panels": [
@@ -37,7 +37,7 @@
             "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "height": "350",
+          "height": "250",
           "id": 10,
           "legend": {
             "alignAsTable": true,
