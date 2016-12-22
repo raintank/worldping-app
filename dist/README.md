@@ -4,6 +4,7 @@ worldPing is a plugin for Grafana that continually tests, stores and alerts on t
 
 You can use worldPing to get a real-time view of any endpoint's performance and availability. As often as every 10 seconds, we will test your application from dozens of Probes around the world, Alerting you in real-time if there are any outages or slow-downs.
 
+![worldPing Diagram](https://grafana.net/img/worldping_graph.svg)
 
 ## Live Demo
 
@@ -56,5 +57,5 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 #### Changelog
 
 ##### v1.2.0
-- Endpoint config now pulls probe defaults from the backend, being able to better tailor the checks to the available quota. 
+- Endpoint config now pulls probe defaults from the backend, being able to better tailor the checks to the available quota.
 - Bug fixes.
