@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['lodash', 'angular'], function (_export, _context) {
+  "use strict";
+
   var _, angular, _createClass, _defaultCheck, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -103,7 +105,6 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
       _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
         /** @ngInject */
-
         function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
           _classCallCheck(this, EndpointConfigCtrl);
 

@@ -1,6 +1,8 @@
 "use strict";
 
 System.register(["lodash"], function (_export, _context) {
+  "use strict";
+
   var _, _typeof, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -17,7 +19,7 @@ System.register(["lodash"], function (_export, _context) {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -41,7 +43,6 @@ System.register(["lodash"], function (_export, _context) {
       _export("EndpointDetailsCtrl", EndpointDetailsCtrl = function () {
 
         /** @ngInject */
-
         function EndpointDetailsCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointDetailsCtrl);
 

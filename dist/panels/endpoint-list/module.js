@@ -1,6 +1,8 @@
 'use strict';
 
 System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plugins/sdk'], function (_export, _context) {
+  "use strict";
+
   var _, PanelCtrl, loadPluginCss, _typeof, _createClass, _get, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
@@ -44,7 +46,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -99,11 +101,10 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         _inherits(EndpointListCtrl, _PanelCtrl);
 
         /** @ngInject */
-
         function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
-          var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EndpointListCtrl).call(this, $scope, $injector));
+          var _this = _possibleConstructorReturn(this, (EndpointListCtrl.__proto__ || Object.getPrototypeOf(EndpointListCtrl)).call(this, $scope, $injector));
 
           _this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           _this.backendSrv = backendSrv;
@@ -128,7 +129,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         _createClass(EndpointListCtrl, [{
           key: 'initEditMode',
           value: function initEditMode() {
-            _get(Object.getPrototypeOf(EndpointListCtrl.prototype), 'initEditMode', this).call(this);
+            _get(EndpointListCtrl.prototype.__proto__ || Object.getPrototypeOf(EndpointListCtrl.prototype), 'initEditMode', this).call(this);
             this.icon = 'fa fa-text-width';
             this.addEditorTab('Options', 'public/plugins/raintank-worldping-app/panels/endpoint-list/editor.html');
             this.editorTabIndex = 1;
