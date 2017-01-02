@@ -56,6 +56,10 @@ WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana
 
 #### Changelog
 
+##### v1.2.1
+
+- fix issue with worldmap panel
+
 ##### v1.2.0
 - Endpoint config now pulls probe defaults from the backend, being able to better tailor the checks to the available quota.
 - Bug fixes.
