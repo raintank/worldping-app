@@ -60,7 +60,7 @@
         {
           "aliasColors": {
             "ERROR": "#E24D42",
-            "OK": "#508642"
+            "OK": "#629E51"
           },
           "bars": true,
           "datasource": "raintankEvents",
@@ -92,16 +92,7 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "//",
-              "color": "#BF1B00"
-            },
-            {
-              "alias": "OKs",
-              "color": "#629E51"
-            }
-          ],
+          "seriesOverrides": [],
           "span": 7,
           "stack": true,
           "steppedLine": false,
@@ -470,7 +461,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 7,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,

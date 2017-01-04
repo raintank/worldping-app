@@ -606,10 +606,7 @@
           "valueName": "total"
         },
         {
-          "aliasColors": {
-            "error": "#E24D42",
-            "ok": "#508642"
-          },
+          "aliasColors": {},
           "bars": true,
           "datasource": "raintank",
           "editable": true,
@@ -649,16 +646,7 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "//",
-              "color": "#E24D42"
-            },
-            {
-              "alias": "OKs",
-              "color": "#629E51"
-            }
-          ],
+          "seriesOverrides": [],
           "span": 5,
           "stack": true,
           "steppedLine": false,
@@ -746,7 +734,7 @@
           "styles": [
             {
               "dateFormat": "YYYY-MM-DD HH:mm:ss",
-              "pattern": "Time",
+              "pattern": "timestamp",
               "type": "date"
             }
           ],
@@ -910,7 +898,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 2,
-  "revision": 2,
+  "revision": 3,
   "links": [
     {
       "asDropdown": true,
