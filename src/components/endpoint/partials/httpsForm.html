@@ -8,7 +8,7 @@
           <!-- Monitoring -->
           <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.checks['https'].enabled"></i>
           <span class="freqMsg" ng-show="ctrl.checks['https'].enabled" > Every {{ctrl.checks['https'].frequency}}s from {{ctrl.probeCount(ctrl.checks['https'])}} {{ctrl.probeCount(ctrl.checks['https']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['dns'].enabled"></i>
+          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['https'].enabled"></i>
           <span class="freqMsg disabled" ng-show="!ctrl.checks['https'].enabled" > Not enabled |</span>
           <span class="freqMsg" ng-show="!ctrl.checks['https'].enabled && ctrl.discovered" > Not Discovered |</span>
           <!-- Checks -->
@@ -45,40 +45,47 @@
           <div class="gf-form-group">
             <div class="gf-form">
               <label class="gf-form-label width-9">Hostname</label>
-              <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.checks['https'].settings.host" placeholder="www.example.com">
+              <input class="gf-form-input width-31" type="text" ng-model="ctrl.checks['https'].settings.host" placeholder="www.example.com">
             </div>
-            <div class="gf-form">
-              <label class="gf-form-label width-9">Timeout (s)</label>
-              <input class="gf-form-input max-width-5" type="number" min="1" max="10" ng-model="ctrl.checks['https'].settings.timeout">
-              <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
+            <div class="gf-form-inline">
+              <div class="gf-form">
+                <label class="gf-form-label width-9">Port</label>
+                <input class="gf-form-input width-11" type="number" ng-model="ctrl.checks['https'].settings.port" min="1" max="65535">
+              </div>
+              <div class="gf-form">
+                <label class="gf-form-label width-9">Timeout (s)</label>
+                <input class="gf-form-input width-11" type="number" ng-model="ctrl.checks['https'].settings.timeout" min="1" max="10">
+                <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
+              </div>
             </div>
           </div>
           <div class="gf-form-group">
             <div class="gf-form-inline">
               <div class="gf-form">
                 <label class="gf-form-label width-9">Path</label>
-                <input class="gf-form-input max-width-30" type="text" ng-model="ctrl.checks['https'].settings.path" placeholder="www.example.com">
+                <input class="gf-form-input width-16" type="text" ng-model="ctrl.checks['https'].settings.path" placeholder="www.example.com">
               </div>
-              <div class="gf-form">
-                <label class="gf-form-label width-4">Port</label>
-                <input class="gf-form-input max-width-5" type="number" min="1" max="65535" ng-model="ctrl.checks['https'].settings.port">
-              </div>
-            </div>
-            <div class="gf-form-inline">
               <div class="gf-form">
                 <label class="gf-form-label width-9">Method</label>
                 <div class="gf-form-select-wrapper">
                   <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['https'].settings.method" ng-options="m for m in ['GET', 'PUT', 'POST', 'DELETE', 'HEAD', 'PATCH']"></select>
                 </div>
               </div>
+            </div>
+            <div class="gf-form-inline">
               <div class="gf-form">
-                <label class="gf-form-label width-10">Content Match</label>
-                <input class="gf-form-input max-width-21" type="text" ng-model="ctrl.checks['https'].settings.expectRegex">
+                <label class="gf-form-label width-9">Content Match</label>
+                <input class="gf-form-input width-16" type="text" ng-model="ctrl.checks['https'].settings.expectRegex">
+              </div>
+              <div class="gf-form">
+                <label class="gf-form-label width-9">Download Limit</label>
+                <input class="gf-form-input width-11" type="text" ng-model="ctrl.checks['https'].settings.downloadLimit">
+                <info-popover>The maximum amount of data the probe will attempt to download (in bytes, max {{ctrl.quotas.downloadLimit.limit || '102400'}}).</info-popover>
               </div>
             </div>
             <div class="gf-form gf-form--v-stretch">
               <label class="gf-form-label width-9">Headers</label>
-              <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.checks['https'].settings.headers"></textarea>
+              <textarea class="gf-form-input width-31" type="textarea" ng-model="ctrl.checks['https'].settings.headers"></textarea>
             </div>
             <div class="gf-form-checkbox">
               <input class="cr1" id="validateSSLCheckBox" type="checkbox" ng-model="ctrl.checks['https'].settings.validateCert" ng-true-value="true" ng-false-value="false">
