@@ -305,6 +305,16 @@ class EndpointConfigCtrl {
     return (30.4375 * 24 * (3600/check.frequency) * probeCount / 1000000);
   }
 
+  formatSize(size) {
+    if (size > 1024 * 1024) {
+      return (size / 1024 / 1024).toFixed(2) + ' MB';
+    }
+    if (size > 1024) {
+      return (size / 1024).toFixed(2) + ' KB';
+    }
+    return size;
+  }
+
   requiresUpgrade() {
     if (!this.org) {
       return true;

@@ -364,6 +364,17 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             return 30.4375 * 24 * (3600 / check.frequency) * probeCount / 1000000;
           }
         }, {
+          key: 'formatSize',
+          value: function formatSize(size) {
+            if (size > 1024 * 1024) {
+              return (size / 1024 / 1024).toFixed(2) + ' MB';
+            }
+            if (size > 1024) {
+              return (size / 1024).toFixed(2) + ' KB';
+            }
+            return size;
+          }
+        }, {
           key: 'requiresUpgrade',
           value: function requiresUpgrade() {
             if (!this.org) {

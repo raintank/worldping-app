@@ -80,7 +80,7 @@
               <div class="gf-form">
                 <label class="gf-form-label width-9">Download Limit</label>
                 <input class="gf-form-input width-11" type="text" ng-model="ctrl.checks['https'].settings.downloadLimit">
-                <info-popover>The maximum amount of data the probe will attempt to download (in bytes, max {{ctrl.quotas.downloadLimit.limit || '102400'}}).</info-popover>
+                <info-popover>The maximum amount of data the probe will attempt to download (in bytes, max {{ctrl.formatSize(ctrl.quotas.downloadLimit.limit || 102400)}}).</info-popover>
               </div>
             </div>
             <div class="gf-form gf-form--v-stretch">
