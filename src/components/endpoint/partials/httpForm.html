@@ -87,6 +87,10 @@
               <label class="gf-form-label width-9">Headers</label>
               <textarea class="gf-form-input width-31" type="textarea" ng-model="ctrl.checks['http'].settings.headers"></textarea>
             </div>
+            <div class="gf-form gf-form--v-stretch" ng-show="['PUT', 'POST', 'DELETE', 'PATCH'].indexOf(ctrl.checks.http.settings.method) >= 0">
+              <label class="gf-form-label width-9">{{ctrl.checks.http.settings.method}} Body</label>
+              <textarea class="gf-form-input width-31" type="textarea" ng-model="ctrl.checks.http.settings.body"></textarea>
+            </div>
           </div>
           <div class="gf-form-group" ng-show="ctrl.checks['http'].enabled">
             <div class="rt-body-copy">

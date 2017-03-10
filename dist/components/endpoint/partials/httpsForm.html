@@ -87,6 +87,10 @@
               <label class="gf-form-label width-9">Headers</label>
               <textarea class="gf-form-input width-31" type="textarea" ng-model="ctrl.checks['https'].settings.headers"></textarea>
             </div>
+            <div class="gf-form gf-form--v-stretch" ng-show="['PUT', 'POST', 'DELETE', 'PATCH'].indexOf(ctrl.checks.https.settings.method) >= 0">
+              <label class="gf-form-label width-9">{{ctrl.checks.https.settings.method}} Body</label>
+              <textarea class="gf-form-input width-31" type="textarea" ng-model="ctrl.checks.https.settings.body"></textarea>
+            </div>
             <div class="gf-form-checkbox">
               <input class="cr1" id="validateSSLCheckBox" type="checkbox" ng-model="ctrl.checks['https'].settings.validateCert" ng-true-value="true" ng-false-value="false">
               <label for="validateSSLCheckBox" class="cr1"></label>

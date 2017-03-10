@@ -21,6 +21,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           port: 80,
           path: "/",
           headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+          body: '',
           method: "GET",
           host: "",
           downloadLimit: ''
@@ -34,6 +35,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           port: 443,
           path: "/",
           headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+          body: '',
           method: "GET",
           host: "",
           validateCert: true,
