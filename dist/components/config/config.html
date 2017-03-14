@@ -15,7 +15,7 @@
 		<div ng-if="ctrl.appModel.jsonData.apiKeySet && ctrl.validKey" class="wp-enabled-box">
 			<i class="icon-gf icon-gf-check wp-icon-success"></i> worldPing is enabled. <strong>Next up: </strong><a href="dashboard/db/worldping-home" class="external-link">Go to worldPing Home Dashboard</a>
 		</div>
-		<div ng-if="!ctrl.validKey && ctrl.errorMsg">
+		<div ng-if="ctrl.errorMsg">
 			<div class="alert alert-error"><div class="alert-title ng-binding">Error</div><div>{{ctrl.errorMsg}}</div></div>
 		</div>
 	</div>
