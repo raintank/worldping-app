@@ -475,10 +475,7 @@
           "valueName": "total"
         },
         {
-          "aliasColors": {
-            "error": "#E24D42",
-            "ok": "#508642"
-          },
+          "aliasColors": {},
           "bars": true,
           "datasource": "raintank",
           "editable": true,
@@ -518,16 +515,7 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [
-            {
-              "alias": "//",
-              "color": "#E24D42"
-            },
-            {
-              "alias": "OKs",
-              "color": "#629E51"
-            }
-          ],
+          "seriesOverrides": [],
           "span": 5,
           "stack": true,
           "steppedLine": false,
@@ -789,7 +777,7 @@
   "refresh": false,
   "schemaVersion": 13,
   "version": 16,
-  "revision": 3,
+  "revision": 4,
   "links": [
     {
       "asDropdown": true,
