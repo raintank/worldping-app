@@ -26,8 +26,10 @@ function defaultCheck(checkType) {
       port: 80,
       path: "/",
       headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+      body: '',
       method: "GET",
-      host: ""
+      host: "",
+      downloadLimit: '',
     };
     check.frequency = 120;
     break;
@@ -38,9 +40,11 @@ function defaultCheck(checkType) {
       port: 443,
       path: "/",
       headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+      body: '',
       method: "GET",
       host: "",
       validateCert: true,
+      downloadLimit: '',
     };
     check.frequency = 120;
     break;
@@ -81,12 +85,12 @@ class EndpointConfigCtrl {
 
     this.pageReady = false;
     this.showCreating = false;
-    self.insufficientQuota = false;
+    this.insufficientQuota = false;
 
     this.frequencyOpts = [];
     var freqOpt = [10, 30, 60, 120];
-    _.forEach(freqOpt, function(f) {
-      self.frequencyOpts.push({value: f, label: "Every "+f+"s"});
+    _.forEach(freqOpt, f => {
+      this.frequencyOpts.push({value: f, label: "Every "+f+"s"});
     });
 
     this.newEndpointName = "";
@@ -95,24 +99,26 @@ class EndpointConfigCtrl {
     this.probes = [];
     this.probesByTag = {};
     this.org = null;
+    this.quotas = {};
 
     this.ignoreChanges = false;
 
     var promises = [];
-    self.reset();
+    this.reset();
     if ("endpoint" in $location.search()) {
-      promises.push(self.getEndpoint($location.search().endpoint));
+      promises.push(this.getEndpoint($location.search().endpoint));
+      promises.push(this.getQuotas());
     } else {
       // make sure we have sufficient quota.
-      promises.push(self.checkQuota());
+      promises.push(this.checkQuota());
       this.endpoint = {name: ""};
     }
 
     promises.push(this.getProbes());
     promises.push(this.getOrgDetails());
 
-    $q.all(promises).then(function() {
-      self.pageReady = true;
+    $q.all(promises).then(() => {
+      this.pageReady = true;
       $timeout(function() {
         $anchorScroll();
       }, 0, false);
@@ -123,16 +129,16 @@ class EndpointConfigCtrl {
     if ($location.search().check) {
       switch($location.search().check) {
       case "ping":
-        self.showPing = true;
+        this.showPing = true;
         break;
       case "dns":
-        self.showDNS = true;
+        this.showDNS = true;
         break;
       case "http":
-        self.showHTTP = true;
+        this.showHTTP = true;
         break;
       case "https":
-        self.showHTTPS = true;
+        this.showHTTPS = true;
         break;
       }
     }
@@ -170,85 +176,88 @@ class EndpointConfigCtrl {
   }
 
   getEndpoint(idString) {
-    var self = this;
     var id = parseInt(idString);
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/'+id).then((resp) => {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/'+id).then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      self.endpoint = resp.body;
-      self.newEndpointName = self.endpoint.name;
-      _.forEach(resp.body.checks, function(check) {
-        self.checks[check.type] = _.cloneDeep(check);
+      this.endpoint = resp.body;
+      this.newEndpointName = this.endpoint.name;
+      _.forEach(resp.body.checks, check => {
+        this.checks[check.type] = _.cloneDeep(check);
       });
-      var definedChecks = _.keys(self.checks);
+      var definedChecks = _.keys(this.checks);
       if (definedChecks.length < 4) {
         if (_.indexOf(definedChecks, "http") === -1) {
-          self.checks["http"] = defaultCheck("http");
+          this.checks["http"] = defaultCheck("http");
         }
         if (_.indexOf(definedChecks, "https") === -1) {
-          self.checks["https"] = defaultCheck("https");
+          this.checks["https"] = defaultCheck("https");
         }
         if (_.indexOf(definedChecks, "ping") === -1) {
-          self.checks["ping"] = defaultCheck("ping");
+          this.checks["ping"] = defaultCheck("ping");
         }
         if (_.indexOf(definedChecks, "dns") === -1) {
-          self.checks["dns"] = defaultCheck("dns");
+          this.checks["dns"] = defaultCheck("dns");
         }
       }
     });
   }
 
-  checkQuota() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then((resp) => {
+  getQuotas() {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      _.forEach(resp.body, function(q) {
-        if (q.target === "endpoint") {
-          if (q.limit > 0 && q.used >= q.limit) {
-            self.insufficientQuota = true;
-          }
-        }
+      _.forEach(resp.body, q => {
+        this.quotas[q.target] = q;
       });
-      if (self.insufficientQuota) {
-        return self.$q.reject("Endpoint quota reached.");
+      return this.quotas;
+    });
+  }
+
+  checkQuota() {
+    return this.getQuotas().then(quotas => {
+      if (quotas.endpoint) {
+        const q = quotas.endpoint;
+        this.insufficientQuota = q.limit > 0 && q.used >= q.limit;
+      }
+      if (this.insufficientQuota) {
+        return this.$q.reject("Endpoint quota reached.");
       }
       return true;
     });
   }
 
   getProbes() {
-    var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get getProbes.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to get getProbes.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      self.probes = resp.body;
-      _.forEach(self.probes, function(probe) {
-        _.forEach(probe.tags, function(t) {
-          if (!(t in self.probesByTag)) {
-            self.probesByTag[t] = [];
+      this.probes = resp.body;
+      _.forEach(this.probes, probe => {
+        _.forEach(probe.tags, t => {
+          if (!(t in this.probesByTag)) {
+            this.probesByTag[t] = [];
           }
-          self.probesByTag[t].push(probe);
+          this.probesByTag[t].push(probe);
         });
       });
     });
   }
 
   getOrgDetails() {
-    var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
-    p.then((resp) => {
-      self.org = resp;
-    }, (resp) => {
-      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
-    });
-    return p;
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org').then(
+      resp => {
+        this.org = resp;
+      },
+      resp => {
+        this.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+      }
+    );
   }
 
   probeCount(check) {
@@ -260,32 +269,33 @@ class EndpointConfigCtrl {
 
   getProbesForCheck(check) {
     if (check.route.type === "byIds") {
-      return check.route.config.ids;
-    } else if (check.route.type === "byTags") {
+      return check.route.config.ids || [];
+    }
+
+    if (check.route.type === "byTags") {
       var probeList = {};
-      _.forEach(this.probes, function(p) {
-        _.forEach(check.route.config.tags, function(t) {
+      _.forEach(this.probes, p => {
+        _.forEach(check.route.config.tags, t => {
           if (_.indexOf(p.tags, t) !== -1) {
             probeList[p.id] = true;
           }
         });
       });
       return _.keys(probeList);
-    } else {
-      this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
-      return [];
     }
+
+    this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
+    return [];
   }
 
   totalChecks(check) {
     if (check === undefined) {
-      var self = this;
-      return _.reduce(self.checks, function(total, value) {
+      return _.reduce(this.checks, (total, value) => {
         if (!value.enabled) {
           return total;
         }
 
-        return total + self.totalChecks(value);
+        return total + this.totalChecks(value);
       }, 0);
     }
 
@@ -295,6 +305,16 @@ class EndpointConfigCtrl {
     }
 
     return (30.4375 * 24 * (3600/check.frequency) * probeCount / 1000000);
+  }
+
+  formatSize(size) {
+    if (size > 1024 * 1024) {
+      return (size / 1024 / 1024).toFixed(2) + ' MB';
+    }
+    if (size > 1024) {
+      return (size / 1024).toFixed(2) + ' KB';
+    }
+    return size;
   }
 
   requiresUpgrade() {
@@ -314,14 +334,13 @@ class EndpointConfigCtrl {
   }
 
   reset() {
-    var self = this;
     this.discovered = false;
     this.discoveryInProgress = false;
     this.discoveryError = false;
     this.showConfig = false;
     this.showCreating = false;
     this.endpoint = {};
-    self.checks = {};
+    this.checks = {};
   }
 
   cancel() {
@@ -331,13 +350,12 @@ class EndpointConfigCtrl {
   }
 
   remove(endpoint) {
-    var self = this;
-    return this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + endpoint.id).then((resp) => {
+    return this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + endpoint.id).then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to delete endpoint.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to delete endpoint.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      self.$location.path('plugins/raintank-worldping-app/page/endpoints');
+      this.$location.path('plugins/raintank-worldping-app/page/endpoints');
     });
   }
 
@@ -351,43 +369,50 @@ class EndpointConfigCtrl {
   }
 
   savePending(nextUrl) {
-    var self = this;
-    _.forEach(this.checks, function(check) {
+    _.forEach(this.checks, check => {
       if (!check.id && check.enabled) {
         //add the check
-        self.endpoint.checks.push(check);
+        this.endpoint.checks.push(check);
         return;
       }
-      for (var i=0; i < self.endpoint.checks.length; i++) {
-        if (self.endpoint.checks[i].id === check.id) {
-          self.endpoint.checks[i] = _.cloneDeep(check);
+      for (var i=0; i < this.endpoint.checks.length; i++) {
+        if (this.endpoint.checks[i].id === check.id) {
+          this.endpoint.checks[i] = _.cloneDeep(check);
         }
       }
     });
     return this.saveEndpoint().then(() => {
-      self.ignoreChanges = true;
+      this.ignoreChanges = true;
       if (nextUrl) {
-        self.$location.path(nextUrl);
+        this.$location.path(nextUrl);
       } else {
-        self.$location.path("plugins/raintank-worldping-app/page/endpoints");
+        this.$location.path("plugins/raintank-worldping-app/page/endpoints");
       }
     });
   }
 
   saveEndpoint() {
-    var self = this;
-    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then((resp) => {
+    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      self.endpoint = resp.body;
+      this.endpoint = resp.body;
     });
   }
 
   updateCheck(check) {
-    var self = this;
-
+    if (check.enabled) {
+      var numProbes = this.probeCount(check);
+      if (numProbes < check.healthSettings.num_collector) {
+        check.healthSettings.num_collectors = numProbes;
+      }
+      if (check.type === "http" || check.type === "https") {
+        if (['PUT', 'POST', 'DELETE', 'PATCH'].indexOf(check.settings.method) < 0) {
+          check.settings.body = "";
+        }
+      }
+    }
     if (check.id) {
       for (var i=0; i < this.endpoint.checks.length; i++) {
         if (this.endpoint.checks[i].id === check.id) {
@@ -397,17 +422,11 @@ class EndpointConfigCtrl {
     } else {
       this.endpoint.checks.push(check);
     }
-    if (check.enabled) {
-      var numProbes = self.probeCount(check);
-      if (numProbes < check.healthSettings.num_collector) {
-        check.healthSettings.num_collectors = numProbes;
-      }
-    }
     return this.saveEndpoint().then(() => {
-      self.alertSrv.set(check.type + " check updated.", "", "success", 2000);
-      _.forEach(self.endpoint.checks, function(c) {
+      this.alertSrv.set(check.type + " check updated.", "", "success", 2000);
+      _.forEach(this.endpoint.checks, c => {
         if (c.type === check.type) {
-          self.checks[check.type] = _.cloneDeep(c);
+          this.checks[check.type] = _.cloneDeep(c);
         }
       });
     });
@@ -423,40 +442,42 @@ class EndpointConfigCtrl {
     if (!endpoint.name){
       return;
     }
-    var self = this;
     this.discoveryInProgress = true;
     this.discoveryError = false;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/discover', endpoint).then(function(resp) {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/discover', endpoint).then(
+      resp => {
+        if (resp.meta.code !== 200) {
+          this.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
+          this.discoveryError = "Failed to discover endpoint.";
+          return this.$q.reject(resp.meta.message);
+        }
+        this.endpoint = resp.body;
+        _.forEach(this.endpoint.checks, check => {
+          this.checks[check.type] = _.cloneDeep(check);
+        });
+        var definedChecks = _.keys(this.checks);
+        if (definedChecks.length < 4) {
+          if (_.indexOf(definedChecks, "http") === -1) {
+            this.checks["http"] = defaultCheck("http");
+          }
+          if (_.indexOf(definedChecks, "https") === -1) {
+            this.checks["https"] = defaultCheck("https");
+          }
+          if (_.indexOf(definedChecks, "ping") === -1) {
+            this.checks["ping"] =defaultCheck("ping");
+          }
+          if (_.indexOf(definedChecks, "dns") === -1) {
+            this.checks["dns"] = defaultCheck("dns");
+          }
+        }
+        this.showConfig = true;
+        this.discovered = true;
+      },
+      () => {
         this.discoveryError = "Failed to discover endpoint.";
-        return self.$q.reject(resp.meta.message);
       }
-      self.endpoint = resp.body;
-      _.forEach(self.endpoint.checks, function(check) {
-        self.checks[check.type] = _.cloneDeep(check);
-      });
-      var definedChecks = _.keys(self.checks);
-      if (definedChecks.length < 4) {
-        if (_.indexOf(definedChecks, "http") === -1) {
-          self.checks["http"] = defaultCheck("http");
-        }
-        if (_.indexOf(definedChecks, "https") === -1) {
-          self.checks["https"] = defaultCheck("https");
-        }
-        if (_.indexOf(definedChecks, "ping") === -1) {
-          self.checks["ping"] =defaultCheck("ping");
-        }
-        if (_.indexOf(definedChecks, "dns") === -1) {
-          self.checks["dns"] = defaultCheck("dns");
-        }
-      }
-      self.showConfig = true;
-      self.discovered = true;
-    }, function() {
-      self.discoveryError = "Failed to discover endpoint.";
-    }).finally(function() {
-      self.discoveryInProgress = false;
+    ).finally(() => {
+      this.discoveryInProgress = false;
     });
   }
 
@@ -464,12 +485,12 @@ class EndpointConfigCtrl {
     var self = this;
     var delay = 120;
     var newChecks = [];
-    _.forEach(this.checks, function(check) {
+    _.forEach(this.checks, check => {
       if (check.enabled) {
         if (check.frequency < delay) {
           delay = check.frequency;
         }
-        var numProbes = self.probeCount(check);
+        var numProbes = this.probeCount(check);
         if (numProbes < 3) {
           check.healthSettings.num_collectors = numProbes;
         }
@@ -477,41 +498,39 @@ class EndpointConfigCtrl {
       }
     });
     this.endpoint.checks = newChecks;
-    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint)
-    .then(function(resp) {
+    return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(resp => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
+        this.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
+        return this.$q.reject(resp.meta.message);
       }
-      self.endpoint.id = resp.body.id;
-      self.endpoint.slug = resp.body.slug;
-      self.ignoreChanges = true;
-      self.alertSrv.set("endpoint added", '', 'success', 3000);
-      self.showCreating = true;
-      self.endpointReadyDelay = delay;
-      self.endpointReady = false;
-      self.$timeout(function() {
+      this.endpoint.id = resp.body.id;
+      this.endpoint.slug = resp.body.slug;
+      this.ignoreChanges = true;
+      this.alertSrv.set("endpoint added", '', 'success', 3000);
+      this.showCreating = true;
+      this.endpointReadyDelay = delay;
+      this.endpointReady = false;
+      this.$timeout(function() {
         self.endpointReady = true;
       }, delay * 1000);
     });
   }
 
   changesPending() {
-    var self = this;
     var changes = false;
     var seenCheckTypes = {};
 
     //check if any existing checks have changed
-    _.forEach(this.endpoint.checks, function(check) {
+    _.forEach(this.endpoint.checks, check => {
       seenCheckTypes[check.type] = true;
-      if (!angular.equals(check, self.checks[check.type])) {
+      if (!angular.equals(check, this.checks[check.type])) {
         changes = true;
       }
     });
 
     //check if any new checks added.
-    _.forEach(_.keys(self.checks), function(type) {
-      if (!(type in seenCheckTypes) && ("frequency" in self.checks[type])) {
+    _.forEach(this.checks, check => {
+      if (!(check.type in seenCheckTypes) && ("frequency" in check)) {
         changes = true;
       }
     });
@@ -520,7 +539,6 @@ class EndpointConfigCtrl {
   }
 
   gotoDashboard(endpoint, type) {
-    var self = this;
     if (!type) {
       type = 'summary';
     }
@@ -530,24 +548,24 @@ class EndpointConfigCtrl {
     };
     switch(type) {
       case "summary":
-        self.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
         break;
       case "ping":
-        self.$location.path("/dashboard/db/worldping-endpoint-ping").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-ping").search(search);
         break;
       case "dns":
-        self.$location.path("/dashboard/db/worldping-endpoint-dns").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-dns").search(search);
         break;
       case "http":
         search['var-protocol'] = "http";
-        self.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
         break;
       case "https":
         search['var-protocol'] = "https";
-        self.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-web").search(search);
         break;
       default:
-        self.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
+        this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
         break;
     }
   }
