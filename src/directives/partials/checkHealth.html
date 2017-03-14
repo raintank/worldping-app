@@ -1,6 +1,6 @@
 <div ng-if="eventReady">
     <div class="statusType" ng-show="okCount > 0">OK:&nbsp;
-    	<a class="online" bs-tooltip="'View recent OK events'" ng-href="dashboard/db/worldping-events?from=now-15m&to=now&var-endpoint={{model.endpoint_slug}}&var-monitor_type={{model.monitor_type_name|lowercase}}&var-severity=OK">{{okCount}}</a>
+    	<a class="online" bs-tooltip="'View recent OK events'" ng-click="$event.stopPropagation();" ng-href="dashboard/db/worldping-events?from=now-15m&to=now&var-endpoint={{ctrl.endpoint.slug}}&var-monitor_type={{check.type|lowercase}}&var-severity=OK">{{okCount}}</a>
     </div> 
 
     <div class="statusType" ng-show="!okCount">OK:&nbsp;
@@ -26,7 +26,7 @@
 </div> -->
 <div ng-if="eventReady">
     <div class="statusType" ng-show="errorCount > 0">Error:&nbsp;
-        <a class="online" bs-tooltip="'View recent OK events'" ng-href="dashboard/db/worldping-events?from=now-15m&to=now&var-endpoint={{model.endpoint_slug}}&var-monitor_type={{model.monitor_type_name|lowercase}}&var-severity=ERROR">
+        <a class="online" bs-tooltip="'View recent Error events'" ng-click="$event.stopPropagation();" ng-href="dashboard/db/worldping-events?from=now-15m&to=now&var-endpoint={{ctrl.endpoint.slug}}&var-monitor_type={{check.type|lowercase}}&var-severity=ERROR">
     	   <span class="critical">{{errorCount}}</span>
         </a>
     </div>

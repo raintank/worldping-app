@@ -154,7 +154,10 @@ class EndpointConfigCtrl {
       if ((!self.ignoreChanges) && (self.changesPending())) {
         event.preventDefault();
         var baseLen = $location.absUrl().length - $location.url().length;
+        console.log("next: ", next);
+        console.log("baseLen: ", baseLen);
         var nextUrl = next.substring(baseLen);
+        console.log("nexUrl: ", nextUrl);
         var modalScope = $scope.$new();
         modalScope.ignore = function() {
           self.ignoreChanges = true;
@@ -384,7 +387,7 @@ class EndpointConfigCtrl {
     return this.saveEndpoint().then(() => {
       this.ignoreChanges = true;
       if (nextUrl) {
-        this.$location.path(nextUrl);
+        this.$location.url(nextUrl);
       } else {
         this.$location.path("plugins/raintank-worldping-app/page/endpoints");
       }
