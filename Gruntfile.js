@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 
     curl: {
       worldmap: {
-        src: 'https://grafana.net/plugins/grafana-worldmap-panel/download',
+        src: 'https://grafana.com/api/plugins/grafana-worldmap-panel/versions/0.0.16/download',
         dest: 'tmp/worldmap.zip',
       },
     },
