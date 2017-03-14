@@ -166,45 +166,58 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
             p.then(function (results) {
               var foundGraphite = false;
               var foundElastic = false;
+
               _.forEach(results, function (ds) {
                 if (foundGraphite && foundElastic) {
                   return;
                 }
                 if (ds.name === "raintank") {
-                  foundGraphite = true;
+                  foundGraphite = ds;
                 }
                 if (ds.name === "raintankEvents") {
-                  foundElastic = true;
+                  foundElastic = ds;
                 }
               });
+
               var promises = [];
+
+              var graphite = {
+                name: 'raintank',
+                type: 'graphite',
+                url: 'api/plugin-proxy/raintank-worldping-app/api/graphite',
+                access: 'direct',
+                jsonData: {}
+              };
+
               if (!foundGraphite) {
                 // create datasource.
-                var graphite = {
-                  name: 'raintank',
-                  type: 'graphite',
-                  url: 'api/plugin-proxy/raintank-worldping-app/api/graphite',
-                  access: 'direct',
-                  jsonData: {}
-                };
                 promises.push(self.backendSrv.post('/api/datasources', graphite));
+              } else if (!_.isMatch(foundGraphite, graphite)) {
+                // update datasource if necessary
+                promises.push(self.backendSrv.put('/api/datasources/' + foundGraphite.id, _.merge({}, foundGraphite, graphite)));
               }
+
+              var elastic = {
+                name: 'raintankEvents',
+                type: 'elasticsearch',
+                url: 'api/plugin-proxy/raintank-worldping-app/api/elasticsearch',
+                access: 'direct',
+                database: '[events-]YYYY-MM-DD',
+                jsonData: {
+                  esVersion: 2,
+                  interval: "Daily",
+                  timeField: "timestamp"
+                }
+              };
+
               if (!foundElastic) {
                 // create datasource.
-                var elastic = {
-                  name: 'raintankEvents',
-                  type: 'elasticsearch',
-                  url: 'api/plugin-proxy/raintank-worldping-app/api/elasticsearch',
-                  access: 'direct',
-                  database: '[events-]YYYY-MM-DD',
-                  jsonData: {
-                    esVersion: 1,
-                    interval: "Daily",
-                    timeField: "timestamp"
-                  }
-                };
                 promises.push(self.backendSrv.post('/api/datasources', elastic));
+              } else if (!_.isMatch(foundElastic, elastic)) {
+                // update datasource if necessary
+                promises.push(self.backendSrv.put('/api/datasources/' + foundElastic.id, _.merge({}, foundElastic, elastic)));
               }
+
               return self.$q.all(promises);
             });
             return p;
