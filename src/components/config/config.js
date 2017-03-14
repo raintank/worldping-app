@@ -20,13 +20,17 @@ class WorldPingConfigCtrl {
       this.appModel.secureJsonData = {};
     }
     if (this.appModel.enabled) {
-      this.validateKey();
+      var self = this;
+      this.validateKey().then(() => {
+        self.validateDatasources();
+      });
     }
   }
 
   reset() {
     this.appModel.jsonData.apiKeySet=false;
     this.validKey = false;
+    this.errorMsg = "";
     this.org = null;
   }
 
@@ -39,6 +43,7 @@ class WorldPingConfigCtrl {
         return self.$q.reject(resp.message);
       }
       self.validKey = true;
+      self.errorMsg = "";
       self.quotas = resp.body;
 
       self.getOrgDetails();
@@ -78,6 +83,8 @@ class WorldPingConfigCtrl {
   preUpdate() {
     var model = this.appModel;
     if (!model.enabled) {
+      model.jsonData.apiKeySet = false;
+      model.secureJsonData.apiKey = "";
       return this.$q.resolve();
     }
 
@@ -88,7 +95,7 @@ class WorldPingConfigCtrl {
       return this.$q.reject("apiKey not set.");
     }
     model.jsonData.apiKeySet = true;
-    return this.initDatasource();
+    return this.configureDatasource();
   }
 
   postUpdate() {
@@ -107,54 +114,74 @@ class WorldPingConfigCtrl {
     });
   }
 
-  configureDatasource() {
-    this.appModel.jsonData.datasourceSet = false;
-    this.initDatasource().then(() => {
-      this.appModel.jsonData.datasourceSet = true;
+  validateDatasources() {
+    var self = this;
+    return this.getDatasources().then((datasources) => {
+      if ((!datasources.graphite) || (!datasources.elastic)
+         || (datasources.graphite.access === "direct")
+         || (datasources.elasitc.access === "direct")) {
+        self.appModel.enabled = false;
+        self.appModel.jsonData.apiKeySet = false;
+        self.errorMsg = "Datasource updates required. Please re-enter your apiKey.";
+        return;
+      }
     });
   }
 
-  initDatasource() {
+  getDatasources() {
     var self = this;
     //check for existing datasource.
-    var p = self.backendSrv.get('/api/datasources');
-    p.then(function(results) {
-      var foundGraphite = false;
-      var foundElastic = false;
-
+    return self.backendSrv.get('/api/datasources')
+    .then((results) => {
+      var datasources = {
+        graphite: null,
+        elastic: null
+      };
       _.forEach(results, function(ds) {
-        if (foundGraphite && foundElastic) { return; }
         if (ds.name === "raintank") {
-          foundGraphite = ds;
+          datasources.graphite = ds;
         }
         if (ds.name === "raintankEvents") {
-          foundElastic = ds;
+          datasources.elastic = ds;
         }
       });
+      return self.$q.resolve(datasources);
+    });
+  }
 
+  configureDatasource() {
+    var self = this;
+    //check for existing datasource.
+    return this.getDatasources().then(function(datasources) {
       var promises = [];
 
       var graphite = {
         name: 'raintank',
         type: 'graphite',
-        url: 'api/plugin-proxy/raintank-worldping-app/api/graphite',
-        access: 'direct',
+        url: 'https://tsdb-gw.raintank.io/graphite/',
+        access: 'proxy',
+        basicAuth: true,
+        basicAuthPassword: self.appModel.secureJsonData.apiKey,
+        basicAuthUser: "api_key",
         jsonData: {}
       };
 
-      if (!foundGraphite) {
+      if (!datasources.graphite) {
         // create datasource.
         promises.push(self.backendSrv.post('/api/datasources', graphite));
-      } else if (!_.isMatch(foundGraphite, graphite)) {
+      } else if (!_.isMatch(datasources.graphite, graphite)) {
         // update datasource if necessary
-        promises.push(self.backendSrv.put('/api/datasources/' + foundGraphite.id, _.merge({}, foundGraphite, graphite)));
+        promises.push(self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite)));
       }
 
       var elastic = {
         name: 'raintankEvents',
         type: 'elasticsearch',
-        url: 'api/plugin-proxy/raintank-worldping-app/api/elasticsearch',
-        access: 'direct',
+        url: 'https://tsdb-gw.raintank.io/elasticsearch/',
+        access: 'proxy',
+        basicAuth: true,
+        basicAuthPassword: self.appModel.secureJsonData.apiKey,
+        basicAuthUser: "api_key",
         database: '[events-]YYYY-MM-DD',
         jsonData: {
           esVersion: 2,
@@ -163,17 +190,16 @@ class WorldPingConfigCtrl {
         }
       };
 
-      if (!foundElastic) {
+      if (!datasources.elastic) {
         // create datasource.
         promises.push(self.backendSrv.post('/api/datasources', elastic));
-      } else if (!_.isMatch(foundElastic, elastic)) {
+      } else if (!_.isMatch(datasources.elastic, elastic)) {
         // update datasource if necessary
-        promises.push(self.backendSrv.put('/api/datasources/' + foundElastic.id, _.merge({}, foundElastic, elastic)));
+        promises.push(self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic)));
       }
 
       return self.$q.all(promises);
     });
-    return p;
   }
 }
 
