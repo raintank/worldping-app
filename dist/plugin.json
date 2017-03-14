@@ -27,7 +27,7 @@
     {
       "path": "api/grafana-net/*",
       "method": "GET",
-      "url": "https://grafana.net/api",
+      "url": "https://grafana.com/api",
       "reqSignedIn": true,
       "reqRole": "Viewer",
       "headers": [
@@ -59,8 +59,8 @@
   "info": {
     "description": "worldPing is a plug-in for Grafana that continually tests, stores and alerts on the global performance and availability of your Internet applications so you can pinpoint issues, fix them immediately, and improve your user’s experience.",
     "author": {
-      "name": "Raintank Inc.",
-      "url": "http://raintank.io"
+      "name": "Grafana Labs",
+      "url": "http://grafana.com"
     },
     "keywords": ["raintank", "worldping", "network"],
     "logos": {
@@ -78,8 +78,8 @@
       {"name": "worldPing Web Dashboard", "path": "img/wP-Screenshot-dash-web.png"},
       {"name": "worldPing Endpoint Details", "path": "img/wP-Screenshot-endpoint-details.png"}
     ],
-    "version": "1.2.1",
-    "updated": "2017-01-02"
+    "version": "1.2.2",
+    "updated": "2017-03-15"
   },
 
   "includes": [

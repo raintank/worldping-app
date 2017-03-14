@@ -195,7 +195,10 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             if (!self.ignoreChanges && self.changesPending()) {
               event.preventDefault();
               var baseLen = $location.absUrl().length - $location.url().length;
+              console.log("next: ", next);
+              console.log("baseLen: ", baseLen);
               var nextUrl = next.substring(baseLen);
+              console.log("nexUrl: ", nextUrl);
               var modalScope = $scope.$new();
               modalScope.ignore = function () {
                 self.ignoreChanges = true;
@@ -455,7 +458,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             return this.saveEndpoint().then(function () {
               _this9.ignoreChanges = true;
               if (nextUrl) {
-                _this9.$location.path(nextUrl);
+                _this9.$location.url(nextUrl);
               } else {
                 _this9.$location.path("plugins/raintank-worldping-app/page/endpoints");
               }
