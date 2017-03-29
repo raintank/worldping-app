@@ -407,7 +407,7 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
               return false;
             }
 
-            if (this.org.wpPlan !== 'trial') {
+            if (this.org.wpPlan === 'trial') {
               return true;
             }
 

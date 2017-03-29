@@ -144,10 +144,10 @@
         <span class="pluginlist-none-installed" style="margin: 0;"><i class="icon-gf icon-gf-status wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> checks per month.</span>
       </div>
       <div ng-if="ctrl.requiresUpgrade() && !ctrl.currentlyTrial()">
-        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> additional checks per month and exceed your free tier. <a href="https://grafana.net/{{ctrl.org.slug}}/worldping/upgrade" target="_blank">Upgrade now</a></span>
+        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> additional checks per month and exceed your free tier. <a href="https://grafana.com/{{ctrl.org.slug}}/worldping/upgrade" target="_blank">Upgrade now</a></span>
       </div>
       <div ng-if="!ctrl.requiresUpgrade() && ctrl.currentlyTrial()">
-        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> additional checks per month and exceed your free tier. <a href="https://grafana.net/{{ctrl.org.slug}}/worldping/upgrade" target="_blank">Upgrade now</a></span>
+        <span class="endpoint-config--checks-exceeded" style="margin: 0;"><i class="fa fa-warning wp-icon-medium"></i> This config will generate approximately <span class="wp-note--mild-emphasis">{{ctrl.totalChecks()| number:1}} Million</span> additional checks per month during your free trial period. <a href="https://grafana.com/{{ctrl.org.slug}}/worldping/upgrade" target="_blank">Upgrade now</a></span>
       </div>
     </div>
   </div>

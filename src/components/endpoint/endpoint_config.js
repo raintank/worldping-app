@@ -344,7 +344,7 @@ class EndpointConfigCtrl {
       return false;
     }
 
-    if (this.org.wpPlan !== 'trial') {
+    if (this.org.wpPlan === 'trial') {
       return true;
     }
 
