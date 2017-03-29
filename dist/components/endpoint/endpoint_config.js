@@ -390,11 +390,24 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
               return true;
             }
 
-            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
               return false;
             }
 
-            if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 3) {
+            if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 1) {
+              return true;
+            }
+
+            return false;
+          }
+        }, {
+          key: 'currentlyTrial',
+          value: function currentlyTrial() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan !== 'trial') {
               return true;
             }
 
