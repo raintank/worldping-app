@@ -323,6 +323,18 @@ class EndpointConfigCtrl {
     return size;
   }
 
+  currentlyTrial() {
+    if (!this.org) {
+      return false;
+    }
+
+    if (this.org.wpPlan === 'trial') {
+      return true;
+    }
+
+    return false;
+  }
+
   requiresUpgrade() {
     if (!this.org) {
       return true;
@@ -333,18 +345,6 @@ class EndpointConfigCtrl {
     }
 
     if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 1) {
-      return true;
-    }
-
-    return false;
-  }
-
-  currentlyTrial() {
-    if (!this.org) {
-      return false;
-    }
-
-    if (this.org.wpPlan === 'trial') {
       return true;
     }
 

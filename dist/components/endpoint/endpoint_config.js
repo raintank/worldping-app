@@ -384,6 +384,19 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
             return size;
           }
         }, {
+          key: 'currentlyTrial',
+          value: function currentlyTrial() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan === 'trial') {
+              return true;
+            }
+
+            return false;
+          }
+        }, {
           key: 'requiresUpgrade',
           value: function requiresUpgrade() {
             if (!this.org) {
@@ -395,19 +408,6 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
             }
 
             if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 1) {
-              return true;
-            }
-
-            return false;
-          }
-        }, {
-          key: 'currentlyTrial',
-          value: function currentlyTrial() {
-            if (!this.org) {
-              return false;
-            }
-
-            if (this.org.wpPlan === 'trial') {
               return true;
             }
 

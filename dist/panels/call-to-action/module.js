@@ -86,6 +86,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
           _this.endpointStatus = "scopeEndpoints";
           _this.collectorStatus = "scopeCollectors";
           _this.requiresUpgrade = null;
+          _this.currentlyTrial = null;
           _this.aboveFreeTier = null;
 
           _this.getOrgDetails();
@@ -138,11 +139,25 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
             p.then(function (resp) {
               self.org = resp;
               self.requiresUpgrade = self._requiresUpgrade();
+              self.currentlyTrial = self._currentlyTrial();
               self.aboveFreeTier = self._aboveFreeTier();
             }, function (resp) {
               self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
             });
             return p;
+          }
+        }, {
+          key: '_currentlyTrial',
+          value: function _currentlyTrial() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan === 'trial') {
+              return true;
+            }
+
+            return false;
           }
         }, {
           key: '_requiresUpgrade',
@@ -151,7 +166,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
               return true;
             }
 
-            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
               return false;
             }
 
@@ -168,7 +183,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
               return false;
             }
 
-            if (this.org.checksPerMonth / 1000000 > 3) {
+            if (this.org.checksPerMonth / 1000000 > 1) {
               return true;
             }
 
