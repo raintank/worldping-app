@@ -138,6 +138,16 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
             var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
             p.then(function (resp) {
               self.org = resp;
+
+              var millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
+              if (millionChecksPerMonth > 1000) {
+                self.org.strChecksPerMonth = Math.ceil(millionChecksPerMonth / 1000) + ' Billion';
+              } else if (millionChecksPerMonth > 0) {
+                self.org.strChecksPerMonth = millionChecksPerMonth + ' Million';
+              } else {
+                self.org.strChecksPerMonth = 'N/A';
+              }
+
               self.requiresUpgrade = self._requiresUpgrade();
               self.currentlyTrial = self._currentlyTrial();
               self.aboveFreeTier = self._aboveFreeTier();
