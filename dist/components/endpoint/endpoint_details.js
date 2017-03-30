@@ -64,7 +64,7 @@ System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) 
           }
 
           this.checktypes = [{ name: 'DNS', dashName: 'worldping-endpoint-dns?' }, { name: 'Ping', dashName: 'worldping-endpoint-ping?' }, { name: 'HTTP', dashName: 'worldping-endpoint-web?var-protocol=http&' }, { name: 'HTTPS', dashName: 'worldping-endpoint-web?var-protocol=https&' }];
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           this.datasourceUpgrader.upgrade();
         }
 

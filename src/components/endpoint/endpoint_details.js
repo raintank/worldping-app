@@ -26,7 +26,7 @@ class EndpointDetailsCtrl {
       {name: 'HTTP', dashName: 'worldping-endpoint-web?var-protocol=http&'},
       {name: 'HTTPS', dashName: 'worldping-endpoint-web?var-protocol=https&'}
     ];
-    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
     this.datasourceUpgrader.upgrade();
   }
 

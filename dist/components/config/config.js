@@ -37,7 +37,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
       }();
 
       _export('ConfigCtrl', WorldPingConfigCtrl = function () {
-        function WorldPingConfigCtrl($scope, $injector, $q, backendSrv, alertSrv) {
+        function WorldPingConfigCtrl($scope, $injector, $q, backendSrv, alertSrv, contextSrv) {
           _classCallCheck(this, WorldPingConfigCtrl);
 
           this.$q = $q;
@@ -48,7 +48,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
           this.org = null;
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};

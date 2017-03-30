@@ -72,7 +72,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
         _inherits(CallToActionCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv) {
+        function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv) {
           _classCallCheck(this, CallToActionCtrl);
 
           var _this = _possibleConstructorReturn(this, (CallToActionCtrl.__proto__ || Object.getPrototypeOf(CallToActionCtrl)).call(this, $scope, $injector));
@@ -89,7 +89,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
           _this.aboveFreeTier = null;
 
           _this.getOrgDetails();
-          _this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           _this.datasourceUpgrader.upgrade();
           return _this;
         }

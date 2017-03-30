@@ -10,7 +10,7 @@ var defaults = {
 class ProbeCreateCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
+  constructor($scope, $injector, $location, $window, $q, backendSrv, alertSrv, contextSrv) {
     var self = this;
     this.$window = $window;
     this.$q = $q;
@@ -35,7 +35,7 @@ class ProbeCreateCtrl {
     }
 
     self.getOrgDetails();
-    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
     this.datasourceUpgrader.upgrade();
   }
 

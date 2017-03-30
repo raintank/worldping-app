@@ -54,7 +54,7 @@ System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) 
           this.sort_field = "name";
           this.probes = [];
           this.getProbes();
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           this.datasourceUpgrader.upgrade();
         }
 

@@ -21,7 +21,7 @@ class ProbeListCtrl {
     this.sort_field = "name";
     this.probes = [];
     this.getProbes();
-    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
     this.datasourceUpgrader.upgrade();
   }
 

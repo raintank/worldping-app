@@ -35,32 +35,48 @@ System.register(["lodash"], function (_export, _context) {
       }();
 
       DatasourceUpgrader = function () {
-        function DatasourceUpgrader(backendSrv, $q) {
+        function DatasourceUpgrader(contextSrv, backendSrv, $q) {
           _classCallCheck(this, DatasourceUpgrader);
 
           this.backendSrv = backendSrv;
           this.$q = $q;
+          this.contextSrv = contextSrv;
           this.apiKey = "";
+          this.keyRequest = null;
         }
 
         _createClass(DatasourceUpgrader, [{
           key: "upgrade",
           value: function upgrade() {
-            return this.configureDatasource();
+            // only admins can modify datasources.
+            if (this.contextSrv.hasRole("Admin")) {
+              return this.configureDatasource();
+            } else {
+              return this.$q.when();
+            }
           }
         }, {
           key: "getKey",
           value: function getKey() {
+            // if we have already fetched the key, they just return it.
             if (this.apiKey !== "") {
-              return this.$q.resolove(this.apiKey);
+              return this.$q.when(this.apiKey);
             }
+            // if we are currently fetching the key, then just return the promise.
+            // when it resolves, it will provide the key.
+            if (this.keyRequest) {
+              return this.keyRequest;
+            }
+
+            // fetch the key from the worldping-api
             var self = this;
-            return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key').then(function (resp) {
+            this.keyRequest = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key').then(function (resp) {
               if (resp.meta.code !== 200) {
                 return self.$q.reject("failed to get current apiKey");
               }
               return resp.body.apiKey;
             });
+            return this.keyRequest;
           }
         }, {
           key: "getDatasources",

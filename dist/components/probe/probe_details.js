@@ -59,7 +59,7 @@ System.register(["../config/dsUpgrade"], function (_export, _context) {
           $scope.$on("$destroy", function () {
             $timeout.cancel(self.poller);
           });
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           this.datasourceUpgrader.upgrade();
         }
 

@@ -125,7 +125,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
             "2": 0,
             "-1": 0
           };
-          _this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           _this.datasourceUpgrader.upgrade();
           return _this;
         }

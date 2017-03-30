@@ -78,7 +78,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         _inherits(EndpointNavCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function EndpointNavCtrl($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv) {
+        function EndpointNavCtrl($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv) {
           _classCallCheck(this, EndpointNavCtrl);
 
           var _this = _possibleConstructorReturn(this, (EndpointNavCtrl.__proto__ || Object.getPrototypeOf(EndpointNavCtrl)).call(this, $scope, $injector));
@@ -102,7 +102,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
             "2": 0,
             "-1": 0
           };
-          _this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           _this.datasourceUpgrader.upgrade();
           return _this;
         }

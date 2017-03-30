@@ -111,7 +111,7 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
 
       _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
         /** @ngInject */
-        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
+        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv, contextSrv) {
           var _this = this;
 
           _classCallCheck(this, EndpointConfigCtrl);
@@ -219,7 +219,7 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
               });
             }
           });
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           this.datasourceUpgrader.upgrade();
         }
 

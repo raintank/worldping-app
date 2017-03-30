@@ -1,28 +1,44 @@
 import _ from 'lodash' ;
 
 export default class DatasourceUpgrader {
-  constructor(backendSrv, $q) {
+  constructor(contextSrv, backendSrv, $q) {
     this.backendSrv = backendSrv;
     this.$q = $q;
+    this.contextSrv = contextSrv;
     this.apiKey = "";
+    this.keyRequest = null;
   }
 
   upgrade() {
-    return this.configureDatasource();
+    // only admins can modify datasources.
+    if (this.contextSrv.hasRole("Admin")) {
+      return this.configureDatasource();
+    } else {
+      return this.$q.when();
+    }
   }
 
   getKey() {
+    // if we have already fetched the key, they just return it.
     if (this.apiKey !== "") {
-      return this.$q.resolove(this.apiKey);
+      return this.$q.when(this.apiKey);
     }
+    // if we are currently fetching the key, then just return the promise.
+    // when it resolves, it will provide the key.
+    if (this.keyRequest) {
+      return this.keyRequest;
+    }
+
+    // fetch the key from the worldping-api
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
+    this.keyRequest = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
     .then((resp) => {
       if (resp.meta.code !== 200) {
         return self.$q.reject("failed to get current apiKey");
       }
       return resp.body.apiKey;
     });
+    return this.keyRequest;
   }
 
   getDatasources() {
@@ -49,7 +65,7 @@ export default class DatasourceUpgrader {
   configureDatasource() {
     var self = this;
     //check for existing datasource.
-    return this.getDatasources().then(function(datasources) {
+    return this.getDatasources().then((datasources) => {
       var promises = [];
       var graphite = {
         name: 'raintank',

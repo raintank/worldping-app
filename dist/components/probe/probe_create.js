@@ -46,7 +46,7 @@ System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export,
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
+        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv, contextSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
           var self = this;
@@ -73,7 +73,7 @@ System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export,
           }
 
           self.getOrgDetails();
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
           this.datasourceUpgrader.upgrade();
         }
 

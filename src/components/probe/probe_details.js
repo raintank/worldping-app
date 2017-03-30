@@ -3,7 +3,7 @@ import DatasourceUpgrader from '../config/dsUpgrade';
 export class ProbeDetailsCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location,$timeout, $q, backendSrv, contextSrv, alertSrv) {
+  constructor($scope, $injector, $location, $timeout, $q, backendSrv, contextSrv, alertSrv) {
     var self = this;
     this.contextSrv = contextSrv;
     this.backendSrv = backendSrv;
@@ -23,7 +23,7 @@ export class ProbeDetailsCtrl {
     $scope.$on("$destroy", function() {
       $timeout.cancel(self.poller);
     });
-    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
     this.datasourceUpgrader.upgrade();
   }
 

@@ -22,7 +22,7 @@ class EndpointListCtrl {
       "2": 0,
       "-1": 0,
     };
-    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
     this.datasourceUpgrader.upgrade();
   }
 
