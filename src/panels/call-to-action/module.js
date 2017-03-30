@@ -72,11 +72,11 @@ class CallToActionCtrl extends PanelCtrl {
 
       const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
       if (millionChecksPerMonth > 1000) {
-        self.org.strChecksPerMonth = Math.ceil(millionChecksPerMonth / 1000) + ' Billion';
+        self.org.strChecksPerMonth = 'using ' + Math.ceil(millionChecksPerMonth / 1000) + ' Billion checks/mo';
       } else if (millionChecksPerMonth > 0) {
-        self.org.strChecksPerMonth = millionChecksPerMonth + ' Million';
+        self.org.strChecksPerMonth = 'using ' + millionChecksPerMonth + ' Million checks/mo';
       } else {
-        self.org.strChecksPerMonth = 'N/A';
+        self.org.strChecksPerMonth = 'not using any checks yet';
       }
 
       self.requiresUpgrade = self._requiresUpgrade();
