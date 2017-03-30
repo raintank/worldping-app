@@ -3,6 +3,7 @@ import '../../filters/all';
 import '../../directives/all';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
+import DatasourceUpgrader from '../../components/config/dsUpgrade';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -12,7 +13,7 @@ loadPluginCss({
 class EndpointNavCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv) {
     super($scope, $injector);
     this.$location = $location;
     this.$q = $q;
@@ -38,6 +39,8 @@ class EndpointNavCtrl extends PanelCtrl {
       "2": 0,
       "-1": 0,
     };
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   getEndpointSlugs() {

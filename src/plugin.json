@@ -53,6 +53,16 @@
       "headers": [
         { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
       ]
+    },
+    {
+      "path": "_key",
+      "method": "GET",
+      "url": "https://worldping-api.raintank.io/_key",
+      "reqSignedIn": true,
+      "reqRole": "Editor",
+      "headers": [
+        { "name": "Authorization", "content": "Bearer {{.SecureJsonData.apiKey}}"}
+      ]
     }
   ],
 

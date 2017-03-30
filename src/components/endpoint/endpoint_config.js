@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import angular from 'angular';
+import DatasourceUpgrader from '../config/dsUpgrade';
 
 var _defaultCheck = {
   settings: {},
@@ -74,7 +75,7 @@ function defaultCheck(checkType) {
 
 class EndpointConfigCtrl {
    /** @ngInject */
-  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
+  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv, contextSrv) {
     var self = this;
     this.backendSrv = backendSrv;
     this.$location = $location;
@@ -176,6 +177,8 @@ class EndpointConfigCtrl {
         });
       }
     });
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   getEndpoint(idString) {

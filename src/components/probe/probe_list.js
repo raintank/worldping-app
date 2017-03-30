@@ -1,13 +1,15 @@
 import _ from 'lodash';
+import DatasourceUpgrader from '../config/dsUpgrade';
 
 class ProbeListCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $filter, backendSrv, contextSrv) {
+  constructor($scope, $injector, $location, $filter, backendSrv, contextSrv, $q) {
     this.isOrgAdmin = contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.$filter = $filter;
     this.$location = $location;
+    this.$q = $q;
     this.pageReady = false;
     this.statuses = [
       {label: "Online", value: {online: true, enabled: true}, id: 2},
@@ -19,6 +21,8 @@ class ProbeListCtrl {
     this.sort_field = "name";
     this.probes = [];
     this.getProbes();
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   probeTags() {

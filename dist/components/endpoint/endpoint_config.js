@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'angular'], function (_export, _context) {
+System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var _, angular, _createClass, _defaultCheck, EndpointConfigCtrl;
+  var _, angular, DatasourceUpgrader, _createClass, _defaultCheck, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -72,6 +72,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
       _ = _lodash.default;
     }, function (_angular) {
       angular = _angular.default;
+    }, function (_configDsUpgrade) {
+      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -109,7 +111,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
       _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
         /** @ngInject */
-        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
+        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv, contextSrv) {
           var _this = this;
 
           _classCallCheck(this, EndpointConfigCtrl);
@@ -217,6 +219,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               });
             }
           });
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(EndpointConfigCtrl, [{
