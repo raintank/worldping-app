@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
-System.register(["lodash"], function (_export, _context) {
+System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var _, _typeof, _createClass, EndpointDetailsCtrl;
+  var _, DatasourceUpgrader, _typeof, _createClass, EndpointDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,6 +14,8 @@ System.register(["lodash"], function (_export, _context) {
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
+    }, function (_configDsUpgrade) {
+      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -40,7 +42,7 @@ System.register(["lodash"], function (_export, _context) {
         };
       }();
 
-      _export("EndpointDetailsCtrl", EndpointDetailsCtrl = function () {
+      _export('EndpointDetailsCtrl', EndpointDetailsCtrl = function () {
 
         /** @ngInject */
         function EndpointDetailsCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
@@ -62,15 +64,17 @@ System.register(["lodash"], function (_export, _context) {
           }
 
           this.checktypes = [{ name: 'DNS', dashName: 'worldping-endpoint-dns?' }, { name: 'Ping', dashName: 'worldping-endpoint-ping?' }, { name: 'HTTP', dashName: 'worldping-endpoint-web?var-protocol=http&' }, { name: 'HTTPS', dashName: 'worldping-endpoint-web?var-protocol=https&' }];
+          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(EndpointDetailsCtrl, [{
-          key: "tagsUpdated",
+          key: 'tagsUpdated',
           value: function tagsUpdated() {
             this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
           }
         }, {
-          key: "getEndpoint",
+          key: 'getEndpoint',
           value: function getEndpoint(id) {
             var self = this;
 
@@ -96,7 +100,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "getProbes",
+          key: 'getProbes',
           value: function getProbes() {
             var self = this;
             return self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
@@ -108,7 +112,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "getMonitorByTypeName",
+          key: 'getMonitorByTypeName',
           value: function getMonitorByTypeName(name) {
             var check;
             _.forEach(this.endpoint.checks, function (c) {
@@ -119,10 +123,10 @@ System.register(["lodash"], function (_export, _context) {
             return check;
           }
         }, {
-          key: "monitorStateTxt",
+          key: 'monitorStateTxt',
           value: function monitorStateTxt(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -139,10 +143,10 @@ System.register(["lodash"], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: "monitorStateClass",
+          key: 'monitorStateClass',
           value: function monitorStateClass(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "disabled";
             }
             if (!mon.enabled) {
@@ -155,10 +159,10 @@ System.register(["lodash"], function (_export, _context) {
             return states[mon.state];
           }
         }, {
-          key: "stateChangeStr",
+          key: 'stateChangeStr',
           value: function stateChangeStr(type) {
             var mon = this.getMonitorByTypeName(type);
-            if ((typeof mon === "undefined" ? "undefined" : _typeof(mon)) !== "object") {
+            if ((typeof mon === 'undefined' ? 'undefined' : _typeof(mon)) !== "object") {
               return "";
             }
             var duration = new Date().getTime() - new Date(mon.stateChange).getTime();
@@ -181,10 +185,10 @@ System.register(["lodash"], function (_export, _context) {
             return "for " + days + " days";
           }
         }, {
-          key: "getProbesForCheck",
+          key: 'getProbesForCheck',
           value: function getProbesForCheck(type) {
             var check = this.getMonitorByTypeName(type);
-            if ((typeof check === "undefined" ? "undefined" : _typeof(check)) !== "object") {
+            if ((typeof check === 'undefined' ? 'undefined' : _typeof(check)) !== "object") {
               return [];
             }
             if (check.route.type === "byIds") {
@@ -205,12 +209,12 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "setEndpoint",
+          key: 'setEndpoint',
           value: function setEndpoint(id) {
             this.$location.url('plugins/raintank-worldping-app/page/endpoint_details?endpoint=' + id);
           }
         }, {
-          key: "gotoDashboard",
+          key: 'gotoDashboard',
           value: function gotoDashboard(endpoint, type) {
             if (!type) {
               type = 'summary';
@@ -243,7 +247,7 @@ System.register(["lodash"], function (_export, _context) {
             }
           }
         }, {
-          key: "gotoEventDashboard",
+          key: 'gotoEventDashboard',
           value: function gotoEventDashboard(endpoint, type) {
             this.$location.url("/dashboard/db/worldping-events").search({
               "var-probe": "All",
@@ -252,7 +256,7 @@ System.register(["lodash"], function (_export, _context) {
             });
           }
         }, {
-          key: "getNotificationEmails",
+          key: 'getNotificationEmails',
           value: function getNotificationEmails(checkType) {
             var mon = this.getMonitorByTypeName(checkType);
             if (!mon || mon.healthSettings.notifications.addresses === "") {
@@ -266,7 +270,7 @@ System.register(["lodash"], function (_export, _context) {
             return list;
           }
         }, {
-          key: "getNotificationEmailsAsString",
+          key: 'getNotificationEmailsAsString',
           value: function getNotificationEmailsAsString(checkType) {
             var emails = this.getNotificationEmails(checkType);
             if (emails.length < 1) {
@@ -292,7 +296,7 @@ System.register(["lodash"], function (_export, _context) {
 
       EndpointDetailsCtrl.templateUrl = 'public/plugins/raintank-worldping-app/components/endpoint/partials/endpoint_details.html';
 
-      _export("EndpointDetailsCtrl", EndpointDetailsCtrl);
+      _export('EndpointDetailsCtrl', EndpointDetailsCtrl);
     }
   };
 });

@@ -3,6 +3,7 @@ import '../../filters/all';
 import '../../directives/all';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
+import DatasourceUpgrader from '../../components/config/dsUpgrade';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -38,6 +39,8 @@ class EndpointNavCtrl extends PanelCtrl {
       "2": 0,
       "-1": 0,
     };
+    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   getEndpointSlugs() {

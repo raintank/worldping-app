@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash'], function (_export, _context) {
+System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var _, _createClass, ProbeListCtrl;
+  var _, DatasourceUpgrader, _createClass, ProbeListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,6 +14,8 @@ System.register(['lodash'], function (_export, _context) {
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
+    }, function (_configDsUpgrade) {
+      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -37,13 +39,14 @@ System.register(['lodash'], function (_export, _context) {
       _export('ProbeListCtrl', ProbeListCtrl = function () {
 
         /** @ngInject */
-        function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv, contextSrv) {
+        function ProbeListCtrl($scope, $injector, $location, $filter, backendSrv, contextSrv, $q) {
           _classCallCheck(this, ProbeListCtrl);
 
           this.isOrgAdmin = contextSrv.hasRole('Admin');
           this.backendSrv = backendSrv;
           this.$filter = $filter;
           this.$location = $location;
+          this.$q = $q;
           this.pageReady = false;
           this.statuses = [{ label: "Online", value: { online: true, enabled: true }, id: 2 }, { label: "Offline", value: { online: false, enabled: true }, id: 3 }, { label: "Disabled", value: { enabled: false }, id: 4 }];
 
@@ -51,6 +54,8 @@ System.register(['lodash'], function (_export, _context) {
           this.sort_field = "name";
           this.probes = [];
           this.getProbes();
+          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(ProbeListCtrl, [{

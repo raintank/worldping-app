@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import angular from 'angular';
+import DatasourceUpgrader from '../config/dsUpgrade';
 
 var _defaultCheck = {
   settings: {},
@@ -176,6 +177,8 @@ class EndpointConfigCtrl {
         });
       }
     });
+    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   getEndpoint(idString) {

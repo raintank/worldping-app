@@ -1,5 +1,6 @@
 import angular from 'angular';
 import _ from 'lodash';
+import DatasourceUpgrader from '../config/dsUpgrade';
 
 var defaults = {
   name: '',
@@ -34,6 +35,8 @@ class ProbeCreateCtrl {
     }
 
     self.getOrgDetails();
+    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   setInstallMethod(newMethod) {

@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['angular', 'lodash'], function (_export, _context) {
+System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var angular, _, _createClass, defaults, ProbeCreateCtrl;
+  var angular, _, DatasourceUpgrader, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -16,6 +16,8 @@ System.register(['angular', 'lodash'], function (_export, _context) {
       angular = _angular.default;
     }, function (_lodash) {
       _ = _lodash.default;
+    }, function (_configDsUpgrade) {
+      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -71,6 +73,8 @@ System.register(['angular', 'lodash'], function (_export, _context) {
           }
 
           self.getOrgDetails();
+          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(ProbeCreateCtrl, [{

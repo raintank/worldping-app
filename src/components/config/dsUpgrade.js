@@ -1,21 +1,27 @@
 import _ from 'lodash' ;
 
 export default class DatasourceUpgrader {
-  constructor(backendSrv, alertSrv, $q) {
+  constructor(backendSrv, $q) {
     this.backendSrv = backendSrv;
-    this.alertSrv = alertSrv;
     this.$q = $q;
+    this.apiKey = "";
   }
 
   upgrade() {
+    return this.configureDatasource();
+  }
+
+  getKey() {
+    if (this.apiKey !== "") {
+      return this.$q.resolove(this.apiKey);
+    }
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
     .then((resp) => {
       if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get current apiKey", resp.message, 'error', 10000);
-        return self.$q.reject(resp.message);
+        return self.$q.reject("failed to get current apiKey");
       }
-      return self.configureDatasource(resp.body.apiKey);
+      return resp.body.apiKey;
     });
   }
 
@@ -51,16 +57,24 @@ export default class DatasourceUpgrader {
         url: 'https://tsdb-gw.raintank.io/graphite/',
         access: 'proxy',
         basicAuth: true,
-        basicAuthPassword: self.apiKey,
-        basicAuthUser: "api_key",
+        basicAuthPassword: "",
+        basicAuthUser: "",
         jsonData: {}
       };
       if (!datasources.graphite) {
         // create datasource.
-        promises.push(self.backendSrv.post('/api/datasources', graphite));
+        promises.push(self.getKey().then((apiKey) => {
+          graphite.basicAuthUser = "api_key";
+          graphite.basicAuthPassword = apiKey;
+          return self.backendSrv.post('/api/datasources', graphite);
+        }));
       } else if (!_.isMatch(datasources.graphite, graphite)) {
         // update datasource if necessary
-        promises.push(self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite)));
+        promises.push(self.getKey().then((apiKey) => {
+          graphite.basicAuthUser = "api_key";
+          graphite.basicAuthPassword = apiKey;
+          return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite));
+        }));
       }
 
       var elastic = {
@@ -69,8 +83,8 @@ export default class DatasourceUpgrader {
         url: 'https://tsdb-gw.raintank.io/elasticsearch/',
         access: 'proxy',
         basicAuth: true,
-        basicAuthPassword: self.apiKey,
-        basicAuthUser: "api_key",
+        basicAuthPassword: "",
+        basicAuthUser: "",
         database: '[events-]YYYY-MM-DD',
         jsonData: {
           esVersion: 2,
@@ -81,10 +95,18 @@ export default class DatasourceUpgrader {
 
       if (!datasources.elastic) {
         // create datasource.
-        promises.push(self.backendSrv.post('/api/datasources', elastic));
+        promises.push(self.getKey().then((apiKey) => {
+          elastic.basicAuthUser = "api_key";
+          elastic.basicAuthPassword = apiKey;
+          return self.backendSrv.post('/api/datasources', elastic);
+        }));
       } else if (!_.isMatch(datasources.elastic, elastic)) {
         // update datasource if necessary
-        promises.push(self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic)));
+        promises.push(self.getKey().then((apiKey) => {
+          elastic.basicAuthUser = "api_key";
+          elastic.basicAuthPassword = apiKey;
+          return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic));
+        }));
       }
 
       return self.$q.all(promises);

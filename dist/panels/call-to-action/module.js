@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
+System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var _, PanelCtrl, loadPluginCss, _createClass, CallToActionCtrl;
+  var _, PanelCtrl, loadPluginCss, DatasourceUpgrader, _createClass, CallToActionCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -41,6 +41,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
     }, function (_appPluginsSdk) {
       PanelCtrl = _appPluginsSdk.PanelCtrl;
       loadPluginCss = _appPluginsSdk.loadPluginCss;
+    }, function (_componentsConfigDsUpgrade) {
+      DatasourceUpgrader = _componentsConfigDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -87,6 +89,8 @@ System.register(['lodash', 'app/plugins/sdk'], function (_export, _context) {
           _this.aboveFreeTier = null;
 
           _this.getOrgDetails();
+          _this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          _this.datasourceUpgrader.upgrade();
           return _this;
         }
 

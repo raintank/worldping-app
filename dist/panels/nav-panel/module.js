@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plugins/sdk'], function (_export, _context) {
+System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plugins/sdk', '../../components/config/dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var _, PanelCtrl, loadPluginCss, _typeof, _createClass, EndpointNavCtrl;
+  var _, PanelCtrl, loadPluginCss, DatasourceUpgrader, _typeof, _createClass, EndpointNavCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -41,6 +41,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
     }, function (_filtersAll) {}, function (_directivesAll) {}, function (_appPluginsSdk) {
       PanelCtrl = _appPluginsSdk.PanelCtrl;
       loadPluginCss = _appPluginsSdk.loadPluginCss;
+    }, function (_componentsConfigDsUpgrade) {
+      DatasourceUpgrader = _componentsConfigDsUpgrade.default;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -100,6 +102,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
             "2": 0,
             "-1": 0
           };
+          _this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+          _this.datasourceUpgrader.upgrade();
           return _this;
         }
 

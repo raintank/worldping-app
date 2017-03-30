@@ -48,7 +48,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
           this.org = null;
-          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, alertSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};

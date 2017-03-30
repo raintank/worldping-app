@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
+import DatasourceUpgrader from '../../components/config/dsUpgrade';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -24,6 +25,8 @@ class CallToActionCtrl extends PanelCtrl {
     this.aboveFreeTier = null;
 
     this.getOrgDetails();
+    this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, $q);
+    this.datasourceUpgrader.upgrade();
   }
 
   setEndpointStatus() {
