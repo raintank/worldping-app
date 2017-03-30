@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['./config.html!text', 'lodash'], function (_export, _context) {
+System.register(['./config.html!text', './dsUpgrade'], function (_export, _context) {
   "use strict";
 
-  var configTemplate, _, _createClass, WorldPingConfigCtrl;
+  var configTemplate, DatasourceUpgrader, _createClass, WorldPingConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,8 +14,8 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
   return {
     setters: [function (_configHtmlText) {
       configTemplate = _configHtmlText.default;
-    }, function (_lodash) {
-      _ = _lodash.default;
+    }, function (_dsUpgrade) {
+      DatasourceUpgrader = _dsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -48,6 +48,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
           this.org = null;
+          this.datasourceUpgrader = new DatasourceUpgrader(backendSrv, alertSrv, $q);
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};
@@ -58,7 +59,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
           if (this.appModel.enabled) {
             var self = this;
             this.validateKey().then(function () {
-              self.validateDatasources();
+              self.datasourceUpgrader.upgrade();
             });
           }
         }
@@ -136,7 +137,7 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
               return this.$q.reject("apiKey not set.");
             }
             model.jsonData.apiKeySet = true;
-            return this.configureDatasource();
+            return this.$q.resolve();
           }
         }, {
           key: 'postUpdate',
@@ -146,100 +147,14 @@ System.register(['./config.html!text', 'lodash'], function (_export, _context) {
             }
             var self = this;
             return this.validateKey().then(function () {
-              return self.appEditCtrl.importDashboards().then(function () {
-                return {
-                  url: "dashboard/db/worldping-home",
-                  message: "worldPing app installed!"
-                };
+              return self.datasourceUpgrader.upgrade().then(function () {
+                self.appEditCtrl.importDashboards().then(function () {
+                  return {
+                    url: "dashboard/db/worldping-home",
+                    message: "worldPing app installed!"
+                  };
+                });
               });
-            });
-          }
-        }, {
-          key: 'validateDatasources',
-          value: function validateDatasources() {
-            var self = this;
-            return this.getDatasources().then(function (datasources) {
-              if (!datasources.graphite || !datasources.elastic || datasources.graphite.access === "direct" || datasources.elasitc.access === "direct") {
-                self.appModel.enabled = false;
-                self.appModel.jsonData.apiKeySet = false;
-                self.errorMsg = "Datasource updates required. Please re-enter your apiKey.";
-                return;
-              }
-            });
-          }
-        }, {
-          key: 'getDatasources',
-          value: function getDatasources() {
-            var self = this;
-            //check for existing datasource.
-            return self.backendSrv.get('/api/datasources').then(function (results) {
-              var datasources = {
-                graphite: null,
-                elastic: null
-              };
-              _.forEach(results, function (ds) {
-                if (ds.name === "raintank") {
-                  datasources.graphite = ds;
-                }
-                if (ds.name === "raintankEvents") {
-                  datasources.elastic = ds;
-                }
-              });
-              return self.$q.resolve(datasources);
-            });
-          }
-        }, {
-          key: 'configureDatasource',
-          value: function configureDatasource() {
-            var self = this;
-            //check for existing datasource.
-            return this.getDatasources().then(function (datasources) {
-              var promises = [];
-
-              var graphite = {
-                name: 'raintank',
-                type: 'graphite',
-                url: 'https://tsdb-gw.raintank.io/graphite/',
-                access: 'proxy',
-                basicAuth: true,
-                basicAuthPassword: self.appModel.secureJsonData.apiKey,
-                basicAuthUser: "api_key",
-                jsonData: {}
-              };
-
-              if (!datasources.graphite) {
-                // create datasource.
-                promises.push(self.backendSrv.post('/api/datasources', graphite));
-              } else if (!_.isMatch(datasources.graphite, graphite)) {
-                // update datasource if necessary
-                promises.push(self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite)));
-              }
-
-              var elastic = {
-                name: 'raintankEvents',
-                type: 'elasticsearch',
-                url: 'https://tsdb-gw.raintank.io/elasticsearch/',
-                access: 'proxy',
-                basicAuth: true,
-                basicAuthPassword: self.appModel.secureJsonData.apiKey,
-                basicAuthUser: "api_key",
-                database: '[events-]YYYY-MM-DD',
-                jsonData: {
-                  esVersion: 2,
-                  interval: "Daily",
-                  timeField: "timestamp"
-                }
-              };
-
-              if (!datasources.elastic) {
-                // create datasource.
-                promises.push(self.backendSrv.post('/api/datasources', elastic));
-              } else if (!_.isMatch(datasources.elastic, elastic)) {
-                // update datasource if necessary
-                promises.push(self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic)));
-              }
-
-              return self.$q.all(promises);
             });
           }
         }]);
