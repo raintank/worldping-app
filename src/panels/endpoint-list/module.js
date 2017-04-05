@@ -13,11 +13,12 @@ loadPluginCss({
 class EndpointListCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv, datasourceSrv) {
     super($scope, $injector);
     this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
+    this.datasourceSrv = datasourceSrv;
     this.$location = $location;
     this.$q = $q;
     this.pageReady = false;
@@ -37,8 +38,7 @@ class EndpointListCtrl extends PanelCtrl {
       "2": 0,
       "-1": 0,
     };
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
   }
 
   initEditMode() {

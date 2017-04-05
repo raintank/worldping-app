@@ -11,12 +11,13 @@ loadPluginCss({
 class CallToActionCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
     super($scope, $injector);
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
     this.$location = $location;
     this.$q = $q;
+    this.datasourceSrv = datasourceSrv;
 
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
@@ -26,8 +27,7 @@ class CallToActionCtrl extends PanelCtrl {
     this.aboveFreeTier = null;
 
     this.getOrgDetails();
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
   }
 
   setEndpointStatus() {

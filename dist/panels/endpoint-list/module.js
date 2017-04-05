@@ -103,7 +103,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         _inherits(EndpointListCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
+        function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv, datasourceSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
           var _this = _possibleConstructorReturn(this, (EndpointListCtrl.__proto__ || Object.getPrototypeOf(EndpointListCtrl)).call(this, $scope, $injector));
@@ -111,6 +111,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           _this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
+          _this.datasourceSrv = datasourceSrv;
           _this.$location = $location;
           _this.$q = $q;
           _this.pageReady = false;
@@ -125,8 +126,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
             "2": 0,
             "-1": 0
           };
-          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          _this.datasourceUpgrader.upgrade();
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
           return _this;
         }
 
