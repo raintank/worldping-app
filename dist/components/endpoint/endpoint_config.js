@@ -510,13 +510,15 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
                 }
               }
             }
-            if (check.id) {
-              for (var i = 0; i < this.endpoint.checks.length; i++) {
-                if (this.endpoint.checks[i].id === check.id) {
-                  this.endpoint.checks[i] = _.cloneDeep(check);
-                }
+            var found = false;
+            for (var i = 0; i < this.endpoint.checks.length; i++) {
+              if (this.endpoint.checks[i].type === check.type) {
+                this.endpoint.checks[i] = _.cloneDeep(check);
+                found = true;
+                break;
               }
-            } else {
+            }
+            if (!found) {
               this.endpoint.checks.push(check);
             }
             return this.saveEndpoint().then(function () {
