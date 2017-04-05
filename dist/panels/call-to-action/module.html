@@ -69,7 +69,7 @@
     </div>
 
     <!-- Over free tier -->
-    <div class="rt-dash-flex-container" ng-if="ctrl.aboveFreeTier">
+    <div class="rt-dash-flex-container">
       <div class="rt-dash-flex-item rt-dash--warning">
         <div class="rt-CTA-item">
             <div class="rt-dashboard-icons-container">
@@ -83,7 +83,24 @@
             </div>
         </div>
       </div>
-      <!-- End over free tier -->
-
     </div>
+    <!-- End over free tier -->
+
+    <!-- Data source update -->
+    <div class="rt-dash-flex-container">
+      <div class="rt-dash-flex-item rt-dash--warning">
+        <div class="rt-CTA-item">
+            <div class="rt-dashboard-icons-container">
+                <i class="icon-gf icon-gf-alert rt-dashboard-icons-alert"></i>
+            </div>
+            <div class="rt-dashboard-icons-warning-container">
+              <span>worldPing now supports Grafana Alerting!</span>
+              <span class="rt-dash--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</span>
+              <a href="#" class="btn btn-inverse">Update now</a>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Data source update -->
+
 </div>
