@@ -158,7 +158,7 @@ export default class DatasourceUpgrader {
         }));
       }
 
-      return self.$q.all(promises).then(result => {self.upgraded = true; return result});
+      return self.$q.all(promises).then(result => {self.upgraded = true; return result;});
     });
   }
 }
