@@ -32,3 +32,8 @@
 .wp-enabled-box {
   margin: $spacer 0;
 }
+
+.wp-warning-box--margin-bottom {
+  margin-bottom: $spacer*2;
+  margin-left: -5px;
+}
