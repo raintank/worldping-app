@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-System.register(['lodash'], function (_export, _context) {
+System.register(["lodash"], function (_export, _context) {
   "use strict";
 
   var _, _createClass, DatasourceUpgrader;
@@ -48,41 +48,36 @@ System.register(['lodash'], function (_export, _context) {
         }
 
         _createClass(DatasourceUpgrader, [{
-          key: 'needsUpgrade',
+          key: "needsUpgrade",
           value: function needsUpgrade() {
             if (this.upgraded) {
-              console.log('datasources upgraded');
               return false;
             }
 
             if (!this.datasourceSrv) {
-              console.log('no datasource srv');
               return false;
             }
 
             var datasources = this.datasourceSrv.getAll();
 
             if (!datasources.raintank || !/^\/api\/datasources\/proxy/.exec(datasources.raintank.url)) {
-              console.log('raintank needs upgrade');
               return true;
             }
 
             if (!datasources.raintankEvents || !/^\/api\/datasources\/proxy/.exec(datasources.raintankEvents.url)) {
-              console.log('raintankEvents needs upgrade');
               return true;
             }
 
-            console.log('datasources up to date');
             return false;
           }
         }, {
-          key: 'canUpgrade',
+          key: "canUpgrade",
           value: function canUpgrade() {
             // only admins can modify datasources.
             return this.contextSrv.hasRole("Admin");
           }
         }, {
-          key: 'upgrade',
+          key: "upgrade",
           value: function upgrade() {
             if (this.needsUpgrade() && this.canUpgrade()) {
               return this.configureDatasource();
@@ -91,7 +86,7 @@ System.register(['lodash'], function (_export, _context) {
             }
           }
         }, {
-          key: 'getKey',
+          key: "getKey",
           value: function getKey() {
             // if we have already fetched the key, they just return it.
             if (this.apiKey !== "") {
@@ -114,7 +109,7 @@ System.register(['lodash'], function (_export, _context) {
             return this.keyRequest;
           }
         }, {
-          key: 'getDatasources',
+          key: "getDatasources",
           value: function getDatasources() {
             var self = this;
             //check for existing datasource.
@@ -135,8 +130,10 @@ System.register(['lodash'], function (_export, _context) {
             });
           }
         }, {
-          key: 'configureDatasource',
+          key: "configureDatasource",
           value: function configureDatasource() {
+            var _this = this;
+
             var self = this;
             //check for existing datasource.
             return this.getDatasources().then(function (datasources) {
@@ -199,8 +196,18 @@ System.register(['lodash'], function (_export, _context) {
                 }));
               }
 
-              return self.$q.all(promises).then(function (result) {
-                self.upgraded = true;return result;
+              return self.$q.all(promises);
+            }).then(function (result) {
+              self.upgraded = true;
+
+              return _this.backendSrv.get('/api/frontend/settings').then(function (settings) {
+                // update datasource config
+                var datasourceConfig = _this.datasourceSrv.getAll();
+                datasourceConfig.raintank = settings.datasources.raintank;
+                datasourceConfig.raintankEvents = settings.datasources.raintankEvents;
+                _this.datasourceSrv.init();
+
+                return result;
               });
             });
           }
@@ -209,7 +216,7 @@ System.register(['lodash'], function (_export, _context) {
         return DatasourceUpgrader;
       }();
 
-      _export('default', DatasourceUpgrader);
+      _export("default", DatasourceUpgrader);
     }
   };
 });

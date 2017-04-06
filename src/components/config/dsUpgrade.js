@@ -13,28 +13,23 @@ export default class DatasourceUpgrader {
 
   needsUpgrade() {
     if (this.upgraded) {
-      console.log('datasources upgraded');
       return false;
     }
 
     if (!this.datasourceSrv) {
-      console.log('no datasource srv');
       return false;
     }
 
     var datasources = this.datasourceSrv.getAll();
 
     if (!datasources.raintank || !/^\/api\/datasources\/proxy/.exec(datasources.raintank.url)) {
-      console.log('raintank needs upgrade');
       return true;
     }
 
     if (!datasources.raintankEvents || !/^\/api\/datasources\/proxy/.exec(datasources.raintankEvents.url)) {
-      console.log('raintankEvents needs upgrade');
       return true;
     }
 
-    console.log('datasources up to date');
     return false;
   }
 
@@ -158,7 +153,19 @@ export default class DatasourceUpgrader {
         }));
       }
 
-      return self.$q.all(promises).then(result => {self.upgraded = true; return result;});
+      return self.$q.all(promises);
+    }).then(result => {
+      self.upgraded = true;
+
+      return this.backendSrv.get('/api/frontend/settings').then(settings => {
+        // update datasource config
+        var datasourceConfig = this.datasourceSrv.getAll();
+        datasourceConfig.raintank = settings.datasources.raintank;
+        datasourceConfig.raintankEvents = settings.datasources.raintankEvents;
+        this.datasourceSrv.init();
+
+        return result;
+      });
     });
   }
 }
