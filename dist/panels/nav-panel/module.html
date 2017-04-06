@@ -1,8 +1,9 @@
-<div class="rt-nav-warning-container">
+<div class="rt-nav-warning-container" ng-if="ctrl.datasourceUpgrader.needsUpgrade()">
   <i class="icon-gf icon-gf-alert rt-nav--warning-icons-alert"></i>
   <span>worldPing now supports Grafana Alerting!</span>
   <span class="rt-nav--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</span>
-  <a href="#" class="btn btn-inverse btn-small">Update now</a>
+  <a href="#" class="btn btn-inverse btn-small" ng-if="ctrl.datasourceUpgrader.canUpgrade()" ng-click="ctrl.datasourceUpgrader.upgrade()">Update now</a>
+  <div class="rt-nav--warning-subcopy" ng-if="!ctrl.datasourceUpgrader.canUpgrade()">Please contact your admin to have them perform the update.</div>
 </div>
 <div ng-if="ctrl.endpoints.length > 0" class="rt-nav">
     <div class="rt-nav-header" ng-repeat="endpoint in ctrl.endpoints | filterByTag:ctrl.filter.tag | orderBy:ctrl.sort_field">

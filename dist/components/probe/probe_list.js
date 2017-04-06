@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) {
+System.register(['lodash'], function (_export, _context) {
   "use strict";
 
-  var _, DatasourceUpgrader, _createClass, ProbeListCtrl;
+  var _, _createClass, ProbeListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -14,8 +14,6 @@ System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) 
   return {
     setters: [function (_lodash) {
       _ = _lodash.default;
-    }, function (_configDsUpgrade) {
-      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -54,8 +52,6 @@ System.register(['lodash', '../config/dsUpgrade'], function (_export, _context) 
           this.sort_field = "name";
           this.probes = [];
           this.getProbes();
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(ProbeListCtrl, [{

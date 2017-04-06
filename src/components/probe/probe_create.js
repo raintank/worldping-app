@@ -1,6 +1,5 @@
 import angular from 'angular';
 import _ from 'lodash';
-import DatasourceUpgrader from '../config/dsUpgrade';
 
 var defaults = {
   name: '',
@@ -10,7 +9,7 @@ var defaults = {
 class ProbeCreateCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $window, $q, backendSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
     var self = this;
     this.$window = $window;
     this.$q = $q;
@@ -35,8 +34,6 @@ class ProbeCreateCtrl {
     }
 
     self.getOrgDetails();
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
   }
 
   setInstallMethod(newMethod) {

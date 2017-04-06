@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade'], function (_export, _context) {
+System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plugins/sdk'], function (_export, _context) {
   "use strict";
 
-  var _, PanelCtrl, loadPluginCss, DatasourceUpgrader, _typeof, _createClass, _get, EndpointListCtrl;
+  var _, PanelCtrl, loadPluginCss, _typeof, _createClass, _get, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -41,8 +41,6 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
     }, function (_appPluginsSdk) {
       PanelCtrl = _appPluginsSdk.PanelCtrl;
       loadPluginCss = _appPluginsSdk.loadPluginCss;
-    }, function (_componentsConfigDsUpgrade) {
-      DatasourceUpgrader = _componentsConfigDsUpgrade.default;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
@@ -103,7 +101,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         _inherits(EndpointListCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv, datasourceSrv) {
+        function EndpointListCtrl($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
           _classCallCheck(this, EndpointListCtrl);
 
           var _this = _possibleConstructorReturn(this, (EndpointListCtrl.__proto__ || Object.getPrototypeOf(EndpointListCtrl)).call(this, $scope, $injector));
@@ -111,7 +109,6 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
           _this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
           _this.backendSrv = backendSrv;
           _this.alertSrv = alertSrv;
-          _this.datasourceSrv = datasourceSrv;
           _this.$location = $location;
           _this.$q = $q;
           _this.pageReady = false;
@@ -126,7 +123,6 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
             "2": 0,
             "-1": 0
           };
-          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
           return _this;
         }
 

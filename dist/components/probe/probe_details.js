@@ -1,9 +1,9 @@
 "use strict";
 
-System.register(["../config/dsUpgrade"], function (_export, _context) {
+System.register([], function (_export, _context) {
   "use strict";
 
-  var DatasourceUpgrader, _createClass, ProbeDetailsCtrl;
+  var _createClass, ProbeDetailsCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -12,9 +12,7 @@ System.register(["../config/dsUpgrade"], function (_export, _context) {
   }
 
   return {
-    setters: [function (_configDsUpgrade) {
-      DatasourceUpgrader = _configDsUpgrade.default;
-    }],
+    setters: [],
     execute: function () {
       _createClass = function () {
         function defineProperties(target, props) {
@@ -59,8 +57,6 @@ System.register(["../config/dsUpgrade"], function (_export, _context) {
           $scope.$on("$destroy", function () {
             $timeout.cancel(self.poller);
           });
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(ProbeDetailsCtrl, [{

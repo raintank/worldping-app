@@ -1,5 +1,3 @@
-import DatasourceUpgrader from '../config/dsUpgrade';
-
 export class ProbeDetailsCtrl {
 
   /** @ngInject */
@@ -23,8 +21,6 @@ export class ProbeDetailsCtrl {
     $scope.$on("$destroy", function() {
       $timeout.cancel(self.poller);
     });
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
   }
 
   save() {

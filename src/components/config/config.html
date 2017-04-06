@@ -1,6 +1,13 @@
 <p ng-if="!ctrl.appModel.jsonData.apiKeySet">worldPing requires a Grafana.com account. <a class="highlight-word" href="//grafana.com/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.com/signup" target="_blank">sign up for free.</a></p>
 
 <form name="editForm">
+	<div class="rt-nav-warning-container" ng-if="ctrl.appModel.enabled && ctrl.datasourceUpgrader.needsUpgrade()">
+		<i class="icon-gf icon-gf-alert rt-nav--warning-icons-alert"></i>
+		<span>worldPing now supports Grafana Alerting!</span>
+		<div class="rt-nav--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</div>
+		<a href="#" class="btn btn-inverse btn-small" ng-if="ctrl.datasourceUpgrader.canUpgrade()" ng-click="ctrl.datasourceUpgrader.upgrade()">Update now</a>
+		<div class="rt-nav--warning-subcopy" ng-if="!ctrl.datasourceUpgrader.canUpgrade()">Please contact your admin to have them perform the update.</div>
+	</div>
 	<div class="gf-form-group">
 		<div class="gf-form-inline">
 			<div class="gf-form wp-inline-field-margin--right">

@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export, _context) {
+System.register(['angular', 'lodash'], function (_export, _context) {
   "use strict";
 
-  var angular, _, DatasourceUpgrader, _createClass, defaults, ProbeCreateCtrl;
+  var angular, _, _createClass, defaults, ProbeCreateCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -16,8 +16,6 @@ System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export,
       angular = _angular.default;
     }, function (_lodash) {
       _ = _lodash.default;
-    }, function (_configDsUpgrade) {
-      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -46,7 +44,7 @@ System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export,
       _export('ProbeCreateCtrl', ProbeCreateCtrl = function () {
 
         /** @ngInject */
-        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv, contextSrv) {
+        function ProbeCreateCtrl($scope, $injector, $location, $window, $q, backendSrv, alertSrv) {
           _classCallCheck(this, ProbeCreateCtrl);
 
           var self = this;
@@ -73,8 +71,6 @@ System.register(['angular', 'lodash', '../config/dsUpgrade'], function (_export,
           }
 
           self.getOrgDetails();
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(ProbeCreateCtrl, [{

@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import DatasourceUpgrader from '../config/dsUpgrade';
 
 class ProbeListCtrl {
 
@@ -21,8 +20,6 @@ class ProbeListCtrl {
     this.sort_field = "name";
     this.probes = [];
     this.getProbes();
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
   }
 
   probeTags() {

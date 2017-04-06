@@ -3,7 +3,6 @@ import '../../directives/all';
 import _ from 'lodash';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
-import DatasourceUpgrader from '../../components/config/dsUpgrade';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -13,12 +12,11 @@ loadPluginCss({
 class EndpointListCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv, datasourceSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, contextSrv, alertSrv) {
     super($scope, $injector);
     this.isOrgEditor = contextSrv.hasRole('Editor') || contextSrv.hasRole('Admin');
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
-    this.datasourceSrv = datasourceSrv;
     this.$location = $location;
     this.$q = $q;
     this.pageReady = false;
@@ -38,7 +36,6 @@ class EndpointListCtrl extends PanelCtrl {
       "2": 0,
       "-1": 0,
     };
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
   }
 
   initEditMode() {
