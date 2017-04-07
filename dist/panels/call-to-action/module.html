@@ -78,30 +78,46 @@
             <div class="rt-dashboard-icons-copy-container">
                 <a href="https://grafana.com/{{ctrl.org.slug}}/worldping/upgrade" target="_blank" class="rt-dashboard-blurb">
                     <span>Time to upgrade now!</span>
-                    <span class="rt-dashboard-icons-subcopy">You are using more than the 3 Million checks allowed on the free tier. Click to upgrade your plan.</span>
+                    <span class="rt-dashboard-icons-subcopy">You are using more than the 1 Million checks allowed on the free tier. Click to upgrade your plan.</span>
                 </a>
             </div>
         </div>
       </div>
     </div>
     <!-- End over free tier -->
-
-    <!-- Data source update -->
-    <div class="rt-dash-flex-container" ng-if="ctrl.datasourceUpgrader.needsUpgrade()">
-      <div class="rt-dash-flex-item rt-dash--warning">
-        <div class="rt-CTA-item">
-            <div class="rt-dashboard-icons-container">
-                <i class="icon-gf icon-gf-alert rt-dashboard-icons-alert"></i>
-            </div>
-            <div class="rt-dashboard-icons-warning-container">
-              <span>worldPing now supports Grafana Alerting!</span>
-              <span class="rt-dash--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</span>
-              <a href="#" class="btn btn-inverse" ng-if="ctrl.datasourceUpgrader.canUpgrade()" ng-click="ctrl.datasourceUpgrader.upgrade()">Update now</a>
-              <div class="rt-dash--warning-subcopy" ng-if="!ctrl.datasourceUpgrader.canUpgrade()">Please contact your admin to have them perform the update.</div>
-            </div>
+</div>
+<!-- Data source update -->
+<div class="rt-dash-flex-container" ng-if="ctrl.datasourceUpgrader.needsUpgrade()">
+  <div class="rt-dash-flex-item rt-dash--warning">
+    <div class="rt-CTA-item">
+        <div class="rt-dashboard-icons-container">
+            <i class="icon-gf icon-gf-alert rt-dashboard-icons-alert"></i>
         </div>
+        <div class="rt-dashboard-icons-warning-container">
+          <span>worldPing now supports Grafana Alerting!</span>
+          <span class="rt-dash--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</span>
+          <a href="#" class="btn btn-inverse" ng-if="ctrl.datasourceUpgrader.canUpgrade()" ng-click="ctrl.datasourceUpgrader.upgrade()">Update now</a>
+          <div class="rt-dash--warning-subcopy" ng-if="!ctrl.datasourceUpgrader.canUpgrade()">Please contact your admin to have them perform the update.</div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- End Data source update -->
+
+<!-- Data source update -->
+<div class="rt-dash-flex-container" ng-if="ctrl.org && !ctrl.datasourceUpgrader.needsUpgrade()">
+  <div class="rt-dash-flex-item">
+    <div class="rt-CTA-item">
+      <div class="rt-dashboard-icons-container">
+        <i class="icon-gf icon-gf-alert wp-icon-success"></i>
+      </div>
+      <div class="rt-dashboard-icons-copy-container">
+          <a href="https://grafana.com/dashboards?category=worldping" target="_blank" class="rt-dashboard-blurb">
+              <span>Get started with Alerting</span>
+              <span class="rt-dashboard-icons-subcopy">Visit Grafana.com to download a sample alerting dashboard and learn in minutes.</span>
+          </a>
       </div>
     </div>
-    <!-- End Data source update -->
-
+  </div>
 </div>
+<!-- End Data source update -->

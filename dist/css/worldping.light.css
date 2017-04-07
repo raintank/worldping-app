@@ -1198,6 +1198,12 @@ p.rt-dashboard-copy {
   margin-left: 5px;
   padding-left: 10px; }
 
+.rt-dash--alerting {
+  background: linear-gradient(135deg, rgba(255, 65, 54, 0.6), rgba(255, 65, 54, 0.5));
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px; }
+
 .rt-dashboard-icons-warning-container {
   display: inline;
   margin-right: 10px; }
