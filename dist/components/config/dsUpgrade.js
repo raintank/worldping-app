@@ -79,7 +79,7 @@ System.register(["lodash"], function (_export, _context) {
         }, {
           key: "upgrade",
           value: function upgrade() {
-            if (this.needsUpgrade() && this.canUpgrade()) {
+            if (this.canUpgrade()) {
               return this.configureDatasource();
             } else {
               return this.$q.when();

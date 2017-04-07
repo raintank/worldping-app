@@ -91,6 +91,8 @@ class WorldPingConfigCtrl {
       this.validKey = false;
       return this.$q.reject("apiKey not set.");
     }
+
+    this.datasourceUpgrader.upgraded = true;
     model.jsonData.apiKeySet = true;
     return this.$q.resolve();
   }

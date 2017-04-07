@@ -39,7 +39,7 @@ export default class DatasourceUpgrader {
   }
 
   upgrade() {
-    if (this.needsUpgrade() && this.canUpgrade()) {
+    if (this.canUpgrade()) {
       return this.configureDatasource();
     } else {
       return this.$q.when();

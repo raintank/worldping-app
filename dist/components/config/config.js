@@ -133,6 +133,8 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
               this.validKey = false;
               return this.$q.reject("apiKey not set.");
             }
+
+            this.datasourceUpgrader.upgraded = true;
             model.jsonData.apiKeySet = true;
             return this.$q.resolve();
           }
