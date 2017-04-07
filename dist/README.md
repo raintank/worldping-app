@@ -44,12 +44,13 @@ WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana
 ### Documentation
 - [worldPing Usecases](http://worldping.raintank.io/worldping/use-cases)
 
-- [worldPing FAQ](http://grafana.com/cloud/worldping#FAQ)
+- [worldPing FAQ](https://grafana.com/cloud/worldping#FAQ)
 
 - [worldPing documentation](http://worldping.raintank.io/docs/)
 
 ### Support
-- Join our [public slack channel](http://slack.raintank.io/). This provides real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
+
+- Join the [community](http://community.grafana.com). This provides real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
 - Email [support@grafana.com](mailto:support@grafana.com).
 
 ------
