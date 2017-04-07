@@ -8,7 +8,7 @@ You can use worldPing to get a real-time view of any endpoint's performance and 
 
 ## Live Demo
 
-A live demo of worldPing is available at [worldping-demo.raintank.io](http://worldping-demo.raintank.io/)
+A live demo of worldPing is available at [worldpingdemo.grafana.net](https://worldpingdemo.grafana.net)
 
 ## Features
 
@@ -37,20 +37,20 @@ Errors are validated across multiple locations to reduce false positives.
 Anything that you can do through the UI you can also do through our full featured HTTP API, docs can be found at [docs.worldping.apiary.io](http://docs.worldping.apiary.io)
 
 ### Requirements
-WorldPing requires only a [Grafana.net](http://grafana.net) account and [Grafana 3.x](http://grafana.org/download) to install. There are no other external dependencies, accounts or configuration needed.
+WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana 3.x](https://grafana.com/grafana/download) to install. There are no other external dependencies, accounts or configuration needed.
 
 ## Getting Help
 
 ### Documentation
 - [worldPing Usecases](http://worldping.raintank.io/worldping/use-cases)
 
-- [worldPing FAQ](http://worldping.raintank.io/worldping/faq)
+- [worldPing FAQ](http://grafana.com/cloud/worldping#FAQ)
 
 - [worldPing documentation](http://worldping.raintank.io/docs/)
 
 ### Support
-- Join our public slack channel; sign up at [http://slack.raintank.io](http://slack.raintank.io). This provide real-time access to both the raintank team and the growing community of worldPing and Grafana users.
-- Email [support@raintank.io](mailto:support@raintank.io).
+- Join our [public slack channel](http://slack.raintank.io/). This provide real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
+- Email [support@grafana.com](mailto:support@grafana.com).
 
 ------
 
