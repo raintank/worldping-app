@@ -4,7 +4,7 @@ worldPing is a plugin for Grafana that continually tests, stores and alerts on t
 
 You can use worldPing to get a real-time view of any endpoint's performance and availability. As often as every 10 seconds, we will test your application from dozens of Probes around the world, Alerting you in real-time if there are any outages or slow-downs.
 
-![worldPing Diagram](https://grafana.net/img/worldping_graph.svg)
+![worldPing Diagram](https://grafana.com/img/worldping_graph.svg)
 
 ## Live Demo
 
@@ -49,7 +49,7 @@ WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana
 - [worldPing documentation](http://worldping.raintank.io/docs/)
 
 ### Support
-- Join our [public slack channel](http://slack.raintank.io/). This provide real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
+- Join our [public slack channel](http://slack.raintank.io/). This provides real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
 - Email [support@grafana.com](mailto:support@grafana.com).
 
 ------
