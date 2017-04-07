@@ -1063,6 +1063,10 @@
 .wp-enabled-box {
   margin: 1rem 0; }
 
+.wp-warning-box--margin-bottom {
+  margin-bottom: 2rem;
+  margin-left: -5px; }
+
 .page-header--flex {
   display: flex; }
 
@@ -1121,6 +1125,27 @@
 .rt-nav-header--button {
   margin-right: 5px; }
 
+.rt-nav-warning-container {
+  background: linear-gradient(135deg, rgba(204, 57, 0, 0.6), rgba(204, 57, 0, 0.5));
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  margin: 0 -10px 2rem -10px; }
+  .rt-nav-warning-container span {
+    margin-right: 10px; }
+
+.rt-nav--warning-subcopy {
+  display: block;
+  font-size: 12px;
+  color: #D8D9DA; }
+
+.rt-nav--warning-icons-alert {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+  margin-right: 5px; }
+
 /******************************************
 RAINTANK DASHBOARD STYLES
 ******************************************/
@@ -1168,10 +1193,26 @@ p.rt-dashboard-copy {
   margin-top: 15px; }
 
 .rt-dash--warning {
-  background-color: rgba(204, 57, 0, 0.5);
+  background: linear-gradient(135deg, rgba(204, 57, 0, 0.6), rgba(204, 57, 0, 0.5));
   margin-bottom: 10px;
   margin-left: 5px;
   padding-left: 10px; }
+
+.rt-dash--alerting {
+  background: linear-gradient(135deg, rgba(204, 57, 0, 0.6), rgba(204, 57, 0, 0.5));
+  margin-bottom: 10px;
+  margin-left: 5px;
+  padding-left: 10px; }
+
+.rt-dashboard-icons-warning-container {
+  display: inline;
+  margin-right: 10px; }
+
+.rt-dash--warning-subcopy {
+  display: block;
+  font-size: 12px;
+  color: #D8D9DA;
+  margin: 1rem 0 1rem 0; }
 
 @media screen and (max-width: 780px) {
   .rt-dash-flex-item {
@@ -1217,6 +1258,12 @@ a.rt-dashboard-blurb:hover {
   color: #fff;
   text-decoration: none;
   font-size: 20px;
+  vertical-align: sub; }
+
+.rt-dashboard-icons-alert {
+  color: #fff;
+  text-decoration: none;
+  font-size: 23px;
   vertical-align: sub; }
 
 .rt-CTA-item {

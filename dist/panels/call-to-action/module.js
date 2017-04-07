@@ -72,7 +72,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
         _inherits(CallToActionCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv) {
+        function CallToActionCtrl($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
           _classCallCheck(this, CallToActionCtrl);
 
           var _this = _possibleConstructorReturn(this, (CallToActionCtrl.__proto__ || Object.getPrototypeOf(CallToActionCtrl)).call(this, $scope, $injector));
@@ -81,16 +81,17 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
           _this.alertSrv = alertSrv;
           _this.$location = $location;
           _this.$q = $q;
+          _this.datasourceSrv = datasourceSrv;
 
           _this.quotas = null;
           _this.endpointStatus = "scopeEndpoints";
           _this.collectorStatus = "scopeCollectors";
           _this.requiresUpgrade = null;
+          _this.currentlyTrial = null;
           _this.aboveFreeTier = null;
 
           _this.getOrgDetails();
-          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          _this.datasourceUpgrader.upgrade();
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
           return _this;
         }
 
@@ -137,12 +138,36 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
             var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
             p.then(function (resp) {
               self.org = resp;
+
+              var millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
+              if (millionChecksPerMonth > 1000) {
+                self.org.strChecksPerMonth = 'using ' + Math.ceil(millionChecksPerMonth / 1000) + ' Billion checks/mo';
+              } else if (millionChecksPerMonth > 0) {
+                self.org.strChecksPerMonth = 'using ' + millionChecksPerMonth + ' Million checks/mo';
+              } else {
+                self.org.strChecksPerMonth = 'not using any checks yet';
+              }
+
               self.requiresUpgrade = self._requiresUpgrade();
+              self.currentlyTrial = self._currentlyTrial();
               self.aboveFreeTier = self._aboveFreeTier();
             }, function (resp) {
               self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
             });
             return p;
+          }
+        }, {
+          key: '_currentlyTrial',
+          value: function _currentlyTrial() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan === 'trial') {
+              return true;
+            }
+
+            return false;
           }
         }, {
           key: '_requiresUpgrade',
@@ -151,7 +176,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
               return true;
             }
 
-            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
               return false;
             }
 
@@ -168,7 +193,7 @@ System.register(['lodash', 'app/plugins/sdk', '../../components/config/dsUpgrade
               return false;
             }
 
-            if (this.org.checksPerMonth / 1000000 > 3) {
+            if (this.org.checksPerMonth / 1000000 > 1) {
               return true;
             }
 

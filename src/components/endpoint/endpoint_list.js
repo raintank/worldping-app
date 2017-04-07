@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import $ from 'jquery';
-import DatasourceUpgrader from '../config/dsUpgrade';
 
 class EndpointListCtrl {
 
@@ -22,8 +21,6 @@ class EndpointListCtrl {
       "2": 0,
       "-1": 0,
     };
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
   }
 
   refresh() {

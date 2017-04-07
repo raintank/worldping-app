@@ -48,7 +48,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -78,7 +78,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         _inherits(EndpointNavCtrl, _PanelCtrl);
 
         /** @ngInject */
-        function EndpointNavCtrl($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv) {
+        function EndpointNavCtrl($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv, datasourceSrv) {
           _classCallCheck(this, EndpointNavCtrl);
 
           var _this = _possibleConstructorReturn(this, (EndpointNavCtrl.__proto__ || Object.getPrototypeOf(EndpointNavCtrl)).call(this, $scope, $injector));
@@ -87,6 +87,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
           _this.$q = $q;
           _this.backendSrv = backendSrv;
           _this.templateSrv = templateSrv;
+          _this.datasourceSrv = datasourceSrv;
           _this.alertSrv = alertSrv;
           _this.endpointSlugs = [];
 
@@ -102,8 +103,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
             "2": 0,
             "-1": 0
           };
-          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          _this.datasourceUpgrader.upgrade();
+          _this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
           return _this;
         }
 

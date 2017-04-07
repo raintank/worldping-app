@@ -72,7 +72,7 @@
       "name": "Grafana Labs",
       "url": "http://grafana.com"
     },
-    "keywords": ["raintank", "worldping", "network"],
+    "keywords": ["grafana", "worldping", "network"],
     "logos": {
       "small": "img/worldping_logo.svg",
       "large": "img/worldping_logo.svg"

@@ -1,17 +1,45 @@
 import _ from 'lodash' ;
 
 export default class DatasourceUpgrader {
-  constructor(contextSrv, backendSrv, $q) {
+  constructor(contextSrv, backendSrv, $q, datasourceSrv) {
     this.backendSrv = backendSrv;
-    this.$q = $q;
     this.contextSrv = contextSrv;
+    this.datasourceSrv = datasourceSrv;
+    this.$q = $q;
     this.apiKey = "";
     this.keyRequest = null;
+    this.upgradeed = false;
+  }
+
+  needsUpgrade() {
+    if (this.upgraded) {
+      return false;
+    }
+
+    if (!this.datasourceSrv) {
+      return false;
+    }
+
+    var datasources = this.datasourceSrv.getAll();
+
+    if (!datasources.raintank || !/^\/api\/datasources\/proxy/.exec(datasources.raintank.url)) {
+      return true;
+    }
+
+    if (!datasources.raintankEvents || !/^\/api\/datasources\/proxy/.exec(datasources.raintankEvents.url)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  canUpgrade() {
+    // only admins can modify datasources.
+    return this.contextSrv.hasRole("Admin");
   }
 
   upgrade() {
-    // only admins can modify datasources.
-    if (this.contextSrv.hasRole("Admin")) {
+    if (this.needsUpgrade() && this.canUpgrade()) {
       return this.configureDatasource();
     } else {
       return this.$q.when();
@@ -126,6 +154,18 @@ export default class DatasourceUpgrader {
       }
 
       return self.$q.all(promises);
+    }).then(result => {
+      self.upgraded = true;
+
+      return this.backendSrv.get('/api/frontend/settings').then(settings => {
+        // update datasource config
+        var datasourceConfig = this.datasourceSrv.getAll();
+        datasourceConfig.raintank = settings.datasources.raintank;
+        datasourceConfig.raintankEvents = settings.datasources.raintankEvents;
+        this.datasourceSrv.init();
+
+        return result;
+      });
     });
   }
 }

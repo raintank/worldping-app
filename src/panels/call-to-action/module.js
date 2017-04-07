@@ -11,22 +11,23 @@ loadPluginCss({
 class CallToActionCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
     super($scope, $injector);
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
     this.$location = $location;
     this.$q = $q;
+    this.datasourceSrv = datasourceSrv;
 
     this.quotas = null;
     this.endpointStatus = "scopeEndpoints";
     this.collectorStatus = "scopeCollectors";
     this.requiresUpgrade = null;
+    this.currentlyTrial = null;
     this.aboveFreeTier = null;
 
     this.getOrgDetails();
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
   }
 
   setEndpointStatus() {
@@ -68,7 +69,18 @@ class CallToActionCtrl extends PanelCtrl {
     var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
     p.then((resp) => {
       self.org = resp;
+
+      const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
+      if (millionChecksPerMonth > 1000) {
+        self.org.strChecksPerMonth = 'using ' + Math.ceil(millionChecksPerMonth / 1000) + ' Billion checks/mo';
+      } else if (millionChecksPerMonth > 0) {
+        self.org.strChecksPerMonth = 'using ' + millionChecksPerMonth + ' Million checks/mo';
+      } else {
+        self.org.strChecksPerMonth = 'not using any checks yet';
+      }
+
       self.requiresUpgrade = self._requiresUpgrade();
+      self.currentlyTrial = self._currentlyTrial();
       self.aboveFreeTier = self._aboveFreeTier();
     }, (resp) => {
       self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
@@ -76,12 +88,24 @@ class CallToActionCtrl extends PanelCtrl {
     return p;
   }
 
+  _currentlyTrial() {
+    if (!this.org) {
+      return false;
+    }
+
+    if (this.org.wpPlan === 'trial') {
+      return true;
+    }
+
+    return false;
+  }
+
   _requiresUpgrade() {
     if (!this.org) {
       return true;
     }
 
-    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
       return false;
     }
 
@@ -97,7 +121,7 @@ class CallToActionCtrl extends PanelCtrl {
       return false;
     }
 
-    if (this.org.checksPerMonth / 1000000 > 3) {
+    if (this.org.checksPerMonth / 1000000 > 1) {
       return true;
     }
 

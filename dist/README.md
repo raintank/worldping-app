@@ -49,7 +49,8 @@ WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana
 - [worldPing documentation](http://worldping.raintank.io/docs/)
 
 ### Support
-- Join our [public slack channel](http://slack.raintank.io). This provides real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
+
+- Join the [community](http://community.grafana.com). This provides real-time access to both the Grafana Labs team and the growing community of worldPing and Grafana users.
 - Email [support@grafana.com](mailto:support@grafana.com).
 
 ------
@@ -58,9 +59,10 @@ WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana
 ##### v1.2.2
 
 - support body payload for HTTP/S checks
-- add download limit adjustments for http/s checks. 
-- update datasource settings to enable using worldping data with Grafana 4.x's built in alerting.
+- add download limit adjustments for http/s checks.
+- update datasource settings to enable using worldPing data with Grafana 4.x's built in alerting.
 - fix links to event dashboard from endpoint details page.
+- Updates to point to grafana.com, the new consolidated website for everything Grafana.
 
 ##### v1.2.1
 

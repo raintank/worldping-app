@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'jquery', '../config/dsUpgrade'], function (_export, _context) {
+System.register(['lodash', 'jquery'], function (_export, _context) {
   "use strict";
 
-  var _, $, DatasourceUpgrader, _typeof, _createClass, EndpointListCtrl;
+  var _, $, _typeof, _createClass, EndpointListCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -16,14 +16,12 @@ System.register(['lodash', 'jquery', '../config/dsUpgrade'], function (_export, 
       _ = _lodash.default;
     }, function (_jquery) {
       $ = _jquery.default;
-    }, function (_configDsUpgrade) {
-      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -66,8 +64,6 @@ System.register(['lodash', 'jquery', '../config/dsUpgrade'], function (_export, 
             "2": 0,
             "-1": 0
           };
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(EndpointListCtrl, [{

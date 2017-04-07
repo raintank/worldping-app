@@ -35,21 +35,51 @@ System.register(["lodash"], function (_export, _context) {
       }();
 
       DatasourceUpgrader = function () {
-        function DatasourceUpgrader(contextSrv, backendSrv, $q) {
+        function DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv) {
           _classCallCheck(this, DatasourceUpgrader);
 
           this.backendSrv = backendSrv;
-          this.$q = $q;
           this.contextSrv = contextSrv;
+          this.datasourceSrv = datasourceSrv;
+          this.$q = $q;
           this.apiKey = "";
           this.keyRequest = null;
+          this.upgradeed = false;
         }
 
         _createClass(DatasourceUpgrader, [{
+          key: "needsUpgrade",
+          value: function needsUpgrade() {
+            if (this.upgraded) {
+              return false;
+            }
+
+            if (!this.datasourceSrv) {
+              return false;
+            }
+
+            var datasources = this.datasourceSrv.getAll();
+
+            if (!datasources.raintank || !/^\/api\/datasources\/proxy/.exec(datasources.raintank.url)) {
+              return true;
+            }
+
+            if (!datasources.raintankEvents || !/^\/api\/datasources\/proxy/.exec(datasources.raintankEvents.url)) {
+              return true;
+            }
+
+            return false;
+          }
+        }, {
+          key: "canUpgrade",
+          value: function canUpgrade() {
+            // only admins can modify datasources.
+            return this.contextSrv.hasRole("Admin");
+          }
+        }, {
           key: "upgrade",
           value: function upgrade() {
-            // only admins can modify datasources.
-            if (this.contextSrv.hasRole("Admin")) {
+            if (this.needsUpgrade() && this.canUpgrade()) {
               return this.configureDatasource();
             } else {
               return this.$q.when();
@@ -102,6 +132,8 @@ System.register(["lodash"], function (_export, _context) {
         }, {
           key: "configureDatasource",
           value: function configureDatasource() {
+            var _this = this;
+
             var self = this;
             //check for existing datasource.
             return this.getDatasources().then(function (datasources) {
@@ -165,6 +197,18 @@ System.register(["lodash"], function (_export, _context) {
               }
 
               return self.$q.all(promises);
+            }).then(function (result) {
+              self.upgraded = true;
+
+              return _this.backendSrv.get('/api/frontend/settings').then(function (settings) {
+                // update datasource config
+                var datasourceConfig = _this.datasourceSrv.getAll();
+                datasourceConfig.raintank = settings.datasources.raintank;
+                datasourceConfig.raintankEvents = settings.datasources.raintankEvents;
+                _this.datasourceSrv.init();
+
+                return result;
+              });
             });
           }
         }]);

@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import angular from 'angular';
-import DatasourceUpgrader from '../config/dsUpgrade';
 
 var _defaultCheck = {
   settings: {},
@@ -75,7 +74,7 @@ function defaultCheck(checkType) {
 
 class EndpointConfigCtrl {
    /** @ngInject */
-  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
     this.$location = $location;
@@ -177,8 +176,6 @@ class EndpointConfigCtrl {
         });
       }
     });
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
   }
 
   getEndpoint(idString) {
@@ -323,16 +320,28 @@ class EndpointConfigCtrl {
     return size;
   }
 
+  currentlyTrial() {
+    if (!this.org) {
+      return false;
+    }
+
+    if (this.org.wpPlan === 'trial') {
+      return true;
+    }
+
+    return false;
+  }
+
   requiresUpgrade() {
     if (!this.org) {
       return true;
     }
 
-    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+    if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
       return false;
     }
 
-    if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 3) {
+    if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 1) {
       return true;
     }
 

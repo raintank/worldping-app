@@ -2,7 +2,7 @@ import configTemplate from './config.html!text';
 import DatasourceUpgrader from './dsUpgrade';
 
 class WorldPingConfigCtrl {
-  constructor($scope, $injector, $q, backendSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
     this.$q = $q;
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
@@ -11,7 +11,7 @@ class WorldPingConfigCtrl {
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
     this.org = null;
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
@@ -20,10 +20,7 @@ class WorldPingConfigCtrl {
       this.appModel.secureJsonData = {};
     }
     if (this.appModel.enabled) {
-      var self = this;
-      this.validateKey().then(() => {
-        self.datasourceUpgrader.upgrade();
-      });
+      this.validateKey();
     }
   }
 

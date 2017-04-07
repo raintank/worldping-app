@@ -58,9 +58,10 @@ WorldPing requires only a [Grafana.com](http://grafana.com) account and [Grafana
 ##### v1.2.2
 
 - support body payload for HTTP/S checks
-- add download limit adjustments for http/s checks. 
-- update datasource settings to enable using worldping data with Grafana 4.x's built in alerting.
+- add download limit adjustments for http/s checks.
+- update datasource settings to enable using worldPing data with Grafana 4.x's built in alerting.
 - fix links to event dashboard from endpoint details page.
+- Updates to point to grafana.com, the new consolidated website for everything Grafana.
 
 ##### v1.2.1
 

@@ -37,7 +37,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
       }();
 
       _export('ConfigCtrl', WorldPingConfigCtrl = function () {
-        function WorldPingConfigCtrl($scope, $injector, $q, backendSrv, alertSrv, contextSrv) {
+        function WorldPingConfigCtrl($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
           _classCallCheck(this, WorldPingConfigCtrl);
 
           this.$q = $q;
@@ -48,7 +48,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
           this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
           this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
           this.org = null;
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
+          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
 
           if (this.appModel.jsonData === null) {
             this.appModel.jsonData = {};
@@ -57,10 +57,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
             this.appModel.secureJsonData = {};
           }
           if (this.appModel.enabled) {
-            var self = this;
-            this.validateKey().then(function () {
-              self.datasourceUpgrader.upgrade();
-            });
+            this.validateKey();
           }
         }
 

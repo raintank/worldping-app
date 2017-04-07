@@ -13,12 +13,13 @@ loadPluginCss({
 class EndpointNavCtrl extends PanelCtrl {
 
   /** @ngInject */
-  constructor($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv) {
+  constructor($scope, $injector, $location, $q, backendSrv, templateSrv, alertSrv, contextSrv, datasourceSrv) {
     super($scope, $injector);
     this.$location = $location;
     this.$q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
+    this.datasourceSrv = datasourceSrv;
     this.alertSrv = alertSrv;
     this.endpointSlugs = [];
 
@@ -39,8 +40,7 @@ class EndpointNavCtrl extends PanelCtrl {
       "2": 0,
       "-1": 0,
     };
-    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-    this.datasourceUpgrader.upgrade();
+    this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
   }
 
   getEndpointSlugs() {

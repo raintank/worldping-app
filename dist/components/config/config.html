@@ -1,10 +1,25 @@
-<p ng-if="!ctrl.appModel.jsonData.apiKeySet">worldPing requires a Grafana.net account. <a class="highlight-word" href="//grafana.net/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.net/signup" target="_blank">sign up for free.</a></p>
+<p ng-if="!ctrl.appModel.jsonData.apiKeySet">worldPing requires a Grafana.com account. <a class="highlight-word" href="//grafana.com/profile/api-keys" target="_blank">Generate a new API key</a> or <a class="highlight-word" href="//grafana.com/signup" target="_blank">sign up for free.</a></p>
 
 <form name="editForm">
+	<div class="rt-dash-flex-container wp-warning-box--margin-bottom" ng-if="ctrl.appModel.enabled && ctrl.datasourceUpgrader.needsUpgrade()">
+		<div class="rt-dash-flex-item rt-dash--warning">
+			<div class="rt-CTA-item">
+					<div class="rt-dashboard-icons-container">
+							<i class="icon-gf icon-gf-alert rt-dashboard-icons-alert"></i>
+					</div>
+					<div class="rt-dashboard-icons-warning-container">
+						<span>worldPing now supports Grafana Alerting!</span>
+						<span class="rt-dash--warning-subcopy">To start using alerting, an update to your worldPing data source <strong>is required</strong>.</span>
+						<a href="#" class="btn btn-inverse" ng-if="ctrl.datasourceUpgrader.canUpgrade()" ng-click="ctrl.datasourceUpgrader.upgrade()">Update now</a>
+						<div class="rt-dash--warning-subcopy" ng-if="!ctrl.datasourceUpgrader.canUpgrade()">Please contact your admin to have them perform the update.</div>
+					</div>
+			</div>
+		</div>
+	</div>
 	<div class="gf-form-group">
 		<div class="gf-form-inline">
 			<div class="gf-form wp-inline-field-margin--right">
-				<a class="gf-form-label width-12" href="//grafana.net/profile/api-keys" target="_blank"><img src="public/plugins/raintank-worldping-app/img/icon_grafana-net.svg" class="gnet-logo--inline">Grafana.net API Key</a>
+				<a class="gf-form-label width-12" href="//grafana.com/profile/api-keys" target="_blank">Grafana.com API Key</a>
 				<input type="password" class="gf-form-input input-xlarge" ng-model="ctrl.appModel.secureJsonData.apiKey" ng-if="!ctrl.appModel.jsonData.apiKeySet" required>
 				<input type="text" class="gf-form-input max-width-12" disabled="disabled" value="complete" ng-if="ctrl.appModel.jsonData.apiKeySet">
 			</div>

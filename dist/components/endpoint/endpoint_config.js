@@ -1,9 +1,9 @@
 'use strict';
 
-System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export, _context) {
+System.register(['lodash', 'angular'], function (_export, _context) {
   "use strict";
 
-  var _, angular, DatasourceUpgrader, _createClass, _defaultCheck, EndpointConfigCtrl;
+  var _, angular, _createClass, _defaultCheck, EndpointConfigCtrl;
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -72,8 +72,6 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
       _ = _lodash.default;
     }, function (_angular) {
       angular = _angular.default;
-    }, function (_configDsUpgrade) {
-      DatasourceUpgrader = _configDsUpgrade.default;
     }],
     execute: function () {
       _createClass = function () {
@@ -111,7 +109,7 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
 
       _export('EndpointConfigCtrl', EndpointConfigCtrl = function () {
         /** @ngInject */
-        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv, contextSrv) {
+        function EndpointConfigCtrl($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
           var _this = this;
 
           _classCallCheck(this, EndpointConfigCtrl);
@@ -219,8 +217,6 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
               });
             }
           });
-          this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q);
-          this.datasourceUpgrader.upgrade();
         }
 
         _createClass(EndpointConfigCtrl, [{
@@ -384,17 +380,30 @@ System.register(['lodash', 'angular', '../config/dsUpgrade'], function (_export,
             return size;
           }
         }, {
+          key: 'currentlyTrial',
+          value: function currentlyTrial() {
+            if (!this.org) {
+              return false;
+            }
+
+            if (this.org.wpPlan === 'trial') {
+              return true;
+            }
+
+            return false;
+          }
+        }, {
           key: 'requiresUpgrade',
           value: function requiresUpgrade() {
             if (!this.org) {
               return true;
             }
 
-            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free') {
+            if (this.org.wpPlan !== '' && this.org.wpPlan !== 'free' && this.org.wpPlan !== 'trial') {
               return false;
             }
 
-            if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 3) {
+            if (this.org.checksPerMonth / 1000000 + this.totalChecks() > 1) {
               return true;
             }
 
