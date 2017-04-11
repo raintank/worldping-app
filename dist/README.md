@@ -33,6 +33,8 @@ When you have a problem, worldPing will send you a high quality and speedy alert
 
 Errors are validated across multiple locations to reduce false positives.
 
+Now with worldPing v1.2.2+ and Grafana v4+, the sky is the limit. Using the 100% Graphite-compatible worldPing hosted data source, you can bring metrics-based alerting into your global performance monitoring.
+
 ### API Access
 Anything that you can do through the UI you can also do through our full featured HTTP API, docs can be found at [docs.worldping.apiary.io](http://docs.worldping.apiary.io)
 
