@@ -137,7 +137,8 @@ System.register(["lodash"], function (_export, _context) {
             var self = this;
             //check for existing datasource.
             return this.getDatasources().then(function (datasources) {
-              var promises = [];
+              var promise = self.$q.when();
+
               var graphite = {
                 name: 'raintank',
                 type: 'graphite',
@@ -150,18 +151,22 @@ System.register(["lodash"], function (_export, _context) {
               };
               if (!datasources.graphite) {
                 // create datasource.
-                promises.push(self.getKey().then(function (apiKey) {
-                  graphite.basicAuthUser = "api_key";
-                  graphite.basicAuthPassword = apiKey;
-                  return self.backendSrv.post('/api/datasources', graphite);
-                }));
+                promise = promise.then(function () {
+                  return self.getKey().then(function (apiKey) {
+                    graphite.basicAuthUser = "api_key";
+                    graphite.basicAuthPassword = apiKey;
+                    return self.backendSrv.post('/api/datasources', graphite);
+                  });
+                });
               } else if (!_.isMatch(datasources.graphite, graphite)) {
                 // update datasource if necessary
-                promises.push(self.getKey().then(function (apiKey) {
-                  graphite.basicAuthUser = "api_key";
-                  graphite.basicAuthPassword = apiKey;
-                  return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite));
-                }));
+                promise = promise.then(function () {
+                  return self.getKey().then(function (apiKey) {
+                    graphite.basicAuthUser = "api_key";
+                    graphite.basicAuthPassword = apiKey;
+                    return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite));
+                  });
+                });
               }
 
               var elastic = {
@@ -182,21 +187,25 @@ System.register(["lodash"], function (_export, _context) {
 
               if (!datasources.elastic) {
                 // create datasource.
-                promises.push(self.getKey().then(function (apiKey) {
-                  elastic.basicAuthUser = "api_key";
-                  elastic.basicAuthPassword = apiKey;
-                  return self.backendSrv.post('/api/datasources', elastic);
-                }));
+                promise = promise.then(function () {
+                  return self.getKey().then(function (apiKey) {
+                    elastic.basicAuthUser = "api_key";
+                    elastic.basicAuthPassword = apiKey;
+                    return self.backendSrv.post('/api/datasources', elastic);
+                  });
+                });
               } else if (!_.isMatch(datasources.elastic, elastic)) {
                 // update datasource if necessary
-                promises.push(self.getKey().then(function (apiKey) {
-                  elastic.basicAuthUser = "api_key";
-                  elastic.basicAuthPassword = apiKey;
-                  return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic));
-                }));
+                promise = promise.then(function () {
+                  return self.getKey().then(function (apiKey) {
+                    elastic.basicAuthUser = "api_key";
+                    elastic.basicAuthPassword = apiKey;
+                    return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic));
+                  });
+                });
               }
 
-              return self.$q.all(promises);
+              return promise;
             }).then(function (result) {
               self.upgraded = true;
 

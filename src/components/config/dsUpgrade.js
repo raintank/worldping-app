@@ -94,7 +94,8 @@ export default class DatasourceUpgrader {
     var self = this;
     //check for existing datasource.
     return this.getDatasources().then((datasources) => {
-      var promises = [];
+      var promise = self.$q.when();
+
       var graphite = {
         name: 'raintank',
         type: 'graphite',
@@ -107,14 +108,14 @@ export default class DatasourceUpgrader {
       };
       if (!datasources.graphite) {
         // create datasource.
-        promises.push(self.getKey().then((apiKey) => {
+        promise = promise.then(() => self.getKey().then((apiKey) => {
           graphite.basicAuthUser = "api_key";
           graphite.basicAuthPassword = apiKey;
           return self.backendSrv.post('/api/datasources', graphite);
         }));
       } else if (!_.isMatch(datasources.graphite, graphite)) {
         // update datasource if necessary
-        promises.push(self.getKey().then((apiKey) => {
+        promise = promise.then(() => self.getKey().then((apiKey) => {
           graphite.basicAuthUser = "api_key";
           graphite.basicAuthPassword = apiKey;
           return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite));
@@ -139,21 +140,21 @@ export default class DatasourceUpgrader {
 
       if (!datasources.elastic) {
         // create datasource.
-        promises.push(self.getKey().then((apiKey) => {
+        promise = promise.then(() => self.getKey().then((apiKey) => {
           elastic.basicAuthUser = "api_key";
           elastic.basicAuthPassword = apiKey;
           return self.backendSrv.post('/api/datasources', elastic);
         }));
       } else if (!_.isMatch(datasources.elastic, elastic)) {
         // update datasource if necessary
-        promises.push(self.getKey().then((apiKey) => {
+        promise = promise.then(() => self.getKey().then((apiKey) => {
           elastic.basicAuthUser = "api_key";
           elastic.basicAuthPassword = apiKey;
           return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic));
         }));
       }
 
-      return self.$q.all(promises);
+      return promise;
     }).then(result => {
       self.upgraded = true;
 
