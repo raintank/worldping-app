@@ -51,12 +51,12 @@
             <div class="gf-form">
               <label class="gf-form-label width-9">Timeout (s)</label>
               <input class="gf-form-input max-width-5" type="number" ng-model="ctrl.checks['dns'].settings.timeout" min="1" max="10">
-              <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
+              <i class="fa fa-info-circle" bs-tooltip="'The timeout, in seconds, is the amount of time our probe will wait for a response.'" />
             </div>
             <div class="gf-form gf-form--v-stretch">
               <label class="gf-form-label width-9">DNS Servers</label>
               <textarea class="gf-form-input max-width-30" type="textarea" ng-model="ctrl.checks['dns'].settings.server"></textarea>
-              <info-popover offset="0px -95px">Comma separated list of servers to try until a successful result is received.</info-popover>
+              <i class="fa fa-info-circle" bs-tooltip="'Comma separated list of servers to try until a successful result is received.'" />
             </div>
           </div>
           <div class="gf-form-group">
