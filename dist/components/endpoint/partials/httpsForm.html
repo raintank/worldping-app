@@ -55,7 +55,7 @@
               <div class="gf-form">
                 <label class="gf-form-label width-9">Timeout (s)</label>
                 <input class="gf-form-input width-11" type="number" ng-model="ctrl.checks['https'].settings.timeout" min="1" max="10">
-                <info-popover offset="0px -95px">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
+                <info-popover mode="right-absolute">The timeout, in seconds, is the amount of time our probe will wait for a response.</info-popover>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <div class="gf-form-inline">
               <div class="gf-form">
                 <label class="gf-form-label width-9">Download Limit</label>
-                <input class="gf-form-input width-11" type="text" ng-model="ctrl.checks['https'].settings.downloadLimit">
+                <input class="gf-form-input width-8" type="text" ng-model="ctrl.checks['https'].settings.downloadLimit">
                 <info-popover>The maximum amount of data the probe will attempt to download (in bytes, max {{ctrl.formatSize(ctrl.quotas.downloadLimit.limit || 102400)}}).</info-popover>
               </div>
             </div>
