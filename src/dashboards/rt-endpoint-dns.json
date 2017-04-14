@@ -701,6 +701,10 @@
       },
       {
         "allFormat": "glob",
+        "current": {
+          "text": "All",
+          "value": "$__all"
+        },
         "datasource": "raintank",
         "hide": 0,
         "includeAll": true,
