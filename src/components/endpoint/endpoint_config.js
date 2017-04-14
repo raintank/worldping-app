@@ -547,7 +547,7 @@ class EndpointConfigCtrl {
 
     //check if any new checks added.
     _.forEach(this.checks, check => {
-      if (!(check.type in seenCheckTypes) && ("frequency" in check)) {
+      if (!(check.type in seenCheckTypes) && ("frequency" in check) && check.enabled) {
         changes = true;
       }
     });

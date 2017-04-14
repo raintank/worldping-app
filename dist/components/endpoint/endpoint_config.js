@@ -632,7 +632,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
 
             //check if any new checks added.
             _.forEach(this.checks, function (check) {
-              if (!(check.type in seenCheckTypes) && "frequency" in check) {
+              if (!(check.type in seenCheckTypes) && "frequency" in check && check.enabled) {
                 changes = true;
               }
             });
