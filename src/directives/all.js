@@ -125,24 +125,16 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
       var selectedTags = [];
 
       scope.init = function() {
-        if (scope.model.route.type === 'byIds') {
-          selectedIds = scope.model.route.config.ids;
-          scope.footprint = {value: "static"};
-        } else {
-          selectedTags = scope.model.route.config.tags;
-          scope.footprint = {value: "dynamic"};
-        }
+        selectedIds = scope.model.route.config.ids;
+        scope.footprint = {value: "static"};
         scope.error = false;
-
         scope.reset();
       };
 
       scope.reset = function() {
         scope.error = false;
         scope.ids = [];
-        scope.tags = [];
-        //build out our list of collectorIds and tags
-        var seenTags = {};
+        //build out our list of collectorIds
         var sortedProbes = _.sortBy(scope.probes, function(o) {
           return o.name.toLowerCase();
         });
@@ -151,27 +143,8 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
           if (_.indexOf(selectedIds, c.id) >= 0) {
             option.selected = true;
           }
-          _.forEach(c.tags.sort(), function(t) {
-            if (!(t in seenTags)) {
-              seenTags[t] = true;
-              var o = {selected: false, text: t};
-              if (_.indexOf(selectedTags, t) >= 0) {
-                o.selected = true;
-              }
-              scope.tags.push(o);
-            }
-          });
           scope.ids.push(option);
         });
-        if (scope.footprint.value === 'dynamic') {
-          _.forEach(scope.ids, function(i) {
-            i.selected = false;
-          });
-        } else {
-          _.forEach(scope.tags, function(t) {
-            t.selected = false;
-          });
-        }
       };
 
       scope.show = function() {
@@ -248,56 +221,17 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
         return _.map(_.filter(scope.ids, {selected: true}), "text").slice(0, 2).join(", ") + " and " + (selectedIds.length - 2) + " more";
       };
 
-      scope.routeTypeChange = function() {
-        if (scope.footprint.value === 'dynamic') {
-          selectedTags = _.map(_.filter(scope.tags, {selected: true}), "text");
-          scope.model.route = {
-            type: "byTags",
-            config: {
-              tags: []
-            }
-          };
-          _.forEach(selectedTags, function(t) {
-            scope.model.route.config.tags.push(t.text);
-          });
-        } else {
-          selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
-          scope.model.route = {
-            type: "byIds",
-            config: {
-              ids: []
-            }
-          };
-          _.forEach(selectedIds, function(c) {
-            scope.model.route.config.ids.push(c.id);
-          });
-        }
-      };
-
       scope.hide = function() {
-        if (scope.footprint.value === 'dynamic') {
-          scope.model.route = {
-            type: "byTags",
-            config: {
-              tags: []
-            }
-          };
-          selectedTags = _.map(_.filter(scope.tags, {selected: true}), "text");
-          _.forEach(selectedTags, function(t) {
-            scope.model.route.config.tags.push(t);
-          });
-        } else {
-          scope.model.route = {
-            type: "byIds",
-            config: {
-              ids: []
-            }
-          };
-          selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
-          _.forEach(selectedIds, function(c) {
-            scope.model.route.config.ids.push(c);
-          });
-        }
+        scope.model.route = {
+          type: "byIds",
+          config: {
+            ids: []
+          }
+        };
+        selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
+        _.forEach(selectedIds, function(c) {
+          scope.model.route.config.ids.push(c);
+        });
         scope.selectorOpen = false;
         bodyEl.off('click', scope.bodyOnClick);
       };
