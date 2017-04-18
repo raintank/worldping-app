@@ -136,7 +136,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.checks = {};
           this.endpoint = {};
           this.probes = [];
-          this.probesByTag = {};
+          this.defaultFootprint = [];
           this.org = null;
           this.quotas = {};
 
@@ -327,24 +327,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }, {
           key: 'getProbesForCheck',
           value: function getProbesForCheck(check) {
-            if (check.route.type === "byIds") {
-              return check.route.config.ids || [];
-            }
-
-            if (check.route.type === "byTags") {
-              var probeList = {};
-              _.forEach(this.probes, function (p) {
-                _.forEach(check.route.config.tags, function (t) {
-                  if (_.indexOf(p.tags, t) !== -1) {
-                    probeList[p.id] = true;
-                  }
-                });
-              });
-              return _.keys(probeList);
-            }
-
-            this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
-            return [];
+            return check.route.config.ids || [];
           }
         }, {
           key: 'totalChecks',

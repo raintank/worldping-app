@@ -125,16 +125,23 @@ System.register(['angular', 'lodash'], function (_export, _context) {
         return {
           scope: {
             probes: "=",
-            model: "="
+            model: "=",
+            defaultFootprint: "=?"
           },
           templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointCollectorSelect.html',
           link: function link(scope, elem) {
             var bodyEl = angular.element($window.document.body);
-            var selectedIds = [];
-            var selectedTags = [];
+            var selectedIds;
+
+            scope.defaultFootprint = scope.defaultFootprint || [];
 
             scope.init = function () {
-              selectedIds = scope.model.route.config.ids;
+              if (scope.model.route && scope.model.route.config) {
+                selectedIds = scope.model.route.config.ids;
+              } else {
+                selectedIds = scope.model;
+              }
+
               scope.footprint = { value: "static" };
               scope.error = false;
               scope.reset();
@@ -168,6 +175,12 @@ System.register(['angular', 'lodash'], function (_export, _context) {
 
             scope.idSelected = function (option) {
               option.selected = !option.selected;
+            };
+
+            scope.selectDefaultFootprint = function () {
+              _.forEach(scope.defaultFootprint, function (option) {
+                option.selected = true;
+              });
             };
 
             scope.selectAll = function () {
@@ -206,17 +219,6 @@ System.register(['angular', 'lodash'], function (_export, _context) {
                 }
               });
               return count;
-            };
-
-            scope.selectTagTitle = function () {
-              selectedTags = _.map(_.filter(scope.tags, { selected: true }), "text");
-              if (selectedTags.length === 0) {
-                return "Select Tags";
-              }
-              if (selectedTags.length <= 2) {
-                return selectedTags.join(", ");
-              }
-              return selectedTags.slice(0, 2).join(", ") + " and " + (selectedTags.length - 2) + " more";
             };
 
             scope.selectIdTitle = function () {
