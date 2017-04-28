@@ -97,7 +97,7 @@ class EndpointConfigCtrl {
     this.checks = {};
     this.endpoint = {};
     this.probes = [];
-    this.defaultFootprint = [];
+    this.selectedFootprint = [];
     this.org = null;
     this.quotas = {};
 
@@ -568,6 +568,18 @@ class EndpointConfigCtrl {
         this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
         break;
     }
+  }
+
+  updateAllEndpointChecks(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      check.route = footprint.route;
+    });
+    return this.saveEndpoint().then(() => {
+      this.alertSrv.set("All checks updated.", "", "success", 2000);
+      _.forEach(this.endpoint.checks, check => {
+        this.checks[check.type] = _.cloneDeep(check);
+      });
+    });
   }
 }
 

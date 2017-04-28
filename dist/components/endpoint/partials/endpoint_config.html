@@ -49,11 +49,11 @@
         </div>
       </div>
       <br>
+      <!-- Bulk update -->
       <div class="gf-form-group">
         <div class="gf-form-inline">
-          <!-- Default footprint -->
-          <span class="gf-form-label width-7">Default</span>
-          <endpoint-probe-select model="ctrl.defaultFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
+          <endpoint-probe-select model="ctrl.selectedFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
+          <button class="btn btn-success" ng-click="ctrl.updateAllEndpointChecks(ctrl.selectedFootprint)">Bulk update</button>
         </div>
       </div>
       <div class="gf-form-buttons-row">

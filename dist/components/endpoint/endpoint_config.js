@@ -136,7 +136,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.checks = {};
           this.endpoint = {};
           this.probes = [];
-          this.defaultFootprint = [];
+          this.selectedFootprint = [];
           this.org = null;
           this.quotas = {};
 
@@ -654,6 +654,21 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
                 break;
             }
+          }
+        }, {
+          key: 'updateAllEndpointChecks',
+          value: function updateAllEndpointChecks(footprint) {
+            var _this15 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              check.route = footprint.route;
+            });
+            return this.saveEndpoint().then(function () {
+              _this15.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this15.endpoint.checks, function (check) {
+                _this15.checks[check.type] = _.cloneDeep(check);
+              });
+            });
           }
         }]);
 
