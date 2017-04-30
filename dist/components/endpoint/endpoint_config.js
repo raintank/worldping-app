@@ -656,8 +656,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             }
           }
         }, {
-          key: 'updateAllEndpointChecks',
-          value: function updateAllEndpointChecks(footprint) {
+          key: 'replaceAllEndpointChecksFootprint',
+          value: function replaceAllEndpointChecksFootprint(footprint) {
             var _this15 = this;
 
             _.forEach(this.endpoint.checks, function (check) {
@@ -667,6 +667,25 @@ System.register(['lodash', 'angular'], function (_export, _context) {
               _this15.alertSrv.set("All checks updated.", "", "success", 2000);
               _.forEach(_this15.endpoint.checks, function (check) {
                 _this15.checks[check.type] = _.cloneDeep(check);
+              });
+            });
+          }
+        }, {
+          key: 'appendAllEndpointChecksFootprint',
+          value: function appendAllEndpointChecksFootprint(footprint) {
+            var _this16 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              _.forEach(footprint.route.config.ids, function (id) {
+                if (check.route.config.ids.indexOf(id) == -1) {
+                  check.route.config.ids.push(id);
+                }
+              });
+            });
+            return this.saveEndpoint().then(function () {
+              _this16.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this16.endpoint.checks, function (check) {
+                _this16.checks[check.type] = _.cloneDeep(check);
               });
             });
           }

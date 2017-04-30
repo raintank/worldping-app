@@ -570,9 +570,25 @@ class EndpointConfigCtrl {
     }
   }
 
-  updateAllEndpointChecks(footprint) {
+  replaceAllEndpointChecksFootprint(footprint) {
     _.forEach(this.endpoint.checks, check => {
       check.route = footprint.route;
+    });
+    return this.saveEndpoint().then(() => {
+      this.alertSrv.set("All checks updated.", "", "success", 2000);
+      _.forEach(this.endpoint.checks, check => {
+        this.checks[check.type] = _.cloneDeep(check);
+      });
+    });
+  }
+  
+  appendAllEndpointChecksFootprint(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      _.forEach(footprint.route.config.ids, id => {
+        if (check.route.config.ids.indexOf(id) == -1){
+          check.route.config.ids.push(id);
+        }
+      });
     });
     return this.saveEndpoint().then(() => {
       this.alertSrv.set("All checks updated.", "", "success", 2000);

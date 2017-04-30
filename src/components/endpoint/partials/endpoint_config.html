@@ -53,7 +53,8 @@
       <div class="gf-form-group">
         <div class="gf-form-inline">
           <endpoint-probe-select model="ctrl.selectedFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
-          <button class="btn btn-success" ng-click="ctrl.updateAllEndpointChecks(ctrl.selectedFootprint)">Bulk update</button>
+          <button class="btn btn-success" ng-click="ctrl.replaceAllEndpointChecksFootprint(ctrl.selectedFootprint)">Replace All</button>
+          <button class="btn btn-success" ng-click="ctrl.appendAllEndpointChecksFootprint(ctrl.selectedFootprint)">Append All</button>
         </div>
       </div>
       <div class="gf-form-buttons-row">
