@@ -656,36 +656,46 @@ System.register(['lodash', 'angular'], function (_export, _context) {
             }
           }
         }, {
+          key: 'initialEndpointChecksFootprint',
+          value: function initialEndpointChecksFootprint(footprint) {
+            var _this15 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              check.route = footprint.route;
+              _this15.checks[check.type].route = footprint.route;
+            });
+          }
+        }, {
           key: 'replaceAllEndpointChecksFootprint',
           value: function replaceAllEndpointChecksFootprint(footprint) {
-            var _this15 = this;
+            var _this16 = this;
 
             _.forEach(this.endpoint.checks, function (check) {
               check.route = footprint.route;
             });
             return this.saveEndpoint().then(function () {
-              _this15.alertSrv.set("All checks updated.", "", "success", 2000);
-              _.forEach(_this15.endpoint.checks, function (check) {
-                _this15.checks[check.type] = _.cloneDeep(check);
+              _this16.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this16.endpoint.checks, function (check) {
+                _this16.checks[check.type] = _.cloneDeep(check);
               });
             });
           }
         }, {
           key: 'appendAllEndpointChecksFootprint',
           value: function appendAllEndpointChecksFootprint(footprint) {
-            var _this16 = this;
+            var _this17 = this;
 
             _.forEach(this.endpoint.checks, function (check) {
               _.forEach(footprint.route.config.ids, function (id) {
-                if (check.route.config.ids.indexOf(id) == -1) {
+                if (check.route.config.ids.indexOf(id) === -1) {
                   check.route.config.ids.push(id);
                 }
               });
             });
             return this.saveEndpoint().then(function () {
-              _this16.alertSrv.set("All checks updated.", "", "success", 2000);
-              _.forEach(_this16.endpoint.checks, function (check) {
-                _this16.checks[check.type] = _.cloneDeep(check);
+              _this17.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this17.endpoint.checks, function (check) {
+                _this17.checks[check.type] = _.cloneDeep(check);
               });
             });
           }

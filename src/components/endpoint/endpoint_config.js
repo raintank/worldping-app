@@ -570,6 +570,13 @@ class EndpointConfigCtrl {
     }
   }
 
+  initialEndpointChecksFootprint(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      check.route = footprint.route;
+      this.checks[check.type].route = footprint.route;
+    });
+  }
+
   replaceAllEndpointChecksFootprint(footprint) {
     _.forEach(this.endpoint.checks, check => {
       check.route = footprint.route;
@@ -581,11 +588,11 @@ class EndpointConfigCtrl {
       });
     });
   }
-  
+
   appendAllEndpointChecksFootprint(footprint) {
     _.forEach(this.endpoint.checks, check => {
       _.forEach(footprint.route.config.ids, id => {
-        if (check.route.config.ids.indexOf(id) == -1){
+        if (check.route.config.ids.indexOf(id) === -1){
           check.route.config.ids.push(id);
         }
       });

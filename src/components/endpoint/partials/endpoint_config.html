@@ -132,6 +132,13 @@
             <a ng-click="ctrl.skipDiscovery()">skip</a>
         </div>
       </div>
+      <!-- Initial Probes -->
+      <div class="gf-form-group" ng-show="ctrl.discovered">
+        <div class="gf-form-inline">
+          <endpoint-probe-select model="ctrl.selectedFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
+          <button class="btn btn-success" ng-click="ctrl.initialEndpointChecksFootprint(ctrl.selectedFootprint)">Update Default Probes</button>
+        </div>
+      </div>
     </div>
 
     <div ng-if="ctrl.pageReady && (ctrl.showConfig || ctrl.endpoint.id || ctrl.discoveryError)">
