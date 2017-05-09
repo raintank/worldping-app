@@ -24,7 +24,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           body: '',
           method: "GET",
           host: "",
-          downloadLimit: ''
+          downloadLimit: '',
+          ipversion: 'v4'
         };
         check.frequency = 120;
         break;
@@ -39,7 +40,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           method: "GET",
           host: "",
           validateCert: true,
-          downloadLimit: ''
+          downloadLimit: '',
+          ipversion: 'v4'
         };
         check.frequency = 120;
         break;
@@ -47,7 +49,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         check.type = "ping";
         check.settings = {
           timeout: 5,
-          hostname: ""
+          hostname: "",
+          ipversion: 'v4'
         };
         check.frequency = 60;
         break;
@@ -250,6 +253,11 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                   _this2.checks["dns"] = defaultCheck("dns");
                 }
               }
+
+              // initialize new fields if required
+              _this2.checks.http.settings.ipversion = _this2.checks.http.settings.ipversion || 'v4';
+              _this2.checks.https.settings.ipversion = _this2.checks.https.settings.ipversion || 'v4';
+              _this2.checks.ping.settings.ipversion = _this2.checks.ping.settings.ipversion || 'v4';
             });
           }
         }, {

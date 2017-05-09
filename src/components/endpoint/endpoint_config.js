@@ -30,6 +30,7 @@ function defaultCheck(checkType) {
       method: "GET",
       host: "",
       downloadLimit: '',
+      ipversion: 'v4',
     };
     check.frequency = 120;
     break;
@@ -45,6 +46,7 @@ function defaultCheck(checkType) {
       host: "",
       validateCert: true,
       downloadLimit: '',
+      ipversion: 'v4',
     };
     check.frequency = 120;
     break;
@@ -52,7 +54,8 @@ function defaultCheck(checkType) {
     check.type = "ping";
     check.settings = {
       timeout: 5,
-      hostname: ""
+      hostname: "",
+      ipversion: 'v4',
     };
     check.frequency = 60;
     break;
@@ -205,6 +208,11 @@ class EndpointConfigCtrl {
           this.checks["dns"] = defaultCheck("dns");
         }
       }
+
+      // initialize new fields if required
+      this.checks.http.settings.ipversion = this.checks.http.settings.ipversion || 'v4';
+      this.checks.https.settings.ipversion = this.checks.https.settings.ipversion || 'v4';
+      this.checks.ping.settings.ipversion = this.checks.ping.settings.ipversion || 'v4';
     });
   }
 

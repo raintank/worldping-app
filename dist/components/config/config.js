@@ -73,7 +73,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
           key: 'validateKey',
           value: function validateKey() {
             var self = this;
-            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
+            var p = this.backendSrv.get('/api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
             p.then(function (resp) {
               if (resp.meta.code !== 200) {
                 self.alertSrv.set("failed to get Quotas", resp.message, 'error', 10000);
@@ -100,7 +100,7 @@ System.register(['./config.html!text', './dsUpgrade'], function (_export, _conte
           key: 'getOrgDetails',
           value: function getOrgDetails() {
             var self = this;
-            var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+            var p = this.backendSrv.get('/api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
             p.then(function (resp) {
               self.org = resp;
 

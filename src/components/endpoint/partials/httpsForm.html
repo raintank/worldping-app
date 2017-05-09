@@ -71,6 +71,12 @@
                   <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['https'].settings.method" ng-options="m for m in ['GET', 'PUT', 'POST', 'DELETE', 'HEAD', 'PATCH']"></select>
                 </div>
               </div>
+              <div class="gf-form">
+                <label class="gf-form-label width-6">IP Version</label>
+                <div class="gf-form-select-wrapper">
+                  <select class="gf-form-input gf-size-auto" ng-model="ctrl.checks['https'].settings.ipversion" ng-options="m for m in ['v4', 'v6', 'any']"></select>
+                </div>
+              </div>
             </div>
             <div class="gf-form-inline">
               <div class="gf-form">
