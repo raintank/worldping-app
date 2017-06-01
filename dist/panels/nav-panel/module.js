@@ -48,7 +48,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -126,8 +126,19 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         }, {
           key: 'refresh',
           value: function refresh() {
-            var endpointSlugs = this.getEndpointSlugs();
-            this.getEndpoints(endpointSlugs);
+            if (this.dashboard.snapshot) {
+              this.getEndpointsFromSnapshot();
+            } else {
+              var endpointSlugs = this.getEndpointSlugs();
+              this.getEndpoints(endpointSlugs);
+            }
+          }
+        }, {
+          key: 'getEndpointsFromSnapshot',
+          value: function getEndpointsFromSnapshot() {
+            var self = this;
+            self.panel.snapshotData = self.endpoints;
+            self.pageReady = true;
           }
         }, {
           key: 'getEndpoints',
@@ -145,6 +156,7 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                   self.endpoints.push(endpoint);
                 }
               });
+              self.panel.snapshotData = self.endpoints;
               self.pageReady = true;
             });
           }

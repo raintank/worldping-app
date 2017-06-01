@@ -46,7 +46,7 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
       _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
         return typeof obj;
       } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
 
       _createClass = function () {
@@ -137,7 +137,11 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
         }, {
           key: 'refresh',
           value: function refresh() {
-            this.getEndpoints();
+            if (this.dashboard.snapshot) {
+              this.getEndpointsFromSnapshot();
+            } else {
+              this.getEndpoints();
+            }
           }
         }, {
           key: 'endpointTags',
@@ -181,9 +185,16 @@ System.register(['../../filters/all', '../../directives/all', 'lodash', 'app/plu
                 self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
                 return self.$q.reject(resp.meta.message);
               }
-              self.endpoints = resp.body;
+              self.panel.snapshotData = self.endpoints = resp.body;
               self.pageReady = true;
             });
+          }
+        }, {
+          key: 'getEndpointsFromSnapshot',
+          value: function getEndpointsFromSnapshot() {
+            var self = this;
+            self.endpoints = self.panel.snapshotData;
+            self.pageReady = true;
           }
         }, {
           key: 'monitorStateTxt',
