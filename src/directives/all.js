@@ -117,23 +117,24 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
     scope: {
       probes: "=",
       model: "=",
-      defaultFootprint: "=?"
     },
     templateUrl: 'public/plugins/raintank-worldping-app/directives/partials/endpointCollectorSelect.html',
     link: function(scope, elem) {
       var bodyEl = angular.element($window.document.body);
-      var selectedIds;
-
-      scope.defaultFootprint = scope.defaultFootprint || [];
+      var selectedIds = [];
 
       scope.init = function() {
-        if(scope.model.route && scope.model.route.config){
-          selectedIds = scope.model.route.config.ids;
-        } else {
-          selectedIds = scope.model;
+        if (!scope.model) {
+          scope.model = {route: {config: {ids: []}}};
+        } else if (!scope.model.route) {
+          scope.model.route = {config: {ids: []}};
+        } else if (!scope.model.route.config) {
+          scope.model.route.config = {ids: []};
+        } else if (!scope.model.route.config.ids){
+          scope.model.route.config.ids = [];
         }
-
-        scope.footprint = {value: "static"};
+        selectedIds = scope.model.route.config.ids;
+        scope.footprint = {value: 'static'};
         scope.error = false;
         scope.reset();
       };
@@ -168,12 +169,6 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
         option.selected = !option.selected;
       };
 
-      scope.selectDefaultFootprint = function() {
-        _.forEach(scope.defaultFootprint, function(option) {
-          option.selected = true;
-        });
-      };
-
       scope.selectAll = function() {
         var select = true;
         selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
@@ -184,32 +179,6 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
         _.forEach(scope.ids, function(option) {
           option.selected = select;
         });
-      };
-
-      scope.tagSelected = function(option) {
-        option.selected = !option.selected;
-      };
-
-      scope.probesWithTags = function() {
-        var probeList = {};
-        _.forEach(scope.probes, function(c) {
-          _.forEach(_.filter(scope.tags, {selected: true}), function(t) {
-            if (_.indexOf(c.tags, t.text) !== -1) {
-              probeList[c.name] = true;
-            }
-          });
-        });
-        return Object.keys(probeList).join(', ');
-      };
-
-      scope.probeCount = function(tag) {
-        var count = 0;
-        _.forEach(scope.probes, function(c) {
-          if (_.indexOf(c.tags, tag.text) !== -1) {
-            count++;
-          }
-        });
-        return count;
       };
 
       scope.selectIdTitle = function() {
@@ -225,11 +194,11 @@ angular.module('grafana.directives').directive('endpointProbeSelect', function($
 
       scope.hide = function() {
         scope.model.route = {
-          type: "byIds",
-          config: {
-            ids: []
-          }
-        };
+            type: "byIds",
+            config: {
+              ids: []
+            }
+          };
         selectedIds = _.map(_.filter(scope.ids, {selected: true}), "id");
         _.forEach(selectedIds, function(c) {
           scope.model.route.config.ids.push(c);
