@@ -136,7 +136,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           this.checks = {};
           this.endpoint = {};
           this.probes = [];
-          this.probesByTag = {};
+          this.selectedFootprint = [];
           this.org = null;
           this.quotas = {};
 
@@ -327,24 +327,7 @@ System.register(['lodash', 'angular'], function (_export, _context) {
         }, {
           key: 'getProbesForCheck',
           value: function getProbesForCheck(check) {
-            if (check.route.type === "byIds") {
-              return check.route.config.ids || [];
-            }
-
-            if (check.route.type === "byTags") {
-              var probeList = {};
-              _.forEach(this.probes, function (p) {
-                _.forEach(check.route.config.tags, function (t) {
-                  if (_.indexOf(p.tags, t) !== -1) {
-                    probeList[p.id] = true;
-                  }
-                });
-              });
-              return _.keys(probeList);
-            }
-
-            this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
-            return [];
+            return check.route.config.ids || [];
           }
         }, {
           key: 'totalChecks',
@@ -671,6 +654,50 @@ System.register(['lodash', 'angular'], function (_export, _context) {
                 this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
                 break;
             }
+          }
+        }, {
+          key: 'initialEndpointChecksFootprint',
+          value: function initialEndpointChecksFootprint(footprint) {
+            var _this15 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              check.route = footprint.route;
+              _this15.checks[check.type].route = footprint.route;
+            });
+          }
+        }, {
+          key: 'replaceAllEndpointChecksFootprint',
+          value: function replaceAllEndpointChecksFootprint(footprint) {
+            var _this16 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              check.route = footprint.route;
+            });
+            return this.saveEndpoint().then(function () {
+              _this16.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this16.endpoint.checks, function (check) {
+                _this16.checks[check.type] = _.cloneDeep(check);
+              });
+            });
+          }
+        }, {
+          key: 'appendAllEndpointChecksFootprint',
+          value: function appendAllEndpointChecksFootprint(footprint) {
+            var _this17 = this;
+
+            _.forEach(this.endpoint.checks, function (check) {
+              _.forEach(footprint.route.config.ids, function (id) {
+                if (check.route.config.ids.indexOf(id) === -1) {
+                  check.route.config.ids.push(id);
+                }
+              });
+            });
+            return this.saveEndpoint().then(function () {
+              _this17.alertSrv.set("All checks updated.", "", "success", 2000);
+              _.forEach(_this17.endpoint.checks, function (check) {
+                _this17.checks[check.type] = _.cloneDeep(check);
+              });
+            });
           }
         }]);
 

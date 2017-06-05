@@ -49,6 +49,14 @@
         </div>
       </div>
       <br>
+      <!-- Bulk update -->
+      <div class="gf-form-group">
+        <div class="gf-form-inline">
+          <endpoint-probe-select model="ctrl.selectedFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
+          <button class="btn btn-success" ng-click="ctrl.replaceAllEndpointChecksFootprint(ctrl.selectedFootprint)">Replace All</button>
+          <button class="btn btn-success" ng-click="ctrl.appendAllEndpointChecksFootprint(ctrl.selectedFootprint)">Append All</button>
+        </div>
+      </div>
       <div class="gf-form-buttons-row">
       </div>
     </div>
@@ -122,6 +130,13 @@
             </svg>
             <span class="rt-body-copy">Discovery in progress...</span>
             <a ng-click="ctrl.skipDiscovery()">skip</a>
+        </div>
+      </div>
+      <!-- Initial Probes -->
+      <div class="gf-form-group" ng-show="ctrl.discovered">
+        <div class="gf-form-inline">
+          <endpoint-probe-select model="ctrl.selectedFootprint" probes="ctrl.probes" style="modal-collector-select"></endpoint-probe-select>
+          <button class="btn btn-success" ng-click="ctrl.initialEndpointChecksFootprint(ctrl.selectedFootprint)">Update Default Probes</button>
         </div>
       </div>
     </div>

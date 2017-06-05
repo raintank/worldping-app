@@ -1,18 +1,23 @@
-<div class="gf-form-group gf-form-group--header" id="ping">
+<div class="gf-form-group gf-form-group--header" id="ping" ng-form="pingForm">
   <div class="wp-config-box--hit-area" ng-click="ctrl.showPing = !ctrl.showPing">
     <div class="playlist-column-header section-header-flex-container">
       <h3 class="page-headering">Ping</h3>
       <div>
         <a href="#">
-          <!-- Monitoring -->
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;" ng-show="ctrl.checks['ping'].enabled"></i>
-          <span class="freqMsg" ng-show="ctrl.checks['ping'].enabled" > Every {{ctrl.checks['ping'].frequency}}s from {{ctrl.probeCount(ctrl.checks['ping'])}} {{ctrl.probeCount(ctrl.checks['ping']) == 1 ? "Probe" : "Probes"}} |</span>
-          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"ng-show="!ctrl.checks['ping'].enabled"></i>
-          <span class="freqMsg disabled" ng-show="!ctrl.checks['ping'].enabled" > Not enabled |</span>
-          <span class="freqMsg" ng-show="!ctrl.checks['ping'].enabled && ctrl.discovered" > Not Discovered |</span>
-          <!-- Checks -->
-          <i ng-show="ctrl.checks['ping'].enabled" class="icon-gf icon-gf-status" style="font-size:17px; vertical-align: sub;"></i>
-          <span ng-show="ctrl.checks['ping'].enabled" class="freqMsg" bs-tooltip="'Estimated checks per month, in Millions'">{{ctrl.totalChecks(ctrl.checks['ping'])| number:1}}M/mo</span><span ng-show="ctrl.checks['ping'].enabled" class="freqMsg"> |</span
+          <!-- Monitoring Enabled-->
+          <span ng-show="(ctrl.checks['ping'].enabled && !pingForm.$dirty) || (!ctrl.checks['ping'].enabled && pingForm.$dirty)">
+          	<i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"></i>
+	          <span class="freqMsg" >Every {{ctrl.checks['ping'].frequency}}s from {{ctrl.probeCount(ctrl.checks['ping'])}} {{ctrl.probeCount(ctrl.checks['ping']) == 1 ? "Probe" : "Probes"}} |</span>
+	          <!-- Checks -->
+	          <i class="icon-gf icon-gf-status" style="font-size:17px; vertical-align: sub;"></i>
+	          <span class="freqMsg" bs-tooltip="'Estimated checks per month, in Millions'">{{ctrl.totalChecks(ctrl.checks['ping'])| number:1}}M/mo</span><span class="freqMsg"> |</span>
+          </span>
+          <!-- Monitoring Disabled -->
+          <span ng-show="(!ctrl.checks['ping'].enabled && pingForm.$pristine) || (ctrl.checks['ping'].enabled && pingForm.$dirty)">
+	          <i class="icon-gf icon-gf-monitoring-tiny" style="font-size:17px; vertical-align: text-bottom;"></i>
+	          <span class="freqMsg disabled" > Not enabled |</span>
+	          <span class="freqMsg" ng-show="!ctrl.checks['ping'].enabled && ctrl.discovered" > Not Discovered |</span>
+          </span>
           <!-- Configure -->
           <span class="highlight-word"> Configure</span>
           <span><i class="fa fa-caret-down" ng-show="ctrl.showPing"></i></span>
@@ -27,7 +32,7 @@
         <div class="gf-form">
           <i class="icon-gf icon-gf-monitoring inline-icon"></i>
           <h3 class="inline-header">Monitoring</h3>
-          <editor-checkbox text="Enabled" model="ctrl.checks['ping'].enabled"></editor-checkbox>
+          <editor-checkbox ng-click="pingForm.$setDirty()" text="Enabled" model="ctrl.checks['ping'].enabled"></editor-checkbox>
         </div>
         <div class="endpoint-config-left-margin">
           <p>At the selected <span class="emphasis-word">frequency</span>, we'll send a burst of 10 ICMP echo ("ping") packets to the <span class="emphasis-word">hostname</span>.</p>
@@ -103,7 +108,7 @@
 
     <div class="endpoint-config-left-margin" ng-if="ctrl.endpoint.id">
       <div class="gf-form-button-row">
-        <button type="submit" class="btn btn-success" ng-click="ctrl.updateCheck(ctrl.checks['ping'])">Update Ping Settings</button>
+        <button type="submit" class="btn btn-success" ng-click="ctrl.updateCheck(ctrl.checks['ping']) && pingForm.$setPristine()">Update Ping Settings</button>
         <a class="btn btn-link" ng-click="ctrl.cancel()">Cancel</a>
       </div>
     </div>

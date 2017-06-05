@@ -97,7 +97,7 @@ class EndpointConfigCtrl {
     this.checks = {};
     this.endpoint = {};
     this.probes = [];
-    this.probesByTag = {};
+    this.selectedFootprint = [];
     this.org = null;
     this.quotas = {};
 
@@ -271,24 +271,7 @@ class EndpointConfigCtrl {
   }
 
   getProbesForCheck(check) {
-    if (check.route.type === "byIds") {
-      return check.route.config.ids || [];
-    }
-
-    if (check.route.type === "byTags") {
-      var probeList = {};
-      _.forEach(this.probes, p => {
-        _.forEach(check.route.config.tags, t => {
-          if (_.indexOf(p.tags, t) !== -1) {
-            probeList[p.id] = true;
-          }
-        });
-      });
-      return _.keys(probeList);
-    }
-
-    this.alertSrv("check has unknown routing type.", "unknown route type.", "error", 5000);
-    return [];
+    return check.route.config.ids || [];
   }
 
   totalChecks(check) {
@@ -585,6 +568,41 @@ class EndpointConfigCtrl {
         this.$location.path("/dashboard/db/worldping-endpoint-summary").search(search);
         break;
     }
+  }
+
+  initialEndpointChecksFootprint(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      check.route = footprint.route;
+      this.checks[check.type].route = footprint.route;
+    });
+  }
+
+  replaceAllEndpointChecksFootprint(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      check.route = footprint.route;
+    });
+    return this.saveEndpoint().then(() => {
+      this.alertSrv.set("All checks updated.", "", "success", 2000);
+      _.forEach(this.endpoint.checks, check => {
+        this.checks[check.type] = _.cloneDeep(check);
+      });
+    });
+  }
+
+  appendAllEndpointChecksFootprint(footprint) {
+    _.forEach(this.endpoint.checks, check => {
+      _.forEach(footprint.route.config.ids, id => {
+        if (check.route.config.ids.indexOf(id) === -1){
+          check.route.config.ids.push(id);
+        }
+      });
+    });
+    return this.saveEndpoint().then(() => {
+      this.alertSrv.set("All checks updated.", "", "success", 2000);
+      _.forEach(this.endpoint.checks, check => {
+        this.checks[check.type] = _.cloneDeep(check);
+      });
+    });
   }
 }
 
