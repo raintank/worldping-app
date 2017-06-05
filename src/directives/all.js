@@ -80,14 +80,14 @@ angular.module('grafana.directives').directive("rtCheckHealth", function($compil
         });
         for (var col in collectorResults) {
           switch (collectorResults[col].state) {
-          case 0:
-            okCount++;
-            break;
-          case 2:
-            errorCount++;
-            break;
-          default:
-            unknownCount++;
+            case 0:
+              okCount++;
+              break;
+            case 2:
+              errorCount++;
+              break;
+            default:
+              unknownCount++;
           }
         }
         var unknowns = scope.ctrl.getProbesForCheck(scope.check.type).length - Object.keys(collectorResults).length;

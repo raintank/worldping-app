@@ -59,8 +59,18 @@ class EndpointNavCtrl extends PanelCtrl {
   }
 
   refresh() {
-    var endpointSlugs = this.getEndpointSlugs();
-    this.getEndpoints(endpointSlugs);
+    if(this.dashboard.snapshot){
+      this.getEndpointsFromSnapshot();
+    } else {
+      var endpointSlugs = this.getEndpointSlugs();
+      this.getEndpoints(endpointSlugs);
+    }
+  }
+
+  getEndpointsFromSnapshot() {
+    var self = this;
+    self.panel.snapshotData = self.endpoints;
+    self.pageReady = true;
   }
 
   getEndpoints(endpointSlugs) {
@@ -77,6 +87,7 @@ class EndpointNavCtrl extends PanelCtrl {
           self.endpoints.push(endpoint);
         }
       });
+      self.panel.snapshotData = self.endpoints;
       self.pageReady = true;
     });
   }

@@ -53,7 +53,7 @@ class EndpointListCtrl extends PanelCtrl {
     }
   }
 
-   endpointTags() {
+  endpointTags() {
     var map = {};
     _.forEach(this.endpoints, function(endpoint) {
       _.forEach(endpoint.tags, function(tag) {

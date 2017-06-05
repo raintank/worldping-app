@@ -19,61 +19,61 @@ var _defaultCheck = {
 function defaultCheck(checkType) {
   var check = _.cloneDeep(_defaultCheck);
   switch (checkType) {
-  case "http":
-    check.type = "http";
-    check.settings = {
-      timeout: 5,
-      port: 80,
-      path: "/",
-      headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
-      body: '',
-      method: "GET",
-      host: "",
-      downloadLimit: '',
-    };
-    check.frequency = 120;
-    break;
-  case "https":
-    check.type = "https";
-    check.settings = {
-      timeout: 5,
-      port: 443,
-      path: "/",
-      headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
-      body: '',
-      method: "GET",
-      host: "",
-      validateCert: true,
-      downloadLimit: '',
-    };
-    check.frequency = 120;
-    break;
-  case "ping":
-    check.type = "ping";
-    check.settings = {
-      timeout: 5,
-      hostname: ""
-    };
-    check.frequency = 60;
-    break;
-  case "dns":
-    check.type = "dns";
-    check.settings = {
-      timeout: 5,
-      name: "",
-      port: 53,
-      protocol: "udp",
-      server: "",
-      type: "A"
-    };
-    check.frequency = 120;
-    break;
+    case "http":
+      check.type = "http";
+      check.settings = {
+        timeout: 5,
+        port: 80,
+        path: "/",
+        headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+        body: '',
+        method: "GET",
+        host: "",
+        downloadLimit: '',
+      };
+      check.frequency = 120;
+      break;
+    case "https":
+      check.type = "https";
+      check.settings = {
+        timeout: 5,
+        port: 443,
+        path: "/",
+        headers: "User-Agent: worldping-api\nAccept-Encoding: gzip\n",
+        body: '',
+        method: "GET",
+        host: "",
+        validateCert: true,
+        downloadLimit: '',
+      };
+      check.frequency = 120;
+      break;
+    case "ping":
+      check.type = "ping";
+      check.settings = {
+        timeout: 5,
+        hostname: ""
+      };
+      check.frequency = 60;
+      break;
+    case "dns":
+      check.type = "dns";
+      check.settings = {
+        timeout: 5,
+        name: "",
+        port: 53,
+        protocol: "udp",
+        server: "",
+        type: "A"
+      };
+      check.frequency = 120;
+      break;
   }
   return check;
 }
 
 class EndpointConfigCtrl {
-   /** @ngInject */
+  /** @ngInject */
   constructor($scope, $injector, $rootScope, $location, $modal, $anchorScroll, $timeout, $window, $q, backendSrv, alertSrv) {
     var self = this;
     this.backendSrv = backendSrv;
@@ -128,18 +128,18 @@ class EndpointConfigCtrl {
 
     if ($location.search().check) {
       switch($location.search().check) {
-      case "ping":
-        this.showPing = true;
-        break;
-      case "dns":
-        this.showDNS = true;
-        break;
-      case "http":
-        this.showHTTP = true;
-        break;
-      case "https":
-        this.showHTTPS = true;
-        break;
+        case "ping":
+          this.showPing = true;
+          break;
+        case "dns":
+          this.showDNS = true;
+          break;
+        case "http":
+          this.showHTTP = true;
+          break;
+        case "https":
+          this.showHTTPS = true;
+          break;
       }
     }
 

@@ -1,5 +1,4 @@
 {
-    "esnext": true,
     "disallowImplicitTypeConversion": ["string"],
     "disallowKeywords": ["with"],
     "disallowMultipleLineBreaks": true,
