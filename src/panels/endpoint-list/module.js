@@ -46,11 +46,7 @@ class EndpointListCtrl extends PanelCtrl {
   }
 
   refresh() {
-    if(this.dashboard.snapshot){
-      this.getEndpointsFromSnapshot();
-    } else {
-      this.getEndpoints();
-    }
+    this.getEndpoints();
   }
 
   endpointTags() {
@@ -89,15 +85,9 @@ class EndpointListCtrl extends PanelCtrl {
         self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
       }
-      self.panel.snapshotData = self.endpoints = resp.body;
+      self.endpoints = resp.body;
       self.pageReady = true;
     });
-  }
-
-  getEndpointsFromSnapshot() {
-    var self = this;
-    self.endpoints = self.panel.snapshotData;
-    self.pageReady = true;
   }
 
   monitorStateTxt(endpoint, type) {

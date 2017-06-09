@@ -28,7 +28,6 @@ class CallToActionCtrl extends PanelCtrl {
 
     this.getOrgDetails();
     this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
-    this.panel.snapshotData = this.panel.snapshotData || {};
   }
 
   setEndpointStatus() {
@@ -67,36 +66,26 @@ class CallToActionCtrl extends PanelCtrl {
 
   getOrgDetails() {
     var self = this;
-    if(self.dashboard.snapshot){
-      return this.onOrgDetails(self.panel.snapshotData.org);
-    } else {
-      var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
-      p.then((resp) => {
-        self.panel.snapshotData.org = resp;
-        self.onOrgDetails(resp);
-      }, (resp) => {
-        self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
-      });
-      return p;
-    }
-  }
+    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    p.then((resp) => {
+      self.org = resp;
 
-  onOrgDetails(resp) {
-    var self = this;
-    self.org = resp;
+      const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
+      if (millionChecksPerMonth > 1000) {
+        self.org.strChecksPerMonth = 'using ' + Math.ceil(millionChecksPerMonth / 1000) + ' Billion checks/mo';
+      } else if (millionChecksPerMonth > 0) {
+        self.org.strChecksPerMonth = 'using ' + millionChecksPerMonth + ' Million checks/mo';
+      } else {
+        self.org.strChecksPerMonth = 'not using any checks yet';
+      }
 
-    const millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
-    if (millionChecksPerMonth > 1000) {
-      self.org.strChecksPerMonth = 'using ' + Math.ceil(millionChecksPerMonth / 1000) + ' Billion checks/mo';
-    } else if (millionChecksPerMonth > 0) {
-      self.org.strChecksPerMonth = 'using ' + millionChecksPerMonth + ' Million checks/mo';
-    } else {
-      self.org.strChecksPerMonth = 'not using any checks yet';
-    }
-
-    self.requiresUpgrade = self._requiresUpgrade();
-    self.currentlyTrial = self._currentlyTrial();
-    self.aboveFreeTier = self._aboveFreeTier();
+      self.requiresUpgrade = self._requiresUpgrade();
+      self.currentlyTrial = self._currentlyTrial();
+      self.aboveFreeTier = self._aboveFreeTier();
+    }, (resp) => {
+      self.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
+    });
+    return p;
   }
 
   _currentlyTrial() {
@@ -155,29 +144,19 @@ class CallToActionCtrl extends PanelCtrl {
 
   refresh() {
     var self = this;
-    if(self.dashboard.snapshot){
-      return this.onQuotas(self.panel.snapshotData.quotas);
-    } else {
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function(resp) {
-        self.panel.snapshotData.quotas = resp;
-        self.onQuotas(resp);
+    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function(resp) {
+      if (resp.meta.code !== 200) {
+        self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
+        return self.$q.reject(resp.meta.message);
+      }
+      var quotaHash = {};
+      _.forEach(resp.body, function(q) {
+        quotaHash[q.target] = q;
       });
-    }
-  }
-
-  onQuotas(resp) {
-    var self = this;
-    if (resp.meta.code !== 200) {
-      self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
-      return self.$q.reject(resp.meta.message);
-    }
-    var quotaHash = {};
-    _.forEach(resp.body, function(q) {
-      quotaHash[q.target] = q;
+      self.quotas = quotaHash;
+      self.setEndpointStatus();
+      self.setCollectorStatus();
     });
-    self.quotas = quotaHash;
-    self.setEndpointStatus();
-    self.setCollectorStatus();
   }
 }
 
