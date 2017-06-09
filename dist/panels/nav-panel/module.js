@@ -126,19 +126,8 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
         }, {
           key: 'refresh',
           value: function refresh() {
-            if (this.dashboard.snapshot) {
-              this.getEndpointsFromSnapshot();
-            } else {
-              var endpointSlugs = this.getEndpointSlugs();
-              this.getEndpoints(endpointSlugs);
-            }
-          }
-        }, {
-          key: 'getEndpointsFromSnapshot',
-          value: function getEndpointsFromSnapshot() {
-            var self = this;
-            self.panel.snapshotData = self.endpoints;
-            self.pageReady = true;
+            var endpointSlugs = this.getEndpointSlugs();
+            this.getEndpoints(endpointSlugs);
           }
         }, {
           key: 'getEndpoints',
@@ -156,7 +145,6 @@ System.register(['lodash', '../../filters/all', '../../directives/all', 'app/plu
                   self.endpoints.push(endpoint);
                 }
               });
-              self.panel.snapshotData = self.endpoints;
               self.pageReady = true;
             });
           }
