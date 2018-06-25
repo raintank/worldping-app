@@ -24,7 +24,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           body: '',
           method: "GET",
           host: "",
-          downloadLimit: ''
+          downloadLimit: '',
+          expectRegex: ""
         };
         check.frequency = 120;
         break;
@@ -39,7 +40,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           method: "GET",
           host: "",
           validateCert: true,
-          downloadLimit: ''
+          downloadLimit: '',
+          expectRegex: ""
         };
         check.frequency = 120;
         break;
@@ -59,7 +61,8 @@ System.register(['lodash', 'angular'], function (_export, _context) {
           port: 53,
           protocol: "udp",
           server: "",
-          type: "A"
+          type: "A",
+          expectRegex: ""
         };
         check.frequency = 120;
         break;

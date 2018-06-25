@@ -58,6 +58,10 @@ WorldPing requires only a [Grafana.com](https://grafana.com) account and [Grafan
 
 #### Changelog
 
+##### v1.2.4
+- Support contentMatch on DNS checks
+- Support alerting if contentMatch matches
+
 ##### v1.2.3
 - Fixed a bug that caused the unsaved changes modal to appear on endpoint config when no changes were made.
 - Addressed a bug in the DNS dashboard that triggers an unsaved changes warning in certain situations.

@@ -30,6 +30,7 @@ function defaultCheck(checkType) {
         method: "GET",
         host: "",
         downloadLimit: '',
+        expectRegex: ""
       };
       check.frequency = 120;
       break;
@@ -45,6 +46,7 @@ function defaultCheck(checkType) {
         host: "",
         validateCert: true,
         downloadLimit: '',
+        expectRegex: ""
       };
       check.frequency = 120;
       break;
@@ -64,7 +66,8 @@ function defaultCheck(checkType) {
         port: 53,
         protocol: "udp",
         server: "",
-        type: "A"
+        type: "A",
+        expectRegex: "",
       };
       check.frequency = 120;
       break;
