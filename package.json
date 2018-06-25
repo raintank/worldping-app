@@ -31,14 +31,16 @@
     "grunt-curl": "^2.2.0",
     "grunt-jscs": "^3.0.1",
     "grunt-regex-replace": "^0.3.0",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^2.1.0",
     "grunt-systemjs-builder": "^0.2.5",
     "grunt-zip": "^0.17.1",
     "jshint-stylish": "~2.1.0",
     "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
-    "lodash": "~4.0.0"
+    "lodash": "~4.0.0",
+    "node-gyp": "^3.7.0",
+    "node-sass": "^4.9.0"
   },
   "homepage": "https://raintank.io"
 }
