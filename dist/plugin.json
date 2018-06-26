@@ -88,8 +88,8 @@
       {"name": "worldPing Web Dashboard", "path": "img/wP-Screenshot-dash-web.png"},
       {"name": "worldPing Endpoint Details", "path": "img/wP-Screenshot-endpoint-details.png"}
     ],
-    "version": "1.2.3",
-    "updated": "2017-04-14"
+    "version": "1.2.4",
+    "updated": "2018-06-25"
   },
 
   "includes": [
@@ -163,7 +163,7 @@
   ],
 
   "dependencies": {
-    "grafanaVersion": "3.x 4.x",
+    "grafanaVersion": "3.x 4.x 5.x",
     "plugins": []
   }
 }
