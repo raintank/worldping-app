@@ -1,3 +1,7 @@
+:export {
+  panelhorizontalpadding: 10;
+  panelverticalpadding: 5; }
+
 .worldping {
   text-align: center; }
 
@@ -934,7 +938,7 @@
 
 .endpoint-config--checks-exceeded {
   font-size: 12px;
-  color: #d44939; }
+  color: #e02f44; }
 
 .rt-spin-dot {
   background-image: url("/public/plugins/raintank-worldping-app/img/worldping_dot.svg");
@@ -1102,7 +1106,7 @@
   vertical-align: sub; }
 
 .wp-icon-success {
-  color: #01a64f;
+  color: #369b4f;
   font-size: 24px;
   text-decoration: none;
   vertical-align: sub; }
@@ -1126,7 +1130,7 @@
   margin-right: 5px; }
 
 .rt-nav-warning-container {
-  background: linear-gradient(135deg, rgba(212, 73, 57, 0.6), rgba(212, 73, 57, 0.5));
+  background: linear-gradient(135deg, rgba(224, 47, 68, 0.6), rgba(224, 47, 68, 0.5));
   padding: 0.5rem;
   display: flex;
   justify-content: center;
@@ -1193,13 +1197,13 @@ p.rt-dashboard-copy {
   margin-top: 15px; }
 
 .rt-dash--warning {
-  background: linear-gradient(135deg, rgba(212, 73, 57, 0.6), rgba(212, 73, 57, 0.5));
+  background: linear-gradient(135deg, rgba(224, 47, 68, 0.6), rgba(224, 47, 68, 0.5));
   margin-bottom: 10px;
   margin-left: 5px;
   padding-left: 10px; }
 
 .rt-dash--alerting {
-  background: linear-gradient(135deg, rgba(212, 73, 57, 0.6), rgba(212, 73, 57, 0.5));
+  background: linear-gradient(135deg, rgba(224, 47, 68, 0.6), rgba(224, 47, 68, 0.5));
   margin-bottom: 10px;
   margin-left: 5px;
   padding-left: 10px; }
@@ -1654,7 +1658,7 @@ raintank TYPE
   color: #52545c; }
 
 .online {
-  color: #01a64f;
+  color: #369b4f;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1678,7 +1682,7 @@ raintank TYPE
     font-weight: 400; }
 
 .critical {
-  color: #ec2128;
+  color: #c4162a;
   font-weight: 600;
   text-transform: uppercase; }
 
@@ -1729,10 +1733,10 @@ raintank POSITIONING
   font-weight: 600; }
 
 .rt-event-success {
-  color: #01a64f;
-  background-color: fade(#01a64f, 30%);
-  border-color: fade(#01a64f, 50%);
-  box-shadow: 0 0 1px fade(#01a64f, 90%); }
+  color: #369b4f;
+  background-color: fade(#369b4f, 30%);
+  border-color: fade(#369b4f, 50%);
+  box-shadow: 0 0 1px fade(#369b4f, 90%); }
 
 .rt-event-warning {
   color: #f79520;
@@ -1741,10 +1745,10 @@ raintank POSITIONING
   box-shadow: 0 0 1px fade(#f79520, 90%); }
 
 .rt-event-error {
-  color: #ec2128;
-  background-color: fade(#ec2128, 30%);
-  border-color: fade(#ec2128, 50%);
-  box-shadow: 0 0 1px fade(#ec2128, 90%); }
+  color: #c4162a;
+  background-color: fade(#c4162a, 30%);
+  border-color: fade(#c4162a, 50%);
+  box-shadow: 0 0 1px fade(#c4162a, 90%); }
 
 .dashboard-icon {
   transition: all 0.1s ease 0s;
@@ -1775,13 +1779,13 @@ raintank POSITIONING
 .rt-list-status-up {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #01a64f; }
+  color: #369b4f; }
   .rt-list-status-up:link, .rt-list-status-up:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #01a64f; }
+    color: #369b4f; }
     .rt-list-status-up:link:hover, .rt-list-status-up:visited:hover {
-      color: #01d967; }
+      color: #46be63; }
 
 .rt-list-status-warning {
   font-size: 1.1rem;
@@ -1797,13 +1801,13 @@ raintank POSITIONING
 .rt-list-status-down {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ec2128; }
+  color: #c4162a; }
   .rt-list-status-down:link, .rt-list-status-down:visited {
     font-size: 20px;
     font-weight: 600;
-    color: #ec2128; }
+    color: #c4162a; }
     .rt-list-status-down:link:hover, .rt-list-status-down:visited:hover {
-      color: #f05055; }
+      color: #e7263c; }
 
 .rt-list-status-disabled {
   font-size: 1.1rem;
@@ -1882,7 +1886,7 @@ raintank POSITIONING
   padding: 0 10px 0 0; }
 
 .rt-list-collector-status-online {
-  color: #01a64f;
+  color: #369b4f;
   font-weight: 700;
   font-size: .85em; }
 
