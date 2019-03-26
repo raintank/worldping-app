@@ -1,4 +1,4 @@
-import _ from 'lodash' ;
+import _ from 'lodash';
 
 export default class DatasourceUpgrader {
   constructor(contextSrv, backendSrv, $q, datasourceSrv) {
@@ -20,13 +20,17 @@ export default class DatasourceUpgrader {
       return false;
     }
 
-    var datasources = this.datasourceSrv.getAll();
+    const datasources = this.datasourceSrv.getAll();
 
-    if (!datasources.raintank || !/^\/api\/datasources\/proxy/.exec(datasources.raintank.url)) {
+    const raintank = getDatasourceByName(datasources, 'raintank');
+
+    if (!raintank || !/^\/api\/datasources\/proxy/.exec(raintank.url)) {
       return true;
     }
 
-    if (!datasources.raintankEvents || !/^\/api\/datasources\/proxy/.exec(datasources.raintankEvents.url)) {
+    const raintankEvents = getDatasourceByName(datasources, 'raintankEvents');
+
+    if (!raintankEvents || !/^\/api\/datasources\/proxy/.exec(raintankEvents.url)) {
       return true;
     }
 
@@ -168,5 +172,13 @@ export default class DatasourceUpgrader {
         return result;
       });
     });
+  }
+}
+
+function getDatasourceByName(datasources, name) {
+  if (_.isArray(datasources)) {
+    return _.find(datasources, { name });
+  } else {
+    return datasources[name];
   }
 }
