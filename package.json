@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "worldPing Plugin for Grafana",
   "main": "dist/module.js",
   "scripts": {
@@ -38,9 +38,9 @@
     "load-grunt-tasks": "^3.5.2"
   },
   "dependencies": {
-    "lodash": "~4.0.0",
-    "node-gyp": "^3.7.0",
-    "node-sass": "^4.9.0"
+    "lodash": "^4.17.11",
+    "node-gyp": "^3.8.0",
+    "node-sass": "^4.11.0"
   },
   "homepage": "https://raintank.io"
 }
