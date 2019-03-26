@@ -15,7 +15,7 @@
         "height": "39px",
         "panels": [
           {
-            "content": "<img src=\"public/plugins/raintank-worldping-app/img/worldPing-grey.svg\" height=\"50\">",
+            "content": "<img src=\"/public/plugins/raintank-worldping-app/img/worldPing-grey.svg\" height=\"50\">",
             "editable": true,
             "error": false,
             "id": 2,
