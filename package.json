@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "worldPing Plugin for Grafana",
   "main": "dist/module.js",
   "scripts": {
