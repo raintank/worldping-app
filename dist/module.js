@@ -1,48 +1,73 @@
-'use strict';
+"use strict";
 
-System.register(['./components/config/config', './components/endpoint/endpoint_list', './components/endpoint/endpoint_details', './components/endpoint/endpoint_config', './components/probe/probe_list', './components/probe/probe_details', './components/probe/probe_create', 'app/plugins/sdk', './filters/all', './directives/all'], function (_export, _context) {
-  "use strict";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "ConfigCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _config.ConfigCtrl;
+  }
+});
+Object.defineProperty(exports, "EndpointListCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _endpoint_list.EndpointListCtrl;
+  }
+});
+Object.defineProperty(exports, "EndpointDetailsCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _endpoint_details.EndpointDetailsCtrl;
+  }
+});
+Object.defineProperty(exports, "EndpointConfigCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _endpoint_config.EndpointConfigCtrl;
+  }
+});
+Object.defineProperty(exports, "ProbeListCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _probe_list.ProbeListCtrl;
+  }
+});
+Object.defineProperty(exports, "ProbeDetailsCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _probe_details.ProbeDetailsCtrl;
+  }
+});
+Object.defineProperty(exports, "ProbeCreateCtrl", {
+  enumerable: true,
+  get: function get() {
+    return _probe_create.ProbeCreateCtrl;
+  }
+});
 
-  var ConfigCtrl, EndpointListCtrl, EndpointDetailsCtrl, EndpointConfigCtrl, ProbeListCtrl, ProbeDetailsCtrl, ProbeCreateCtrl, loadPluginCss;
-  return {
-    setters: [function (_componentsConfigConfig) {
-      ConfigCtrl = _componentsConfigConfig.ConfigCtrl;
-    }, function (_componentsEndpointEndpoint_list) {
-      EndpointListCtrl = _componentsEndpointEndpoint_list.EndpointListCtrl;
-    }, function (_componentsEndpointEndpoint_details) {
-      EndpointDetailsCtrl = _componentsEndpointEndpoint_details.EndpointDetailsCtrl;
-    }, function (_componentsEndpointEndpoint_config) {
-      EndpointConfigCtrl = _componentsEndpointEndpoint_config.EndpointConfigCtrl;
-    }, function (_componentsProbeProbe_list) {
-      ProbeListCtrl = _componentsProbeProbe_list.ProbeListCtrl;
-    }, function (_componentsProbeProbe_details) {
-      ProbeDetailsCtrl = _componentsProbeProbe_details.ProbeDetailsCtrl;
-    }, function (_componentsProbeProbe_create) {
-      ProbeCreateCtrl = _componentsProbeProbe_create.ProbeCreateCtrl;
-    }, function (_appPluginsSdk) {
-      loadPluginCss = _appPluginsSdk.loadPluginCss;
-    }, function (_filtersAll) {}, function (_directivesAll) {}],
-    execute: function () {
+var _config = require("./components/config/config");
 
-      loadPluginCss({
-        dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
-        light: 'plugins/raintank-worldping-app/css/worldping.light.css'
-      });
+var _endpoint_list = require("./components/endpoint/endpoint_list");
 
-      _export('EndpointListCtrl', EndpointListCtrl);
+var _endpoint_details = require("./components/endpoint/endpoint_details");
 
-      _export('EndpointDetailsCtrl', EndpointDetailsCtrl);
+var _endpoint_config = require("./components/endpoint/endpoint_config");
 
-      _export('EndpointConfigCtrl', EndpointConfigCtrl);
+var _probe_list = require("./components/probe/probe_list");
 
-      _export('ProbeListCtrl', ProbeListCtrl);
+var _probe_details = require("./components/probe/probe_details");
 
-      _export('ProbeDetailsCtrl', ProbeDetailsCtrl);
+var _probe_create = require("./components/probe/probe_create");
 
-      _export('ProbeCreateCtrl', ProbeCreateCtrl);
+var _sdk = require("app/plugins/sdk");
 
-      _export('ConfigCtrl', ConfigCtrl);
-    }
-  };
+require("./filters/all");
+
+require("./directives/all");
+
+(0, _sdk.loadPluginCss)({
+  dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
+  light: 'plugins/raintank-worldping-app/css/worldping.light.css'
 });
 //# sourceMappingURL=module.js.map

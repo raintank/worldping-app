@@ -58,6 +58,11 @@ WorldPing requires only a [Grafana.com](https://grafana.com) account and [Grafan
 
 #### Changelog
 
+##### v1.2.6
+
+- Updated WorldMap panel to fix v6 rendering issue
+- Updated all packages to current
+
 ##### v1.2.4
 - Support contentMatch on DNS checks
 - Support alerting if contentMatch matches
