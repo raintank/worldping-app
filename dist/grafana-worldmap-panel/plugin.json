@@ -4,27 +4,27 @@
   "id": "grafana-worldmap-panel",
 
   "info": {
-    "description": "World Map panel for grafana. Displays time series data or geohash data from Elasticsearch overlaid on a world map.",
+    "description": "World Map panel for Grafana. Displays time series data or geohash data from Elasticsearch overlaid on a world map.",
     "author": {
-      "name": "Raintank Inc.",
-      "url": "http://raintank.io"
+      "name": "Grafana Labs",
+      "url": "https://grafana.com"
     },
     "keywords": ["worldmap", "panel"],
     "logos": {
-      "small": "src/images/worldmap_logo.svg",
-      "large": "src/images/worldmap_logo.svg"
+      "small": "images/worldmap_logo.svg",
+      "large": "images/worldmap_logo.svg"
     },
     "links": [
       {"name": "Project site", "url": "https://github.com/grafana/worldmap-panel"},
       {"name": "MIT License", "url": "https://github.com/grafana/worldmap-panel/blob/master/LICENSE"}
     ],
     "screenshots": [
-      {"name": "World", "path": "src/images/worldmap-world.png"},
-      {"name": "USA", "path": "src/images/worldmap-usa.png"},
-      {"name": "Light Theme", "path": "src/images/worldmap-light-theme.png"}
+      {"name": "World", "path": "images/worldmap-world.png"},
+      {"name": "USA", "path": "images/worldmap-usa.png"},
+      {"name": "Light Theme", "path": "images/worldmap-light-theme.png"}
     ],
-    "version": "0.0.16",
-    "updated": "2016-10-20"
+    "version": "0.2.0",
+    "updated": "2019-02-21"
   },
 
   "dependencies": {
