@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
@@ -43,8 +45,15 @@ module.exports = function(grunt) {
     babel: {
       options: {
         sourceMap: true,
-        presets:  ["es2015"],
-        plugins: ['transform-es2015-modules-systemjs', "transform-es2015-for-of"],
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "useBuiltIns": "entry",
+              "corejs": "3",
+            }
+          ]
+        ],
       },
       dist: {
         files: [{
@@ -59,7 +68,7 @@ module.exports = function(grunt) {
 
     curl: {
       worldmap: {
-        src: 'https://grafana.com/api/plugins/grafana-worldmap-panel/versions/0.0.16/download',
+        src: 'https://grafana.com/api/plugins/grafana-worldmap-panel/versions/latest/download',
         dest: 'tmp/worldmap.zip',
       },
     },
@@ -81,12 +90,12 @@ module.exports = function(grunt) {
 
     "regex-replace": {
       worldmap: {
-        src: 'dist/grafana-worldmap-panel/worldmap_ctrl.js',
+        src: 'dist/grafana-worldmap-panel/module.js',
         actions: [
           {
             name: 'module.html',
-            search: "'module.html';",
-            replace: "'../../plugins/grafana-worldmap-panel/module.html';",
+            search: "\"partials\/module.html\"",
+            replace: "\"grafana-worldmap-panel/partials/module.html\"",
           },
         ],
       },
@@ -117,6 +126,7 @@ module.exports = function(grunt) {
 
     sass: {
       options: {
+        implementation: sass,
         sourceMap: true
       },
       dist: {
