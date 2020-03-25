@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18,13 +20,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var DatasourceUpgrader =
 /*#__PURE__*/
 function () {
-  function DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv) {
+  function DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv, $scope) {
     _classCallCheck(this, DatasourceUpgrader);
 
     this.backendSrv = backendSrv;
     this.contextSrv = contextSrv;
     this.datasourceSrv = datasourceSrv;
     this.$q = $q;
+    this.$scope = $scope;
     this.apiKey = "";
     this.keyRequest = null;
     this.upgradeed = false;
@@ -87,13 +90,13 @@ function () {
 
 
       var self = this;
-      this.keyRequest = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key').then(function (resp) {
+      this.keyRequest = (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key').then(function (resp) {
         if (resp.meta.code !== 200) {
           return self.$q.reject("failed to get current apiKey");
         }
 
         return resp.body.apiKey;
-      });
+      }));
       return this.keyRequest;
     }
   }, {
@@ -101,7 +104,7 @@ function () {
     value: function getDatasources() {
       var self = this; //check for existing datasource.
 
-      return self.backendSrv.get('/api/datasources').then(function (results) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(self.backendSrv.get('/api/datasources').then(function (results) {
         var datasources = {
           graphite: null,
           elastic: null
@@ -118,7 +121,7 @@ function () {
         });
 
         return datasources;
-      });
+      }));
     }
   }, {
     key: "configureDatasource",
@@ -146,7 +149,7 @@ function () {
             return self.getKey().then(function (apiKey) {
               graphite.basicAuthUser = "api_key";
               graphite.basicAuthPassword = apiKey;
-              return self.backendSrv.post('/api/datasources', graphite);
+              return (0, _promiseToDigest.promiseToDigest)(_this.$scope)(self.backendSrv.post('/api/datasources', graphite));
             });
           });
         } else if (!_lodash["default"].isMatch(datasources.graphite, graphite)) {
@@ -155,7 +158,7 @@ function () {
             return self.getKey().then(function (apiKey) {
               graphite.basicAuthUser = "api_key";
               graphite.basicAuthPassword = apiKey;
-              return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _lodash["default"].merge({}, datasources.graphite, graphite));
+              return (0, _promiseToDigest.promiseToDigest)(_this.$scope)(self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _lodash["default"].merge({}, datasources.graphite, graphite)));
             });
           });
         }
@@ -182,7 +185,7 @@ function () {
             return self.getKey().then(function (apiKey) {
               elastic.basicAuthUser = "api_key";
               elastic.basicAuthPassword = apiKey;
-              return self.backendSrv.post('/api/datasources', elastic);
+              return (0, _promiseToDigest.promiseToDigest)(_this.$scope)(self.backendSrv.post('/api/datasources', elastic));
             });
           });
         } else if (!_lodash["default"].isMatch(datasources.elastic, elastic)) {
@@ -191,7 +194,7 @@ function () {
             return self.getKey().then(function (apiKey) {
               elastic.basicAuthUser = "api_key";
               elastic.basicAuthPassword = apiKey;
-              return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _lodash["default"].merge({}, datasources.elastic, elastic));
+              return (0, _promiseToDigest.promiseToDigest)(_this.$scope)(self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _lodash["default"].merge({}, datasources.elastic, elastic)));
             });
           });
         }
@@ -199,7 +202,7 @@ function () {
         return promise;
       }).then(function (result) {
         self.upgraded = true;
-        return _this.backendSrv.get('/api/frontend/settings').then(function (settings) {
+        return (0, _promiseToDigest.promiseToDigest)(_this.$scope)(_this.backendSrv.get('/api/frontend/settings').then(function (settings) {
           // update datasource config
           var datasourceConfig = _this.datasourceSrv.getAll();
 
@@ -209,7 +212,7 @@ function () {
           _this.datasourceSrv.init();
 
           return result;
-        });
+        }));
       });
     }
   }]);

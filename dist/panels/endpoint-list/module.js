@@ -13,6 +13,8 @@ var _lodash = _interopRequireDefault(require("lodash"));
 
 var _sdk = require("app/plugins/sdk");
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -146,7 +148,7 @@ function (_PanelCtrl) {
     key: "getEndpoints",
     value: function getEndpoints() {
       var self = this;
-      this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then(function (resp) {
+      (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
@@ -154,7 +156,7 @@ function (_PanelCtrl) {
 
         self.endpoints = resp.body;
         self.pageReady = true;
-      });
+      }));
     }
   }, {
     key: "monitorStateTxt",

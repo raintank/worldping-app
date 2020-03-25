@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ProbeDetailsCtrl = void 0;
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -25,6 +27,7 @@ function () {
     this.$location = $location;
     this.$timeout = $timeout;
     this.$q = $q;
+    this.$scope = $scope;
     this.pageReady = false;
     this.probe = null;
     this.probeUpdates = {};
@@ -45,18 +48,18 @@ function () {
     key: "save",
     value: function save() {
       var self = this;
-      return this.backendSrv.put("api/plugin-proxy/raintank-worldping-app/api/v2/probes", this.probe).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.put("api/plugin-proxy/raintank-worldping-app/api/v2/probes", this.probe).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to save probe.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
         }
-      });
+      }));
     }
   }, {
     key: "getProbe",
     value: function getProbe(id) {
       var self = this;
-      return this.backendSrv.get("api/plugin-proxy/raintank-worldping-app/api/v2/probes/" + id).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get("api/plugin-proxy/raintank-worldping-app/api/v2/probes/" + id).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
@@ -71,21 +74,21 @@ function () {
         if (!self.probe.online) {
           self.checkIfOnline();
         }
-      });
+      }));
     }
   }, {
     key: "setEnabled",
     value: function setEnabled(newState) {
       var self = this;
       this.probe.enabled = newState;
-      return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/probes', this.probe).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/probes', this.probe).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to update probe.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
         }
 
         self.probe = resp.body;
-      });
+      }));
     }
   }, {
     key: "update",
@@ -98,14 +101,14 @@ function () {
     key: "remove",
     value: function remove(probe) {
       var self = this;
-      return this.backendSrv["delete"]('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + probe.id).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv["delete"]('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + probe.id).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to delete probe.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
         }
 
         self.$location.path('plugins/raintank-worldping-app/page/probes');
-      });
+      }));
     }
   }, {
     key: "gotoDashboard",
@@ -139,7 +142,7 @@ function () {
     value: function checkIfOnline() {
       var self = this;
       this.verifyOnline = true;
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + this.probe.id).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + this.probe.id).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
         } else {
@@ -151,7 +154,7 @@ function () {
             self.checkIfOnline();
           }, 1000);
         }
-      });
+      }));
     }
   }]);
 

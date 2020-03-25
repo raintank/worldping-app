@@ -7,6 +7,8 @@ exports.EndpointDetailsCtrl = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -29,6 +31,7 @@ function () {
     this.alertSrv = alertSrv;
     this.$location = $location;
     this.$q = $q;
+    this.$scope = $scope;
     this.pageReady = false;
     this.endpoint = null;
 
@@ -56,13 +59,13 @@ function () {
   _createClass(EndpointDetailsCtrl, [{
     key: "tagsUpdated",
     value: function tagsUpdated() {
-      this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+      (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint));
     }
   }, {
     key: "getEndpoint",
     value: function getEndpoint(id) {
       var self = this;
-      self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + id).then(function (resp) {
+      (0, _promiseToDigest.promiseToDigest)(this.$scope)(self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + id).then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
@@ -84,20 +87,20 @@ function () {
         } else {
           self.pageReady = true;
         }
-      });
+      }));
     }
   }, {
     key: "getProbes",
     value: function getProbes() {
       var self = this;
-      return self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
         }
 
         self.probes = resp.body;
-      });
+      }));
     }
   }, {
     key: "getMonitorByTypeName",

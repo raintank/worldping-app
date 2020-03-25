@@ -1,5 +1,6 @@
 import configTemplate from './config.html!text';
 import DatasourceUpgrader from './dsUpgrade';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 class WorldPingConfigCtrl {
   constructor($scope, $injector, $q, backendSrv, alertSrv, contextSrv, datasourceSrv) {
@@ -12,6 +13,7 @@ class WorldPingConfigCtrl {
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
     this.org = null;
     this.datasourceUpgrader = new DatasourceUpgrader(contextSrv, backendSrv, $q, datasourceSrv);
+    this.$scope = $scope;
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
@@ -32,8 +34,8 @@ class WorldPingConfigCtrl {
   }
 
   validateKey() {
-    var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
+    const self = this;
+    const p = promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas'));
     p.then((resp) => {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get Quotas", resp.message, 'error', 10000);
@@ -58,8 +60,8 @@ class WorldPingConfigCtrl {
   }
 
   getOrgDetails() {
-    var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    const self = this;
+    const p = promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org'));
     p.then((resp) => {
       self.org = resp;
 

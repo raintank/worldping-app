@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 import DatasourceUpgrader from '../../components/config/dsUpgrade';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -66,7 +67,7 @@ class CallToActionCtrl extends PanelCtrl {
 
   getOrgDetails() {
     var self = this;
-    var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+    var p = promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org'));
     p.then((resp) => {
       self.org = resp;
 
@@ -144,7 +145,7 @@ class CallToActionCtrl extends PanelCtrl {
 
   refresh() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function(resp) {
+    return promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -156,7 +157,7 @@ class CallToActionCtrl extends PanelCtrl {
       self.quotas = quotaHash;
       self.setEndpointStatus();
       self.setCollectorStatus();
-    });
+    }));
   }
 }
 

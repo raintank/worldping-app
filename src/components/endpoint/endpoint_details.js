@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 class EndpointDetailsCtrl {
 
@@ -9,6 +10,7 @@ class EndpointDetailsCtrl {
     this.alertSrv = alertSrv;
     this.$location = $location;
     this.$q = $q;
+    this.$scope = $scope;
 
     this.pageReady = false;
     this.endpoint = null;
@@ -28,12 +30,14 @@ class EndpointDetailsCtrl {
   }
 
   tagsUpdated() {
-    this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint);
+    promiseToDigest(this.$scope)
+      (this.backendSrv.post("api/plugin-proxy/raintank-worldping-app/api/endpoints", this.endpoint));
   }
 
   getEndpoint(id) {
     var self = this;
 
+    promiseToDigest(this.$scope)(
     self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/'+id).then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
@@ -53,18 +57,18 @@ class EndpointDetailsCtrl {
       } else {
         self.pageReady = true;
       }
-    });
+    }));
   }
 
   getProbes() {
     var self = this;
-    return self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
+    return promiseToDigest(this.$scope)(self.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
       }
       self.probes = resp.body;
-    });
+    }));
   }
 
   getMonitorByTypeName(name) {
