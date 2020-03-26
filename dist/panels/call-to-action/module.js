@@ -11,6 +11,8 @@ var _sdk = require("app/plugins/sdk");
 
 var _dsUpgrade = _interopRequireDefault(require("../../components/config/dsUpgrade"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -112,7 +114,7 @@ function (_PanelCtrl) {
     key: "getOrgDetails",
     value: function getOrgDetails() {
       var self = this;
-      var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+      var p = (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org'));
       p.then(function (resp) {
         self.org = resp;
         var millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;
@@ -198,7 +200,7 @@ function (_PanelCtrl) {
     key: "refresh",
     value: function refresh() {
       var self = this;
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
@@ -213,7 +215,7 @@ function (_PanelCtrl) {
         self.quotas = quotaHash;
         self.setEndpointStatus();
         self.setCollectorStatus();
-      });
+      }));
     }
   }]);
 

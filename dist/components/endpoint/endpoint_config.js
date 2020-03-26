@@ -9,6 +9,8 @@ var _lodash = _interopRequireDefault(require("lodash"));
 
 var _angular = _interopRequireDefault(require("angular"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -112,6 +114,7 @@ function () {
     this.$q = $q;
     this.alertSrv = alertSrv;
     this.$window = $window;
+    this.$scope = $scope;
     this.pageReady = false;
     this.showCreating = false;
     this.insufficientQuota = false;
@@ -223,7 +226,7 @@ function () {
       var _this2 = this;
 
       var id = parseInt(idString);
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + id).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + id).then(function (resp) {
         if (resp.meta.code !== 200) {
           _this2.alertSrv.set("failed to get endpoint.", resp.meta.message, 'error', 10000);
 
@@ -256,14 +259,14 @@ function () {
             _this2.checks["dns"] = defaultCheck("dns");
           }
         }
-      });
+      }));
     }
   }, {
     key: "getQuotas",
     value: function getQuotas() {
       var _this3 = this;
 
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas').then(function (resp) {
         if (resp.meta.code !== 200) {
           _this3.alertSrv.set("failed to get quotas.", resp.meta.message, 'error', 10000);
 
@@ -275,7 +278,7 @@ function () {
         });
 
         return _this3.quotas;
-      });
+      }));
     }
   }, {
     key: "checkQuota",
@@ -300,7 +303,7 @@ function () {
     value: function getProbes() {
       var _this5 = this;
 
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
         if (resp.meta.code !== 200) {
           _this5.alertSrv.set("failed to get getProbes.", resp.meta.message, 'error', 10000);
 
@@ -318,18 +321,18 @@ function () {
             _this5.probesByTag[t].push(probe);
           });
         });
-      });
+      }));
     }
   }, {
     key: "getOrgDetails",
     value: function getOrgDetails() {
       var _this6 = this;
 
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org').then(function (resp) {
         _this6.org = resp;
       }, function (resp) {
         _this6.alertSrv.set("failed to get Org Details", resp.statusText, 'error', 10000);
-      });
+      }));
     }
   }, {
     key: "probeCount",
@@ -453,7 +456,7 @@ function () {
     value: function remove(endpoint) {
       var _this8 = this;
 
-      return this.backendSrv["delete"]('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + endpoint.id).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv["delete"]('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/' + endpoint.id).then(function (resp) {
         if (resp.meta.code !== 200) {
           _this8.alertSrv.set("failed to delete endpoint.", resp.meta.message, 'error', 10000);
 
@@ -461,7 +464,7 @@ function () {
         }
 
         _this8.$location.path('plugins/raintank-worldping-app/page/endpoints');
-      });
+      }));
     }
   }, {
     key: "updateEndpoint",
@@ -509,7 +512,7 @@ function () {
     value: function saveEndpoint() {
       var _this10 = this;
 
-      return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(function (resp) {
         if (resp.meta.code !== 200) {
           _this10.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
 
@@ -517,7 +520,7 @@ function () {
         }
 
         _this10.endpoint = resp.body;
-      });
+      }));
     }
   }, {
     key: "updateCheck",
@@ -580,7 +583,7 @@ function () {
 
       this.discoveryInProgress = true;
       this.discoveryError = false;
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/discover', endpoint).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints/discover', endpoint).then(function (resp) {
         if (resp.meta.code !== 200) {
           _this12.alertSrv.set("failed to update endpoint.", resp.meta.message, 'error', 10000);
 
@@ -620,7 +623,7 @@ function () {
         _this12.discoveryError = "Failed to discover endpoint.";
       })["finally"](function () {
         _this12.discoveryInProgress = false;
-      });
+      }));
     }
   }, {
     key: "addEndpoint",
@@ -648,7 +651,7 @@ function () {
       });
 
       this.endpoint.checks = newChecks;
-      return this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.post('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints', this.endpoint).then(function (resp) {
         if (resp.meta.code !== 200) {
           _this13.alertSrv.set("failed to add endpoint.", resp.meta.message, 'error', 10000);
 
@@ -668,7 +671,7 @@ function () {
         _this13.$timeout(function () {
           self.endpointReady = true;
         }, delay * 1000);
-      });
+      }));
     }
   }, {
     key: "changesPending",

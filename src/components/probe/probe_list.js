@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 class ProbeListCtrl {
 
@@ -9,6 +10,7 @@ class ProbeListCtrl {
     this.$filter = $filter;
     this.$location = $location;
     this.$q = $q;
+    this.$scope = $scope;
     this.pageReady = false;
     this.statuses = [
       {label: "Online", value: {online: true, enabled: true}, id: 2},
@@ -49,14 +51,16 @@ class ProbeListCtrl {
 
   getProbes() {
     var self = this;
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
-      }
-      self.pageReady = true;
-      self.probes = resp.body;
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function(resp) {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+        self.pageReady = true;
+        self.probes = resp.body;
+      })
+    );
   }
 
   gotoDashboard(collector) {

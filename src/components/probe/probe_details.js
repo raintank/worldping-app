@@ -1,3 +1,5 @@
+import { promiseToDigest } from '../../utils/promiseToDigest';
+
 export class ProbeDetailsCtrl {
 
   /** @ngInject */
@@ -9,6 +11,7 @@ export class ProbeDetailsCtrl {
     this.$location = $location;
     this.$timeout = $timeout;
     this.$q = $q;
+    this.$scope = $scope;
     this.pageReady = false;
     this.probe = null;
     this.probeUpdates = {};
@@ -25,39 +28,45 @@ export class ProbeDetailsCtrl {
 
   save() {
     var self = this;
-    return this.backendSrv.put("api/plugin-proxy/raintank-worldping-app/api/v2/probes", this.probe).then((resp) => {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to save probe.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
-      }
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.put("api/plugin-proxy/raintank-worldping-app/api/v2/probes", this.probe).then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to save probe.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+      })
+    );
   }
 
   getProbe(id) {
     var self = this;
-    return this.backendSrv.get("api/plugin-proxy/raintank-worldping-app/api/v2/probes/"+id).then((resp) => {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
-      }
-      self.probe = resp.body;
-      self.probeUpdates = {name: self.probe.name, public: self.probe.public};
-      if (!self.probe.online) {
-        self.checkIfOnline();
-      }
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.get("api/plugin-proxy/raintank-worldping-app/api/v2/probes/"+id).then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+        self.probe = resp.body;
+        self.probeUpdates = {name: self.probe.name, public: self.probe.public};
+        if (!self.probe.online) {
+          self.checkIfOnline();
+        }
+      })
+    );
   }
 
   setEnabled(newState) {
     var self = this;
     this.probe.enabled = newState;
-    return this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/probes', this.probe).then((resp) => {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to update probe.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
-      }
-      self.probe = resp.body;
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.put('api/plugin-proxy/raintank-worldping-app/api/v2/probes', this.probe).then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to update probe.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+        self.probe = resp.body;
+      })
+    );
   }
 
   update() {
@@ -68,13 +77,15 @@ export class ProbeDetailsCtrl {
 
   remove(probe) {
     var self = this;
-    return this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + probe.id).then((resp) => {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to delete probe.", resp.meta.message, 'error', 10000);
-        return self.$q.reject(resp.meta.message);
-      }
-      self.$location.path('plugins/raintank-worldping-app/page/probes');
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.delete('api/plugin-proxy/raintank-worldping-app/api/v2/probes/' + probe.id).then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to delete probe.", resp.meta.message, 'error', 10000);
+          return self.$q.reject(resp.meta.message);
+        }
+        self.$location.path('plugins/raintank-worldping-app/page/probes');
+      })
+    );
   }
 
   gotoDashboard(probe) {
@@ -98,18 +109,20 @@ export class ProbeDetailsCtrl {
     var self = this;
     this.verifyOnline = true;
 
-    return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes/'+this.probe.id).then((resp) => {
-      if (resp.meta.code !== 200) {
-        self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
-      } else {
-        self.probe = resp.body;
-      }
-      if (!self.probe.online) {
-        self.poller = self.$timeout(function() {
-          self.checkIfOnline();
-        }, 1000);
-      }
-    });
+    return promiseToDigest(this.$scope)
+      (this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes/'+this.probe.id).then((resp) => {
+        if (resp.meta.code !== 200) {
+          self.alertSrv.set("failed to get probe.", resp.meta.message, 'error', 10000);
+        } else {
+          self.probe = resp.body;
+        }
+        if (!self.probe.online) {
+          self.poller = self.$timeout(function() {
+            self.checkIfOnline();
+          }, 1000);
+        }
+      })
+    );
   }
 }
 

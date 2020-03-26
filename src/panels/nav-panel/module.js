@@ -4,6 +4,7 @@ import '../../directives/all';
 import {PanelCtrl} from 'app/plugins/sdk';
 import {loadPluginCss} from 'app/plugins/sdk';
 import DatasourceUpgrader from '../../components/config/dsUpgrade';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 loadPluginCss({
   dark: 'plugins/raintank-worldping-app/css/worldping.dark.css',
@@ -65,7 +66,7 @@ class EndpointNavCtrl extends PanelCtrl {
 
   getEndpoints(endpointSlugs) {
     var self = this;
-    this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then((resp) => {
+    promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then((resp) => {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
         return self.$q.reject(resp.meta.message);
@@ -78,7 +79,7 @@ class EndpointNavCtrl extends PanelCtrl {
         }
       });
       self.pageReady = true;
-    });
+    }));
   }
 
   monitorStateTxt(endpoint, type) {

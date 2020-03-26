@@ -1,14 +1,16 @@
 import _ from 'lodash';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 export default class DatasourceUpgrader {
-  constructor(contextSrv, backendSrv, $q, datasourceSrv) {
+  constructor(contextSrv, backendSrv, $q, datasourceSrv, $scope) {
     this.backendSrv = backendSrv;
     this.contextSrv = contextSrv;
     this.datasourceSrv = datasourceSrv;
     this.$q = $q;
+    this.$scope = $scope;
     this.apiKey = "";
     this.keyRequest = null;
-    this.upgradeed = false;
+    this.upgraded = false;
   }
 
   needsUpgrade() {
@@ -63,35 +65,37 @@ export default class DatasourceUpgrader {
 
     // fetch the key from the worldping-api
     var self = this;
-    this.keyRequest = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
+    this.keyRequest = promiseToDigest(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/_key')
     .then((resp) => {
       if (resp.meta.code !== 200) {
         return self.$q.reject("failed to get current apiKey");
       }
       return resp.body.apiKey;
-    });
+    }));
     return this.keyRequest;
   }
 
   getDatasources() {
     var self = this;
     //check for existing datasource.
-    return self.backendSrv.get('/api/datasources')
-    .then((results) => {
-      var datasources = {
-        graphite: null,
-        elastic: null
-      };
-      _.forEach(results, function(ds) {
-        if (ds.name === "raintank") {
-          datasources.graphite = ds;
-        }
-        if (ds.name === "raintankEvents") {
-          datasources.elastic = ds;
-        }
-      });
-      return datasources;
-    });
+    return promiseToDigest(this.$scope)(
+       self.backendSrv.get('/api/datasources')
+      .then((results) => {
+        var datasources = {
+          graphite: null,
+          elastic: null
+        };
+        _.forEach(results, function(ds) {
+          if (ds.name === "raintank") {
+            datasources.graphite = ds;
+          }
+          if (ds.name === "raintankEvents") {
+            datasources.elastic = ds;
+          }
+        });
+        return datasources;
+      })
+    );
   }
 
   configureDatasource() {
@@ -115,14 +119,15 @@ export default class DatasourceUpgrader {
         promise = promise.then(() => self.getKey().then((apiKey) => {
           graphite.basicAuthUser = "api_key";
           graphite.basicAuthPassword = apiKey;
-          return self.backendSrv.post('/api/datasources', graphite);
+          return promiseToDigest(this.$scope)(self.backendSrv.post('/api/datasources', graphite));
         }));
       } else if (!_.isMatch(datasources.graphite, graphite)) {
         // update datasource if necessary
         promise = promise.then(() => self.getKey().then((apiKey) => {
           graphite.basicAuthUser = "api_key";
           graphite.basicAuthPassword = apiKey;
-          return self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite));
+          return promiseToDigest(this.$scope)
+            (self.backendSrv.put('/api/datasources/' + datasources.graphite.id, _.merge({}, datasources.graphite, graphite)));
         }));
       }
 
@@ -147,14 +152,15 @@ export default class DatasourceUpgrader {
         promise = promise.then(() => self.getKey().then((apiKey) => {
           elastic.basicAuthUser = "api_key";
           elastic.basicAuthPassword = apiKey;
-          return self.backendSrv.post('/api/datasources', elastic);
+          return promiseToDigest(this.$scope)(self.backendSrv.post('/api/datasources', elastic));
         }));
       } else if (!_.isMatch(datasources.elastic, elastic)) {
         // update datasource if necessary
         promise = promise.then(() => self.getKey().then((apiKey) => {
           elastic.basicAuthUser = "api_key";
           elastic.basicAuthPassword = apiKey;
-          return self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic));
+          return promiseToDigest(this.$scope)
+            (self.backendSrv.put('/api/datasources/' + datasources.elastic.id, _.merge({}, datasources.elastic, elastic)));
         }));
       }
 
@@ -162,7 +168,7 @@ export default class DatasourceUpgrader {
     }).then(result => {
       self.upgraded = true;
 
-      return this.backendSrv.get('/api/frontend/settings').then(settings => {
+      return promiseToDigest(this.$scope)(this.backendSrv.get('/api/frontend/settings').then(settings => {
         // update datasource config
         var datasourceConfig = this.datasourceSrv.getAll();
         datasourceConfig.raintank = settings.datasources.raintank;
@@ -170,7 +176,7 @@ export default class DatasourceUpgrader {
         this.datasourceSrv.init();
 
         return result;
-      });
+      }));
     });
   }
 }

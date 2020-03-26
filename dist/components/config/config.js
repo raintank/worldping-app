@@ -9,6 +9,8 @@ var _config = _interopRequireDefault(require("./config.html!text"));
 
 var _dsUpgrade = _interopRequireDefault(require("./dsUpgrade"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31,7 +33,8 @@ function () {
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
     this.org = null;
-    this.datasourceUpgrader = new _dsUpgrade["default"](contextSrv, backendSrv, $q, datasourceSrv);
+    this.datasourceUpgrader = new _dsUpgrade["default"](contextSrv, backendSrv, $q, datasourceSrv, $scope);
+    this.$scope = $scope;
 
     if (this.appModel.jsonData === null) {
       this.appModel.jsonData = {};
@@ -58,7 +61,7 @@ function () {
     key: "validateKey",
     value: function validateKey() {
       var self = this;
-      var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas');
+      var p = (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/quotas'));
       p.then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get Quotas", resp.message, 'error', 10000);
@@ -85,7 +88,7 @@ function () {
     key: "getOrgDetails",
     value: function getOrgDetails() {
       var self = this;
-      var p = this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org');
+      var p = (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/grafana-net/profile/org'));
       p.then(function (resp) {
         self.org = resp;
         var millionChecksPerMonth = Math.ceil(parseInt(self.org.checksPerMonth, 10) / 100000) / 10;

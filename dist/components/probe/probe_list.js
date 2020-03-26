@@ -7,6 +7,8 @@ exports.ProbeListCtrl = void 0;
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
+var _promiseToDigest = require("../../utils/promiseToDigest");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,6 +29,7 @@ function () {
     this.$filter = $filter;
     this.$location = $location;
     this.$q = $q;
+    this.$scope = $scope;
     this.pageReady = false;
     this.statuses = [{
       label: "Online",
@@ -93,7 +96,7 @@ function () {
     key: "getProbes",
     value: function getProbes() {
       var self = this;
-      return this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
+      return (0, _promiseToDigest.promiseToDigest)(this.$scope)(this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/probes').then(function (resp) {
         if (resp.meta.code !== 200) {
           self.alertSrv.set("failed to get probes.", resp.meta.message, 'error', 10000);
           return self.$q.reject(resp.meta.message);
@@ -101,7 +104,7 @@ function () {
 
         self.pageReady = true;
         self.probes = resp.body;
-      });
+      }));
     }
   }, {
     key: "gotoDashboard",

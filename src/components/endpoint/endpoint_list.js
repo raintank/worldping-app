@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import $ from 'jquery';
+import { promiseToDigest } from '../../utils/promiseToDigest';
 
 class EndpointListCtrl {
 
@@ -9,6 +10,7 @@ class EndpointListCtrl {
     this.backendSrv = backendSrv;
     this.alertSrv = alertSrv;
     this.$q = $q;
+    this.$scope = $scope;
     this.$location = $location;
     this.pageReady = false;
     this.filter = {'tag': ''};
@@ -43,6 +45,7 @@ class EndpointListCtrl {
 
   getEndpoints() {
     var self = this;
+    promiseToDigest(this.$scope)(
     this.backendSrv.get('api/plugin-proxy/raintank-worldping-app/api/v2/endpoints').then(function(resp) {
       if (resp.meta.code !== 200) {
         self.alertSrv.set("failed to get endpoint list.", resp.meta.message, 'error', 10000);
@@ -50,7 +53,7 @@ class EndpointListCtrl {
       }
       self.endpoints = resp.body;
       self.pageReady = true;
-    });
+    }));
   }
 
   monitorStateTxt(endpoint, type) {
