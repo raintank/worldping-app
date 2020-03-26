@@ -33,7 +33,7 @@ function () {
     this.appEditCtrl.setPreUpdateHook(this.preUpdate.bind(this));
     this.appEditCtrl.setPostUpdateHook(this.postUpdate.bind(this));
     this.org = null;
-    this.datasourceUpgrader = new _dsUpgrade["default"](contextSrv, backendSrv, $q, datasourceSrv);
+    this.datasourceUpgrader = new _dsUpgrade["default"](contextSrv, backendSrv, $q, datasourceSrv, $scope);
     this.$scope = $scope;
 
     if (this.appModel.jsonData === null) {

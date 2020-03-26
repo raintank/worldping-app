@@ -10,7 +10,7 @@ export default class DatasourceUpgrader {
     this.$scope = $scope;
     this.apiKey = "";
     this.keyRequest = null;
-    this.upgradeed = false;
+    this.upgraded = false;
   }
 
   needsUpgrade() {
