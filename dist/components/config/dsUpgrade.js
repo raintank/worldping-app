@@ -30,7 +30,7 @@ function () {
     this.$scope = $scope;
     this.apiKey = "";
     this.keyRequest = null;
-    this.upgradeed = false;
+    this.upgraded = false;
   }
 
   _createClass(DatasourceUpgrader, [{
