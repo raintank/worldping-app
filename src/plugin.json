@@ -88,7 +88,7 @@
       {"name": "worldPing Web Dashboard", "path": "img/wP-Screenshot-dash-web.png"},
       {"name": "worldPing Endpoint Details", "path": "img/wP-Screenshot-endpoint-details.png"}
     ],
-    "version": "1.2.8",
+    "version": "1.2.9",
     "updated": "2021-02-09"
   },
 
