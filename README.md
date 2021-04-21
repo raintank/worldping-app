@@ -1,4 +1,4 @@
-### Notice: This plugin is no longer available. worldPing will reach End-Of-Life (EOL) on April 1, 2021
+### Notice: worldPing has reached End-Of-Life (EOL) on April 1, 2021
 
 Everything you love about worldPing is now available with the new synthetic monitoring feature in Grafana Cloud, plus you’ll get reduced complexity and all the benefits of Grafana Cloud. 
 
