@@ -39,7 +39,7 @@
     "load-grunt-tasks": "^4.0.0"
   },
   "dependencies": {
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-gyp": "^3.8.0",
     "node-sass": "^4.11.0"
   },
