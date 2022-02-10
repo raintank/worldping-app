@@ -41,7 +41,7 @@
   "dependencies": {
     "lodash": "^4.17.19",
     "node-gyp": "^3.8.0",
-    "node-sass": "^4.11.0"
+    "node-sass": "^7.0.0"
   },
   "homepage": "https://raintank.io"
 }
